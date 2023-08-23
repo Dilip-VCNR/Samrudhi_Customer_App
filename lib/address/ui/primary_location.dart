@@ -3,10 +3,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:samruddhi/address/controller/location_controller.dart';
+import 'package:samruddhi/auth/controller/auth_controller.dart';
+import 'package:samruddhi/auth/model/register_request_model.dart';
 import 'package:samruddhi/utils/app_colors.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import 'package:samruddhi/utils/url_constants.dart';
-
-import '../../utils/routes.dart';
 
 class PrimaryLocation extends StatefulWidget {
   const PrimaryLocation({Key? key}) : super(key: key);
@@ -23,6 +24,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
   LocationController locationController = LocationController();
 
   TextEditingController searchController = TextEditingController();
+  RegisterRequestModel? userDetails;
+  AuthController authController = AuthController();
 
   @override
   void dispose() {
@@ -35,6 +38,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     Position currentLocation = arguments['currentLocation'];
+    userDetails = arguments['userDetails'];
     cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
         target: LatLng(arguments['currentLocation'].latitude,
             arguments['currentLocation'].longitude),
@@ -453,10 +457,17 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       if (formKey.currentState!.validate()) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            Routes.dashboardRoute, (route) => false);
+                        showLoaderDialog(context);
+                        userDetails!.type = 'Primary';
+                        userDetails!.address = addressController.text;
+                        userDetails!.city = cityController.text;
+                        userDetails!.state = stateController.text;
+                        userDetails!.zipCode = postalCodeController.text;
+                        userDetails!.lat = target.latitude;
+                        userDetails!.lng = target.longitude;
+                        await authController.registerUser(context, userDetails);
                       }
                       return;
                     },

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:samruddhi/auth/controller/auth_controller.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../utils/app_colors.dart';
-import '../../utils/routes.dart';
+import '../../utils/app_widgets.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -18,9 +19,35 @@ class _OtpScreenState extends State<OtpScreen> {
   final CountdownController controller = CountdownController(autoStart: true);
   final int seconds = 30;
   bool firstStateEnabled = false;
+  String? verificationId;
+  String otpCode = "";
+
+  AuthController authController = AuthController();
+  OtpFieldController otpController = OtpFieldController();
+
+  @override
+  void initState() {
+    listenOtp();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SmsAutoFill().unregisterListener();
+    super.dispose();
+  }
+
+  void listenOtp() async {
+    await SmsAutoFill().listenForCode();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    verificationId = arguments['verificationId'];
+    String phone = arguments['phone'];
+    String countryCode = arguments['selectedCountryCode'];
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: GestureDetector(
@@ -53,10 +80,10 @@ class _OtpScreenState extends State<OtpScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
-                      'We have sent a verification code to \n+91 98765432221',
-                      style: TextStyle(
-                        color: Color(0xB737474F),
+                    Text(
+                      'We have sent a verification code to \n$countryCode $phone',
+                      style: const TextStyle(
+                        color: AppColors.fontColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -64,16 +91,18 @@ class _OtpScreenState extends State<OtpScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    OTPTextField(
-                      length: 6,
-                      width: screenSize.width,
-                      fieldWidth: 50,
-                      style: const TextStyle(fontSize: 15),
-                      textFieldAlignment: MainAxisAlignment.start,
-                      margin: const EdgeInsets.only(right: 10),
-                      fieldStyle: FieldStyle.box,
-                      onCompleted: (pin) async {
-                        print("Completed: $pin");
+                    PinFieldAutoFill(
+                      enabled: true,
+                      currentCode: otpCode,
+                      decoration: BoxLooseDecoration(
+                          radius: const Radius.circular(12),
+                          strokeColorBuilder: const FixedColorBuilder(
+                              AppColors.fontColor)),
+                      codeLength: 6,
+                      onCodeChanged: (code) {
+                        otpCode = code.toString();
+                      },
+                      onCodeSubmitted: (val) {
                       },
                     ),
                     const SizedBox(
@@ -83,8 +112,11 @@ class _OtpScreenState extends State<OtpScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
                             if (firstStateEnabled) {
+                              showLoaderDialog(context);
+                              await authController.resendOtp(
+                                  context, phone, countryCode, screenSize);
                               setState(() {
                                 firstStateEnabled = false;
                                 controller.restart(); // Restart the countdown
@@ -134,8 +166,10 @@ class _OtpScreenState extends State<OtpScreen> {
                       height: 40,
                     ),
                     InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.registerRoute);
+                      onTap: () async {
+                        showLoaderDialog(context);
+                        await authController.verifyOTPCode(context, otpCode,
+                            verificationId, phone, countryCode);
                       },
                       child: Container(
                         width: screenSize.width,

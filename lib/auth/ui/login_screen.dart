@@ -1,9 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:samruddhi/utils/routes.dart';
+import 'package:samruddhi/auth/controller/auth_controller.dart';
 
+import '../../utils/app_widgets.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/routes.dart';
+import '../../utils/url_constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,7 +20,9 @@ class _LoginScreenState extends State<LoginScreen> {
   int currentSlideIndex = 0;
   TextEditingController phoneNumberController = TextEditingController();
   String? selectedCountryCode = "+91";
+  final _formKey = GlobalKey<FormState>();
 
+  AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -108,17 +114,29 @@ class _LoginScreenState extends State<LoginScreen> {
                               showOnlyCountryWhenClosed: false,
                               alignLeft: false,
                             ),
-                            SizedBox(
-                              width: screenSize.width / 1.5,
-                              child: TextField(
-                                controller: phoneNumberController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 10,
-                                decoration: const InputDecoration(
-                                    hintText: 'Phone Number',
-                                    counterText: "",
-                                    isCollapsed: true,
-                                    border: InputBorder.none),
+                            Form(
+                              key: _formKey,
+                              child: SizedBox(
+                                width: screenSize.width / 1.5,
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter valid phone number';
+                                    }
+                                    if (authController.isNotValidPhone(value)) {
+                                      return "Please enter valid phone number";
+                                    }
+                                    return null;
+                                  },
+                                  controller: phoneNumberController,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Phone Number',
+                                      counterText: "",
+                                      isCollapsed: true,
+                                      border: InputBorder.none),
+                                ),
                               ),
                             ),
                           ],
@@ -129,10 +147,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text.rich(
+                  Text.rich(
                     TextSpan(
                       children: [
-                        TextSpan(
+                        const TextSpan(
                           text: 'By clicking on proceed, you agree to our \n',
                           style: TextStyle(
                             color: AppColors.fontColor,
@@ -141,13 +159,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(
+                                  context, Routes.webViewRoute,
+                                  arguments: {
+                                    'url': UrlConstant.privacyPolicy,
+                                    'title': "Privacy Policy",
+                                  });
+                            },
                           text: 'Privacy policy ',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: 'and ',
                           style: TextStyle(
                             color: AppColors.fontColor,
@@ -156,8 +183,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(
+                                  context, Routes.webViewRoute,
+                                  arguments: {
+                                    'url': UrlConstant.termsOfUse,
+                                    'title': "Terms and Conditions",
+                                  });
+                            },
                           text: 'Terms and conditions',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -170,7 +206,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.otpScreenRoute);
+                      if (_formKey.currentState!.validate()) {
+                        showLoaderDialog(context);
+                        authController.loginWithPhoneNumber(context,
+                            phoneNumberController.text, selectedCountryCode);
+                      }
                     },
                     child: Container(
                       width: screenSize.width,

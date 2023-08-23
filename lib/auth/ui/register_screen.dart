@@ -1,8 +1,11 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:samruddhi/auth/controller/auth_controller.dart';
+import 'package:samruddhi/auth/model/register_request_model.dart';
 import 'package:samruddhi/utils/app_colors.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
@@ -18,6 +21,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool termsAndConditionsIsChecked = false;
   final _formKey = GlobalKey<FormState>();
 
+  String? phone;
+  String? countryCode;
+  String? uid;
   AuthController authController = AuthController();
 
   TextEditingController nameController = TextEditingController();
@@ -28,6 +34,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    phone = arguments['phone'];
+    countryCode = arguments['countryCode'];
+    uid = arguments['uid'];
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -135,8 +146,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
                     if (!termsAndConditionsIsChecked) {
+                      showErrorToast(context,
+                          "Please read the privacy policy and terms and conditions and apply check to proceed further");
                       return;
                     }
+                    showLoaderDialog(context);
                     Position currentPosition;
                     try {
                       currentPosition =
@@ -153,16 +167,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         speedAccuracy: 0,
                       );
                     }
+                    final fcmToken =
+                        await FirebaseMessaging.instance.getToken();
                     if (context.mounted) {
+                      Navigator.pop(context);
                       Navigator.pushNamed(context, Routes.primaryLocationRoute,
                           arguments: {
-                            'name': nameController.text,
-                            'email': emailController.text,
-                            'storeReferralCode':
-                                storeReferralCodeController.text,
-                            'operatorCode': operatorCodeController.text,
-                            'cableSubscriberId':
-                                cableSubscriberIdController.text,
+                            'userDetails': RegisterRequestModel(
+                                uid: uid,
+                                fcmToken: fcmToken,
+                                mobile: int.parse(phone!),
+                                name: nameController.text,
+                                emailId: emailController.text,
+                                password: "",
+                                storeReferralCode:
+                                    storeReferralCodeController.text,
+                                operatorId: operatorCodeController.text,
+                                subscriberId: cableSubscriberIdController.text),
                             "currentLocation": currentPosition
                           });
                     }
