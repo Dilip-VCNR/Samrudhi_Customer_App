@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:samruddhi/auth/controller/auth_controller.dart';
+import 'package:samruddhi/auth/model/login_response_model.dart';
 
+import '../../database/app_pref.dart';
+import '../../database/models/pref_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
@@ -18,6 +21,7 @@ class _SelectAddressState extends State<SelectAddress> {
   TextEditingController searchController = TextEditingController();
 
   AuthController authController = AuthController();
+  PrefModel prefModel = AppPref.getPref();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,8 @@ class _SelectAddressState extends State<SelectAddress> {
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    final Function(String) onAddressChanged =
-        arguments['callBack'] as Function(String);
+    final Function(Address) onAddressChanged =
+        arguments['callBack'] as Function(Address);
 
     return Scaffold(
       appBar: AppBar(
@@ -127,7 +131,12 @@ class _SelectAddressState extends State<SelectAddress> {
                     countries: const ["In"],
                     isLatLngRequired: true,
                     getPlaceDetailWithLatLng: (prediction) async {
-                      onAddressChanged(prediction.toJson().toString());
+                      onAddressChanged(Address(
+                        type: 'OnMap',
+                        address: prediction.description,
+                        lat: double.parse(prediction.lat!),
+                        lng: double.parse(prediction.lng!)
+                      ));
                       Navigator.pop(context);
                     },
                     itmClick: (prediction) async {
@@ -144,12 +153,12 @@ class _SelectAddressState extends State<SelectAddress> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: 3,
+                itemCount: prefModel.userData!.address!.length,
                 scrollDirection: Axis.vertical,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {
-                    onAddressChanged("THis is saved address");
+                    onAddressChanged(prefModel.userData!.address![index]);
                     Navigator.pop(context);
                   },
                   child: Column(
@@ -159,7 +168,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -168,8 +177,8 @@ class _SelectAddressState extends State<SelectAddress> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Home',
-                                style: TextStyle(
+                                prefModel.userData!.address![index].type!,
+                                style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -177,8 +186,8 @@ class _SelectAddressState extends State<SelectAddress> {
                                 ),
                               ),
                               Text(
-                                '11/1 b Jest building peenya..',
-                                style: TextStyle(
+                                prefModel.userData!.address![index].address!,
+                                style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -186,7 +195,7 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                             ],
                           ),
-                          Row(
+                          const Row(
                             children: [
                               CircleAvatar(
                                   backgroundColor: AppColors.primaryColor,
@@ -200,7 +209,7 @@ class _SelectAddressState extends State<SelectAddress> {
                               CircleAvatar(
                                   backgroundColor: Colors.red,
                                   child: Icon(
-                                    Icons.edit,
+                                    Icons.delete_outline_outlined,
                                     color: Colors.white,
                                   ))
                             ],

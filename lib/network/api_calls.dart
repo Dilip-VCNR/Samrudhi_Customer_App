@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:samruddhi/auth/model/register_request_model.dart';
+import 'package:samruddhi/dashboard/home/model/home_data_model.dart';
 
 import '../auth/model/login_response_model.dart';
 import '../database/app_pref.dart';
@@ -27,7 +28,7 @@ class ApiCalls {
     var headers = <String, String>{};
     if (isAuthEnabled) {
       headers.addAll({
-        "Authorization": "Bearer ${prefModel.userData!.authToken}",
+        "x-access-token": "${prefModel.userData!.authToken}",
         "Content-Type": "application/json"
       });
     } else {
@@ -57,5 +58,18 @@ class ApiCalls {
       body: jsonEncode(userDetails),
     );
     return LoginResponseModel.fromJson(json.decode(response.body));
+  }
+
+  Future<HomeDataModel> fetchHomeData(double? lat, double? lng) async {
+    var response = await http.post(
+      Uri.parse(UrlConstant.userHomePage),
+      headers: getHeaders(true),
+      body: jsonEncode({
+        "lat":lat,
+        "lng":lng,
+        "UID":prefModel.userData!.uid
+      }),
+    );
+    return HomeDataModel.fromJson(json.decode(response.body));
   }
 }
