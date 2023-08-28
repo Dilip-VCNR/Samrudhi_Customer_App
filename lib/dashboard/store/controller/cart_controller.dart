@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:samruddhi/dashboard/store/models/store_response_model.dart';
 
 class CartController {
@@ -5,7 +7,7 @@ class CartController {
   double payable = 0.0;
 
   void manageCartItems(StoreProducts item, String type) {
-    print(item);
+    log(item.toString());
     switch (type) {
       case "ADD":
         cartItems.add(item);

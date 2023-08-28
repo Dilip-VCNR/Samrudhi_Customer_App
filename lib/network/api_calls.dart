@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -70,6 +71,7 @@ class ApiCalls {
         "UID":prefModel.userData!.uid
       }),
     );
+    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 }

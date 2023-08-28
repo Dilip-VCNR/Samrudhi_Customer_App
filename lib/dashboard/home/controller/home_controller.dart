@@ -10,12 +10,12 @@ import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 
 class HomeController {
-  PrefModel prefModel = AppPref.getPref();
 
   ApiCalls apiCalls  = ApiCalls();
+  AuthController authController = AuthController();
+  LocationController locationController = LocationController();
   Future<Map> getHomeData() async {
-    AuthController authController = AuthController();
-    LocationController locationController = LocationController();
+    PrefModel prefModel = AppPref.getPref();
     if (prefModel.selectedAddress != null) {
       HomeDataModel homeData = await apiCalls.fetchHomeData(prefModel.selectedAddress!.lat, prefModel.selectedAddress!.lng);
       return {

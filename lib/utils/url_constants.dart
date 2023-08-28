@@ -3,6 +3,7 @@ class UrlConstant {
 
   static const String websiteBaseUrl =
       "http://santhuofficial123.pythonanywhere.com/";
+  static const String imageBaseUrl = "http://103.74.138.223:8012";
   static const String apiBaseUrl = "http://103.74.138.223:8012/api/";
   static const String compatibility = "${apiBaseUrl}app_compatibility";
   static const String registerCustomer = "${apiBaseUrl}customer/registerUser";

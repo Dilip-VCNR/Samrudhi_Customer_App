@@ -29,8 +29,8 @@ class _SelectAddressState extends State<SelectAddress> {
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    final Function(Address) onAddressChanged =
-        arguments['callBack'] as Function(Address);
+    final Function(Address?) onAddressChanged =
+        arguments['callBack'] as Function(Address?);
 
     return Scaffold(
       appBar: AppBar(
@@ -143,6 +143,28 @@ class _SelectAddressState extends State<SelectAddress> {
                       FocusScope.of(context).unfocus();
                     }),
               ),
+
+              GestureDetector(
+                onTap: (){
+                  onAddressChanged(null);
+                  Navigator.pop(context);
+                },
+                child: Row(
+                  children: [
+                    IconButton(onPressed: (){}, icon: const Icon(Icons.my_location),),
+                    const Text(
+                     "Use Current location",
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              const SizedBox(height: 10,),
               const Text(
                 'Saved address',
                 style: TextStyle(
