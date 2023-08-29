@@ -32,12 +32,14 @@ class _SelectAddressState extends State<SelectAddress> {
     final Function(Address?) onAddressChanged =
         arguments['callBack'] as Function(Address?);
 
+    String? from = arguments['from'];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
-        title: const Text(
-          'My Address',
-          style: TextStyle(
+        title: Text(
+          from!="orders"?'My Address':"Choose address",
+          style: const TextStyle(
             color: AppColors.fontColor,
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -98,6 +100,7 @@ class _SelectAddressState extends State<SelectAddress> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              from!="orders"?
               const Text(
                 'Search address',
                 style: TextStyle(
@@ -105,7 +108,8 @@ class _SelectAddressState extends State<SelectAddress> {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-              ),
+              ):SizedBox.shrink(),
+              from!="orders"?
               Container(
                 width: screenSize.width,
                 padding: const EdgeInsets.symmetric(vertical: 20),
@@ -132,28 +136,33 @@ class _SelectAddressState extends State<SelectAddress> {
                     isLatLngRequired: true,
                     getPlaceDetailWithLatLng: (prediction) async {
                       onAddressChanged(Address(
-                        type: 'OnMap',
-                        address: prediction.description,
-                        lat: double.parse(prediction.lat!),
-                        lng: double.parse(prediction.lng!)
-                      ));
+                          type: 'OnMap',
+                          address: prediction.description,
+                          lat: double.parse(prediction.lat!),
+                          lng: double.parse(prediction.lng!)));
                       Navigator.pop(context);
                     },
                     itmClick: (prediction) async {
                       FocusScope.of(context).unfocus();
                     }),
-              ),
-
+              ):SizedBox.shrink(),
+              from!="orders"?
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   onAddressChanged(null);
                   Navigator.pop(context);
                 },
                 child: Row(
                   children: [
-                    IconButton(onPressed: (){}, icon: const Icon(Icons.my_location),),
+                    IconButton(
+                      onPressed: () {
+                        onAddressChanged(null);
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.my_location),
+                    ),
                     const Text(
-                     "Use Current location",
+                      "Use Current location",
                       style: TextStyle(
                         color: AppColors.fontColor,
                         fontSize: 14,
@@ -162,9 +171,12 @@ class _SelectAddressState extends State<SelectAddress> {
                     ),
                   ],
                 ),
+              ):SizedBox.shrink(),
+              from!="orders"?
+              const Divider():SizedBox.shrink(),
+              const SizedBox(
+                height: 10,
               ),
-              const Divider(),
-              const SizedBox(height: 10,),
               const Text(
                 'Saved address',
                 style: TextStyle(

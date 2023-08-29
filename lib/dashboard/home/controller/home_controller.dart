@@ -1,9 +1,12 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:samruddhi/address/controller/location_controller.dart';
 import 'package:samruddhi/auth/controller/auth_controller.dart';
 import 'package:samruddhi/auth/model/login_response_model.dart';
 import 'package:samruddhi/dashboard/home/model/home_data_model.dart';
+import 'package:samruddhi/dashboard/home/model/in_store_data_model.dart';
+import 'package:samruddhi/dashboard/home/model/stores_on_category_model.dart';
 import 'package:samruddhi/network/api_calls.dart';
 
 import '../../../database/app_pref.dart';
@@ -45,5 +48,13 @@ class HomeController {
         "HomeData":homeData
       };
     }
+  }
+
+  Future<StoresOnSearchModel> getStoresOnSearch(BuildContext context,Map arguments) {
+    return apiCalls.fetchStoresOnCategory(context,arguments);
+  }
+
+  Future<InStoreDataModel> getInStoreData(String? storeId, BuildContext context) {
+    return apiCalls.fetchInStoreData(context,storeId);
   }
 }

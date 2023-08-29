@@ -1,13 +1,15 @@
-import 'dart:developer';
 
-import 'package:samruddhi/dashboard/store/models/store_response_model.dart';
+
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
+import '../../home/model/in_store_data_model.dart';
 
 class CartController {
-  List<StoreProducts> cartItems = [];
+  List<ProductList> cartItems = [];
   double payable = 0.0;
 
-  void manageCartItems(StoreProducts item, String type) {
-    log(item.toString());
+  Future<void> manageCartItems(ProductList item, String type) async {
+    PrefModel prefModel = AppPref.getPref();
     switch (type) {
       case "ADD":
         cartItems.add(item);
@@ -26,8 +28,8 @@ class CartController {
 
     payable = 0;
     for (var cartItem in cartItems) {
-      payable +=
-          double.parse(cartItem.sellingPrice.toString()) * cartItem.cartCount!;
+      payable += double.parse(cartItem.sellingPrice.toString()) * cartItem.cartCount!;
     }
+    await AppPref.setPref(prefModel);
   }
 }

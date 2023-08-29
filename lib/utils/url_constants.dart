@@ -12,7 +12,8 @@ class UrlConstant {
   static const String addNewAddress =
       "${apiBaseUrl}customer/customerNewAddress";
   static const String userHomePage = "${apiBaseUrl}customer/userHomepage";
-  static const String inStore = "${apiBaseUrl}customer/userHomepage";
+  static const String searchApi = "${apiBaseUrl}store/searchApi";
+  static const String inStore = "${apiBaseUrl}store/getCategoryAndProductOnStore";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
   static const String termsOfUse = "${websiteBaseUrl}p/t-c";
   static const String faq = "${websiteBaseUrl}p/t-c";

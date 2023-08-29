@@ -1,10 +1,10 @@
 
 import 'package:samruddhi/auth/model/login_response_model.dart';
 
+
 class PrefModel {
   UserData? userData;
   Address? selectedAddress;
-
   PrefModel({
     this.userData,
     this.selectedAddress,

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:samruddhi/utils/url_constants.dart';
 
+import '../../../auth/model/login_response_model.dart';
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/routes.dart';
 import '../../store/controller/cart_controller.dart';
-import '../../store/models/store_response_model.dart';
 
 class PlaceOrder extends StatefulWidget {
   const PlaceOrder({Key? key}) : super(key: key);
@@ -12,9 +16,9 @@ class PlaceOrder extends StatefulWidget {
 }
 
 class _PlaceOrderState extends State<PlaceOrder> {
-  List<StoreProducts>? cartItems;
+  PrefModel prefModel = AppPref.getPref();
 
-  CartController cartController = CartController();
+  CartController? cartController;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    cartItems = arguments['cartItems'];
+    cartController = arguments['cartController'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -47,10 +51,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Delivery Location',
                     style: TextStyle(
                       color: AppColors.fontColor,
@@ -59,15 +63,22 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       letterSpacing: 0.60,
                     ),
                   ),
-                  Text(
-                    'Change',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        color: AppColors.walletFont,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.60,
-                        decoration: TextDecoration.underline),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(
+                          context, Routes.selectAddressRoute,
+                          arguments: {'callBack': onAddressChanged,"from":"orders"});
+                    },
+                    child: const Text(
+                      'Change',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                          color: AppColors.walletFont,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.60,
+                          decoration: TextDecoration.underline),
+                    ),
                   )
                 ],
               ),
@@ -88,9 +99,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   ),
                   SizedBox(
                     width: screenSize.width - 100,
-                    child: const Text(
-                      'Floor 4, VCNR Tower, Binnamangala bus stop, nelamangala, bangalore',
-                      style: TextStyle(
+                    child: Text(
+                      prefModel.selectedAddress!=null?prefModel.selectedAddress!.address!:"Click on change to select delivery address",
+                      style: const TextStyle(
                         color: AppColors.fontColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -125,7 +136,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ),
                         ),
                         TextSpan(
-                          text: '₹${cartController.payable}',
+                          text: '₹${cartController!.payable}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -298,7 +309,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: cartItems!.length,
+              itemCount: cartController!.cartItems.length,
               itemBuilder: (context, index) {
                 return Container(
                   width: screenSize.width,
@@ -310,9 +321,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         width: screenSize.width / 6,
                         height: screenSize.width / 6,
                         decoration: ShapeDecoration(
-                          image: const DecorationImage(
+                          image: DecorationImage(
                             image: NetworkImage(
-                                "https://via.placeholder.com/115x111"),
+                                UrlConstant.imageBaseUrl+cartController!.cartItems[index].image!),
                             fit: BoxFit.fill,
                           ),
                           shape: RoundedRectangleBorder(
@@ -330,7 +341,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              cartItems![index].productName!,
+                              cartController!.cartItems[index].productName!,
                               style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 16,
@@ -339,7 +350,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               ),
                             ),
                             Text(
-                              '₹${cartItems![index].mrp}',
+                              '₹${cartController!.cartItems[index].mrp}',
                               style: const TextStyle(
                                 color: Color(0x8937474F),
                                 fontSize: 14,
@@ -351,21 +362,19 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '₹${cartItems![index].sellingPrice}',
+                                  '₹${cartController!.cartItems[index].sellingPrice}',
                                   style: const TextStyle(
                                     color: AppColors.primaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                if (cartItems![index].cartCount == 0)
+                                if (cartController!.cartItems[index].cartCount == 0)
                                   InkWell(
                                     onTap: () {
                                       setState(() {
-                                        cartItems![index].cartCount =
-                                            (cartItems![index].cartCount! + 1);
-                                        cartController.manageCartItems(
-                                            cartItems![index], "ADD");
+                                        cartController!.cartItems[index].cartCount =
+                                            (cartController!.cartItems[index].cartCount! + 1);
                                       });
                                     },
                                     child: Container(
@@ -396,19 +405,16 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            if (cartItems![index].cartCount! >
+                                            if (cartController!.cartItems[index].cartCount! >
                                                 1) {
-                                              cartItems![index].cartCount =
-                                                  cartItems![index].cartCount! -
+                                              cartController!.cartItems[index].cartCount =
+                                                  cartController!.cartItems[index].cartCount! -
                                                       1;
-                                              cartController.manageCartItems(
-                                                  cartItems![index], "UPDATE");
+
                                             } else {
-                                              cartItems![index].cartCount =
-                                                  cartItems![index].cartCount! -
+                                              cartController!.cartItems[index].cartCount =
+                                                  cartController!.cartItems[index].cartCount! -
                                                       1;
-                                              cartController.manageCartItems(
-                                                  cartItems![index], "REMOVE");
                                             }
                                           });
                                         },
@@ -440,7 +446,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: 10),
                                         child: Text(
-                                          '${cartItems![index].cartCount}',
+                                          '${cartController!.cartItems[index].cartCount}',
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
                                             color: AppColors.fontColor,
@@ -452,11 +458,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            cartItems![index].cartCount =
-                                                cartItems![index].cartCount! +
+                                            cartController!.cartItems[index].cartCount =
+                                                cartController!.cartItems[index].cartCount! +
                                                     1;
-                                            cartController.manageCartItems(
-                                                cartItems![index], "UPDATE");
+
                                           });
                                         },
                                         child: Container(
@@ -528,4 +533,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
       ),
     );
   }
+
+
+  Future<void> onAddressChanged(Address? address) async {
+    prefModel.selectedAddress = address;
+    await AppPref.setPref(prefModel);
+    setState(() {});
+  }
+
+
 }

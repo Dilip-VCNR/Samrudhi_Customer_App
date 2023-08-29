@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:samruddhi/dashboard/home/model/in_store_data_model.dart';
 import 'package:samruddhi/utils/app_colors.dart';
+import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../utils/routes.dart';
 import '../controller/cart_controller.dart';
@@ -17,159 +19,26 @@ class _StoreScreenState extends State<StoreScreen> {
 
   List<String> hiddenSubcategories = [];
 
-  @override
-  void initState() {
-    super.initState();
-    // Category 1: Jeans
-    products.add(StoreProducts(
-        id: "64b79066088dc100320f63aa",
-        createdAt: DateTime(2023, 7, 19, 12, 57, 34),
-        productName: "Blue Jeans",
-        image: "/uploads/products/jeans_blue.jpeg",
-        storeId: "store_d1af2420-1fb2-11ee-a954-0b7214842cb7",
-        storeName: "praveenstores",
-        productCategory: "clothes",
-        subCategory: "Jeans",
-        description: "Comfortable and stylish blue jeans.",
-        mrp: 600,
-        tax: 30,
-        sellingPrice: 400,
-        availability: true,
-        sku: "xyz123",
-        uom: "pcs",
-        discount: 10,
-        offer: 20,
-        status: true,
-        productId: "product_ba80a8b0-2605-11ee-80f5-f197921726c5",
-        v: 0,
-        cartCount: 0));
-
-    products.add(StoreProducts(
-        id: "75c88fd11fb2a9c320f6da9",
-        createdAt: DateTime(2023, 8, 1, 10, 15, 22),
-        productName: "Black Jeans",
-        image: "/uploads/products/jeans_black.jpeg",
-        storeId: "store_d1af2420-1fb2-11ee-a954-0b7214842cb7",
-        storeName: "praveenstores",
-        productCategory: "clothes",
-        subCategory: "Jeans",
-        description: "Classic black jeans for everyday wear.",
-        mrp: 550,
-        tax: 25,
-        sellingPrice: 350,
-        availability: true,
-        sku: "abc456",
-        uom: "pcs",
-        discount: 15,
-        offer: 30,
-        status: true,
-        productId: "product_ea81b3d3-3807-22fa-67b1-f1058aa891bc",
-        v: 0,
-        cartCount: 0));
-
-    // Category 2: T-Shirts
-    products.add(StoreProducts(
-        id: "63a1de77efbcb9e7e4c6d700",
-        createdAt: DateTime(2023, 8, 2, 14, 10, 45),
-        productName: "Red T-shirt",
-        image: "/uploads/products/tshirt_red.jpeg",
-        storeId: "store_d1af2420-1fb2-11ee-a954-0b7214842cb7",
-        storeName: "praveenstores",
-        productCategory: "clothes",
-        subCategory: "T-Shirts",
-        description: "Stylish red t-shirt for casual occasions.",
-        mrp: 300,
-        tax: 15,
-        sellingPrice: 250,
-        availability: true,
-        sku: "pqr789",
-        uom: "pcs",
-        discount: 10,
-        offer: 20,
-        status: true,
-        productId: "product_75f8d9a1-10bb-88fe-29c4-e1a987d394bb",
-        v: 0,
-        cartCount: 0));
-
-    products.add(StoreProducts(
-        id: "b1e23aa3f0aa9958ac25b889",
-        createdAt: DateTime(2023, 8, 3, 11, 30, 18),
-        productName: "White T-shirt",
-        image: "/uploads/products/tshirt_white.jpeg",
-        storeId: "store_d1af2420-1fb2-11ee-a954-0b7214842cb7",
-        storeName: "praveenstores",
-        productCategory: "clothes",
-        subCategory: "T-Shirts",
-        description: "Classic white t-shirt suitable for any occasion.",
-        mrp: 350,
-        tax: 18,
-        sellingPrice: 300,
-        availability: true,
-        sku: "def123",
-        uom: "pcs",
-        discount: 10,
-        offer: 25,
-        status: true,
-        productId: "product_aefba812-d6bb-12ef-456b-3abf3e7d094d",
-        v: 0,
-        cartCount: 0));
-
-    // Category 3: Shirts
-    products.add(StoreProducts(
-      id: "c1a5f74e2da24b408a2bc0a1",
-      createdAt: DateTime(2023, 8, 5, 9, 20, 15),
-      productName: "Formal Shirt",
-      image: "/uploads/products/shirt_formal.jpeg",
-      storeId: "store_d1af2420-1fb2-11ee-a954-0b7214842cb7",
-      storeName: "praveenstores",
-      productCategory: "clothes",
-      subCategory: "T-Shirts",
-      description: "Elegant formal shirt for professional occasions.",
-      mrp: 800,
-      tax: 40,
-      sellingPrice: 600,
-      availability: true,
-      sku: "ghi789",
-      uom: "pcs",
-      discount: 10,
-      offer: 30,
-      status: true,
-      productId: "product_2e1e1e12-4bc7-11ee-b33d-af26c1f4a044",
-      v: 0,
-      cartCount: 0,
-    ));
-
-    // Category 3: Shirts
-    products.add(StoreProducts(
-      id: "e35a7d5fc243b9e8ca1daad7",
-      createdAt: DateTime(2023, 8, 5, 11, 45, 30),
-      productName: "Casual Shirt",
-      image: "/uploads/products/shirt_casual.jpeg",
-      storeId: "store_d1af2420-1fb2-11ee-a954-0b7214842cb7",
-      storeName: "praveenstores",
-      productCategory: "clothes",
-      subCategory: "Shirts",
-      description: "Comfortable and trendy casual shirt.",
-      mrp: 600,
-      tax: 30,
-      sellingPrice: 450,
-      availability: true,
-      sku: "jkl101",
-      uom: "pcs",
-      discount: 10,
-      offer: 25,
-      status: true,
-      productId: "product_3ff7ddc2-d091-4df3-b1d8-279871428fa8",
-      v: 0,
-      cartCount: 0,
-    ));
-  }
+  bool isSubcategoryHidden = false;
 
   CartController cartController = CartController();
+
+  InStoreDataModel? inStoreData;
+  String? searchQuery;
+  bool? isLoaded;
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+
+    if (isLoaded != true) {
+      final arguments = (ModalRoute.of(context)?.settings.arguments ??
+          <String, dynamic>{}) as Map;
+      searchQuery = arguments['searchQuery'];
+      inStoreData = arguments['inStoreData'];
+      isLoaded = true;
+    }
+
     return Scaffold(
       bottomNavigationBar: cartController.cartItems.isNotEmpty
           ? Container(
@@ -192,7 +61,11 @@ class _StoreScreenState extends State<StoreScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, Routes.placeOrderRoute,
-                          arguments: {'cartItems': cartController.cartItems});
+                              arguments: {'cartController': cartController})
+                          .then((value) {
+                        setState(() {});
+                        return;
+                      });
                     },
                     child: Container(
                       width: double.infinity,
@@ -272,12 +145,16 @@ class _StoreScreenState extends State<StoreScreen> {
                           Navigator.pop(context);
                         },
                       ),
-                      const Text(
-                        'More super store',
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                      SizedBox(
+                        width: screenSize.width / 1.5,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          inStoreData!.result!.storeDetails!.displayName!,
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       IconButton(
@@ -287,21 +164,21 @@ class _StoreScreenState extends State<StoreScreen> {
                       )
                     ],
                   ),
-                  const Text(
-                    'Groceries and shopping',
+                  Text(
+                    inStoreData!.result!.storeDetails!.storeCategory!,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.fontColor,
-                      fontSize: 12,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(
                     width: screenSize.width / 1.75,
-                    child: const Text(
-                      '#11, First floor vcnr Hospital, Nelamangala bangalore - 562123',
+                    child: Text(
+                      "${inStoreData!.result!.storeDetails!.address!.address!} ${inStoreData!.result!.storeDetails!.address!.city!} ${inStoreData!.result!.storeDetails!.address!.zipCode!}",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.fontColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -319,53 +196,42 @@ class _StoreScreenState extends State<StoreScreen> {
             child: ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
-              itemCount: products.length,
+              itemCount: inStoreData!.result!.productDetails!.length,
               itemBuilder: (context, index) {
-                StoreProducts product = products[index];
-                String subcategory = product.subCategory!;
-
-                bool isSubcategoryHidden =
-                    hiddenSubcategories.contains(subcategory);
-
                 return Column(
                   children: [
-                    if (index == 0 ||
-                        products[index - 1].subCategory != subcategory)
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (isSubcategoryHidden) {
-                              hiddenSubcategories.remove(subcategory);
-                            } else {
-                              hiddenSubcategories.add(subcategory);
-                            }
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                subcategory,
-                                style: const TextStyle(
-                                  color: AppColors.fontColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Icon(
-                                isSubcategoryHidden
-                                    ? Icons.keyboard_arrow_up_rounded
-                                    : Icons.keyboard_arrow_down_rounded,
+                    GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              inStoreData!.result!.productDetails![index]
+                                  .productCategories!,
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
-                                size: 40,
-                              )
-                            ],
-                          ),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Icon(
+                              isSubcategoryHidden
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
+                              color: AppColors.fontColor,
+                              size: 40,
+                            )
+                          ],
                         ),
                       ),
-                    if (!isSubcategoryHidden)
+                    ),
+                    for (int i = 0;
+                        i <
+                            inStoreData!.result!.productDetails![index]
+                                .productList!.length;
+                        i++)
                       Container(
                         width: screenSize.width,
                         padding: const EdgeInsets.all(20),
@@ -375,9 +241,13 @@ class _StoreScreenState extends State<StoreScreen> {
                               width: screenSize.width / 3.75,
                               height: screenSize.width / 3.75,
                               decoration: ShapeDecoration(
-                                image: const DecorationImage(
-                                  image: NetworkImage(
-                                      "https://via.placeholder.com/115x111"),
+                                image: DecorationImage(
+                                  image: NetworkImage(UrlConstant.imageBaseUrl +
+                                      inStoreData!
+                                          .result!
+                                          .productDetails![index]
+                                          .productList![i]
+                                          .image!),
                                   fit: BoxFit.fill,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -394,7 +264,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    product.productName!,
+                                    inStoreData!.result!.productDetails![index]
+                                        .productList![i].productName!,
                                     style: const TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 16,
@@ -403,7 +274,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '₹${product.mrp}',
+                                    '₹${inStoreData!.result!.productDetails![index].productList![i].mrp}',
                                     style: const TextStyle(
                                       color: Color(0x8937474F),
                                       fontSize: 14,
@@ -416,21 +287,38 @@ class _StoreScreenState extends State<StoreScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '₹${product.sellingPrice}',
+                                        '₹${inStoreData!.result!.productDetails![index].productList![i].sellingPrice}',
                                         style: const TextStyle(
                                           color: AppColors.primaryColor,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      if (product.cartCount == 0)
+                                      if (inStoreData!
+                                              .result!
+                                              .productDetails![index]
+                                              .productList![i]
+                                              .cartCount ==
+                                          0)
                                         InkWell(
                                           onTap: () {
                                             setState(() {
-                                              product.cartCount =
-                                                  (product.cartCount! + 1);
+                                              inStoreData!
+                                                  .result!
+                                                  .productDetails![index]
+                                                  .productList![i]
+                                                  .cartCount = (inStoreData!
+                                                      .result!
+                                                      .productDetails![index]
+                                                      .productList![i]
+                                                      .cartCount! +
+                                                  1);
                                               cartController.manageCartItems(
-                                                  product, "ADD");
+                                                  inStoreData!
+                                                      .result!
+                                                      .productDetails![index]
+                                                      .productList![i],
+                                                  "ADD");
                                             });
                                           },
                                           child: Container(
@@ -461,18 +349,52 @@ class _StoreScreenState extends State<StoreScreen> {
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  if (product.cartCount! > 1) {
-                                                    product.cartCount =
-                                                        product.cartCount! - 1;
+                                                  if (inStoreData!
+                                                          .result!
+                                                          .productDetails![
+                                                              index]
+                                                          .productList![i]
+                                                          .cartCount! >
+                                                      1) {
+                                                    inStoreData!
+                                                        .result!
+                                                        .productDetails![index]
+                                                        .productList![i]
+                                                        .cartCount = inStoreData!
+                                                            .result!
+                                                            .productDetails![
+                                                                index]
+                                                            .productList![i]
+                                                            .cartCount! -
+                                                        1;
                                                     cartController
                                                         .manageCartItems(
-                                                            product, "UPDATE");
+                                                            inStoreData!
+                                                                .result!
+                                                                .productDetails![
+                                                                    index]
+                                                                .productList![i],
+                                                            "UPDATE");
                                                   } else {
-                                                    product.cartCount =
-                                                        product.cartCount! - 1;
+                                                    inStoreData!
+                                                        .result!
+                                                        .productDetails![index]
+                                                        .productList![i]
+                                                        .cartCount = inStoreData!
+                                                            .result!
+                                                            .productDetails![
+                                                                index]
+                                                            .productList![i]
+                                                            .cartCount! -
+                                                        1;
                                                     cartController
                                                         .manageCartItems(
-                                                            product, "REMOVE");
+                                                            inStoreData!
+                                                                .result!
+                                                                .productDetails![
+                                                                    index]
+                                                                .productList![i],
+                                                            "REMOVE");
                                                   }
                                                 });
                                               },
@@ -507,7 +429,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 10),
                                               child: Text(
-                                                '${product.cartCount}',
+                                                '${inStoreData!.result!.productDetails![index].productList![i].cartCount}',
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   color: AppColors.fontColor,
@@ -519,11 +441,25 @@ class _StoreScreenState extends State<StoreScreen> {
                                             GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  product.cartCount =
-                                                      product.cartCount! + 1;
+                                                  inStoreData!
+                                                      .result!
+                                                      .productDetails![index]
+                                                      .productList![i]
+                                                      .cartCount = inStoreData!
+                                                          .result!
+                                                          .productDetails![
+                                                              index]
+                                                          .productList![i]
+                                                          .cartCount! +
+                                                      1;
                                                   cartController
                                                       .manageCartItems(
-                                                          product, "UPDATE");
+                                                          inStoreData!
+                                                              .result!
+                                                              .productDetails![
+                                                                  index]
+                                                              .productList![i],
+                                                          "UPDATE");
                                                 });
                                               },
                                               child: Container(

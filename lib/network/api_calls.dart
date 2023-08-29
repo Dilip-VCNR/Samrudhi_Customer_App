@@ -1,10 +1,13 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:samruddhi/auth/model/register_request_model.dart';
 import 'package:samruddhi/dashboard/home/model/home_data_model.dart';
+import 'package:samruddhi/dashboard/home/model/in_store_data_model.dart';
+import 'package:samruddhi/dashboard/home/model/stores_on_category_model.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../auth/model/login_response_model.dart';
 import '../database/app_pref.dart';
@@ -71,7 +74,42 @@ class ApiCalls {
         "UID":prefModel.userData!.uid
       }),
     );
-    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
+  }
+
+  Future<StoresOnSearchModel> fetchStoresOnCategory(BuildContext context,Map arguments) async {
+    var response = await http.post(
+      Uri.parse(UrlConstant.searchApi),
+      headers: getHeaders(true),
+      body: jsonEncode(arguments),
+    );
+    print(arguments);
+    print(response.body);
+    if(response.statusCode==200){
+      return StoresOnSearchModel.fromJson(json.decode(response.body));
+    }else{
+      if(context.mounted){
+        showErrorToast(context, "Failed to fetch stores");
+      }
+      throw("Failed to fetch stores");
+    }
+  }
+
+  Future<InStoreDataModel> fetchInStoreData(BuildContext context, String? storeId) async {
+    var response = await http.post(
+      Uri.parse(UrlConstant.inStore),
+      headers: getHeaders(true),
+      body: jsonEncode({
+        "storeId":storeId,
+      }),
+    );
+    if(response.statusCode==200){
+      return InStoreDataModel.fromJson(json.decode(response.body));
+    }else{
+      if(context.mounted){
+        showErrorToast(context, "Failed to fetch stores");
+      }
+      throw("Failed to fetch stores");
+    }
   }
 }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:samruddhi/auth/model/login_response_model.dart';
 import 'package:samruddhi/dashboard/home/controller/home_controller.dart';
 import 'package:samruddhi/dashboard/home/model/home_data_model.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import 'package:samruddhi/utils/routes.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
+import '../model/in_store_data_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -137,7 +139,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.searchScreenRoute);
+                                  context, Routes.searchScreenRoute,
+                                  arguments: {
+                                    'lat':selectedAddress.lat,
+                                    'lng':selectedAddress.lng,
+                                    "searchType":'productName',
+                                    "searchKeyWord":' ',
+                                  });
                             },
                             child: TextField(
                               enabled: false,
@@ -160,129 +168,140 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(
-                          height:homeData.result!.myStore!.isNotEmpty?20:0,
+                          height: homeData.result!.myStore!.isNotEmpty ? 20 : 0,
                         ),
-                        homeData.result!.myStore!.isNotEmpty?
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, Routes.storeInRoute);
-                            },
-                            child: Container(
-                              width: screenSize.width,
-                              decoration: ShapeDecoration(
-                                color: AppColors.storeBackground,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.52),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 125,
-                                    height: 130,
-                                    decoration: const ShapeDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            "https://via.placeholder.com/110x125"),
-                                        fit: BoxFit.fill,
-                                      ),
+                        homeData.result!.myStore!.isNotEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.storeInRoute);
+                                  },
+                                  child: Container(
+                                    width: screenSize.width,
+                                    decoration: ShapeDecoration(
+                                      color: AppColors.storeBackground,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15.50),
-                                          bottomLeft: Radius.circular(15.50),
-                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(15.52),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      const Text(
-                                        'My Store',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16.55,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1.25,
-                                        ),
-                                      ),
-                                      const Text(
-                                        'Vinayaka Provision stores',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          height: 1.48,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
-                                      SizedBox(
-                                        width: screenSize.width / 2,
-                                        child: const Text(
-                                          '#11, First floor vcnr Hospital, Nelamangala bangalore - 562123',
-                                          style: TextStyle(
-                                            color: AppColors.fontColor,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 4),
-                                        decoration: ShapeDecoration(
-                                          color: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(31.03),
-                                          ),
-                                        ),
-                                        child: const Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Browse ',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12.41,
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.33,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 125,
+                                          height: 130,
+                                          decoration: const ShapeDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  "https://via.placeholder.com/110x125"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15.50),
+                                                bottomLeft:
+                                                    Radius.circular(15.50),
                                               ),
                                             ),
-                                            SizedBox(width: 4.14),
-                                            Icon(Icons.navigate_next_sharp)
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ):const SizedBox.shrink(),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            const Text(
+                                              'My Store',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16.55,
+                                                fontWeight: FontWeight.bold,
+                                                height: 1.25,
+                                              ),
+                                            ),
+                                            const Text(
+                                              'Vinayaka Provision stores',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.48,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
+                                            SizedBox(
+                                              width: screenSize.width / 2,
+                                              child: const Text(
+                                                '#11, First floor vcnr Hospital, Nelamangala bangalore - 562123',
+                                                style: TextStyle(
+                                                  color: AppColors.fontColor,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 4),
+                                              decoration: ShapeDecoration(
+                                                color: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          31.03),
+                                                ),
+                                              ),
+                                              child: const Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Browse ',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12.41,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      height: 1.33,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 4.14),
+                                                  Icon(
+                                                      Icons.navigate_next_sharp)
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
                         const SizedBox(
                           height: 20,
                         ),
@@ -314,13 +333,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                   4.0, // Horizontal spacing between columns
                             ),
                             scrollDirection: Axis.horizontal,
-                            itemCount: homeData.result!.productCategories!.length,
+                            itemCount:
+                                homeData.result!.productCategories!.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () async {
-                                  Navigator.pushNamed(
-                                      context, Routes.searchScreenRoute,
-                                      arguments: {'searchQuery': 'Fruits'});
+                                  if (context.mounted) {
+                                      Navigator.pushNamed(
+                                          context, Routes.searchScreenRoute,
+                                          arguments: {
+                                            'lat':selectedAddress.lat,
+                                            'lng':selectedAddress.lng,
+                                            "searchType":'productCategory',
+                                            "searchKeyWord":homeData.result!.productCategories![index].productCategoryName,
+                                          });
+                                  }
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -335,8 +362,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: 80,
                                         decoration: ShapeDecoration(
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                UrlConstant.imageBaseUrl+homeData.result!.productCategories![index].image!),
+                                            image: NetworkImage(UrlConstant
+                                                    .imageBaseUrl +
+                                                homeData
+                                                    .result!
+                                                    .productCategories![index]
+                                                    .image!),
                                             fit: BoxFit.fill,
                                           ),
                                           shape: const OvalBorder(),
@@ -344,7 +375,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        homeData.result!.productCategories![index].productCategoryName!,
+                                        homeData
+                                            .result!
+                                            .productCategories![index]
+                                            .productCategoryName!,
                                         style: const TextStyle(
                                           color: AppColors.fontColor,
                                           fontSize: 10,
@@ -379,13 +413,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: ListView.builder(
                               shrinkWrap: true,
-                              itemCount: homeData.result!.nearStoresdata!.length,
+                              itemCount:
+                                  homeData.result!.nearStoresdata!.length,
                               scrollDirection: Axis.vertical,
                               physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) => GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.storeInRoute);
+                                    onTap: () async {
+                                      showLoaderDialog(context);
+                                      InStoreDataModel inStoreData =
+                                          await homeController.getInStoreData(
+                                              homeData
+                                                  .result!
+                                                  .nearStoresdata![index]
+                                                  .storeId,
+                                              context);
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                        if (inStoreData.statusCode == 200) {
+                                          Navigator.pushNamed(
+                                              context, Routes.storeInRoute,
+                                          arguments: {
+                                                "inStoreData":inStoreData,
+                                                "searchQuery":null
+                                          });
+                                        } else {
+                                          showErrorToast(
+                                              context, inStoreData.message!);
+                                        }
+                                      }
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.symmetric(
@@ -405,11 +460,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 130,
                                             decoration: ShapeDecoration(
                                               image: DecorationImage(
-                                                image: NetworkImage(
-                                                    UrlConstant.imageBaseUrl+homeData.result!.nearStoresdata![index].image!),
+                                                image: NetworkImage(UrlConstant
+                                                        .imageBaseUrl +
+                                                    homeData
+                                                        .result!
+                                                        .nearStoresdata![index]
+                                                        .image!),
                                                 fit: BoxFit.fill,
                                               ),
-                                              shape: const RoundedRectangleBorder(
+                                              shape:
+                                                  const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
                                                   topLeft:
                                                       Radius.circular(15.50),
@@ -432,10 +492,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 height: 5,
                                               ),
                                               SizedBox(
-                                                width: screenSize.width/2,
+                                                width: screenSize.width / 2,
                                                 child: Text(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  homeData.result!.nearStoresdata![index].displayName!,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  homeData
+                                                      .result!
+                                                      .nearStoresdata![index]
+                                                      .displayName!,
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16.55,
@@ -445,9 +509,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: screenSize.width/2,
+                                                width: screenSize.width / 2,
                                                 child: Text(
-                                                  homeData.result!.nearStoresdata![index].storeCategory!,
+                                                  homeData
+                                                      .result!
+                                                      .nearStoresdata![index]
+                                                      .storeCategory!,
                                                   style: const TextStyle(
                                                     color: AppColors.fontColor,
                                                     fontSize: 8,

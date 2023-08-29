@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -219,6 +218,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void onAddressChanged(String newAddress) {
     // Your logic to handle the changed address
-    log(newAddress);
+    print(newAddress);
   }
 }
