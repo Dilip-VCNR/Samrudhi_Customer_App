@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '786475426433',
     projectId: 'samruddhi-bfe68',
     storageBucket: 'samruddhi-bfe68.appspot.com',
-    androidClientId: '786475426433-r2vnaumtj2snhnh6r5m2kkmnpji7mjah.apps.googleusercontent.com',
-    iosClientId: '786475426433-hjhqpd6q2r4mvniul06qpj1ugv5j10jp.apps.googleusercontent.com',
+    androidClientId:
+        '786475426433-r2vnaumtj2snhnh6r5m2kkmnpji7mjah.apps.googleusercontent.com',
+    iosClientId:
+        '786475426433-hjhqpd6q2r4mvniul06qpj1ugv5j10jp.apps.googleusercontent.com',
     iosBundleId: 'com.vcnr.samruddhi.samruddhi',
   );
 }

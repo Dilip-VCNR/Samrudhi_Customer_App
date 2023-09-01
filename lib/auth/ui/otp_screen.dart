@@ -96,14 +96,13 @@ class _OtpScreenState extends State<OtpScreen> {
                       currentCode: otpCode,
                       decoration: BoxLooseDecoration(
                           radius: const Radius.circular(12),
-                          strokeColorBuilder: const FixedColorBuilder(
-                              AppColors.fontColor)),
+                          strokeColorBuilder:
+                              const FixedColorBuilder(AppColors.fontColor)),
                       codeLength: 6,
                       onCodeChanged: (code) {
                         otpCode = code.toString();
                       },
-                      onCodeSubmitted: (val) {
-                      },
+                      onCodeSubmitted: (val) {},
                     ),
                     const SizedBox(
                       height: 30,

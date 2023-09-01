@@ -74,7 +74,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     });
                   }
                 },
-                autofocus: arguments!['searchType'] == 'productName' ? true : false,
+                autofocus:
+                    arguments!['searchType'] == 'productName' ? true : false,
                 controller: searchController,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
@@ -154,7 +155,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         arguments: {
                                                           "inStoreData":
                                                               inStoreData,
-                                                          "searchQuery": arguments!['searchKeyWord']
+                                                          "searchQuery":
+                                                              arguments![
+                                                                  'searchKeyWord']
                                                         });
                                                   } else {
                                                     showErrorToast(context,

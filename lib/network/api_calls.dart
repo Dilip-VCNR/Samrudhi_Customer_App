@@ -68,48 +68,45 @@ class ApiCalls {
     var response = await http.post(
       Uri.parse(UrlConstant.userHomePage),
       headers: getHeaders(true),
-      body: jsonEncode({
-        "lat":lat,
-        "lng":lng,
-        "UID":prefModel.userData!.uid
-      }),
+      body:
+          jsonEncode({"lat": lat, "lng": lng, "UID": prefModel.userData!.uid}),
     );
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
-  Future<StoresOnSearchModel> fetchStoresOnCategory(BuildContext context,Map arguments) async {
+  Future<StoresOnSearchModel> fetchStoresOnCategory(
+      BuildContext context, Map arguments) async {
     var response = await http.post(
       Uri.parse(UrlConstant.searchApi),
       headers: getHeaders(true),
       body: jsonEncode(arguments),
     );
-    print(arguments);
-    print(response.body);
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return StoresOnSearchModel.fromJson(json.decode(response.body));
-    }else{
-      if(context.mounted){
+    } else {
+      if (context.mounted) {
         showErrorToast(context, "Failed to fetch stores");
       }
-      throw("Failed to fetch stores");
+      throw ("Failed to fetch stores");
     }
   }
 
-  Future<InStoreDataModel> fetchInStoreData(BuildContext context, String? storeId) async {
+  Future<InStoreDataModel> fetchInStoreData(
+      BuildContext context, String? storeId) async {
     var response = await http.post(
       Uri.parse(UrlConstant.inStore),
       headers: getHeaders(true),
       body: jsonEncode({
-        "storeId":storeId,
+        "storeId": storeId,
       }),
     );
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       return InStoreDataModel.fromJson(json.decode(response.body));
-    }else{
-      if(context.mounted){
+    } else {
+      if (context.mounted) {
         showErrorToast(context, "Failed to fetch stores");
       }
-      throw("Failed to fetch stores");
+      throw ("Failed to fetch stores");
     }
   }
 }

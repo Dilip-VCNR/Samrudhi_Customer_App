@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:samruddhi/dashboard/store/controller/cart_controller.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../auth/model/login_response_model.dart';
@@ -6,7 +7,6 @@ import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
-import '../../store/controller/cart_controller.dart';
 
 class PlaceOrder extends StatefulWidget {
   const PlaceOrder({Key? key}) : super(key: key);
@@ -16,17 +16,13 @@ class PlaceOrder extends StatefulWidget {
 }
 
 class _PlaceOrderState extends State<PlaceOrder> {
-  PrefModel prefModel = AppPref.getPref();
-
-  CartController? cartController;
+  CartController cartController = CartController();
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    PrefModel prefModel = AppPref.getPref();
 
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    cartController = arguments['cartController'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -64,10 +60,12 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
-                      Navigator.pushNamed(
-                          context, Routes.selectAddressRoute,
-                          arguments: {'callBack': onAddressChanged,"from":"orders"});
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.selectAddressRoute,
+                          arguments: {
+                            'callBack': onAddressChanged,
+                            "from": "orders"
+                          });
                     },
                     child: const Text(
                       'Change',
@@ -100,7 +98,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   SizedBox(
                     width: screenSize.width - 100,
                     child: Text(
-                      prefModel.selectedAddress!=null?prefModel.selectedAddress!.address!:"Click on change to select delivery address",
+                      prefModel.selectedAddress != null
+                          ? prefModel.selectedAddress!.address!
+                          : "Click on change to select delivery address",
                       style: const TextStyle(
                         color: AppColors.fontColor,
                         fontSize: 14,
@@ -136,7 +136,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ),
                         ),
                         TextSpan(
-                          text: '₹${cartController!.payable}',
+                          text: '₹${prefModel.cartPayable}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -309,21 +309,20 @@ class _PlaceOrderState extends State<PlaceOrder> {
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: cartController!.cartItems.length,
+              itemCount: prefModel.cartItems!.length,
               itemBuilder: (context, index) {
                 return Container(
                   width: screenSize.width,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.all(20),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: screenSize.width / 6,
-                        height: screenSize.width / 6,
+                        width: screenSize.width / 3.75,
+                        height: screenSize.width / 3.75,
                         decoration: ShapeDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(
-                                UrlConstant.imageBaseUrl+cartController!.cartItems[index].image!),
+                            image: NetworkImage(UrlConstant.imageBaseUrl +
+                                prefModel.cartItems![index].image!),
                             fit: BoxFit.fill,
                           ),
                           shape: RoundedRectangleBorder(
@@ -336,12 +335,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       ),
                       Expanded(
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              cartController!.cartItems[index].productName!,
+                              prefModel.cartItems![index].productName!,
                               style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 16,
@@ -350,7 +348,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               ),
                             ),
                             Text(
-                              '₹${cartController!.cartItems[index].mrp}',
+                              '₹${prefModel.cartItems![index].mrp}',
                               style: const TextStyle(
                                 color: Color(0x8937474F),
                                 fontSize: 14,
@@ -362,19 +360,29 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '₹${cartController!.cartItems[index].sellingPrice}',
+                                  '₹${prefModel.cartItems![index].sellingPrice}',
                                   style: const TextStyle(
                                     color: AppColors.primaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                if (cartController!.cartItems[index].cartCount == 0)
+                                if (!prefModel.cartItems!.any((element) {
+                                  return element.productId ==
+                                      prefModel.cartItems![index].productId;
+                                }))
                                   InkWell(
                                     onTap: () {
                                       setState(() {
-                                        cartController!.cartItems[index].cartCount =
-                                            (cartController!.cartItems[index].cartCount! + 1);
+                                        prefModel.cartItems![index].cartCount =
+                                            (prefModel.cartItems![index]
+                                                    .cartCount! +
+                                                1);
+                                        cartController.manageCartItems(
+                                            prefModel.cartItems![index],
+                                            "ADD",
+                                            prefModel
+                                                .cartItems![index].storeId!);
                                       });
                                     },
                                     child: Container(
@@ -405,16 +413,30 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            if (cartController!.cartItems[index].cartCount! >
+                                            if (prefModel.cartItems![index]
+                                                    .cartCount! >
                                                 1) {
-                                              cartController!.cartItems[index].cartCount =
-                                                  cartController!.cartItems[index].cartCount! -
-                                                      1;
-
+                                              prefModel.cartItems![index]
+                                                  .cartCount = prefModel
+                                                      .cartItems![index]
+                                                      .cartCount! -
+                                                  1;
+                                              cartController.manageCartItems(
+                                                  prefModel.cartItems![index],
+                                                  "UPDATE",
+                                                  prefModel.cartItems![index]
+                                                      .storeId!);
                                             } else {
-                                              cartController!.cartItems[index].cartCount =
-                                                  cartController!.cartItems[index].cartCount! -
-                                                      1;
+                                              prefModel.cartItems![index]
+                                                  .cartCount = prefModel
+                                                      .cartItems![index]
+                                                      .cartCount! -
+                                                  1;
+                                              cartController.manageCartItems(
+                                                  prefModel.cartItems![index],
+                                                  "REMOVE",
+                                                  prefModel.cartItems![index]
+                                                      .storeId!);
                                             }
                                           });
                                         },
@@ -445,23 +467,44 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         width: 20,
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: 10),
-                                        child: Text(
-                                          '${cartController!.cartItems[index].cartCount}',
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: AppColors.fontColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
+                                        child: prefModel.cartItems!
+                                                .any((element) {
+                                          return element.productId ==
+                                              prefModel
+                                                  .cartItems![index].productId;
+                                        })
+                                            ? Text(
+                                                '${prefModel.cartItems!.firstWhere((element) => element.productId == prefModel.cartItems![index].productId).cartCount}',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  color: AppColors.fontColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )
+                                            : Text(
+                                                '${prefModel.cartItems![index].cartCount}',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  color: AppColors.fontColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
                                       ),
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            cartController!.cartItems[index].cartCount =
-                                                cartController!.cartItems[index].cartCount! +
-                                                    1;
-
+                                            prefModel.cartItems![index]
+                                                .cartCount = prefModel
+                                                    .cartItems![index]
+                                                    .cartCount! +
+                                                1;
+                                            cartController.manageCartItems(
+                                                prefModel.cartItems![index],
+                                                "UPDATE",
+                                                prefModel.cartItems![index]
+                                                    .storeId!);
                                           });
                                         },
                                         child: Container(
@@ -534,12 +577,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
-
   Future<void> onAddressChanged(Address? address) async {
+    PrefModel prefModel = AppPref.getPref();
     prefModel.selectedAddress = address;
     await AppPref.setPref(prefModel);
     setState(() {});
   }
-
-
 }

@@ -13,18 +13,16 @@ import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 
 class HomeController {
-
-  ApiCalls apiCalls  = ApiCalls();
+  ApiCalls apiCalls = ApiCalls();
   AuthController authController = AuthController();
   LocationController locationController = LocationController();
+
   Future<Map> getHomeData() async {
     PrefModel prefModel = AppPref.getPref();
     if (prefModel.selectedAddress != null) {
-      HomeDataModel homeData = await apiCalls.fetchHomeData(prefModel.selectedAddress!.lat, prefModel.selectedAddress!.lng);
-      return {
-        "Address":prefModel.selectedAddress!,
-        "HomeData":homeData
-      };
+      HomeDataModel homeData = await apiCalls.fetchHomeData(
+          prefModel.selectedAddress!.lat, prefModel.selectedAddress!.lng);
+      return {"Address": prefModel.selectedAddress!, "HomeData": homeData};
     } else {
       Position currentPosition;
       try {
@@ -41,20 +39,31 @@ class HomeController {
           speedAccuracy: 0,
         );
       }
-      Map address = await locationController.getAddressFromLatLong(LatLng(currentPosition.latitude, currentPosition.longitude));
-      HomeDataModel homeData = await apiCalls.fetchHomeData(currentPosition.latitude, currentPosition.longitude);
+      Map address = await locationController.getAddressFromLatLong(
+          LatLng(currentPosition.latitude, currentPosition.longitude));
+      HomeDataModel homeData = await apiCalls.fetchHomeData(
+          currentPosition.latitude, currentPosition.longitude);
       return {
-        "Address":Address(address: address['name'] + " " + address['subLocality'] + " " + address['subAdministrativeArea'],lat: currentPosition.latitude,lng: currentPosition.longitude),
-        "HomeData":homeData
+        "Address": Address(
+            address: address['name'] +
+                " " +
+                address['subLocality'] +
+                " " +
+                address['subAdministrativeArea'],
+            lat: currentPosition.latitude,
+            lng: currentPosition.longitude),
+        "HomeData": homeData
       };
     }
   }
 
-  Future<StoresOnSearchModel> getStoresOnSearch(BuildContext context,Map arguments) {
-    return apiCalls.fetchStoresOnCategory(context,arguments);
+  Future<StoresOnSearchModel> getStoresOnSearch(
+      BuildContext context, Map arguments) {
+    return apiCalls.fetchStoresOnCategory(context, arguments);
   }
 
-  Future<InStoreDataModel> getInStoreData(String? storeId, BuildContext context) {
-    return apiCalls.fetchInStoreData(context,storeId);
+  Future<InStoreDataModel> getInStoreData(
+      String? storeId, BuildContext context) {
+    return apiCalls.fetchInStoreData(context, storeId);
   }
 }

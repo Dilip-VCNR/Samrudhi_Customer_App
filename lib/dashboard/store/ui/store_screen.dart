@@ -3,6 +3,8 @@ import 'package:samruddhi/dashboard/home/model/in_store_data_model.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
 import '../../../utils/routes.dart';
 import '../controller/cart_controller.dart';
 import '../models/store_response_model.dart';
@@ -18,8 +20,6 @@ class _StoreScreenState extends State<StoreScreen> {
   List<StoreProducts> products = [];
 
   List<String> hiddenSubcategories = [];
-
-  bool isSubcategoryHidden = false;
 
   CartController cartController = CartController();
 
@@ -38,9 +38,11 @@ class _StoreScreenState extends State<StoreScreen> {
       inStoreData = arguments['inStoreData'];
       isLoaded = true;
     }
-
+    PrefModel prefModel = AppPref.getPref();
+    print(prefModel.cartPayable);
+    print(prefModel.cartItems);
     return Scaffold(
-      bottomNavigationBar: cartController.cartItems.isNotEmpty
+      bottomNavigationBar: prefModel.cartItems!.isNotEmpty
           ? Container(
               width: screenSize.width,
               padding: const EdgeInsets.all(20),
@@ -60,8 +62,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.placeOrderRoute,
-                              arguments: {'cartController': cartController})
+                      Navigator.pushNamed(context, Routes.placeOrderRoute)
                           .then((value) {
                         setState(() {});
                         return;
@@ -88,7 +89,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: '₹${cartController.payable}',
+                              text: '₹${prefModel.cartPayable}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -158,7 +159,7 @@ class _StoreScreenState extends State<StoreScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.ios_share_outlined),
+                        icon: const Icon(Icons.search),
                         color: AppColors.fontColor,
                         onPressed: () {},
                       )
@@ -216,12 +217,39 @@ class _StoreScreenState extends State<StoreScreen> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Icon(
-                              isSubcategoryHidden
-                                  ? Icons.keyboard_arrow_up_rounded
-                                  : Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.fontColor,
-                              size: 40,
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (inStoreData!
+                                      .result!
+                                      .productDetails![index]
+                                      .isSubcategoryHidden!) {
+                                    // show
+                                    inStoreData!.result!.productDetails![index]
+                                            .isSubcategoryHidden =
+                                        !inStoreData!
+                                            .result!
+                                            .productDetails![index]
+                                            .isSubcategoryHidden!;
+                                  } else {
+                                    //hide
+                                    inStoreData!.result!.productDetails![index]
+                                            .isSubcategoryHidden =
+                                        !inStoreData!
+                                            .result!
+                                            .productDetails![index]
+                                            .isSubcategoryHidden!;
+                                  }
+                                });
+                              },
+                              child: Icon(
+                                inStoreData!.result!.productDetails![index]
+                                        .isSubcategoryHidden!
+                                    ? Icons.keyboard_arrow_up_rounded
+                                    : Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.fontColor,
+                                size: 40,
+                              ),
                             )
                           ],
                         ),
@@ -232,272 +260,349 @@ class _StoreScreenState extends State<StoreScreen> {
                             inStoreData!.result!.productDetails![index]
                                 .productList!.length;
                         i++)
-                      Container(
-                        width: screenSize.width,
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: screenSize.width / 3.75,
-                              height: screenSize.width / 3.75,
-                              decoration: ShapeDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(UrlConstant.imageBaseUrl +
-                                      inStoreData!
-                                          .result!
-                                          .productDetails![index]
-                                          .productList![i]
-                                          .image!),
-                                  fit: BoxFit.fill,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(9),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      inStoreData!.result!.productDetails![index]
+                              .isSubcategoryHidden!
+                          ? Container(
+                              width: screenSize.width,
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    inStoreData!.result!.productDetails![index]
-                                        .productList![i].productName!,
-                                    style: const TextStyle(
-                                      color: AppColors.fontColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.60,
-                                    ),
-                                  ),
-                                  Text(
-                                    '₹${inStoreData!.result!.productDetails![index].productList![i].mrp}',
-                                    style: const TextStyle(
-                                      color: Color(0x8937474F),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '₹${inStoreData!.result!.productDetails![index].productList![i].sellingPrice}',
-                                        style: const TextStyle(
-                                          color: AppColors.primaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                  Container(
+                                    width: screenSize.width / 3.75,
+                                    height: screenSize.width / 3.75,
+                                    decoration: ShapeDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            UrlConstant.imageBaseUrl +
+                                                inStoreData!
+                                                    .result!
+                                                    .productDetails![index]
+                                                    .productList![i]
+                                                    .image!),
+                                        fit: BoxFit.fill,
                                       ),
-                                      if (inStoreData!
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(9),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          inStoreData!
                                               .result!
                                               .productDetails![index]
                                               .productList![i]
-                                              .cartCount ==
-                                          0)
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              inStoreData!
-                                                  .result!
-                                                  .productDetails![index]
-                                                  .productList![i]
-                                                  .cartCount = (inStoreData!
-                                                      .result!
-                                                      .productDetails![index]
-                                                      .productList![i]
-                                                      .cartCount! +
-                                                  1);
-                                              cartController.manageCartItems(
+                                              .productName!,
+                                          style: const TextStyle(
+                                            color: AppColors.fontColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 0.60,
+                                          ),
+                                        ),
+                                        Text(
+                                          '₹${inStoreData!.result!.productDetails![index].productList![i].mrp}',
+                                          style: const TextStyle(
+                                            color: Color(0x8937474F),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '₹${inStoreData!.result!.productDetails![index].productList![i].sellingPrice}',
+                                              style: const TextStyle(
+                                                color: AppColors.primaryColor,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            if (!prefModel.cartItems!
+                                                .any((element) {
+                                              return element.productId ==
                                                   inStoreData!
                                                       .result!
                                                       .productDetails![index]
-                                                      .productList![i],
-                                                  "ADD");
-                                            });
-                                          },
-                                          child: Container(
-                                            width: screenSize.width / 4,
-                                            height: 40,
-                                            decoration: ShapeDecoration(
-                                              color: AppColors.secondaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
-                                              ),
-                                            ),
-                                            child: const Center(
-                                              child: Text(
-                                                'Add',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      else
-                                        Row(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (inStoreData!
-                                                          .result!
-                                                          .productDetails![
-                                                              index]
-                                                          .productList![i]
-                                                          .cartCount! >
-                                                      1) {
+                                                      .productList![i]
+                                                      .productId;
+                                            }))
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
                                                     inStoreData!
                                                         .result!
                                                         .productDetails![index]
                                                         .productList![i]
-                                                        .cartCount = inStoreData!
+                                                        .cartCount = (inStoreData!
                                                             .result!
                                                             .productDetails![
                                                                 index]
                                                             .productList![i]
-                                                            .cartCount! -
-                                                        1;
-                                                    cartController
-                                                        .manageCartItems(
-                                                            inStoreData!
-                                                                .result!
-                                                                .productDetails![
-                                                                    index]
-                                                                .productList![i],
-                                                            "UPDATE");
-                                                  } else {
-                                                    inStoreData!
-                                                        .result!
-                                                        .productDetails![index]
-                                                        .productList![i]
-                                                        .cartCount = inStoreData!
+                                                            .cartCount! +
+                                                        1);
+                                                    cartController.manageCartItems(
+                                                        inStoreData!
                                                             .result!
                                                             .productDetails![
                                                                 index]
-                                                            .productList![i]
-                                                            .cartCount! -
-                                                        1;
-                                                    cartController
-                                                        .manageCartItems(
-                                                            inStoreData!
-                                                                .result!
-                                                                .productDetails![
-                                                                    index]
-                                                                .productList![i],
-                                                            "REMOVE");
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                width: 35,
-                                                height: 35,
-                                                decoration: ShapeDecoration(
-                                                  color: AppColors.primaryColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
+                                                            .productList![i],
+                                                        "ADD",
+                                                        inStoreData!
+                                                            .result!
+                                                            .storeDetails!
+                                                            .storeId!);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  width: screenSize.width / 4,
+                                                  height: 40,
+                                                  decoration: ShapeDecoration(
+                                                    color: AppColors
+                                                        .secondaryColor,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              7),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: const Center(
-                                                  child: Text(
-                                                    '-',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Add',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: 20,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: Text(
-                                                '${inStoreData!.result!.productDetails![index].productList![i].cartCount}',
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  color: AppColors.fontColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  inStoreData!
-                                                      .result!
-                                                      .productDetails![index]
-                                                      .productList![i]
-                                                      .cartCount = inStoreData!
-                                                          .result!
-                                                          .productDetails![
-                                                              index]
-                                                          .productList![i]
-                                                          .cartCount! +
-                                                      1;
-                                                  cartController
-                                                      .manageCartItems(
+                                              )
+                                            else
+                                              Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (inStoreData!
+                                                                .result!
+                                                                .productDetails![
+                                                                    index]
+                                                                .productList![i]
+                                                                .cartCount! >
+                                                            1) {
                                                           inStoreData!
                                                               .result!
                                                               .productDetails![
                                                                   index]
-                                                              .productList![i],
-                                                          "UPDATE");
-                                                });
-                                              },
-                                              child: Container(
-                                                width: 35,
-                                                height: 35,
-                                                decoration: ShapeDecoration(
-                                                  color:
-                                                      AppColors.secondaryColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                  ),
-                                                ),
-                                                child: const Center(
-                                                  child: Text(
-                                                    '+',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                              .productList![i]
+                                                              .cartCount = inStoreData!
+                                                                  .result!
+                                                                  .productDetails![
+                                                                      index]
+                                                                  .productList![
+                                                                      i]
+                                                                  .cartCount! -
+                                                              1;
+                                                          cartController.manageCartItems(
+                                                              inStoreData!
+                                                                      .result!
+                                                                      .productDetails![
+                                                                          index]
+                                                                      .productList![
+                                                                  i],
+                                                              "UPDATE",
+                                                              inStoreData!
+                                                                  .result!
+                                                                  .storeDetails!
+                                                                  .storeId!);
+                                                        } else {
+                                                          inStoreData!
+                                                              .result!
+                                                              .productDetails![
+                                                                  index]
+                                                              .productList![i]
+                                                              .cartCount = inStoreData!
+                                                                  .result!
+                                                                  .productDetails![
+                                                                      index]
+                                                                  .productList![
+                                                                      i]
+                                                                  .cartCount! -
+                                                              1;
+                                                          cartController.manageCartItems(
+                                                              inStoreData!
+                                                                      .result!
+                                                                      .productDetails![
+                                                                          index]
+                                                                      .productList![
+                                                                  i],
+                                                              "REMOVE",
+                                                              inStoreData!
+                                                                  .result!
+                                                                  .storeDetails!
+                                                                  .storeId!);
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      width: 35,
+                                                      height: 35,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(7),
+                                                        ),
+                                                      ),
+                                                      child: const Center(
+                                                        child: Text(
+                                                          '-',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
+                                                  Container(
+                                                    width: 20,
+                                                    margin: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10),
+                                                    child: prefModel.cartItems!
+                                                            .any((element) {
+                                                      return element
+                                                              .productId ==
+                                                          inStoreData!
+                                                              .result!
+                                                              .productDetails![
+                                                                  index]
+                                                              .productList![i]
+                                                              .productId;
+                                                    })
+                                                        ? Text(
+                                                            '${prefModel.cartItems!.firstWhere((element) => element.productId == inStoreData!.result!.productDetails![index].productList![i].productId).cartCount}',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style:
+                                                                const TextStyle(
+                                                              color: AppColors
+                                                                  .fontColor,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          )
+                                                        : Text(
+                                                            '${inStoreData!.result!.productDetails![index].productList![i].cartCount}',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style:
+                                                                const TextStyle(
+                                                              color: AppColors
+                                                                  .fontColor,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        inStoreData!
+                                                            .result!
+                                                            .productDetails![
+                                                                index]
+                                                            .productList![i]
+                                                            .cartCount = inStoreData!
+                                                                .result!
+                                                                .productDetails![
+                                                                    index]
+                                                                .productList![i]
+                                                                .cartCount! +
+                                                            1;
+                                                        cartController.manageCartItems(
+                                                            inStoreData!
+                                                                    .result!
+                                                                    .productDetails![
+                                                                        index]
+                                                                    .productList![
+                                                                i],
+                                                            "UPDATE",
+                                                            inStoreData!
+                                                                .result!
+                                                                .storeDetails!
+                                                                .storeId!);
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      width: 35,
+                                                      height: 35,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: AppColors
+                                                            .secondaryColor,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(7),
+                                                        ),
+                                                      ),
+                                                      child: const Center(
+                                                        child: Text(
+                                                          '+',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
                                           ],
                                         ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            )
+                          : Container(),
                   ],
                 );
               },

@@ -1,15 +1,20 @@
-
-
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../home/model/in_store_data_model.dart';
 
 class CartController {
-  List<ProductList> cartItems = [];
   double payable = 0.0;
 
-  Future<void> manageCartItems(ProductList item, String type) async {
+  Future<void> manageCartItems(
+      ProductList item, String type, String storeId) async {
     PrefModel prefModel = AppPref.getPref();
+    if (prefModel.cartItemsStoreId != storeId) {
+      prefModel.cartPayable = 0.0;
+      prefModel.cartItems = null;
+      prefModel.cartItemsStoreId = null;
+      payable = 0.0;
+    }
+    List<ProductList>? cartItems = prefModel.cartItems ?? [];
     switch (type) {
       case "ADD":
         cartItems.add(item);
@@ -28,8 +33,13 @@ class CartController {
 
     payable = 0;
     for (var cartItem in cartItems) {
-      payable += double.parse(cartItem.sellingPrice.toString()) * cartItem.cartCount!;
+      payable +=
+          double.parse(cartItem.sellingPrice.toString()) * cartItem.cartCount!;
     }
+    prefModel.cartPayable = payable;
+    prefModel.cartItems = cartItems;
+    prefModel.cartItemsStoreId = storeId;
     await AppPref.setPref(prefModel);
+    print(prefModel.cartPayable);
   }
 }

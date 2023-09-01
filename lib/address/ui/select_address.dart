@@ -38,7 +38,7 @@ class _SelectAddressState extends State<SelectAddress> {
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         title: Text(
-          from!="orders"?'My Address':"Choose address",
+          from != "orders" ? 'My Address' : "Choose address",
           style: const TextStyle(
             color: AppColors.fontColor,
             fontSize: 20,
@@ -100,80 +100,82 @@ class _SelectAddressState extends State<SelectAddress> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              from!="orders"?
-              const Text(
-                'Search address',
-                style: TextStyle(
-                  color: AppColors.fontColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ):SizedBox.shrink(),
-              from!="orders"?
-              Container(
-                width: screenSize.width,
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: GooglePlacesAutoCompleteTextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    inputDecoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: 'Search a place',
-                      counterText: "",
-                      isCollapsed: true,
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
+              from != "orders"
+                  ? const Text(
+                      'Search address',
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
-                    ),
-                    textEditingController: searchController,
-                    googleAPIKey: UrlConstant.googleApiKey,
-                    debounceTime: 400,
-                    countries: const ["In"],
-                    isLatLngRequired: true,
-                    getPlaceDetailWithLatLng: (prediction) async {
-                      onAddressChanged(Address(
-                          type: 'OnMap',
-                          address: prediction.description,
-                          lat: double.parse(prediction.lat!),
-                          lng: double.parse(prediction.lng!)));
-                      Navigator.pop(context);
-                    },
-                    itmClick: (prediction) async {
-                      FocusScope.of(context).unfocus();
-                    }),
-              ):SizedBox.shrink(),
-              from!="orders"?
-              GestureDetector(
-                onTap: () {
-                  onAddressChanged(null);
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
+                    )
+                  : SizedBox.shrink(),
+              from != "orders"
+                  ? Container(
+                      width: screenSize.width,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: GooglePlacesAutoCompleteTextFormField(
+                          textAlignVertical: TextAlignVertical.center,
+                          inputDecoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            hintText: 'Search a place',
+                            counterText: "",
+                            isCollapsed: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 16.0),
+                          ),
+                          textEditingController: searchController,
+                          googleAPIKey: UrlConstant.googleApiKey,
+                          debounceTime: 400,
+                          countries: const ["In"],
+                          isLatLngRequired: true,
+                          getPlaceDetailWithLatLng: (prediction) async {
+                            onAddressChanged(Address(
+                                type: 'OnMap',
+                                address: prediction.description,
+                                lat: double.parse(prediction.lat!),
+                                lng: double.parse(prediction.lng!)));
+                            Navigator.pop(context);
+                          },
+                          itmClick: (prediction) async {
+                            FocusScope.of(context).unfocus();
+                          }),
+                    )
+                  : SizedBox.shrink(),
+              from != "orders"
+                  ? GestureDetector(
+                      onTap: () {
                         onAddressChanged(null);
                         Navigator.pop(context);
                       },
-                      icon: const Icon(Icons.my_location),
-                    ),
-                    const Text(
-                      "Use Current location",
-                      style: TextStyle(
-                        color: AppColors.fontColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              onAddressChanged(null);
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.my_location),
+                          ),
+                          const Text(
+                            "Use Current location",
+                            style: TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ):SizedBox.shrink(),
-              from!="orders"?
-              const Divider():SizedBox.shrink(),
+                    )
+                  : SizedBox.shrink(),
+              from != "orders" ? const Divider() : SizedBox.shrink(),
               const SizedBox(
                 height: 10,
               ),

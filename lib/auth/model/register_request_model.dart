@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-RegisterRequestModel registerRequestModelFromJson(String str) => RegisterRequestModel.fromJson(json.decode(str));
+RegisterRequestModel registerRequestModelFromJson(String str) =>
+    RegisterRequestModel.fromJson(json.decode(str));
 
-String registerRequestModelToJson(RegisterRequestModel data) => json.encode(data.toJson());
+String registerRequestModelToJson(RegisterRequestModel data) =>
+    json.encode(data.toJson());
 
 class RegisterRequestModel {
   String? uid;
@@ -45,41 +47,42 @@ class RegisterRequestModel {
     this.subscriberId,
   });
 
-  factory RegisterRequestModel.fromJson(Map<String, dynamic> json) => RegisterRequestModel(
-    uid: json["UID"],
-    fcmToken: json["fcmToken"],
-    mobile: json["mobile"],
-    name: json["name"],
-    emailId: json["emailId"],
-    password: json["password"],
-    type: json["type"],
-    address: json["address"],
-    city: json["city"],
-    state: json["state"],
-    zipCode: json["zipCode"],
-    lat: json["lat"]?.toDouble(),
-    lng: json["lng"]?.toDouble(),
-    storeReferralCode: json["storeReferralCode"],
-    operatorId: json["operatorId"],
-    subscriberId: json["subscriberId"],
-  );
+  factory RegisterRequestModel.fromJson(Map<String, dynamic> json) =>
+      RegisterRequestModel(
+        uid: json["UID"],
+        fcmToken: json["fcmToken"],
+        mobile: json["mobile"],
+        name: json["name"],
+        emailId: json["emailId"],
+        password: json["password"],
+        type: json["type"],
+        address: json["address"],
+        city: json["city"],
+        state: json["state"],
+        zipCode: json["zipCode"],
+        lat: json["lat"]?.toDouble(),
+        lng: json["lng"]?.toDouble(),
+        storeReferralCode: json["storeReferralCode"],
+        operatorId: json["operatorId"],
+        subscriberId: json["subscriberId"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "UID": uid,
-    "fcmToken": fcmToken,
-    "mobile": mobile,
-    "name": name,
-    "emailId": emailId,
-    "password": password,
-    "type": type,
-    "address": address,
-    "city": city,
-    "state": state,
-    "zipCode": zipCode,
-    "lat": lat,
-    "lng": lng,
-    "storeReferralCode": storeReferralCode,
-    "operatorId": operatorId,
-    "subscriberId": subscriberId,
-  };
+        "UID": uid,
+        "fcmToken": fcmToken,
+        "mobile": mobile,
+        "name": name,
+        "emailId": emailId,
+        "password": password,
+        "type": type,
+        "address": address,
+        "city": city,
+        "state": state,
+        "zipCode": zipCode,
+        "lat": lat,
+        "lng": lng,
+        "storeReferralCode": storeReferralCode,
+        "operatorId": operatorId,
+        "subscriberId": subscriberId,
+      };
 }

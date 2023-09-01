@@ -4,8 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:samruddhi/auth/controller/auth_controller.dart';
 
-import '../../utils/app_widgets.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_widgets.dart';
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
 
@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   AuthController authController = AuthController();
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -161,8 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushNamed(
-                                  context, Routes.webViewRoute,
+                              Navigator.pushNamed(context, Routes.webViewRoute,
                                   arguments: {
                                     'url': UrlConstant.privacyPolicy,
                                     'title': "Privacy Policy",
@@ -185,8 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushNamed(
-                                  context, Routes.webViewRoute,
+                              Navigator.pushNamed(context, Routes.webViewRoute,
                                   arguments: {
                                     'url': UrlConstant.termsOfUse,
                                     'title': "Terms and Conditions",

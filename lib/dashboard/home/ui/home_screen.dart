@@ -43,7 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.pushNamed(context, Routes.notificationsRoute);
                 },
-                icon: const Icon(Icons.notifications_none_outlined))
+                icon: const Icon(Icons.notifications_none_outlined)),
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.placeOrderRoute)
+                      .then((value) {
+                    setState(() {});
+                    return;
+                  });
+                },
+                icon: const Icon(Icons.shopping_cart_outlined))
           ],
           title: Text(
             'Hi ${prefModel.userData!.name}',
@@ -141,10 +150,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.pushNamed(
                                   context, Routes.searchScreenRoute,
                                   arguments: {
-                                    'lat':selectedAddress.lat,
-                                    'lng':selectedAddress.lng,
-                                    "searchType":'productName',
-                                    "searchKeyWord":' ',
+                                    'lat': selectedAddress.lat,
+                                    'lng': selectedAddress.lng,
+                                    "searchType": 'productName',
+                                    "searchKeyWord": ' ',
                                   });
                             },
                             child: TextField(
@@ -339,14 +348,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               return GestureDetector(
                                 onTap: () async {
                                   if (context.mounted) {
-                                      Navigator.pushNamed(
-                                          context, Routes.searchScreenRoute,
-                                          arguments: {
-                                            'lat':selectedAddress.lat,
-                                            'lng':selectedAddress.lng,
-                                            "searchType":'productCategory',
-                                            "searchKeyWord":homeData.result!.productCategories![index].productCategoryName,
-                                          });
+                                    Navigator.pushNamed(
+                                        context, Routes.searchScreenRoute,
+                                        arguments: {
+                                          'lat': selectedAddress.lat,
+                                          'lng': selectedAddress.lng,
+                                          "searchType": 'productCategory',
+                                          "searchKeyWord": homeData
+                                              .result!
+                                              .productCategories![index]
+                                              .productCategoryName,
+                                        });
                                   }
                                 },
                                 child: Padding(
@@ -432,10 +444,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         if (inStoreData.statusCode == 200) {
                                           Navigator.pushNamed(
                                               context, Routes.storeInRoute,
-                                          arguments: {
-                                                "inStoreData":inStoreData,
-                                                "searchQuery":null
-                                          });
+                                              arguments: {
+                                                "inStoreData": inStoreData,
+                                                "searchQuery": null
+                                              });
                                         } else {
                                           showErrorToast(
                                               context, inStoreData.message!);

@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-HomeDataModel homeDataModelFromJson(String str) => HomeDataModel.fromJson(json.decode(str));
+HomeDataModel homeDataModelFromJson(String str) =>
+    HomeDataModel.fromJson(json.decode(str));
 
 String homeDataModelToJson(HomeDataModel data) => json.encode(data.toJson());
 
@@ -22,18 +23,18 @@ class HomeDataModel {
   });
 
   factory HomeDataModel.fromJson(Map<String, dynamic> json) => HomeDataModel(
-    status: json["status"],
-    statusCode: json["statusCode"],
-    message: json["message"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
-  );
+        status: json["status"],
+        statusCode: json["statusCode"],
+        message: json["message"],
+        result: json["result"] == null ? null : Result.fromJson(json["result"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "statusCode": statusCode,
-    "message": message,
-    "result": result?.toJson(),
-  };
+        "status": status,
+        "statusCode": statusCode,
+        "message": message,
+        "result": result?.toJson(),
+      };
 }
 
 class Result {
@@ -52,20 +53,41 @@ class Result {
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    previousOrders: json["previousOrders"] == null ? [] : List<PreviousOrder>.from(json["previousOrders"]!.map((x) => PreviousOrder.fromJson(x))),
-    nearStoresdata: json["nearStoresdata"] == null ? [] : List<NearStoresdatum>.from(json["nearStoresdata"]!.map((x) => NearStoresdatum.fromJson(x))),
-    myStore: json["myStore"] == null ? [] : List<dynamic>.from(json["myStore"]!.map((x) => x)),
-    productCategories: json["productCategories"] == null ? [] : List<ProductCategory>.from(json["productCategories"]!.map((x) => ProductCategory.fromJson(x))),
-    banners: json["banners"] == null ? [] : List<dynamic>.from(json["banners"]!.map((x) => x)),
-  );
+        previousOrders: json["previousOrders"] == null
+            ? []
+            : List<PreviousOrder>.from(
+                json["previousOrders"]!.map((x) => PreviousOrder.fromJson(x))),
+        nearStoresdata: json["nearStoresdata"] == null
+            ? []
+            : List<NearStoresdatum>.from(json["nearStoresdata"]!
+                .map((x) => NearStoresdatum.fromJson(x))),
+        myStore: json["myStore"] == null
+            ? []
+            : List<dynamic>.from(json["myStore"]!.map((x) => x)),
+        productCategories: json["productCategories"] == null
+            ? []
+            : List<ProductCategory>.from(json["productCategories"]!
+                .map((x) => ProductCategory.fromJson(x))),
+        banners: json["banners"] == null
+            ? []
+            : List<dynamic>.from(json["banners"]!.map((x) => x)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "previousOrders": previousOrders == null ? [] : List<dynamic>.from(previousOrders!.map((x) => x.toJson())),
-    "nearStoresdata": nearStoresdata == null ? [] : List<dynamic>.from(nearStoresdata!.map((x) => x.toJson())),
-    "myStore": myStore == null ? [] : List<dynamic>.from(myStore!.map((x) => x)),
-    "productCategories": productCategories == null ? [] : List<dynamic>.from(productCategories!.map((x) => x.toJson())),
-    "banners": banners == null ? [] : List<dynamic>.from(banners!.map((x) => x)),
-  };
+        "previousOrders": previousOrders == null
+            ? []
+            : List<dynamic>.from(previousOrders!.map((x) => x.toJson())),
+        "nearStoresdata": nearStoresdata == null
+            ? []
+            : List<dynamic>.from(nearStoresdata!.map((x) => x.toJson())),
+        "myStore":
+            myStore == null ? [] : List<dynamic>.from(myStore!.map((x) => x)),
+        "productCategories": productCategories == null
+            ? []
+            : List<dynamic>.from(productCategories!.map((x) => x.toJson())),
+        "banners":
+            banners == null ? [] : List<dynamic>.from(banners!.map((x) => x)),
+      };
 }
 
 class NearStoresdatum {
@@ -123,61 +145,64 @@ class NearStoresdatum {
     this.updatedAt,
   });
 
-  factory NearStoresdatum.fromJson(Map<String, dynamic> json) => NearStoresdatum(
-    address: json["address"] == null ? null : StoreAddress.fromJson(json["address"]),
-    id: json["_id"],
-    createdAt: json["createdAt"],
-    storeId: json["storeId"],
-    storeName: json["storeName"],
-    displayName: json["displayName"],
-    gstNo: json["gstNo"],
-    mobile: json["mobile"]?.toDouble(),
-    emailId: json["emailId"],
-    password: json["password"],
-    image: json["image"],
-    storeFcmToken: json["storeFcmToken"],
-    storeAuthToken: json["storeAuthToken"],
-    storeUid: json["storeUID"],
-    storeCategory: json["storeCategory"],
-    isApproved: json["isApproved"],
-    status: json["status"],
-    zone: json["zone"],
-    deliveryType: json["deliveryType"],
-    homeDelivery: json["homeDelivery"],
-    hubId: json["hubId"],
-    offer: json["offer"]?.toDouble(),
-    deliveryFee: json["deliveryFee"],
-    v: json["__v"],
-    updatedAt: json["updatedAt"],
-  );
+  factory NearStoresdatum.fromJson(Map<String, dynamic> json) =>
+      NearStoresdatum(
+        address: json["address"] == null
+            ? null
+            : StoreAddress.fromJson(json["address"]),
+        id: json["_id"],
+        createdAt: json["createdAt"],
+        storeId: json["storeId"],
+        storeName: json["storeName"],
+        displayName: json["displayName"],
+        gstNo: json["gstNo"],
+        mobile: json["mobile"]?.toDouble(),
+        emailId: json["emailId"],
+        password: json["password"],
+        image: json["image"],
+        storeFcmToken: json["storeFcmToken"],
+        storeAuthToken: json["storeAuthToken"],
+        storeUid: json["storeUID"],
+        storeCategory: json["storeCategory"],
+        isApproved: json["isApproved"],
+        status: json["status"],
+        zone: json["zone"],
+        deliveryType: json["deliveryType"],
+        homeDelivery: json["homeDelivery"],
+        hubId: json["hubId"],
+        offer: json["offer"]?.toDouble(),
+        deliveryFee: json["deliveryFee"],
+        v: json["__v"],
+        updatedAt: json["updatedAt"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "address": address?.toJson(),
-    "_id": id,
-    "createdAt": createdAt,
-    "storeId": storeId,
-    "storeName": storeName,
-    "displayName": displayName,
-    "gstNo": gstNo,
-    "mobile": mobile,
-    "emailId": emailId,
-    "password": password,
-    "image": image,
-    "storeFcmToken": storeFcmToken,
-    "storeAuthToken": storeAuthToken,
-    "storeUID": storeUid,
-    "storeCategory": storeCategory,
-    "isApproved": isApproved,
-    "status": status,
-    "zone": zone,
-    "deliveryType": deliveryType,
-    "homeDelivery": homeDelivery,
-    "hubId": hubId,
-    "offer": offer,
-    "deliveryFee": deliveryFee,
-    "__v": v,
-    "updatedAt": updatedAt,
-  };
+        "address": address?.toJson(),
+        "_id": id,
+        "createdAt": createdAt,
+        "storeId": storeId,
+        "storeName": storeName,
+        "displayName": displayName,
+        "gstNo": gstNo,
+        "mobile": mobile,
+        "emailId": emailId,
+        "password": password,
+        "image": image,
+        "storeFcmToken": storeFcmToken,
+        "storeAuthToken": storeAuthToken,
+        "storeUID": storeUid,
+        "storeCategory": storeCategory,
+        "isApproved": isApproved,
+        "status": status,
+        "zone": zone,
+        "deliveryType": deliveryType,
+        "homeDelivery": homeDelivery,
+        "hubId": hubId,
+        "offer": offer,
+        "deliveryFee": deliveryFee,
+        "__v": v,
+        "updatedAt": updatedAt,
+      };
 }
 
 class StoreAddress {
@@ -198,22 +223,22 @@ class StoreAddress {
   });
 
   factory StoreAddress.fromJson(Map<String, dynamic> json) => StoreAddress(
-    address: json["address"],
-    zipCode: json["zipCode"],
-    city: json["city"],
-    state: json["state"],
-    lat: json["lat"]?.toDouble(),
-    lng: json["lng"]?.toDouble(),
-  );
+        address: json["address"],
+        zipCode: json["zipCode"],
+        city: json["city"],
+        state: json["state"],
+        lat: json["lat"]?.toDouble(),
+        lng: json["lng"]?.toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "address": address,
-    "zipCode": zipCode,
-    "city": city,
-    "state": state,
-    "lat": lat,
-    "lng": lng,
-  };
+        "address": address,
+        "zipCode": zipCode,
+        "city": city,
+        "state": state,
+        "lat": lat,
+        "lng": lng,
+      };
 }
 
 class PreviousOrder {
@@ -226,14 +251,19 @@ class PreviousOrder {
   });
 
   factory PreviousOrder.fromJson(Map<String, dynamic> json) => PreviousOrder(
-    productDetails: json["productDetails"] == null ? [] : List<ProductDetail>.from(json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
-    storeId: json["storeId"],
-  );
+        productDetails: json["productDetails"] == null
+            ? []
+            : List<ProductDetail>.from(
+                json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
+        storeId: json["storeId"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "productDetails": productDetails == null ? [] : List<dynamic>.from(productDetails!.map((x) => x.toJson())),
-    "storeId": storeId,
-  };
+        "productDetails": productDetails == null
+            ? []
+            : List<dynamic>.from(productDetails!.map((x) => x.toJson())),
+        "storeId": storeId,
+      };
 }
 
 class ProductDetail {
@@ -280,48 +310,50 @@ class ProductDetail {
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) => ProductDetail(
-    productName: json["productName"],
-    image: json["image"],
-    storeId: json["storeId"],
-    storeName: json["storeName"],
-    productCategory: json["productCategory"],
-    subCategory: json["subCategory"],
-    description: json["description"],
-    mrp: json["mrp"],
-    tax: json["tax"],
-    sellingPrice: json["sellingPrice"],
-    variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
-    availability: json["availability"],
-    sku: json["SKU"],
-    uom: json["uom"],
-    discount: json["discount"],
-    offer: json["offer"],
-    status: json["status"],
-    productId: json["productId"],
-    purchaseQuantity: json["purchaseQuantity"],
-  );
+        productName: json["productName"],
+        image: json["image"],
+        storeId: json["storeId"],
+        storeName: json["storeName"],
+        productCategory: json["productCategory"],
+        subCategory: json["subCategory"],
+        description: json["description"],
+        mrp: json["mrp"],
+        tax: json["tax"],
+        sellingPrice: json["sellingPrice"],
+        variants: json["variants"] == null
+            ? null
+            : Variants.fromJson(json["variants"]),
+        availability: json["availability"],
+        sku: json["SKU"],
+        uom: json["uom"],
+        discount: json["discount"],
+        offer: json["offer"],
+        status: json["status"],
+        productId: json["productId"],
+        purchaseQuantity: json["purchaseQuantity"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "productName": productName,
-    "image": image,
-    "storeId": storeId,
-    "storeName": storeName,
-    "productCategory": productCategory,
-    "subCategory": subCategory,
-    "description": description,
-    "mrp": mrp,
-    "tax": tax,
-    "sellingPrice": sellingPrice,
-    "variants": variants?.toJson(),
-    "availability": availability,
-    "SKU": sku,
-    "uom": uom,
-    "discount": discount,
-    "offer": offer,
-    "status": status,
-    "productId": productId,
-    "purchaseQuantity": purchaseQuantity,
-  };
+        "productName": productName,
+        "image": image,
+        "storeId": storeId,
+        "storeName": storeName,
+        "productCategory": productCategory,
+        "subCategory": subCategory,
+        "description": description,
+        "mrp": mrp,
+        "tax": tax,
+        "sellingPrice": sellingPrice,
+        "variants": variants?.toJson(),
+        "availability": availability,
+        "SKU": sku,
+        "uom": uom,
+        "discount": discount,
+        "offer": offer,
+        "status": status,
+        "productId": productId,
+        "purchaseQuantity": purchaseQuantity,
+      };
 }
 
 class Variants {
@@ -332,12 +364,12 @@ class Variants {
   });
 
   factory Variants.fromJson(Map<String, dynamic> json) => Variants(
-    quality: json["quality"],
-  );
+        quality: json["quality"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "quality": quality,
-  };
+        "quality": quality,
+      };
 }
 
 class ProductCategory {
@@ -361,25 +393,26 @@ class ProductCategory {
     this.updatedAt,
   });
 
-  factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
-    id: json["_id"],
-    productCategoryName: json["productCategoryName"],
-    image: json["image"],
-    description: json["description"],
-    productCategoryId: json["productCategoryId"],
-    status: json["status"],
-    v: json["__v"],
-    updatedAt: json["updatedAt"],
-  );
+  factory ProductCategory.fromJson(Map<String, dynamic> json) =>
+      ProductCategory(
+        id: json["_id"],
+        productCategoryName: json["productCategoryName"],
+        image: json["image"],
+        description: json["description"],
+        productCategoryId: json["productCategoryId"],
+        status: json["status"],
+        v: json["__v"],
+        updatedAt: json["updatedAt"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "_id": id,
-    "productCategoryName": productCategoryName,
-    "image": image,
-    "description": description,
-    "productCategoryId": productCategoryId,
-    "status": status,
-    "__v": v,
-    "updatedAt": updatedAt,
-  };
+        "_id": id,
+        "productCategoryName": productCategoryName,
+        "image": image,
+        "description": description,
+        "productCategoryId": productCategoryId,
+        "status": status,
+        "__v": v,
+        "updatedAt": updatedAt,
+      };
 }
