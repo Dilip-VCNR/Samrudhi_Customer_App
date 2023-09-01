@@ -40,6 +40,5 @@ class CartController {
     prefModel.cartItems = cartItems;
     prefModel.cartItemsStoreId = storeId;
     await AppPref.setPref(prefModel);
-    print(prefModel.cartPayable);
   }
 }

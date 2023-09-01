@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/url_constants.dart';
@@ -466,10 +467,18 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (formKey.currentState!.validate()) {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          showLoaderDialog(context);
+                          await locationController.addNewAddress(context, {
+                            "type": selectedAddressType,
+                            "address": addressController.text,
+                            "city": cityController.text,
+                            "state": stateController.text,
+                            "zipCode": postalCodeController.text,
+                            "lat": target.latitude,
+                            "lng": target.longitude,
+                          });
                         }
                         return;
                       },

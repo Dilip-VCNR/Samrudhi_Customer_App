@@ -109,4 +109,26 @@ class ApiCalls {
       throw ("Failed to fetch stores");
     }
   }
+
+  addNewAddress(BuildContext context, Map<String, Object> arguments) async {
+    arguments['UID'] = prefModel.userData!.uid!;
+    var response = await http.post(
+      Uri.parse(UrlConstant.addNewAddress),
+      headers: getHeaders(true),
+      body: jsonEncode(arguments),
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      if (context.mounted) {
+        showSuccessToast(context, "Address added successfull");
+        Navigator.pop(context);
+      }
+    } else {
+      if (context.mounted) {
+        showErrorToast(context, "Failed to add address");
+        Navigator.pop(context);
+      }
+      throw ("Failed to fetch stores");
+    }
+  }
 }

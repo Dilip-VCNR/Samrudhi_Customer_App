@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:samruddhi/auth/controller/auth_controller.dart';
 import 'package:samruddhi/auth/model/login_response_model.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../database/app_pref.dart';
 import '../../database/models/pref_model.dart';
@@ -52,6 +53,7 @@ class _SelectAddressState extends State<SelectAddress> {
         padding: const EdgeInsets.all(20),
         child: InkWell(
           onTap: () async {
+            showLoaderDialog(context);
             Position currentPosition;
             try {
               currentPosition = await authController.getCurrentLocation();
@@ -68,6 +70,7 @@ class _SelectAddressState extends State<SelectAddress> {
               );
             }
             if (context.mounted) {
+              Navigator.pop(context);
               Navigator.pushNamed(context, Routes.markLocationRoute,
                   arguments: {"currentLocation": currentPosition});
             }
@@ -109,7 +112,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         fontWeight: FontWeight.w600,
                       ),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               from != "orders"
                   ? Container(
                       width: screenSize.width,
@@ -147,7 +150,7 @@ class _SelectAddressState extends State<SelectAddress> {
                             FocusScope.of(context).unfocus();
                           }),
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               from != "orders"
                   ? GestureDetector(
                       onTap: () {
@@ -174,8 +177,8 @@ class _SelectAddressState extends State<SelectAddress> {
                         ],
                       ),
                     )
-                  : SizedBox.shrink(),
-              from != "orders" ? const Divider() : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
+              from != "orders" ? const Divider() : const SizedBox.shrink(),
               const SizedBox(
                 height: 10,
               ),
@@ -231,23 +234,28 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                             ],
                           ),
-                          const Row(
+                          Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                   backgroundColor: AppColors.primaryColor,
                                   child: Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                   )),
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               ),
-                              CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  child: Icon(
-                                    Icons.delete_outline_outlined,
-                                    color: Colors.white,
-                                  ))
+                              InkWell(
+                                onTap: (){
+
+                                },
+                                child: const CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    child: Icon(
+                                      Icons.delete_outline_outlined,
+                                      color: Colors.white,
+                                    )),
+                              )
                             ],
                           ),
                         ],
