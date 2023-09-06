@@ -1,10 +1,15 @@
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:samruddhi/network/api_calls.dart';
+
 import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../home/model/in_store_data_model.dart';
+import '../../wallet/model/wallet_response_model.dart';
 
 class CartController {
   double payable = 0.0;
 
+  ApiCalls apiCalls = ApiCalls();
   Future<void> manageCartItems(
       ProductList item, String type, String storeId) async {
     PrefModel prefModel = AppPref.getPref();
@@ -40,5 +45,9 @@ class CartController {
     prefModel.cartItems = cartItems;
     prefModel.cartItemsStoreId = storeId;
     await AppPref.setPref(prefModel);
+  }
+
+  Future<WalletResponseModel> getAvailablePoints(BuildContext context) {
+    return apiCalls.getCustomerPoints(context);
   }
 }

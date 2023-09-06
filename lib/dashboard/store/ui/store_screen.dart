@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:samruddhi/dashboard/home/model/in_store_data_model.dart';
+import 'package:samruddhi/dashboard/wallet/model/wallet_response_model.dart';
 import 'package:samruddhi/utils/app_colors.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../database/app_pref.dart';
@@ -39,8 +41,6 @@ class _StoreScreenState extends State<StoreScreen> {
       isLoaded = true;
     }
     PrefModel prefModel = AppPref.getPref();
-    print(prefModel.cartPayable);
-    print(prefModel.cartItems);
     return Scaffold(
       bottomNavigationBar: prefModel.cartItems!.isNotEmpty
           ? Container(
@@ -61,12 +61,18 @@ class _StoreScreenState extends State<StoreScreen> {
                     height: 10,
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.placeOrderRoute)
-                          .then((value) {
-                        setState(() {});
-                        return;
-                      });
+                    onTap: () async {
+                      showLoaderDialog(context);
+                      WalletResponseModel wallet = await cartController.getAvailablePoints(context);
+                      if(context.mounted){
+                        if(wallet.statusCode==200){
+                          Navigator.pushNamed(context, Routes.placeOrderRoute,arguments: {"store_data":inStoreData!.result!.storeDetails,"wallet":wallet})
+                              .then((value) {
+                            setState(() {});
+                            return;
+                          });
+                        }
+                      }
                     },
                     child: Container(
                       width: double.infinity,

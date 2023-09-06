@@ -44,15 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushNamed(context, Routes.notificationsRoute);
                 },
                 icon: const Icon(Icons.notifications_none_outlined)),
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.placeOrderRoute)
-                      .then((value) {
-                    setState(() {});
-                    return;
-                  });
-                },
-                icon: const Icon(Icons.shopping_cart_outlined))
+            // IconButton(
+            //     onPressed: () {
+            //       Navigator.pushNamed(context, Routes.placeOrderRoute)
+            //           .then((value) {
+            //         setState(() {});
+            //         return;
+            //       });
+            //     },
+            //     icon: const Icon(Icons.shopping_cart_outlined))
           ],
           title: Text(
             'Hi ${prefModel.userData!.name}',

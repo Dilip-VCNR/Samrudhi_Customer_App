@@ -16,6 +16,7 @@ import 'auth/ui/register_screen.dart';
 import 'dashboard/dashboard_screen.dart';
 import 'dashboard/home/ui/notifications_screen.dart';
 import 'dashboard/home/ui/search_screen.dart';
+import 'dashboard/orders/ui/order_success_screen.dart';
 import 'dashboard/orders/ui/place_order.dart';
 import 'dashboard/profile/web_view_screen.dart';
 import 'dashboard/store/ui/store_screen.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
         Routes.selectAddressRoute: (context) => const SelectAddress(),
         Routes.markLocationRoute: (context) => const MarkLocation(),
         Routes.primaryLocationRoute: (context) => const PrimaryLocation(),
+        Routes.orderSuccessScreen: (context) => const OrderSuccess(),
         Routes.webViewRoute: (context) => const WebViewScreen(),
       },
     );

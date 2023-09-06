@@ -1,5 +1,11 @@
+
 import 'package:flutter/material.dart';
+import 'package:samruddhi/dashboard/orders/controller/order_controller.dart';
+import 'package:samruddhi/dashboard/orders/model/orderRequestModel.dart';
+import 'package:samruddhi/dashboard/orders/model/orderResponseModel.dart';
 import 'package:samruddhi/dashboard/store/controller/cart_controller.dart';
+import 'package:samruddhi/dashboard/wallet/model/wallet_response_model.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../auth/model/login_response_model.dart';
@@ -7,6 +13,7 @@ import '../../../database/app_pref.dart';
 import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
+import '../../home/model/in_store_data_model.dart';
 
 class PlaceOrder extends StatefulWidget {
   const PlaceOrder({Key? key}) : super(key: key);
@@ -17,12 +24,24 @@ class PlaceOrder extends StatefulWidget {
 
 class _PlaceOrderState extends State<PlaceOrder> {
   CartController cartController = CartController();
+  OrderController orderController = OrderController();
+  bool? isLoaded;
+  StoreDetails? storeData;
+  WalletResponseModel? wallet;
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     PrefModel prefModel = AppPref.getPref();
 
+    if (isLoaded != true) {
+      final arguments = (ModalRoute.of(context)?.settings.arguments ??
+          <String, dynamic>{}) as Map;
+      storeData = arguments['store_data'];
+      wallet = arguments['wallet'];
+      isLoaded = true;
+    }
+    double total = prefModel.cartPayable! + storeData!.deliveryFee!;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -114,7 +133,50 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 height: 20,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  if (prefModel.selectedAddress == null) {
+                    showErrorToast(context, "Please select delivery address");
+                  } else {
+                    showLoaderDialog(context);
+                    OrderRequestModel orderRequest = OrderRequestModel();
+                    orderRequest.productList = prefModel.cartItems;
+                    orderRequest.storeId = prefModel.cartItemsStoreId;
+                    orderRequest.status = "new";
+                    orderRequest.paymentStatus = "Paid";
+                    orderRequest.paymentMethod = "Paytm";
+                    orderRequest.remarks = "na";
+                    orderRequest.discountType = "normal";
+                    orderRequest.paymentDetails = [
+                      PaymentDetail(
+                          modeOfPay: "paytm",
+                          transactionId: "435678",
+                          gatewayTransactionId: "345678",
+                          gatewayStatus: "Success",
+                          gatewayName: "paytm")
+                    ];
+                    orderRequest.subTotal = prefModel.cartPayable;
+                    orderRequest.additionalCharges = [
+                      AdditionalCharge(
+                          name: "deliveryFee", price: storeData!.deliveryFee)
+                    ];
+                    orderRequest.grandTotal = total;
+                    orderRequest.redeemPoints =0;
+                    orderRequest.redeemPointsValue =0;
+                    orderRequest.maxWalletPoints =0;
+                    orderRequest.cableOperatorId = prefModel.userData!.operatorId;
+                    OrderReqsponseModel orderResponse = await orderController.createOrder(context,orderRequest);
+                    if(orderResponse.statusCode==200){
+                      if(context.mounted){
+                        setState(() {});
+                        showSuccessToast(context, "Order Placed Successfully");
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, Routes.orderSuccessScreen);
+                      }else{
+                        showErrorToast(context, orderResponse.message!);
+                      }
+                    }
+                  }
+                },
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 13.0),
@@ -136,7 +198,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ),
                         ),
                         TextSpan(
-                          text: '₹${prefModel.cartPayable}',
+                          text: '₹$total',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -176,25 +238,28 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Column(
+              child: Column(
                 children: [
                   Text(
-                    'You have 1200 points in wallet \neligible to redeem',
+                    'You have ${wallet!.result!.availablePoints} points in wallet \n${storeData!.deliveryFee} eligible to redeem',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.walletFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Text(
-                    'Redeem Now !',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF1B8902),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.underline,
+                  InkWell(
+                    onTap: () {},
+                    child: const Text(
+                      'Redeem Now !',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF1B8902),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   )
                 ],
@@ -203,10 +268,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
             const SizedBox(
               height: 20,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Subtotal',
                   style: TextStyle(
                     color: AppColors.fontColor,
@@ -216,9 +281,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   ),
                 ),
                 Text(
-                  '₹189',
+                  '₹${prefModel.cartPayable}',
                   textAlign: TextAlign.right,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.fontColor,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -230,10 +295,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
             const SizedBox(
               height: 20,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Delivery Charge',
                   style: TextStyle(
                     color: AppColors.fontColor,
@@ -243,9 +308,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   ),
                 ),
                 Text(
-                  '₹50',
+                  '₹${storeData!.deliveryFee}',
                   textAlign: TextAlign.right,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.fontColor,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -257,7 +322,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
             const SizedBox(
               height: 20,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -270,7 +335,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   ),
                 ),
                 Text(
-                  '₹230',
+                  '₹${total}',
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     color: AppColors.fontColor,

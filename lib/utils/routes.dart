@@ -15,4 +15,5 @@ class Routes {
   static const String selectAddressRoute = "/selectAddress";
   static const String markLocationRoute = "/markLocation";
   static const String primaryLocationRoute = "/primaryLocation";
+  static const String orderSuccessScreen = "/orderSuccess";
 }
