@@ -8,6 +8,7 @@ import 'package:samruddhi/auth/model/register_request_model.dart';
 import 'package:samruddhi/dashboard/home/model/home_data_model.dart';
 import 'package:samruddhi/dashboard/home/model/in_store_data_model.dart';
 import 'package:samruddhi/dashboard/home/model/stores_on_category_model.dart';
+import 'package:samruddhi/dashboard/orders/model/my_orders_model.dart';
 import 'package:samruddhi/dashboard/orders/model/orderRequestModel.dart';
 import 'package:samruddhi/dashboard/orders/model/orderResponseModel.dart';
 import 'package:samruddhi/dashboard/wallet/model/wallet_response_model.dart';
@@ -136,30 +137,31 @@ class ApiCalls {
       throw ("Failed to fetch stores");
     }
   }
-  getOrderHistory(BuildContext context) async {
+
+
+
+  Future<MyOrdersModel> getOrderHistory(
+      BuildContext context) async {
     var response = await http.post(
       Uri.parse(UrlConstant.orderHistory),
       headers: getHeaders(true),
       body: jsonEncode({
         "UID":prefModel.userData!.uid!,
-        "fromdate":prefModel.userData!.uid!,
-        "todate":prefModel.userData!.uid!,
+        "fromdate":"2023-07-28",
+        "todate":"2023-09-22",
       }),
     );
-    print(response.body);
-    if (response.statusCode == 200) {
-      if (context.mounted) {
-        showSuccessToast(context, "Address added successfull");
-        Navigator.pop(context);
-      }
+    log(response.body);
+    if (response.statusCode == 201) {
+      return MyOrdersModel.fromJson(json.decode(response.body));
     } else {
       if (context.mounted) {
-        showErrorToast(context, "Failed to add address");
-        Navigator.pop(context);
+        showErrorToast(context, "Failed to get orders");
       }
-      throw ("Failed to fetch stores");
+      throw ("Failed to get orders");
     }
   }
+
 
   Future<WalletResponseModel> getCustomerPoints(BuildContext context) async {
     var response = await http.post(

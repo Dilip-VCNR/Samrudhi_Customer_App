@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../auth/model/login_response_model.dart';
+import '../../../database/app_pref.dart';
+import '../../../database/models/pref_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
@@ -15,6 +18,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  PrefModel prefModel = AppPref.getPref();
+
   List options = [
     {'title': 'Edit Profile', 'icon': Icons.edit, 'clickType': 'edit_profile'},
     {
@@ -124,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         break;
                       case 'my_address':
                         Navigator.pushNamed(context, Routes.selectAddressRoute,
-                            arguments: {'callBack': onAddressChanged});
+                            arguments: {'callBack': onAddressChanged,'from':'orders'});
                         break;
                       case 'my_orders':
                         widget.changeScreen(1); // Change to the second item
@@ -215,8 +220,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void onAddressChanged(String newAddress) {
-    // Your logic to handle the changed address
-    print(newAddress);
+  Future<void> onAddressChanged(Address? address) async {
+    prefModel.selectedAddress = address;
+    await AppPref.setPref(prefModel);
   }
 }

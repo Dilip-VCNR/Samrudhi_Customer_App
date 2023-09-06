@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:samruddhi/dashboard/orders/controller/order_controller.dart';
+import 'package:samruddhi/dashboard/orders/model/my_orders_model.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
@@ -11,71 +13,111 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-
+  late Future<MyOrdersModel> ordersData;
+  OrderController orderController = OrderController();
 
   @override
   void initState() {
+    ordersData = orderController.getOrdersData(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-
+    List<Result>? pendingOrders = [];
+    List<Result>? completedOrders = [];
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.scaffoldBackground,
-          automaticallyImplyLeading: false,
-          title: const Text(
-            'My Orders',
-            style: TextStyle(
-              color: AppColors.fontColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          bottom: TabBar(
-            indicator: ShapeDecoration(
-              color: AppColors.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
+          appBar: AppBar(
+            backgroundColor: AppColors.scaffoldBackground,
+            automaticallyImplyLeading: false,
+            title: const Text(
+              'My Orders',
+              style: TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            indicatorColor: Colors.transparent,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorPadding: const EdgeInsets.symmetric(horizontal: 16),
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.black,
-            tabs: const [
-              Tab(text: "Ongoing"),
-              Tab(text: "Finished"),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          physics: const ClampingScrollPhysics(),
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ongoingOrderWidget(screenSize),
+            bottom: TabBar(
+              indicator: ShapeDecoration(
+                color: AppColors.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+              indicatorColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorPadding: const EdgeInsets.symmetric(horizontal: 16),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black,
+              tabs: const [
+                Tab(text: "Ongoing"),
+                Tab(text: "Finished"),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: finishedOrderWidget(screenSize),
-            )
-          ],
-        ),
-      ),
+          ),
+          body: FutureBuilder(
+              future: ordersData,
+              builder: (BuildContext context,
+                  AsyncSnapshot<MyOrdersModel> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
+                if (snapshot.hasData) {
+                  for (int i = 0; i < snapshot.data!.result!.length; i++) {
+                    if (snapshot.data!.result![i].status != "completed") {
+                      pendingOrders.add(snapshot.data!.result![i]);
+                    } else {
+                      completedOrders.add(snapshot.data!.result![i]);
+                    }
+                  }
+                  return TabBarView(
+                    physics: const ClampingScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: pendingOrders.isNotEmpty?ongoingOrderWidget(screenSize, pendingOrders):const Center(child: Text("No orders yet"),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: completedOrders.isNotEmpty?finishedOrderWidget(screenSize, completedOrders):const Center(child: Text("No orders yet"),),
+                      )
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('${snapshot.error}'),
+                        // ElevatedButton(
+                        //     onPressed: _pullRefresh,
+                        //     child: const Text("Refresh"))
+                      ],
+                    ),
+                  );
+                }
+                return const Center(
+                  child: Text("Loadingg....."),
+                );
+              })),
     );
   }
 
-  finishedOrderWidget(Size screenSize) {
+  finishedOrderWidget(Size screenSize, List<Result> completedOrders) {
     return SingleChildScrollView(
         child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount: completedOrders.length,
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
@@ -236,11 +278,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 )));
   }
 
-  ongoingOrderWidget(Size screenSize) {
+  ongoingOrderWidget(Size screenSize, List<Result> pendingOrders) {
     return SingleChildScrollView(
         child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount: pendingOrders.length,
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
@@ -293,9 +335,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const Text(
-                                      'More Super stores',
+                                      "Store name",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
@@ -319,10 +364,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                               BorderRadius.circular(20),
                                         ),
                                       ),
-                                      child: const Center(
+                                      child: Center(
                                           child: Text(
-                                        'Packed',
-                                        style: TextStyle(
+                                        '${pendingOrders[index].status}',
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
                                           fontWeight: FontWeight.w700,
@@ -349,45 +394,33 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          '1X Butter Nandini 250ML',
-                          style: TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                        for (int i = 0;
+                            i < pendingOrders[index].productDetails!.length;
+                            i++)
+                          Text(
+                            '${pendingOrders[index].productDetails![i].cartCount}X ${pendingOrders[index].productDetails![i].productName}',
+                            style: const TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        const Text(
-                          '2X Bullet rice 1KG Packet',
-                          style: TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const Text(
-                          '3X Dosa batter half KG packet',
-                          style: TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
                         const Divider(),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '27 August 2023 at 5:30 PM',
-                              style: TextStyle(
+                              '${pendingOrders[index].date}',
+                              // '27 August 2023 at 5:30 PM',
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              '₹ 172.50',
-                              style: TextStyle(
+                              '₹${pendingOrders[index].grandTotal}',
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,

@@ -14,7 +14,7 @@ class UrlConstant {
   static const String userHomePage = "${apiBaseUrl}customer/userHomepage";
   static const String searchApi = "${apiBaseUrl}store/searchApi";
   static const String inStore = "${apiBaseUrl}store/getCategoryAndProductOnStore";
-  static const String orderHistory = "${apiBaseUrl}store/customer/updateUser";
+  static const String orderHistory = "${apiBaseUrl}customer/customerOrderHistory";
   static const String getCustomerPoints = "${apiBaseUrl}customerPoint/getCustomerPoints";
   static const String placeOrder = "${apiBaseUrl}order/placeOrder";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
