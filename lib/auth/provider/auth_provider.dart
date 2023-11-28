@@ -206,23 +206,26 @@ class AuthProvider extends ChangeNotifier {
     reqObj.lastName = lastNameController.text;
     reqObj.customerUuid = lastAuthUserData!.uid;
     reqObj.emailId = emailController.text;
-    reqObj.password = "";
+    reqObj.password = "xyz";
     reqObj.mobile = phoneNumberController.text;
     reqObj.customerFcmToken = fcmToken;
     reqObj.operatorUuid = operatorCodeController.text;
-    reqObj.operatorType = "";
+    reqObj.operatorType = "fdsfsdf";
     reqObj.storeReferralCode = storeReferralCodeController.text;
     reqObj.cableSubscriberUuid = cableSubscriberIdController.text;
     reqObj.addressType = "Primary";
     reqObj.completeAddress = addressController.text;
     reqObj.city = cityController.text;
     reqObj.state = stateController.text;
-    reqObj.lat = currentPosition!.latitude;
-    reqObj.lng = currentPosition!.longitude;
+    reqObj.lat = currentPosition!.latitude.toString();
+    reqObj.lng = currentPosition!.longitude.toString();
     reqObj.zipCode = postalCodeController.text;
 
     RegisterUserResponseModel response = await apiCalls.registerNewCustomer(context,reqObj.toJson());
     if(response.statusCode==200){
+      PrefModel prefModel = AppPref.getPref();
+      prefModel.userdata = response.result;
+      await AppPref.setPref(prefModel);
       Navigator.pop(context);
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.dashboardRoute, (route) => false);

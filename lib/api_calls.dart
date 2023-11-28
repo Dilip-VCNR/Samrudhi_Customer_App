@@ -58,10 +58,12 @@ class ApiCalls{
   }
 
   Future<RegisterUserResponseModel>registerNewCustomer(BuildContext context, Map<String, dynamic> reqData) async {
-    print("hello");
-    print(reqData);
-    print(UrlConstant.registerUser);
-    http.Response response = await hitApiPost(false, UrlConstant.registerUser, jsonEncode(reqData));
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstant.registerUser));
+    reqData.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+    print(request.fields);
+    var response = await http.Response.fromStream(await request.send());
     print(response.statusCode);
     print(response.body);
     return RegisterUserResponseModel.fromJson(json.decode(response.body));

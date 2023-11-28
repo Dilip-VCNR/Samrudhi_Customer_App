@@ -24,8 +24,8 @@ class RegisterUserRequestModel {
   String? completeAddress;
   String? city;
   String? state;
-  double? lat;
-  double? lng;
+  String? lat;
+  String? lng;
   String? zipCode;
 
   RegisterUserRequestModel({
