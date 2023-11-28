@@ -1,5 +1,7 @@
+import 'package:samruddhi/auth/models/check_user_response_model.dart';
+
 class PrefModel {
-  String? uid;
+  UserDataModel? userdata;
   String? email;
   String? phone;
   String? name;
@@ -7,7 +9,7 @@ class PrefModel {
   String? authToken;
 
   PrefModel({
-    this.uid,
+    this.userdata,
     this.email,
     this.phone,
     this.name,
@@ -17,7 +19,7 @@ class PrefModel {
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
     return PrefModel(
-        uid: parsedJson['uid'] ?? "",
+        userdata: parsedJson['userData'] ?? "",
         email: parsedJson['email'] ?? "",
         phone: parsedJson['phone'] ?? "",
         name: parsedJson['name'] ?? "",
@@ -27,7 +29,7 @@ class PrefModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "uid": uid,
+      "uid": userdata,
       "email": email,
       "phone": phone,
       "name": name,

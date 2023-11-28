@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
-import 'package:samruddhi/auth/controller/auth_controller.dart';
+import 'package:samruddhi/auth/provider/auth_provider.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
@@ -17,7 +17,7 @@ class SelectAddress extends StatefulWidget {
 class _SelectAddressState extends State<SelectAddress> {
   TextEditingController searchController = TextEditingController();
 
-  AuthController authController = AuthController();
+  AuthProvider authController = AuthProvider();
 
   @override
   Widget build(BuildContext context) {
