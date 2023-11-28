@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "128187854122",
+    "project_id": "samruddhi-vcnr",
+    "storage_bucket": "samruddhi-vcnr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128187854122:android:549bd3d54f5457d66a4253",
+        "android_client_info": {
+          "package_name": "com.vcnr.samruddhi.samruddhi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyeeuxz1y2LfiOdDOYsAph8rH29m3j8gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
