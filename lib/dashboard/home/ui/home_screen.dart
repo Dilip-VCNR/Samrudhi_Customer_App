@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //     icon: const Icon(Icons.shopping_cart_outlined))
           ],
           title: Text(
-            'Hi ${prefModel.userData!.name}',
+            'Hi ${prefModel.userData!.firstName}',
             style: const TextStyle(
               color: AppColors.fontColor,
               fontSize: 20,
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(
                                         width: screenSize.width / 1.6,
                                         child: Text(
-                                          selectedAddress.address!,
+                                          selectedAddress.completeAddress!,
                                           style: const TextStyle(
                                             color: AppColors.fontColor,
                                             fontSize: 14,
@@ -374,12 +374,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: 80,
                                         decoration: ShapeDecoration(
                                           image: DecorationImage(
-                                            image: NetworkImage(UrlConstant
+                                            image: NetworkImage(homeData
+                                                .result!
+                                                .productCategories![index]
+                                                .image!=null?UrlConstant
                                                     .imageBaseUrl +
                                                 homeData
                                                     .result!
                                                     .productCategories![index]
-                                                    .image!),
+                                                    .image:"https://placehold.co/100x100/png"),
                                             fit: BoxFit.fill,
                                           ),
                                           shape: const OvalBorder(),

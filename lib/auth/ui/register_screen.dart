@@ -174,16 +174,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Navigator.pushNamed(context, Routes.primaryLocationRoute,
                           arguments: {
                             'userDetails': RegisterRequestModel(
-                                uid: uid,
-                                fcmToken: fcmToken,
-                                mobile: int.parse(phone!),
-                                name: nameController.text,
+                                customerUuid: uid,
+                                customerFcmToken: fcmToken,
+                                mobile: phone,
+                                firstName: nameController.text,
+                                lastName: "",
                                 emailId: emailController.text,
                                 password: "",
                                 storeReferralCode:
                                     storeReferralCodeController.text,
-                                operatorId: operatorCodeController.text,
-                                subscriberId: cableSubscriberIdController.text),
+                                operatorUuid: operatorCodeController.text,
+                                cableSubscriberUuid: cableSubscriberIdController.text),
                             "currentLocation": currentPosition
                           });
                     }

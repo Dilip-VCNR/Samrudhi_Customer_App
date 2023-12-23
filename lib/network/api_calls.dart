@@ -37,7 +37,7 @@ class ApiCalls {
     var headers = <String, String>{};
     if (isAuthEnabled) {
       headers.addAll({
-        "x-access-token": "${prefModel.userData!.authToken}",
+        "x-access-token": "${prefModel.userData!.customerAuthToken}",
         "Content-Type": "application/json"
       });
     } else {
@@ -52,8 +52,8 @@ class ApiCalls {
       Uri.parse(UrlConstant.getUser),
       headers: getHeaders(false),
       body: jsonEncode(<String, String>{
-        'UID': uid!,
-        'fcmToken': fcmToken!,
+        'customerUuid': uid!,
+        'customerFcmToken': fcmToken!,
       }),
     );
     return LoginResponseModel.fromJson(json.decode(response.body));
@@ -61,11 +61,18 @@ class ApiCalls {
 
   Future<LoginResponseModel> registerUser(
       RegisterRequestModel userDetails) async {
-    var response = await http.post(
-      Uri.parse(UrlConstant.registerCustomer),
-      headers: getHeaders(false),
-      body: jsonEncode(userDetails),
-    );
+    Map reqData = userDetails.toJson();
+    var request =
+        http.MultipartRequest('POST', Uri.parse(UrlConstant.registerCustomer));
+    // var response = await http.post(
+    //   Uri.parse(UrlConstant.registerCustomer),
+    //   headers: getHeaders(false),
+    //   body: jsonEncode(userDetails),
+    // );
+    reqData.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+    var response = await http.Response.fromStream(await request.send());
     return LoginResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -73,8 +80,11 @@ class ApiCalls {
     var response = await http.post(
       Uri.parse(UrlConstant.userHomePage),
       headers: getHeaders(true),
-      body:
-          jsonEncode({"lat": lat, "lng": lng, "UID": prefModel.userData!.uid}),
+      body: jsonEncode({
+        "lat": lat,
+        "lng": lng,
+        "customerUuid": prefModel.userData!.customerUuid
+      }),
     );
     return HomeDataModel.fromJson(json.decode(response.body));
   }
@@ -117,38 +127,38 @@ class ApiCalls {
   }
 
   addNewAddress(BuildContext context, Map<String, Object> arguments) async {
-    arguments['UID'] = prefModel.userData!.uid!;
+    arguments['customerUuid'] = prefModel.userData!.customerUuid!;
     var response = await http.post(
       Uri.parse(UrlConstant.addNewAddress),
       headers: getHeaders(true),
       body: jsonEncode(arguments),
     );
-    print(response.body);
-    if (response.statusCode == 200) {
-      if (context.mounted) {
-        showSuccessToast(context, "Address added successfull");
-        Navigator.pop(context);
-      }
+    Navigator.pop(context);
+    if (LoginResponseModel.fromJson(json.decode(response.body)).statusCode ==
+        200) {
+      prefModel.userData =
+          LoginResponseModel.fromJson(json.decode(response.body)).result;
+      await AppPref.setPref(prefModel);
+      showSuccessToast(context,
+          LoginResponseModel.fromJson(json.decode(response.body)).message!);
+      await getUserDetails(prefModel.userData!.customerUuid,
+          prefModel.userData!.customerFcmToken);
+      Navigator.pop(context);
+      Navigator.pop(context);
     } else {
-      if (context.mounted) {
-        showErrorToast(context, "Failed to add address");
-        Navigator.pop(context);
-      }
-      throw ("Failed to fetch stores");
+      showErrorToast(context,
+          LoginResponseModel.fromJson(json.decode(response.body)).message!);
     }
   }
 
-
-
-  Future<MyOrdersModel> getOrderHistory(
-      BuildContext context) async {
+  Future<MyOrdersModel> getOrderHistory(BuildContext context) async {
     var response = await http.post(
       Uri.parse(UrlConstant.orderHistory),
       headers: getHeaders(true),
       body: jsonEncode({
-        "UID":prefModel.userData!.uid!,
-        "fromdate":"2023-07-28",
-        "todate":"2023-09-22",
+        "UID": prefModel.userData!.customerUuid!,
+        "fromdate": "2023-07-28",
+        "todate": "2023-09-22",
       }),
     );
     log(response.body);
@@ -162,36 +172,12 @@ class ApiCalls {
     }
   }
 
-
   Future<WalletResponseModel> getCustomerPoints(BuildContext context) async {
     var response = await http.post(
       Uri.parse(UrlConstant.getCustomerPoints),
       headers: getHeaders(true),
       body: jsonEncode({
-        "UID":prefModel.userData!.uid!,
-      }),
-    );
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 201) {
-      if (context.mounted) {
-        Navigator.pop(context);
-      }
-      return WalletResponseModel.fromJson(json.decode(response.body));
-    } else {
-      if (context.mounted) {
-        Navigator.pop(context);
-        showErrorToast(context, "Failed to fetch wallet points");
-      }
-      throw ("Failed to fetch wallet points");
-    }
-  }
-  Future<WalletResponseModel> placeOrder(BuildContext context) async {
-    var response = await http.post(
-      Uri.parse(UrlConstant.getCustomerPoints),
-      headers: getHeaders(true),
-      body: jsonEncode({
-        "UID":prefModel.userData!.uid!,
+        "UID": prefModel.userData!.customerUuid!,
       }),
     );
     if (response.statusCode == 201) {
@@ -208,8 +194,31 @@ class ApiCalls {
     }
   }
 
-  Future<OrderReqsponseModel> createOrder(BuildContext context, OrderRequestModel orderRequest) async {
-    orderRequest.uid = prefModel.userData!.uid;
+  Future<WalletResponseModel> placeOrder(BuildContext context) async {
+    var response = await http.post(
+      Uri.parse(UrlConstant.getCustomerPoints),
+      headers: getHeaders(true),
+      body: jsonEncode({
+        "UID": prefModel.userData!.customerUuid!,
+      }),
+    );
+    if (response.statusCode == 201) {
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return WalletResponseModel.fromJson(json.decode(response.body));
+    } else {
+      if (context.mounted) {
+        Navigator.pop(context);
+        showErrorToast(context, "Failed to fetch wallet points");
+      }
+      throw ("Failed to fetch wallet points");
+    }
+  }
+
+  Future<OrderReqsponseModel> createOrder(
+      BuildContext context, OrderRequestModel orderRequest) async {
+    orderRequest.uid = prefModel.userData!.customerUuid;
     var response = await http.post(
       Uri.parse(UrlConstant.placeOrder),
       headers: getHeaders(true),
@@ -233,4 +242,26 @@ class ApiCalls {
     }
   }
 
+  deleteCustomerAddress(BuildContext context, String? addressId) async {
+    var response = await http.post(
+      Uri.parse(UrlConstant.deleteCustomerAddress),
+      headers: getHeaders(true),
+      body: jsonEncode({
+        "customerUuid": prefModel.userData!.customerUuid,
+        "addressId": addressId
+      }),
+    );
+    LoginResponseModel userData = await getUserDetails(
+        prefModel.userData!.customerUuid, prefModel.userData!.customerFcmToken);
+
+    prefModel.userData = userData.result;
+    await AppPref.setPref(prefModel);
+
+    Navigator.pop(context);
+    if (json.decode(response.body)['statusCode'] == 200) {
+      showSuccessToast(context, json.decode(response.body)['message']);
+    } else {
+      showErrorToast(context, json.decode(response.body)['message']);
+    }
+  }
 }

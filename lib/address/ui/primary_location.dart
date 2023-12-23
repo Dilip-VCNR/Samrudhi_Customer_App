@@ -93,7 +93,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
               initialCameraPosition: CameraPosition(
                 target:
                     LatLng(currentLocation.latitude, currentLocation.longitude),
-                zoom: 14.0,
+                zoom: 17.0,
               ),
               mapType: MapType.normal,
               onMapCreated: (controller) {
@@ -136,7 +136,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                       ),
                       textEditingController: searchController,
                       googleAPIKey: UrlConstant.googleApiKey,
-                      debounceTime: 400,
+                      debounceTime: 100,
                       countries: const ["In"],
                       isLatLngRequired: true,
                       getPlaceDetailWithLatLng: (prediction) async {
@@ -460,11 +460,11 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
                         showLoaderDialog(context);
-                        userDetails!.type = 'Primary';
-                        userDetails!.address = addressController.text;
+                        userDetails!.addressType = 'Primary';
+                        userDetails!.completeAddress = addressController.text;
                         userDetails!.city = cityController.text;
                         userDetails!.state = stateController.text;
-                        userDetails!.zipCode = postalCodeController.text;
+                        userDetails!.zipCode = int.parse(postalCodeController.text);
                         userDetails!.lat = target.latitude;
                         userDetails!.lng = target.longitude;
                         await authController.registerUser(context, userDetails);

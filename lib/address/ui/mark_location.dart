@@ -273,7 +273,7 @@ class _MarkLocationState extends State<MarkLocation> {
       Map<dynamic, dynamic> arguments) {
     final formKey = GlobalKey<FormState>();
 
-    List<String> addressType = ['Home', 'Office', 'Others'];
+    List<String> addressType = ['Home', 'Office', 'Others','Gym'];
     String selectedAddressType = '';
 
     TextEditingController addressController = TextEditingController();
@@ -469,15 +469,20 @@ class _MarkLocationState extends State<MarkLocation> {
                     GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
+                          // Navigator.pop(context);
                           showLoaderDialog(context);
                           await locationController.addNewAddress(context, {
-                            "type": selectedAddressType,
-                            "address": addressController.text,
-                            "city": cityController.text,
-                            "state": stateController.text,
-                            "zipCode": postalCodeController.text,
-                            "lat": target.latitude,
-                            "lng": target.longitude,
+                            "addressArray": [
+                              {
+                                "addressType": selectedAddressType,
+                                "completeAddress": addressController.text,
+                                "city": cityController.text,
+                                "state": stateController.text,
+                                "lat": target.latitude.toString(),
+                                "lng": target.longitude.toString(),
+                                "zipCode": postalCodeController.text
+                              }
+                            ]
                           });
                         }
                         return;

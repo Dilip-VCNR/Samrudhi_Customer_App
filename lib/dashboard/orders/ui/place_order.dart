@@ -118,7 +118,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     width: screenSize.width - 100,
                     child: Text(
                       prefModel.selectedAddress != null
-                          ? prefModel.selectedAddress!.address!
+                          ? prefModel.selectedAddress!.completeAddress!
                           : "Click on change to select delivery address",
                       style: const TextStyle(
                         color: AppColors.fontColor,
@@ -163,7 +163,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     orderRequest.redeemPoints =0;
                     orderRequest.redeemPointsValue =0;
                     orderRequest.maxWalletPoints =0;
-                    orderRequest.cableOperatorId = prefModel.userData!.operatorId;
+                    orderRequest.cableOperatorId = prefModel.userData!.operatorUuid;
                     OrderReqsponseModel orderResponse = await orderController.createOrder(context,orderRequest);
                     if(orderResponse.statusCode==200){
                       if(context.mounted){

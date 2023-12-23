@@ -148,7 +148,7 @@ class AuthController {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
       }
-    } else if (userDetails.statusCode == 400) {
+    } else if (userDetails.statusCode == 404) {
       if (context.mounted) {
         Navigator.pop(context);
         Navigator.pushNamed(context, Routes.registerRoute, arguments: {
@@ -169,7 +169,7 @@ class AuthController {
       BuildContext context, RegisterRequestModel? userDetailsRequest) async {
     LoginResponseModel userDetails =
         await apiCalls.registerUser(userDetailsRequest!);
-    if (userDetails.statusCode == 200) {
+    if (userDetails.statusCode == 201) {
       prefModel.userData = userDetails.result;
       await AppPref.setPref(prefModel);
       if (context.mounted) {
@@ -177,7 +177,7 @@ class AuthController {
         Navigator.of(context)
             .pushNamedAndRemoveUntil(Routes.dashboardRoute, (route) => false);
       }
-    } else if (userDetails.statusCode == 400) {
+    } else if (userDetails.statusCode == 301) {
       if (context.mounted) {
         Navigator.pop(context);
         showErrorToast(context, "${userDetails.message}");
@@ -188,5 +188,9 @@ class AuthController {
         showErrorToast(context, "${userDetails.message}");
       }
     }
+  }
+
+  deleteCustomeraddress(BuildContext context, String? id) async {
+    await apiCalls.deleteCustomerAddress(context,id);
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,6 +25,8 @@ class HomeController {
     if (prefModel.selectedAddress != null) {
       HomeDataModel homeData = await apiCalls.fetchHomeData(
           prefModel.selectedAddress!.lat, prefModel.selectedAddress!.lng);
+      log(jsonEncode(homeData.toJson()).toString());
+      print(prefModel.userData!.customerAuthToken);
       return {"Address": prefModel.selectedAddress!, "HomeData": homeData};
     } else {
       Position currentPosition;
@@ -45,7 +50,7 @@ class HomeController {
           currentPosition.latitude, currentPosition.longitude);
       return {
         "Address": Address(
-            address: address['name'] +
+            completeAddress: address['name'] +
                 " " +
                 address['subLocality'] +
                 " " +

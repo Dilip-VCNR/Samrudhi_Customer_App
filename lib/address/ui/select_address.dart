@@ -22,7 +22,6 @@ class _SelectAddressState extends State<SelectAddress> {
   TextEditingController searchController = TextEditingController();
 
   AuthController authController = AuthController();
-  PrefModel prefModel = AppPref.getPref();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +33,8 @@ class _SelectAddressState extends State<SelectAddress> {
         arguments['callBack'] as Function(Address?);
 
     String? from = arguments['from'];
+    PrefModel prefModel = AppPref.getPref();
+
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +73,9 @@ class _SelectAddressState extends State<SelectAddress> {
             if (context.mounted) {
               Navigator.pop(context);
               Navigator.pushNamed(context, Routes.markLocationRoute,
-                  arguments: {"currentLocation": currentPosition});
+                  arguments: {"currentLocation": currentPosition}).then((value) {
+                    setState(() {});
+                  });
             }
           },
           child: Container(
@@ -140,8 +143,8 @@ class _SelectAddressState extends State<SelectAddress> {
                           isLatLngRequired: true,
                           getPlaceDetailWithLatLng: (prediction) async {
                             onAddressChanged(Address(
-                                type: 'OnMap',
-                                address: prediction.description,
+                                addressType: 'OnMap',
+                                completeAddress: prediction.description,
                                 lat: double.parse(prediction.lat!),
                                 lng: double.parse(prediction.lng!)));
                             Navigator.pop(context);
@@ -192,12 +195,13 @@ class _SelectAddressState extends State<SelectAddress> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: prefModel.userData!.address!.length,
+                itemCount: prefModel.userData!.addressArray!.length,
                 scrollDirection: Axis.vertical,
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => InkWell(
+                itemBuilder: (context, index) {
+                  return !prefModel.userData!.addressArray![index].isDeleted!?InkWell(
                   onTap: () {
-                    onAddressChanged(prefModel.userData!.address![index]);
+                    onAddressChanged(prefModel.userData!.addressArray![index]);
                     Navigator.pop(context);
                   },
                   child: Column(
@@ -216,7 +220,7 @@ class _SelectAddressState extends State<SelectAddress> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                prefModel.userData!.address![index].type!,
+                                prefModel.userData!.addressArray![index].addressType!,
                                 style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 16,
@@ -225,7 +229,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                 ),
                               ),
                               Text(
-                                prefModel.userData!.address![index].address!,
+                                prefModel.userData!.addressArray![index].completeAddress!,
                                 style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 14,
@@ -236,18 +240,20 @@ class _SelectAddressState extends State<SelectAddress> {
                           ),
                           Row(
                             children: [
-                              const CircleAvatar(
-                                  backgroundColor: AppColors.primaryColor,
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
-                                  )),
-                              const SizedBox(
-                                width: 20,
-                              ),
+                              // const CircleAvatar(
+                              //     backgroundColor: AppColors.primaryColor,
+                              //     child: Icon(
+                              //       Icons.edit,
+                              //       color: Colors.white,
+                              //     )),
+                              // const SizedBox(
+                              //   width: 20,
+                              // ),
                               InkWell(
-                                onTap: (){
-
+                                onTap: () async {
+                                  showLoaderDialog(context);
+                                  await authController.deleteCustomeraddress(context,prefModel.userData!.addressArray![index].id);
+                                  setState(() {});
                                 },
                                 child: const CircleAvatar(
                                     backgroundColor: Colors.red,
@@ -269,7 +275,8 @@ class _SelectAddressState extends State<SelectAddress> {
                       ),
                     ],
                   ),
-                ),
+                ):SizedBox.shrink();
+                },
               ),
             ],
           )),

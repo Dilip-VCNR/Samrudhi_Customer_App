@@ -90,60 +90,67 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    width: screenSize.width,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            CountryCodePicker(
-                              showFlag: false,
-                              enabled: true,
-                              onChanged: (element) {
-                                selectedCountryCode = element.dialCode;
-                              },
-                              initialSelection: 'IN',
-                              favorite: const ['+91', 'IN'],
-                              showCountryOnly: false,
-                              showOnlyCountryWhenClosed: false,
-                              alignLeft: false,
-                            ),
-                            Form(
-                              key: _formKey,
-                              child: SizedBox(
-                                width: screenSize.width / 1.5,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid phone number';
-                                    }
-                                    if (authController.isNotValidPhone(value)) {
-                                      return "Please enter valid phone number";
-                                    }
-                                    return null;
-                                  },
-                                  controller: phoneNumberController,
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Phone Number',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ),
-                          ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.black,width: 1)),
+                        child: CountryCodePicker(
+                          showFlag: true,
+                          enabled: true,
+                          onChanged: (element) {
+                            selectedCountryCode = element.dialCode;
+                          },
+                          initialSelection: 'IN',
+                          favorite: const ['+91', 'IN'],
+                          showCountryOnly: false,
+                          showOnlyCountryWhenClosed: false,
+                          alignLeft: false,
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter valid phone number';
+                              }
+                              if (authController.isNotValidPhone(value)) {
+                                return "Please enter valid phone number";
+                              }
+                              return null;
+                            },
+                            controller: phoneNumberController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              hintText: 'Phone Number',
+                              counterText: "",
+                              isCollapsed: true,
+                              errorStyle: const TextStyle(
+                                  color: AppColors.secondaryColor),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 20,

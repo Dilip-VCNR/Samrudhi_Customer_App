@@ -4,85 +4,94 @@
 
 import 'dart:convert';
 
-RegisterRequestModel registerRequestModelFromJson(String str) =>
-    RegisterRequestModel.fromJson(json.decode(str));
+RegisterRequestModel registerRequestModelFromJson(String str) => RegisterRequestModel.fromJson(json.decode(str));
 
-String registerRequestModelToJson(RegisterRequestModel data) =>
-    json.encode(data.toJson());
+String registerRequestModelToJson(RegisterRequestModel data) => json.encode(data.toJson());
 
 class RegisterRequestModel {
-  String? uid;
-  String? fcmToken;
-  int? mobile;
-  String? name;
+  String? firstName;
+  String? lastName;
+  String? customerUuid;
   String? emailId;
   String? password;
-  String? type;
-  String? address;
+  String? mobile;
+  String? customerFcmToken;
+  String? operatorUuid;
+  String? operatorType;
+  String? storeReferralCode;
+  String? cableSubscriberUuid;
+  String? addressType;
+  String? completeAddress;
   String? city;
   String? state;
-  String? zipCode;
   double? lat;
   double? lng;
-  String? storeReferralCode;
-  String? operatorId;
-  String? subscriberId;
+  int? zipCode;
+  String? userImage;
 
   RegisterRequestModel({
-    this.uid,
-    this.fcmToken,
-    this.mobile,
-    this.name,
+    this.firstName,
+    this.lastName,
+    this.customerUuid,
     this.emailId,
     this.password,
-    this.type,
-    this.address,
+    this.mobile,
+    this.customerFcmToken,
+    this.operatorUuid,
+    this.operatorType,
+    this.storeReferralCode,
+    this.cableSubscriberUuid,
+    this.addressType,
+    this.completeAddress,
     this.city,
     this.state,
-    this.zipCode,
     this.lat,
     this.lng,
-    this.storeReferralCode,
-    this.operatorId,
-    this.subscriberId,
+    this.zipCode,
+    this.userImage,
   });
 
-  factory RegisterRequestModel.fromJson(Map<String, dynamic> json) =>
-      RegisterRequestModel(
-        uid: json["UID"],
-        fcmToken: json["fcmToken"],
-        mobile: json["mobile"],
-        name: json["name"],
-        emailId: json["emailId"],
-        password: json["password"],
-        type: json["type"],
-        address: json["address"],
-        city: json["city"],
-        state: json["state"],
-        zipCode: json["zipCode"],
-        lat: json["lat"]?.toDouble(),
-        lng: json["lng"]?.toDouble(),
-        storeReferralCode: json["storeReferralCode"],
-        operatorId: json["operatorId"],
-        subscriberId: json["subscriberId"],
-      );
+  factory RegisterRequestModel.fromJson(Map<String, dynamic> json) => RegisterRequestModel(
+    firstName: json["firstName"],
+    lastName: json["lastName"],
+    customerUuid: json["customerUuid"],
+    emailId: json["emailId"],
+    password: json["password"],
+    mobile: json["mobile"],
+    customerFcmToken: json["customerFcmToken"],
+    operatorUuid: json["operatorUuid"],
+    operatorType: json["operatorType"],
+    storeReferralCode: json["storeReferralCode"],
+    cableSubscriberUuid: json["cableSubscriberUuid"],
+    addressType: json["addressType"],
+    completeAddress: json["completeAddress"],
+    city: json["city"],
+    state: json["state"],
+    lat: json["lat"]?.toDouble(),
+    lng: json["lng"]?.toDouble(),
+    zipCode: json["zipCode"],
+    userImage: json["userImage"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "UID": uid,
-        "fcmToken": fcmToken,
-        "mobile": mobile,
-        "name": name,
-        "emailId": emailId,
-        "password": password,
-        "type": type,
-        "address": address,
-        "city": city,
-        "state": state,
-        "zipCode": zipCode,
-        "lat": lat,
-        "lng": lng,
-        "storeReferralCode": storeReferralCode,
-        "operatorId": operatorId,
-        "subscriberId": subscriberId,
-      };
+    "firstName": firstName,
+    "lastName": lastName,
+    "customerUuid": customerUuid,
+    "emailId": emailId,
+    "password": password,
+    "mobile": mobile,
+    "customerFcmToken": customerFcmToken,
+    "operatorUuid": operatorUuid,
+    "operatorType": operatorType,
+    "storeReferralCode": storeReferralCode,
+    "cableSubscriberUuid": cableSubscriberUuid,
+    "addressType": addressType,
+    "completeAddress": completeAddress,
+    "city": city,
+    "state": state,
+    "lat": lat,
+    "lng": lng,
+    "zipCode": zipCode,
+    "userImage": userImage,
+  };
 }

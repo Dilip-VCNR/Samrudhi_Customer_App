@@ -3,15 +3,17 @@ class UrlConstant {
 
   static const String websiteBaseUrl =
       "http://santhuofficial123.pythonanywhere.com/";
-  static const String imageBaseUrl = "http://103.74.138.223:8012";
-  static const String apiBaseUrl = "http://103.74.138.223:8012/api/";
+  static const String imageBaseUrl = "http://103.74.138.223:8020";
+  static const String apiBaseUrl = "http://103.74.138.223:8020/api/";
   static const String compatibility = "${apiBaseUrl}app_compatibility";
-  static const String registerCustomer = "${apiBaseUrl}customer/registerUser";
-  static const String getUser = "${apiBaseUrl}customer/getUser";
-  static const String updateUser = "${apiBaseUrl}customer/updateUser";
+  static const String registerCustomer = "${apiBaseUrl}customer/registerCustomer";
+  static const String getUser = "${apiBaseUrl}customer/getCustomerById";
+  static const String updateUser = "${apiBaseUrl}customer/updateCustomer";
   static const String addNewAddress =
-      "${apiBaseUrl}customer/customerNewAddress";
-  static const String userHomePage = "${apiBaseUrl}customer/userHomepage";
+      "${apiBaseUrl}customer/addCustomerAddress";
+  static const String deleteCustomerAddress =
+      "${apiBaseUrl}customer/deleteCustomerAddress";
+  static const String userHomePage = "${apiBaseUrl}customer/customerHomePage";
   static const String searchApi = "${apiBaseUrl}store/searchApi";
   static const String inStore = "${apiBaseUrl}store/getCategoryAndProductOnStore";
   static const String orderHistory = "${apiBaseUrl}customer/customerOrderHistory";
