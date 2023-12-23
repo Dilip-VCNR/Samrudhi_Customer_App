@@ -14,6 +14,7 @@ import '../../database/app_pref.dart';
 import '../../utils/routes.dart';
 
 class AuthProvider extends ChangeNotifier {
+  PrefModel prefModel = AppPref.getPref();
 
   BuildContext? context;
   ApiCalls apiCalls = ApiCalls();
@@ -154,9 +155,10 @@ class AuthProvider extends ChangeNotifier {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     CheckUserResponseModel userData = await apiCalls.checkForUser(user,fcmToken);
     if(userData.statusCode==200){
-      PrefModel prefModel = AppPref.getPref();
+      print(userData.result);
       prefModel.userdata = userData.result;
       await AppPref.setPref(prefModel);
+      print(prefModel.userdata!.toJson());
       Navigator.pop(context!);
       Navigator.pushNamed(context!, Routes.dashboardRoute);
     }else{
@@ -218,7 +220,6 @@ class AuthProvider extends ChangeNotifier {
 
     RegisterUserResponseModel response = await apiCalls.registerNewCustomer(context!,reqObj.toJson());
     if(response.statusCode==201){
-      PrefModel prefModel = AppPref.getPref();
       prefModel.userdata = response.result;
       await AppPref.setPref(prefModel);
       Navigator.pop(context!);

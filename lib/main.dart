@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/dashboard/orders/ui/order_details.dart';
+import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/splash/ui/splash_screen.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 import 'package:samruddhi/utils/routes.dart';
@@ -27,10 +28,10 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await AppPref.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await AppPref.getInstance();
   runApp(const MyApp());
 }
 
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
     ]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context)=>AuthProvider())
+        ChangeNotifierProvider(create: (context)=>AuthProvider()),
+        ChangeNotifierProvider(create: (context)=>DashboardProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
