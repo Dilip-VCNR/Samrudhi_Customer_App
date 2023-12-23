@@ -14,6 +14,8 @@ import '../../database/app_pref.dart';
 import '../../utils/routes.dart';
 
 class AuthProvider extends ChangeNotifier {
+
+  BuildContext? context;
   ApiCalls apiCalls = ApiCalls();
   int currentSlideIndex = 0;
   TextEditingController phoneNumberController = TextEditingController();
@@ -55,16 +57,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   bool isNotValidName(String name) {
-    // Regular expression pattern to validate name format
     const nameRegex = r'^[a-zA-Z\s]+$';
-
-    // Use RegExp to check if the name matches the pattern
     final regExp = RegExp(nameRegex);
     if (!regExp.hasMatch(name)) {
       return true;
     }
-
-    // Check if the name contains any numbers
     final containsNumbers = name.contains(RegExp(r'[0-9]'));
     return containsNumbers;
   }
@@ -95,30 +92,29 @@ class AuthProvider extends ChangeNotifier {
     return position;
   }
 
-  Future<void> sendOtp(BuildContext context) async {
-    showLoaderDialog(context);
+  Future<void> sendOtp() async {
+    showLoaderDialog(context!);
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '$selectedCountryCode ${phoneNumberController.text}',
       verificationCompleted: (PhoneAuthCredential credential) {},
       verificationFailed: (FirebaseAuthException e) {
-        showErrorToast(context, e.toString());
-        Navigator.pop(context);
+        showErrorToast(context!, e.toString());
+        Navigator.pop(context!);
       },
       codeSent: (String verificationId, int? resendToken) {
         lastVerificationId = verificationId;
         lastResendToken = resendToken;
-        Navigator.pop(context);
-        showSuccessToast(context, "Otp is sent to $selectedCountryCode ${phoneNumberController.text} Successfully !");
-        Navigator.pushNamed(context, Routes.otpScreenRoute);
+        Navigator.pop(context!);
+        showSuccessToast(context!, "Otp is sent to $selectedCountryCode ${phoneNumberController.text} Successfully !");
+        Navigator.pushNamed(context!, Routes.otpScreenRoute);
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        // showErrorToast(context, "OTP timed out, Please resend and try again");
       },
     );
   }
 
-  Future<void> verifyOtp(BuildContext context) async {
-    showLoaderDialog(context);
+  Future<void> verifyOtp() async {
+    showLoaderDialog(context!);
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
       verificationId: lastVerificationId!,
       smsCode: otpCode,
@@ -127,12 +123,12 @@ class AuthProvider extends ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithCredential(credential)
           .then((value) async {
-        await apiCallForUserDetails(context,value.user,);
+        await apiCallForUserDetails(value.user,);
       });
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+      Navigator.pop(context!);
       showErrorToast(
-        context,
+        context!,
         "Oops !You have entered a wrong OTP $e",
       );
     }
@@ -155,29 +151,29 @@ class AuthProvider extends ChangeNotifier {
     return double.tryParse(str) != null;
   }
 
-  apiCallForUserDetails(BuildContext context, User? user) async {
+  apiCallForUserDetails(User? user) async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     CheckUserResponseModel userData = await apiCalls.checkForUser(user,fcmToken);
     if(userData.statusCode==200){
       PrefModel prefModel = AppPref.getPref();
       prefModel.userdata = userData.result;
       await AppPref.setPref(prefModel);
-      Navigator.pop(context);
-      Navigator.pushNamed(context, Routes.dashboardRoute);
+      Navigator.pop(context!);
+      Navigator.pushNamed(context!, Routes.dashboardRoute);
     }else{
-      if(userData.statusCode==400 && userData.message=="record not found"){
+      if(userData.statusCode==404){
         lastAuthUserData = user;
-        Navigator.pop(context);
-        Navigator.pushNamed(context, Routes.registerRoute);
+        Navigator.pop(context!);
+        Navigator.pushNamed(context!, Routes.registerRoute);
       }else{
-        Navigator.pop(context);
-        showErrorToast(context, userData.message!);
+        Navigator.pop(context!);
+        showErrorToast(context!, userData.message!);
       }
     }
   }
 
-  Future<void> chooseCurrentAddress(BuildContext context) async {
-    showLoaderDialog(context);
+  Future<void> chooseCurrentAddress() async {
+    showLoaderDialog(context!);
     try {
       currentPosition = await getCurrentLocation();
     } catch (e) {
@@ -192,14 +188,14 @@ class AuthProvider extends ChangeNotifier {
         speedAccuracy: 0,
       );
     }
-    Navigator.pop(context);
-    Navigator.pushNamed(context, Routes.primaryLocationRoute,arguments: {
+    Navigator.pop(context!);
+    Navigator.pushNamed(context!, Routes.primaryLocationRoute,arguments: {
       "currentLocation": currentPosition
     });
   }
 
-  Future<void> registerNewCustomer(BuildContext context) async {
-    showLoaderDialog(context);
+  Future<void> registerNewCustomer() async {
+    showLoaderDialog(context!);
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     RegisterUserRequestModel reqObj = RegisterUserRequestModel();
     reqObj.firstName = firstNameController.text;
@@ -221,20 +217,20 @@ class AuthProvider extends ChangeNotifier {
     reqObj.lng = currentPosition!.longitude.toString();
     reqObj.zipCode = postalCodeController.text;
 
-    RegisterUserResponseModel response = await apiCalls.registerNewCustomer(context,reqObj.toJson());
-    if(response.statusCode==200){
+    RegisterUserResponseModel response = await apiCalls.registerNewCustomer(context!,reqObj.toJson());
+    if(response.statusCode==201){
       PrefModel prefModel = AppPref.getPref();
       prefModel.userdata = response.result;
       await AppPref.setPref(prefModel);
-      Navigator.pop(context);
-      Navigator.of(context).pushNamedAndRemoveUntil(
+      Navigator.pop(context!);
+      Navigator.of(context!).pushNamedAndRemoveUntil(
           Routes.dashboardRoute, (route) => false);
     }else{
-      Navigator.pop(context);
-      if(response.statusCode==400 && response.message=="customer already exists"){
-        showErrorToast(context, response.message!);
+      Navigator.pop(context!);
+      if(response.statusCode==301){
+        showErrorToast(context!, response.message!);
       }else{
-        showErrorToast(context, response.message!);
+        showErrorToast(context!, response.message!);
 
       }
     }

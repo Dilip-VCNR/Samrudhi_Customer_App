@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Consumer<AuthProvider>(
       builder:
           (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.context = context;
         return Scaffold(
           body: GestureDetector(
             onTap: () {
@@ -192,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       InkWell(
                         onTap: () {
                           if (authProvider.formKey.currentState!.validate()) {
-                            authProvider.sendOtp(context);
+                            authProvider.sendOtp();
                           }
                         },
                         child: Container(

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../utils/app_colors.dart';
-import '../../utils/routes.dart';
 import '../provider/auth_provider.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -40,6 +37,8 @@ class _OtpScreenState extends State<OtpScreen> {
     var screenSize = MediaQuery.of(context).size;
     return Consumer<AuthProvider>(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.context = context;
+
         return Scaffold(
           body: GestureDetector(
             onTap: () {
@@ -107,7 +106,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   setState(() {
                                     authProvider.firstStateEnabled = false;
                                     authProvider.controller.restart(); // Restart the countdown
-                                    authProvider.sendOtp(context);
+                                    authProvider.sendOtp();
                                   });
                                 }
                               },
@@ -155,7 +154,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            authProvider.verifyOtp(context);
+                            authProvider.verifyOtp();
                           },
                           child: Container(
                             width: screenSize.width,

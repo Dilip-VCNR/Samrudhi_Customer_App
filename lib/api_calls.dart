@@ -52,8 +52,6 @@ class ApiCalls{
       "customerUuid":user!.uid,
       "customerFcmToken":fcmToken
     }));
-    print(response.statusCode);
-    print(response.body);
     return CheckUserResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -62,10 +60,7 @@ class ApiCalls{
     reqData.forEach((key, value) {
       request.fields[key] = value.toString();
     });
-    print(request.fields);
     var response = await http.Response.fromStream(await request.send());
-    print(response.statusCode);
-    print(response.body);
     return RegisterUserResponseModel.fromJson(json.decode(response.body));
   }
 

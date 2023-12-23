@@ -8,8 +8,6 @@ import 'package:samruddhi/auth/provider/auth_provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
-import '../../utils/routes.dart';
-
 class PrimaryLocation extends StatefulWidget {
   const PrimaryLocation({Key? key}) : super(key: key);
 
@@ -45,6 +43,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
 
     return Consumer<AuthProvider>(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.context=context;
         return  GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -457,7 +456,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                   GestureDetector(
                     onTap: () {
                       if (formKey.currentState!.validate()) {
-                        authProvider.registerNewCustomer(context);
+                        authProvider.registerNewCustomer();
                       }
                       return;
                     },

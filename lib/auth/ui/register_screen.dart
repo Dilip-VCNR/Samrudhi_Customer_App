@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/auth/provider/auth_provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
@@ -24,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var screenSize = MediaQuery.of(context).size;
     return Consumer<AuthProvider>(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.context = context;
         return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -134,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return;
                         }
                         if (context.mounted) {
-                          authProvider.chooseCurrentAddress(context);
+                          authProvider.chooseCurrentAddress();
                         }
                       }
                     },
