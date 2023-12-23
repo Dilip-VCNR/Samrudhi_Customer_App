@@ -101,12 +101,12 @@ class _OtpScreenState extends State<OtpScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 if (authProvider.firstStateEnabled) {
+                                  await authProvider.sendOtp();
                                   setState(() {
                                     authProvider.firstStateEnabled = false;
                                     authProvider.controller.restart(); // Restart the countdown
-                                    authProvider.sendOtp();
                                   });
                                 }
                               },

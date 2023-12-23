@@ -19,7 +19,7 @@ class PrefModel {
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
     return PrefModel(
-        userdata: parsedJson['userData'] ?? "",
+        userdata: parsedJson['userData'],
         email: parsedJson['email'] ?? "",
         phone: parsedJson['phone'] ?? "",
         name: parsedJson['name'] ?? "",

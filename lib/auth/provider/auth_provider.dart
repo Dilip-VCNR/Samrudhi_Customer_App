@@ -31,7 +31,6 @@ class AuthProvider extends ChangeNotifier {
   int seconds = 30;
   bool firstStateEnabled = false;
   String otpCode = "";
-  final formKey = GlobalKey<FormState>();
 
 
   bool termsAndConditionsIsChecked = false;

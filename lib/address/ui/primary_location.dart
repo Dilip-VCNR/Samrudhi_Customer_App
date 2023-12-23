@@ -71,7 +71,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                         CameraPosition(
                             target: LatLng(currentLocation.latitude,
                                 currentLocation.longitude),
-                            zoom: 17.0),
+                            zoom: 14.0),
                       ),
                     );
                   },
@@ -135,7 +135,6 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                           ),
                           textEditingController: searchController,
                           googleAPIKey: UrlConstant.googleApiKey,
-                          debounceTime: 100,
                           countries: const ["In"],
                           isLatLngRequired: true,
                           getPlaceDetailWithLatLng: (prediction) async {

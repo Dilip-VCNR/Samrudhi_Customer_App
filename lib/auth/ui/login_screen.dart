@@ -14,6 +14,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -107,12 +109,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               alignLeft: false,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Expanded(
                             child: Form(
-                              key: authProvider.formKey,
+                              key: formKey,
                               child: TextFormField(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -135,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   errorStyle: const TextStyle(
                                       color: AppColors.secondaryColor),
                                   border: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Colors.black, width: 2),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -192,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          if (authProvider.formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             authProvider.sendOtp();
                           }
                         },
