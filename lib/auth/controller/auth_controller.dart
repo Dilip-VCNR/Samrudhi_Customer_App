@@ -23,6 +23,24 @@ class AuthController {
     return containsNumbers;
   }
 
+  bool isNotValidPhone(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      return true;
+    }
+    if (phoneNumber.length != 10 || !isNumeric(phoneNumber)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isNumeric(String? str) {
+    if (str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
+  }
+
+
   bool? serviceEnabled;
   LocationPermission? permission;
 
