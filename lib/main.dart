@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,10 +23,14 @@ import 'dashboard/profile/web_view_screen.dart';
 import 'dashboard/store/ui/store_screen.dart';
 import 'dashboard/wallet/ui/redeem_points_operator.dart';
 import 'database/app_pref.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppPref.getInstance();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -39,9 +44,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context)=>AuthProvider())
-      ],
+      providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Samruddhi',
