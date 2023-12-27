@@ -1,10 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
@@ -19,16 +18,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
-
-  _getImageFromGallery(AuthProvider authProvider) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        authProvider.selectedImage = File(pickedFile.path);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       FocusScope.of(context).unfocus();
                       if (authProvider.registerFormKey.currentState!.validate()) {
                         if (!authProvider.termsAndConditionsIsChecked) {
+                          showErrorToast(context, "Please agree to terms and conditions and privacy policy");
                           return;
                         }
                         await authProvider.getApproxLocation();
@@ -200,12 +190,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: _getImageFromGallery(authProvider),
+                      onTap: authProvider.getImageFromGallery,
                       child: Stack(
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            backgroundColor: AppColors.scaffoldBackground,
+                            backgroundColor: AppColors.fontColor,
                             backgroundImage: authProvider.selectedImage != null
                                 ? FileImage(authProvider.selectedImage!)
                                 : null,
@@ -220,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   radius: 15,
                                   backgroundColor: Colors.grey.shade400,
                                   child: IconButton(
-                                      onPressed: _getImageFromGallery(authProvider),
+                                      onPressed: authProvider.getImageFromGallery,
                                       icon: const Icon(
                                         Icons.file_upload_outlined,
                                         size: 15,
@@ -245,7 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.person_2_outlined),
-                        hintText: 'Full Name',
+                        hintText: 'First Name',
                         counterText: "",
                         isCollapsed: true,
                         filled: true,
@@ -274,7 +264,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.person_2_outlined),
-                        hintText: 'Full Name',
+                        hintText: 'Last Name',
                         counterText: "",
                         isCollapsed: true,
                         filled: true,
@@ -396,28 +386,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fillColor: AppColors.inputFieldColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: authProvider.operatorTypeController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.settings_input_antenna),
-                        hintText: 'Store Referral Code (Optional)',
-                        counterText: "",
-                        isCollapsed: true,
-                        filled: true,
-                        fillColor: AppColors.inputFieldColor,
-                        // Set the fill color to grey
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          // Set the border radius
                           borderSide: BorderSide.none,
                         ),
                         contentPadding: const EdgeInsets.symmetric(vertical: 16.0),

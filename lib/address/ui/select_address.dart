@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:provider/provider.dart';
-
-import '../../auth/provider/auth_provider.dart';
+import 'package:samruddhi/api_calls.dart';
+import 'package:samruddhi/auth/models/login_response_model.dart';
+import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
+import 'package:samruddhi/database/app_pref.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
@@ -22,15 +24,10 @@ class _SelectAddressState extends State<SelectAddress> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
 
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    final Function(String) onAddressChanged =
-        arguments['callBack'] as Function(String);
-
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
-        authProvider.selectAddressPageContext = context;
-        return  Scaffold(
+      builder: (BuildContext context, DashboardProvider dashboardProvider, Widget? child) {
+        dashboardProvider.selectAddressPageContext = context;
+        return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             title: const Text(
@@ -50,7 +47,7 @@ class _SelectAddressState extends State<SelectAddress> {
               onTap: () async {
                 Position currentPosition;
                 try {
-                  currentPosition = await authProvider.getCurrentLocation();
+                  currentPosition = await dashboardProvider.getCurrentLocation();
                 } catch (e) {
                   currentPosition = const Position(
                     latitude: 10.1632,
@@ -123,13 +120,19 @@ class _SelectAddressState extends State<SelectAddress> {
                           contentPadding:
                           const EdgeInsets.symmetric(vertical: 16.0),
                         ),
-                        textEditingController: authProvider.searchController,
+                        textEditingController: dashboardProvider.addressSearchController,
                         googleAPIKey: UrlConstant.googleApiKey,
                         debounceTime: 400,
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
-                          onAddressChanged(prediction.toJson().toString());
+                          prefModel.selectedAddress = AddressArray(
+                            lat: double.parse(prediction.lat!),
+                            lng: double.parse(prediction.lng!),
+                            completeAddress: prediction.description
+                          );
+                          AppPref.setPref(prefModel);
+                          dashboardProvider.getHomeData();
                           Navigator.pop(context);
                         },
                         itmClick: (prediction) async {
@@ -146,12 +149,14 @@ class _SelectAddressState extends State<SelectAddress> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: 3,
+                    itemCount: prefModel.userData!.addressArray!.length,
                     scrollDirection: Axis.vertical,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        onAddressChanged("THis is saved address");
+                        prefModel.selectedAddress = prefModel.userData!.addressArray![index];
+                        AppPref.setPref(prefModel);
+                        dashboardProvider.getHomeData();
                         Navigator.pop(context);
                       },
                       child: Column(
@@ -161,7 +166,7 @@ class _SelectAddressState extends State<SelectAddress> {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -170,7 +175,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Home',
+                                    '${prefModel.userData!.addressArray![index].addressType!}',
                                     style: TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 16,
@@ -179,7 +184,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                     ),
                                   ),
                                   Text(
-                                    '11/1 b Jest building peenya..',
+                                    '${prefModel.userData!.addressArray![index].completeAddress}',
                                     style: TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 14,
@@ -190,21 +195,26 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                               Row(
                                 children: [
-                                  CircleAvatar(
-                                      backgroundColor: AppColors.primaryColor,
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                      )),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  CircleAvatar(
-                                      backgroundColor: Colors.red,
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                      ))
+                                  // CircleAvatar(
+                                  //     backgroundColor: AppColors.primaryColor,
+                                  //     child: Icon(
+                                  //       Icons.edit,
+                                  //       color: Colors.white,
+                                  //     )),
+                                  // SizedBox(
+                                  //   width: 20,
+                                  // ),
+                                  GestureDetector(
+                                    onTap:(){
+                                      // dashboardProvider.deleteUserAddress();
+                                    },
+                                    child: CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                        )),
+                                  )
                                 ],
                               ),
                             ],

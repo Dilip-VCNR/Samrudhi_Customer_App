@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:timer_count_down/timer_controller.dart';
@@ -61,6 +62,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController stateController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
+  BuildContext? fillAddressBottomSheetContext;
 
   bool isNotValidEmail(String email) {
     const emailRegex =
@@ -231,8 +233,17 @@ class AuthProvider extends ChangeNotifier {
     Navigator.pushNamed(registerPageContext!, Routes.primaryLocationRoute);
   }
 
+  getImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedImage = File(pickedFile.path);
+      notifyListeners();
+    }
+  }
+
   registerNewUser() async {
-    showLoaderDialog(selectAddressPageContext!);
+    showLoaderDialog(fillAddressBottomSheetContext!);
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     RegisterResponseModel registerResponse = await apiCalls.registerNewUser(
         firstNameController.text,
@@ -245,7 +256,7 @@ class AuthProvider extends ChangeNotifier {
         operatorTypeController.text,
         storeReferralCodeController.text,
         cableSubscriberIdController.text,
-        "Home",
+        "Primary",
         addressController.text,
         cityController.text,
         stateController.text,
@@ -258,11 +269,11 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = registerResponse.result;
       await AppPref.setPref(prefModel);
       await clearFieldData();
-      Navigator.pop(selectAddressPageContext!);
-      Navigator.pushNamedAndRemoveUntil(selectAddressPageContext!, Routes.dashboardRoute, (route) => false);
+      Navigator.pop(fillAddressBottomSheetContext!);
+      Navigator.pushNamedAndRemoveUntil(fillAddressBottomSheetContext!, Routes.dashboardRoute, (route) => false);
     }else{
-      Navigator.pop(selectAddressPageContext!);
-      showErrorToast(selectAddressPageContext!, registerResponse.message!);
+      Navigator.pop(fillAddressBottomSheetContext!);
+      showErrorToast(fillAddressBottomSheetContext!, registerResponse.message!);
     }
   }
 }

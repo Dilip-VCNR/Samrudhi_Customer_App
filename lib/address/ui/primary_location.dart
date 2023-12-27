@@ -35,14 +35,14 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
     // final arguments = (ModalRoute.of(context)?.settings.arguments ??
     //     <String, dynamic>{}) as Map;
     // Position currentLocation = arguments['currentLocation'];
-    // cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
-    //     target: LatLng(arguments['currentLocation'].latitude,
-    //         arguments['currentLocation'].longitude),
-    //     zoom: 14.0));
     var screenSize = MediaQuery.of(context).size;
 
     return Consumer(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
+            target: LatLng(authProvider.currentPosition!.latitude,
+                authProvider.currentPosition!.longitude),
+            zoom: 17.0));
         return GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -134,7 +134,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                           ),
                           textEditingController: searchController,
                           googleAPIKey: UrlConstant.googleApiKey,
-                          debounceTime: 400,
+                          debounceTime: 100,
                           countries: const ["In"],
                           isLatLngRequired: true,
                           getPlaceDetailWithLatLng: (prediction) async {
@@ -296,6 +296,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
       ),
       context: context,
       builder: (BuildContext context) {
+        authProvider.fillAddressBottomSheetContext = context;
         return Padding(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),

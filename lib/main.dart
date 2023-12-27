@@ -20,6 +20,7 @@ import 'dashboard/home/ui/notifications_screen.dart';
 import 'dashboard/home/ui/search_screen.dart';
 import 'dashboard/orders/ui/place_order.dart';
 import 'dashboard/profile/web_view_screen.dart';
+import 'dashboard/providers/dashboard_provider.dart';
 import 'dashboard/store/ui/store_screen.dart';
 import 'dashboard/wallet/ui/redeem_points_operator.dart';
 import 'database/app_pref.dart';
@@ -44,7 +45,10 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => DashboardProvider()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Samruddhi',
