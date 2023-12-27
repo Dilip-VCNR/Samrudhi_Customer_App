@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 
@@ -18,11 +20,15 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
 
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController storeReferralCodeController = TextEditingController();
-  TextEditingController operatorCodeController = TextEditingController();
-  TextEditingController cableSubscriberIdController = TextEditingController();
+  _getImageFromGallery(AuthProvider authProvider) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        authProvider.selectedImage = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,35 +144,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (!authProvider.termsAndConditionsIsChecked) {
                           return;
                         }
-                        Position currentPosition;
-                        try {
-                          currentPosition =
-                          await authProvider.getCurrentLocation();
-                        } catch (e) {
-                          currentPosition = const Position(
-                            latitude: 10.1632,
-                            longitude: 76.6413,
-                            timestamp: null,
-                            accuracy: 100,
-                            altitude: 0,
-                            heading: 0,
-                            speed: 0,
-                            speedAccuracy: 0,
-                          );
-                        }
-                        if (context.mounted) {
-                          Navigator.pushNamed(context, Routes.primaryLocationRoute,
-                              arguments: {
-                                'name': nameController.text,
-                                'email': emailController.text,
-                                'storeReferralCode':
-                                storeReferralCodeController.text,
-                                'operatorCode': operatorCodeController.text,
-                                'cableSubscriberId':
-                                cableSubscriberIdController.text,
-                                "currentLocation": currentPosition
-                              });
-                        }
+                        await authProvider.getApproxLocation();
+                        // if (context.mounted) {
+                        //   Navigator.pushNamed(context, Routes.primaryLocationRoute,
+                            // arguments: {
+                            //   'name': authProvider.nameController.text,
+                            //   'email': authProvider.emailController.text,
+                            //   'storeReferralCode': authProvider.storeReferralCodeController.text,
+                            //   'operatorCode': authProvider.operatorCodeController.text,
+                            //   'cableSubscriberId': authProvider.cableSubscriberIdController.text,
+                            //   "currentLocation": currentPosition
+                            // }
+                          // );
+                        // }
                       }
                     },
                     child: Container(
@@ -209,14 +199,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    GestureDetector(
+                      onTap: _getImageFromGallery(authProvider),
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: AppColors.scaffoldBackground,
+                            backgroundImage: authProvider.selectedImage != null
+                                ? FileImage(authProvider.selectedImage!)
+                                : null,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Positioned(
+                              bottom: 2,
+                              right: 2,
+                              child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.grey.shade400,
+                                  child: IconButton(
+                                      onPressed: _getImageFromGallery(authProvider),
+                                      icon: const Icon(
+                                        Icons.file_upload_outlined,
+                                        size: 15,
+                                      ),
+                                      color: Colors.black)))
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     TextFormField(
-                      controller: nameController,
+                      controller: authProvider.firstNameController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter your name';
+                          return 'Please enter your first name';
                         }
                         if (authProvider.isNotValidName(value)) {
-                          return "Please enter valid name";
+                          return "Please enter valid first name";
                         }
                         return null;
                       },
@@ -239,7 +262,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: emailController,
+                      controller: authProvider.lastNameController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your last name';
+                        }
+                        if (authProvider.isNotValidName(value)) {
+                          return "Please enter valid last name";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.person_2_outlined),
+                        hintText: 'Full Name',
+                        counterText: "",
+                        isCollapsed: true,
+                        filled: true,
+                        fillColor: AppColors.inputFieldColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                      textAlignVertical: TextAlignVertical.center,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: authProvider.emailController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your email';
@@ -268,7 +320,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: storeReferralCodeController,
+                      controller: authProvider.storeReferralCodeController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.store),
                         hintText: 'Store referral code (Optional)',
@@ -290,7 +342,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: operatorCodeController,
+                      controller: authProvider.operatorCodeController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.settings_input_antenna),
                         hintText: 'Operator code (Optional)',
@@ -312,7 +364,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: cableSubscriberIdController,
+                      controller: authProvider.operatorTypeController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.settings_input_antenna),
+                        hintText: 'Operator type (Optional)',
+                        counterText: "",
+                        isCollapsed: true,
+                        filled: true,
+                        fillColor: AppColors.inputFieldColor,
+                        // Set the fill color to grey
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          // Set the border radius
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                      textAlignVertical: TextAlignVertical.center,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: authProvider.cableSubscriberIdController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.tv),
                         hintText: 'Cable subscriber Id (Optional)',
@@ -322,6 +396,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fillColor: AppColors.inputFieldColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                      textAlignVertical: TextAlignVertical.center,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: authProvider.operatorTypeController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.settings_input_antenna),
+                        hintText: 'Store Referral Code (Optional)',
+                        counterText: "",
+                        isCollapsed: true,
+                        filled: true,
+                        fillColor: AppColors.inputFieldColor,
+                        // Set the fill color to grey
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          // Set the border radius
                           borderSide: BorderSide.none,
                         ),
                         contentPadding: const EdgeInsets.symmetric(vertical: 16.0),

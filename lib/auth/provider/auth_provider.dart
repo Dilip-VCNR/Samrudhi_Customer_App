@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:samruddhi/api_calls.dart';
+import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
 import '../../database/app_pref.dart';
@@ -11,9 +15,10 @@ import '../../utils/routes.dart';
 import '../models/login_response_model.dart';
 
 class AuthProvider extends ChangeNotifier {
-
   ApiCalls apiCalls = ApiCalls();
   String? verificationIdValue;
+  String? latestUid;
+  LatLng? selectedLocation;
 
   // Login Page declarations
   int currentSlideIndex = 0;
@@ -21,11 +26,6 @@ class AuthProvider extends ChangeNotifier {
   String? selectedCountryCode = "+91";
   final loginFormKey = GlobalKey<FormState>();
   BuildContext? loginPageContext;
-
-  // register page declarations
-  bool termsAndConditionsIsChecked = false;
-  final registerFormKey = GlobalKey<FormState>();
-  BuildContext? registerPageContext;
 
   // otp screen declarations
   CountdownController countdownController =
@@ -38,6 +38,29 @@ class AuthProvider extends ChangeNotifier {
   // select address declarations
   TextEditingController searchController = TextEditingController();
   BuildContext? selectAddressPageContext;
+
+  // register page declarations
+  bool termsAndConditionsIsChecked = false;
+  final registerFormKey = GlobalKey<FormState>();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController storeReferralCodeController = TextEditingController();
+  TextEditingController operatorCodeController = TextEditingController();
+  TextEditingController operatorTypeController = TextEditingController();
+  TextEditingController cableSubscriberIdController = TextEditingController();
+  BuildContext? registerPageContext;
+  File? selectedImage;
+
+  Position? currentPosition;
+
+  // selectPrimaryAddress Bottom sheet declarations
+  final primaryAddressFormKey = GlobalKey<FormState>();
+
+  TextEditingController addressController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController postalCodeController = TextEditingController();
 
   bool isNotValidEmail(String email) {
     const emailRegex =
@@ -116,7 +139,8 @@ class AuthProvider extends ChangeNotifier {
       codeSent: (String verificationId, int? resendToken) {
         verificationIdValue = verificationId;
         Navigator.pop(loginPageContext!);
-        showSuccessToast(loginPageContext!, "OTP is sent to $selectedCountryCode ${phoneNumberController.text}");
+        showSuccessToast(loginPageContext!,
+            "OTP is sent to $selectedCountryCode ${phoneNumberController.text}");
         Navigator.pushNamed(loginPageContext!, Routes.otpScreenRoute);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
@@ -135,7 +159,8 @@ class AuthProvider extends ChangeNotifier {
       codeSent: (String verificationId, int? resendToken) {
         verificationIdValue = verificationId;
         Navigator.pop(otpScreenContext!);
-        showSuccessToast(loginPageContext!, "OTP is sent to $selectedCountryCode ${phoneNumberController.text}");
+        showSuccessToast(loginPageContext!,
+            "OTP is sent to $selectedCountryCode ${phoneNumberController.text}");
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
@@ -148,28 +173,34 @@ class AuthProvider extends ChangeNotifier {
       smsCode: otpCode,
     );
     try {
-      await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
+      await FirebaseAuth.instance
+          .signInWithCredential(credential)
+          .then((value) async {
+        latestUid = value.user!.uid;
         await apiCallForUserDetails(value.user!.uid);
       });
     } on FirebaseAuthException catch (e) {
       Navigator.pop(otpScreenContext!);
-      showErrorToast(otpScreenContext!, "Oops !You have entered a wrong OTP\n$e");
+      showErrorToast(
+          otpScreenContext!, "Oops !You have entered a wrong OTP\n$e");
     }
   }
 
   apiCallForUserDetails(String uid) async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
-    LoginResponseModel authResponse = await apiCalls.getUserDetails(uid, fcmToken!);
-    await clearFieldData();
-    if(authResponse.statusCode==200){
+    LoginResponseModel authResponse =
+        await apiCalls.getUserDetails(uid, fcmToken!);
+    if (authResponse.statusCode == 200) {
+      otpCode = "";
+      notifyListeners();
       prefModel.userData = authResponse.result;
       await AppPref.setPref(prefModel);
       Navigator.pop(otpScreenContext!);
       Navigator.pushNamed(otpScreenContext!, Routes.dashboardRoute);
-    }else if(authResponse.statusCode==404){
+    } else if (authResponse.statusCode == 404) {
       Navigator.pop(otpScreenContext!);
       Navigator.pushNamed(otpScreenContext!, Routes.registerRoute);
-    }else{
+    } else {
       Navigator.pop(otpScreenContext!);
       showErrorToast(otpScreenContext!, authResponse.message!);
     }
@@ -179,5 +210,59 @@ class AuthProvider extends ChangeNotifier {
     phoneNumberController.text = "";
     otpCode = "";
     notifyListeners();
+  }
+
+  getApproxLocation() async {
+    showLoaderDialog(registerPageContext!);
+    try {
+      currentPosition = await getCurrentLocation();
+    } catch (e) {
+      currentPosition = const Position(
+          latitude: 10.1632,
+          longitude: 76.6413,
+          timestamp: null,
+          accuracy: 100,
+          altitude: 0,
+          heading: 0,
+          speed: 0,
+          speedAccuracy: 0);
+    }
+    Navigator.pop(registerPageContext!);
+    Navigator.pushNamed(registerPageContext!, Routes.primaryLocationRoute);
+  }
+
+  registerNewUser() async {
+    showLoaderDialog(selectAddressPageContext!);
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+    RegisterResponseModel registerResponse = await apiCalls.registerNewUser(
+        firstNameController.text,
+        lastNameController.text,
+        latestUid,
+        emailController.text,
+        phoneNumberController.text,
+        fcmToken,
+        operatorCodeController.text,
+        operatorTypeController.text,
+        storeReferralCodeController.text,
+        cableSubscriberIdController.text,
+        "Home",
+        addressController.text,
+        cityController.text,
+        stateController.text,
+        selectedLocation!.latitude,
+        selectedLocation!.longitude,
+        postalCodeController.text,
+        selectedImage
+    );
+    if(registerResponse.statusCode==201){
+      prefModel.userData = registerResponse.result;
+      await AppPref.setPref(prefModel);
+      await clearFieldData();
+      Navigator.pop(selectAddressPageContext!);
+      Navigator.pushNamedAndRemoveUntil(selectAddressPageContext!, Routes.dashboardRoute, (route) => false);
+    }else{
+      Navigator.pop(selectAddressPageContext!);
+      showErrorToast(selectAddressPageContext!, registerResponse.message!);
+    }
   }
 }

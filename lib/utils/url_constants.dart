@@ -5,8 +5,8 @@ class UrlConstant {
   static const String imageBaseUrl = "http://santhuofficial123.pythonanywhere.com/media/";
   static const String apiBaseUrl = "http://103.74.138.223:8020/api/";
   static const String userDetails = "${apiBaseUrl}customer/getCustomerById";
+  static const String registerUser = "${apiBaseUrl}customer/registerCustomer";
 
-  static const String registerUser = "${apiBaseUrl}user_register";
   static const String userHomePage = "${apiBaseUrl}user_home_page";
   static const String getUserProfile = "${apiBaseUrl}get_user_profile";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:samruddhi/address/controller/location_controller.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
-import '../../utils/routes.dart';
+import '../../auth/provider/auth_provider.dart';
 
 class PrimaryLocation extends StatefulWidget {
   const PrimaryLocation({Key? key}) : super(key: key);
@@ -32,140 +32,144 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    Position currentLocation = arguments['currentLocation'];
-    cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
-        target: LatLng(arguments['currentLocation'].latitude,
-            arguments['currentLocation'].longitude),
-        zoom: 14.0));
+    // final arguments = (ModalRoute.of(context)?.settings.arguments ??
+    //     <String, dynamic>{}) as Map;
+    // Position currentLocation = arguments['currentLocation'];
+    // cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
+    //     target: LatLng(arguments['currentLocation'].latitude,
+    //         arguments['currentLocation'].longitude),
+    //     zoom: 14.0));
     var screenSize = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Set Primary Location',
-            style: TextStyle(
-              color: AppColors.fontColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
+    return Consumer(
+      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Set Primary Location',
+                style: TextStyle(
+                  color: AppColors.fontColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
-          ),
-        ),
-        floatingActionButton: Align(
-            alignment: Alignment.bottomCenter,
-            child: FloatingActionButton.extended(
-              backgroundColor: Colors.white,
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                searchController.clear();
-                mapController?.animateCamera(
-                  CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                        target: LatLng(currentLocation.latitude,
-                            currentLocation.longitude),
-                        zoom: 17.0),
-                  ),
-                );
-              },
-              label: const Text(
-                "Use current location",
-                style: TextStyle(color: Colors.black),
-              ),
-              icon: const Icon(
-                Icons.my_location,
-                color: Colors.black,
-              ),
-            )),
-        body: Stack(
-          children: [
-            GoogleMap(
-              myLocationButtonEnabled: true,
-              zoomGesturesEnabled: true,
-              initialCameraPosition: CameraPosition(
-                target:
-                    LatLng(currentLocation.latitude, currentLocation.longitude),
-                zoom: 14.0,
-              ),
-              mapType: MapType.normal,
-              onMapCreated: (controller) {
-                setState(() {
-                  mapController = controller;
-                });
-              },
-              onCameraMove: (position) {
-                cameraPositionNotifier!.value = position;
-              },
-            ),
-            const Center(
-                child: Icon(Icons.location_pin,
-                    color: AppColors.primaryColor, size: 50)),
-            Positioned(
-                top: 10,
-                child: Container(
-                  width: screenSize.width,
-                  padding: const EdgeInsets.all(20),
-                  child: GooglePlacesAutoCompleteTextFormField(
-                      textAlignVertical: TextAlignVertical.center,
-                      inputDecoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              searchController.clear();
-                            },
-                            child: const Icon(Icons.clear)),
-                        hintText: 'Search a place',
-                        counterText: "",
-                        isCollapsed: true,
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 16.0),
+            floatingActionButton: Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton.extended(
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    searchController.clear();
+                    mapController?.animateCamera(
+                      CameraUpdate.newCameraPosition(
+                        CameraPosition(
+                            target: LatLng(authProvider.currentPosition!.latitude,
+                                authProvider.currentPosition!.longitude),
+                            zoom: 17.0),
                       ),
-                      textEditingController: searchController,
-                      googleAPIKey: UrlConstant.googleApiKey,
-                      debounceTime: 400,
-                      countries: const ["In"],
-                      isLatLngRequired: true,
-                      getPlaceDetailWithLatLng: (prediction) async {
-                        FocusScope.of(context).unfocus();
-                        setState(() {
-                          location =
-                              prediction.description ?? "Search location";
-                        });
-                        var newLatLng = LatLng(double.parse(prediction.lat!),
-                            double.parse(prediction.lng!));
-
-                        mapController?.animateCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(target: newLatLng, zoom: 17),
+                    );
+                  },
+                  label: const Text(
+                    "Use current location",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  icon: const Icon(
+                    Icons.my_location,
+                    color: Colors.black,
+                  ),
+                )),
+            body: Stack(
+              children: [
+                GoogleMap(
+                  myLocationButtonEnabled: true,
+                  zoomGesturesEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target:
+                    LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
+                    zoom: 14.0,
+                  ),
+                  mapType: MapType.normal,
+                  onMapCreated: (controller) {
+                    setState(() {
+                      mapController = controller;
+                    });
+                  },
+                  onCameraMove: (position) {
+                    cameraPositionNotifier!.value = position;
+                  },
+                ),
+                const Center(
+                    child: Icon(Icons.location_pin,
+                        color: AppColors.primaryColor, size: 50)),
+                Positioned(
+                    top: 10,
+                    child: Container(
+                      width: screenSize.width,
+                      padding: const EdgeInsets.all(20),
+                      child: GooglePlacesAutoCompleteTextFormField(
+                          textAlignVertical: TextAlignVertical.center,
+                          inputDecoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: InkWell(
+                                onTap: () {
+                                  searchController.clear();
+                                },
+                                child: const Icon(Icons.clear)),
+                            hintText: 'Search a place',
+                            counterText: "",
+                            isCollapsed: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                            const EdgeInsets.symmetric(vertical: 16.0),
                           ),
-                        );
-                      },
-                      itmClick: (prediction) async {
-                        searchController.text = prediction.description!;
-                        searchController.selection = TextSelection.fromPosition(
-                            TextPosition(
-                                offset: prediction.description!.length));
-                      }),
-                ))
-          ],
-        ),
-        bottomNavigationBar: _buildMapConfirmationBar(screenSize, arguments),
-      ),
+                          textEditingController: searchController,
+                          googleAPIKey: UrlConstant.googleApiKey,
+                          debounceTime: 400,
+                          countries: const ["In"],
+                          isLatLngRequired: true,
+                          getPlaceDetailWithLatLng: (prediction) async {
+                            FocusScope.of(context).unfocus();
+                            setState(() {
+                              location =
+                                  prediction.description ?? "Search location";
+                            });
+                            var newLatLng = LatLng(double.parse(prediction.lat!),
+                                double.parse(prediction.lng!));
+
+                            mapController?.animateCamera(
+                              CameraUpdate.newCameraPosition(
+                                CameraPosition(target: newLatLng, zoom: 17),
+                              ),
+                            );
+                          },
+                          itmClick: (prediction) async {
+                            searchController.text = prediction.description!;
+                            searchController.selection = TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: prediction.description!.length));
+                          }),
+                    ))
+              ],
+            ),
+            bottomNavigationBar: _buildMapConfirmationBar(screenSize,authProvider),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildMapConfirmationBar(
-      Size screenSize, Map<dynamic, dynamic> arguments) {
+      Size screenSize, AuthProvider authProvider) {
     return ValueListenableBuilder<CameraPosition>(
       valueListenable: cameraPositionNotifier!,
       builder: (context, cameraPosition, _) {
@@ -229,7 +233,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                       InkWell(
                         onTap: () {
                           showInputCompleteAddressModal(context, snapshot.data!,
-                              cameraPosition.target, arguments);
+                              cameraPosition.target,authProvider);
                         },
                         child: Container(
                           width: double.infinity,
@@ -276,17 +280,11 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
   showInputCompleteAddressModal(
       BuildContext context,
       Map<String, dynamic> locationData,
-      LatLng target,
-      Map<dynamic, dynamic> arguments) {
-    final formKey = GlobalKey<FormState>();
-
-    TextEditingController addressController = TextEditingController();
-    TextEditingController stateController = TextEditingController();
-    TextEditingController cityController = TextEditingController();
-    TextEditingController postalCodeController = TextEditingController();
-    postalCodeController.text = locationData['postalCode'].toString();
-    stateController.text = locationData['administrativeArea'].toString();
-    cityController.text = locationData['subAdministrativeArea'].toString();
+      LatLng target, AuthProvider authProvider) {
+    authProvider.selectedLocation = target;
+    authProvider.postalCodeController.text = locationData['postalCode'].toString();
+    authProvider.stateController.text = locationData['administrativeArea'].toString();
+    authProvider.cityController.text = locationData['subAdministrativeArea'].toString();
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.white,
@@ -304,7 +302,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
             child: Form(
-              key: formKey,
+              key: authProvider.primaryAddressFormKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,7 +343,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: addressController,
+                    controller: authProvider.addressController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter complete address';
@@ -372,7 +370,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: stateController,
+                    controller: authProvider.stateController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter your state';
@@ -399,7 +397,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: cityController,
+                    controller: authProvider.cityController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter your city';
@@ -426,7 +424,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: postalCodeController,
+                    controller: authProvider.postalCodeController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter your postal code';
@@ -453,10 +451,9 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            Routes.dashboardRoute, (route) => false);
+                    onTap: () async {
+                      if (authProvider.primaryAddressFormKey.currentState!.validate()) {
+                        await authProvider.registerNewUser();
                       }
                       return;
                     },
