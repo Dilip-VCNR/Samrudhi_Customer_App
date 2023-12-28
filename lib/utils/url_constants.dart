@@ -2,7 +2,7 @@ class UrlConstant {
   static const String googleApiKey = "AIzaSyC6O2CG9zBAksJH4SCgCZlbx3XRWVwzY1E";
 
   static const String websiteBaseUrl = "http://santhuofficial123.pythonanywhere.com/";
-  static const String imageBaseUrl = "http://santhuofficial123.pythonanywhere.com/media/";
+  static const String imageBaseUrl = "http://103.120.63.7:8020";
   static const String apiBaseUrl = "http://103.120.63.7:8020/api/";
   static const String userDetails = "${apiBaseUrl}customer/getCustomerById";
   static const String registerUser = "${apiBaseUrl}customer/registerCustomer";

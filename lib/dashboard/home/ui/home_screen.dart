@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/utils/routes.dart';
+import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../utils/app_colors.dart';
 
@@ -58,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }
-              if (snapshot.hasData) {
+              if (snapshot.hasData && snapshot.data!.result!=null) {
                 return SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -322,10 +324,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Container(
                                       width: 80,
                                       height: 80,
-                                      decoration: const ShapeDecoration(
+                                      decoration: ShapeDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                              "https://via.placeholder.com/70x70"),
+                                              '${UrlConstant.imageBaseUrl}${snapshot.data!.result!.productCategories![index].productCategoryImgArray![0].imagePath}'),
                                           fit: BoxFit.fill,
                                         ),
                                         shape: OvalBorder(),

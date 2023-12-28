@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -112,7 +113,7 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
-    print(response.body);
+    log(response.body);
     if(response.statusCode==201){
       return HomeDataModel.fromJson(json.decode(response.body));
     }else{
