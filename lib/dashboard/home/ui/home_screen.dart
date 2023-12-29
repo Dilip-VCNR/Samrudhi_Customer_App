@@ -106,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: screenSize.width / 1.6,
                                     child: Text(
                                       '${dashboardProvider.address}',
+                                      maxLines: 2,
                                       style: TextStyle(
                                         color: AppColors.fontColor,
                                         fontSize: 14,
@@ -376,8 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, Routes.storeInRoute);
+                                    dashboardProvider.getIntoStore(snapshot.data!.result!.nearStoresdata![index]);
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(
@@ -395,9 +395,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Container(
                                           width: 125,
                                           height: 130,
-                                          decoration: const ShapeDecoration(
+                                          decoration: ShapeDecoration(
                                             image: DecorationImage(
-                                              image: NetworkImage(
+                                              image: snapshot.data!.result!.nearStoresdata![index].storeImgArray?.length!=0?NetworkImage(
+                                                  "${UrlConstant.imageBaseUrl}${snapshot.data!.result!.nearStoresdata![index].storeImgArray![0].imageUrl}"):NetworkImage(
                                                   "https://via.placeholder.com/110x125"),
                                               fit: BoxFit.fill,
                                             ),
@@ -422,8 +423,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            const Text(
-                                              'Vinayaka Provision stores',
+                                            Text(
+                                              '${snapshot.data!.result!.nearStoresdata![index].displayName}',
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16.55,
@@ -431,10 +432,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 height: 1.25,
                                               ),
                                             ),
-                                            const SizedBox(
+                                            SizedBox(
                                               width: 212,
                                               child: Text(
-                                                'Groceries and shopping',
+                                                '${snapshot.data!.result!.nearStoresdata![index].storeCategoryName}',
                                                 style: TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 8,
@@ -445,10 +446,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const SizedBox(
                                               height: 3,
                                             ),
-                                            const SizedBox(
+                                            SizedBox(
                                               width: 212,
                                               child: Text(
-                                                '#11, First floor vcnr Hospital, Nelamangala bangalore - 562123',
+                                                '${snapshot.data!.result!.nearStoresdata![index].addressArray![0].completeAddress} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].state} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].city} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].completeAddress} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].zipCode}',
                                                 style: TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 10,

@@ -9,6 +9,7 @@ import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
+import 'dashboard/models/store_data_model.dart';
 import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
 
@@ -119,5 +120,16 @@ class ApiCalls {
     }else{
       throw "err loading";
     }
+  }
+
+  Future<StoreDataModel> getStoreData(NearStoresdatum nearStoresdatum) async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getStoreData,
+        jsonEncode({
+          "storeUuid": nearStoresdatum.storeUuid,
+        }));
+    log(response.body);
+    return StoreDataModel.fromJson(json.decode(response.body));
   }
 }
