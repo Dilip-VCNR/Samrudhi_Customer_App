@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             title: Text(
               'Hi ${prefModel.userData!.firstName}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       '${dashboardProvider.address}',
                                       maxLines: 2,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: AppColors.fontColor,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -331,13 +331,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                               '${UrlConstant.imageBaseUrl}${snapshot.data!.result!.productCategories![index].productCategoryImgArray![0].imagePath}'),
                                           fit: BoxFit.fill,
                                         ),
-                                        shape: OvalBorder(),
+                                        shape: const OvalBorder(),
                                       ),
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
                                       '${snapshot.data!.result!.productCategories![index].productCategoryName}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: AppColors.fontColor,
                                         fontSize: 10,
                                         fontWeight: FontWeight.w600,
@@ -397,12 +397,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           height: 130,
                                           decoration: ShapeDecoration(
                                             image: DecorationImage(
-                                              image: snapshot.data!.result!.nearStoresdata![index].storeImgArray?.length!=0?NetworkImage(
-                                                  "${UrlConstant.imageBaseUrl}${snapshot.data!.result!.nearStoresdata![index].storeImgArray![0].imageUrl}"):NetworkImage(
+                                              image: snapshot.data!.result!.nearStoresdata![index].storeImgArray!.isNotEmpty?NetworkImage(
+                                                  "${UrlConstant.imageBaseUrl}${snapshot.data!.result!.nearStoresdata![index].storeImgArray![0].imageUrl}"):const NetworkImage(
                                                   "https://via.placeholder.com/110x125"),
                                               fit: BoxFit.fill,
                                             ),
-                                            shape: RoundedRectangleBorder(
+                                            shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(15.50),
                                                 bottomLeft:
@@ -425,7 +425,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             Text(
                                               '${snapshot.data!.result!.nearStoresdata![index].displayName}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16.55,
                                                 fontWeight: FontWeight.bold,
@@ -436,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 212,
                                               child: Text(
                                                 '${snapshot.data!.result!.nearStoresdata![index].storeCategoryName}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 8,
                                                   fontWeight: FontWeight.w500,
@@ -450,7 +450,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               width: 212,
                                               child: Text(
                                                 '${snapshot.data!.result!.nearStoresdata![index].addressArray![0].completeAddress} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].state} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].city} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].completeAddress} ${snapshot.data!.result!.nearStoresdata![index].addressArray![0].zipCode}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w500,
@@ -531,11 +531,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-  }
-
-  void onAddressChanged(String newAddress) {
-    // Your logic to handle the changed address
-    print(newAddress);
   }
 
   _pullRefresh(DashboardProvider dashboardProvider) async {

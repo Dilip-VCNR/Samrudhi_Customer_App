@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/login_response_model.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/database/app_pref.dart';
+import '../../auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
-import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
 
 class SelectAddress extends StatefulWidget {
@@ -39,53 +38,59 @@ class _SelectAddressState extends State<SelectAddress> {
               ),
             ),
           ),
-          bottomNavigationBar: Container(
-            width: screenSize.width,
-            height: 100,
-            padding: const EdgeInsets.all(20),
-            child: InkWell(
-              onTap: () async {
-                Position currentPosition;
-                try {
-                  currentPosition = await dashboardProvider.getCurrentLocation();
-                } catch (e) {
-                  currentPosition = const Position(
-                    latitude: 10.1632,
-                    longitude: 76.6413,
-                    timestamp: null,
-                    accuracy: 100,
-                    altitude: 0,
-                    heading: 0,
-                    speed: 0,
-                    speedAccuracy: 0,
-                  );
-                }
-                if (context.mounted) {
-                  Navigator.pushNamed(context, Routes.markLocationRoute,
-                      arguments: {"currentLocation": currentPosition});
-                }
-              },
-              child: Container(
+          bottomNavigationBar: Consumer(
+            builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+              authProvider.selectAddressPageContext = context;
+              return Container(
                 width: screenSize.width,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                decoration: ShapeDecoration(
-                  color: AppColors.secondaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Add new address',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                height: 100,
+                padding: const EdgeInsets.all(20),
+                child: InkWell(
+                  onTap: () async {
+                    await authProvider.getApproxLocationForAdd();
+                    // Position currentPosition;
+                    // try {
+                    //   currentPosition = await dashboardProvider.getCurrentLocation();
+                    // } catch (e) {
+                    //   currentPosition = const Position(
+                    //     latitude: 10.1632,
+                    //     longitude: 76.6413,
+                    //     timestamp: null,
+                    //     accuracy: 100,
+                    //     altitude: 0,
+                    //     heading: 0,
+                    //     speed: 0,
+                    //     speedAccuracy: 0,
+                    //   );
+                    // }
+                    // if (context.mounted) {
+                    //   Navigator.pushNamed(context, Routes.markLocationRoute,
+                    //       arguments: {"currentLocation": currentPosition});
+                    // }
+                  },
+                  child: Container(
+                    width: screenSize.width,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    decoration: ShapeDecoration(
+                      color: AppColors.secondaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Add new address',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
           body: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -175,8 +180,8 @@ class _SelectAddressState extends State<SelectAddress> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${prefModel.userData!.addressArray![index].addressType!}',
-                                    style: TextStyle(
+                                    prefModel.userData!.addressArray![index].addressType!,
+                                    style: const TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -185,7 +190,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                   ),
                                   Text(
                                     '${prefModel.userData!.addressArray![index].completeAddress}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -205,10 +210,10 @@ class _SelectAddressState extends State<SelectAddress> {
                                   //   width: 20,
                                   // ),
                                   GestureDetector(
-                                    onTap:(){
-                                      // dashboardProvider.deleteUserAddress();
+                                    onTap:() async {
+                                      await dashboardProvider.deleteUserAddress(prefModel.userData!.addressArray![index].id,index);
                                     },
-                                    child: CircleAvatar(
+                                    child: const CircleAvatar(
                                         backgroundColor: Colors.red,
                                         child: Icon(
                                           Icons.delete,

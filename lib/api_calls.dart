@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/utils/url_constants.dart';
@@ -97,15 +98,13 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(request.fields);
-    print(request.files);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
     return RegisterResponseModel.fromJson(responseJson);
   }
 
-  Future<HomeDataModel>fetchHomeData(double latitude, double longitude) async {
+  Future<HomeDataModel> fetchHomeData(double latitude, double longitude) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.userHomePage,
@@ -114,10 +113,9 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
-    log(response.body);
-    if(response.statusCode==201){
+    if (response.statusCode == 201) {
       return HomeDataModel.fromJson(json.decode(response.body));
-    }else{
+    } else {
       throw "err loading";
     }
   }
@@ -129,7 +127,40 @@ class ApiCalls {
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
         }));
-    log(response.body);
     return StoreDataModel.fromJson(json.decode(response.body));
+  }
+
+  Future<LoginResponseModel>apiAddNewAddress(LatLng? selectedLocation, String selectedAddressType,
+      String completeAddress, String city, String state, String postalCode) async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.addNewAddress,
+        jsonEncode({
+          "customerUuid": prefModel.userData!.customerUuid,
+          "addressArray": [
+            {
+              "addressType": selectedAddressType,
+              "completeAddress": completeAddress,
+              "city": city,
+              "state": state,
+              "lat": selectedLocation!.latitude,
+              "lng": selectedLocation.longitude,
+              "zipCode": postalCode
+            }]
+
+        }));
+    print(response.body);
+    return LoginResponseModel.fromJson(json.decode(response.body));
+  }
+
+  Future<DeleteAddressResponseModel> deleteAddress(String? addressId) async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.deleteAddress,
+        jsonEncode({
+          "customerUuid": prefModel.userData!.customerUuid,
+          "addressId": addressId
+        }));
+    return DeleteAddressResponseModel.fromJson(json.decode(response.body));
   }
 }

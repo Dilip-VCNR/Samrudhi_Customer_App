@@ -123,8 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       case 'edit_profile':
                         break;
                       case 'my_address':
-                        Navigator.pushNamed(context, Routes.selectAddressRoute,
-                            arguments: {'callBack': onAddressChanged});
+                        Navigator.pushNamed(context, Routes.selectAddressRoute);
                         break;
                       case 'my_orders':
                         widget.changeScreen(1); // Change to the second item
@@ -213,10 +212,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  void onAddressChanged(String newAddress) {
-    // Your logic to handle the changed address
-    print(newAddress);
   }
 }

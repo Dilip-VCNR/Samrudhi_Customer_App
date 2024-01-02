@@ -8,6 +8,8 @@ class UrlConstant {
   static const String registerUser = "${apiBaseUrl}customer/registerCustomer";
   static const String userHomePage = "${apiBaseUrl}customer/customerHomepage";
   static const String getStoreData = "${apiBaseUrl}store/getCategoryAndProductOnStore";
+  static const String addNewAddress = "${apiBaseUrl}customer/addCustomerAddress";
+  static const String deleteAddress = "${apiBaseUrl}customer/deleteCustomerAddress";
 
   static const String getUserProfile = "${apiBaseUrl}get_user_profile";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";

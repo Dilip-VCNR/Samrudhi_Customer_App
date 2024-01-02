@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/models/store_data_model.dart';
 import 'package:samruddhi/database/app_pref.dart';
@@ -140,5 +141,19 @@ class DashboardProvider extends ChangeNotifier {
       payable = payable + (cartItem.sellingPrice!*cartItem.addedCartQuantity!);
     }
     return payable.toString();
+  }
+
+  deleteUserAddress(String? addressId, int index) async {
+    showLoaderDialog(selectAddressPageContext!);
+    DeleteAddressResponseModel deleteAddressResponse = await apiCalls.deleteAddress(addressId);
+    if(deleteAddressResponse.statusCode==200){
+      prefModel.userData!.addressArray!.removeAt(index);
+      AppPref.setPref(prefModel);
+      Navigator.pop(selectAddressPageContext!);
+      notifyListeners();
+    }else{
+      Navigator.pop(selectAddressPageContext!);
+      showErrorToast(selectAddressPageContext!, deleteAddressResponse.message!);
+    }
   }
 }

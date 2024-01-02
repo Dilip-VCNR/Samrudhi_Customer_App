@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
+import 'package:provider/provider.dart';
 
+import '../../auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/url_constants.dart';
 import '../controller/location_controller.dart';
@@ -31,133 +32,136 @@ class _MarkLocationState extends State<MarkLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    Position currentLocation = arguments['currentLocation'];
-    cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
-        target: LatLng(arguments['currentLocation'].latitude,
-            arguments['currentLocation'].longitude),
-        zoom: 14.0));
+
+
     var screenSize = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Add new address',
-          style: TextStyle(
-            color: AppColors.fontColor,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+    return Consumer(
+      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
+            target: LatLng(authProvider.currentPosition!.latitude,
+                authProvider.currentPosition!.longitude),
+            zoom: 17.0));
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Add new address',
+              style: TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
-        ),
-      ),
-      floatingActionButton: Align(
-          alignment: Alignment.bottomCenter,
-          child: FloatingActionButton.extended(
-            backgroundColor: Colors.white,
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              searchController.clear();
-              mapController?.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                      target: LatLng(
-                          currentLocation.latitude, currentLocation.longitude),
-                      zoom: 17.0),
-                ),
-              );
-            },
-            label: const Text(
-              "Use current location",
-              style: TextStyle(color: Colors.black),
-            ),
-            icon: const Icon(
-              Icons.my_location,
-              color: Colors.black,
-            ),
-          )),
-      body: Stack(
-        children: [
-          GoogleMap(
-            myLocationButtonEnabled: true,
-            zoomGesturesEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(currentLocation.latitude, currentLocation.longitude),
-              zoom: 14.0,
-            ),
-            mapType: MapType.normal,
-            onMapCreated: (controller) {
-              setState(() {
-                mapController = controller;
-              });
-            },
-            onCameraMove: (position) {
-              cameraPositionNotifier!.value = position;
-            },
-          ),
-          const Center(
-              child: Icon(Icons.location_pin,
-                  color: AppColors.primaryColor, size: 50)),
-          Positioned(
-              top: 10,
-              child: Container(
-                width: screenSize.width,
-                padding: const EdgeInsets.all(20),
-                child: GooglePlacesAutoCompleteTextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    inputDecoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: InkWell(
-                          onTap: () {
-                            searchController.clear();
-                          },
-                          child: const Icon(Icons.clear)),
-                      hintText: 'Search a place',
-                      counterText: "",
-                      isCollapsed: true,
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
+          floatingActionButton: Align(
+              alignment: Alignment.bottomCenter,
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.white,
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  searchController.clear();
+                  mapController?.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                          target: LatLng(
+                              authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
+                          zoom: 17.0),
                     ),
-                    textEditingController: searchController,
-                    googleAPIKey: UrlConstant.googleApiKey,
-                    debounceTime: 400,
-                    countries: const ["In"],
-                    isLatLngRequired: true,
-                    getPlaceDetailWithLatLng: (prediction) async {
-                      FocusScope.of(context).unfocus();
-                      setState(() {
-                        location = prediction.description ?? "Search location";
-                      });
-                      var newLatLng = LatLng(double.parse(prediction.lat!),
-                          double.parse(prediction.lng!));
-
-                      mapController?.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          CameraPosition(target: newLatLng, zoom: 17),
+                  );
+                },
+                label: const Text(
+                  "Use current location",
+                  style: TextStyle(color: Colors.black),
+                ),
+                icon: const Icon(
+                  Icons.my_location,
+                  color: Colors.black,
+                ),
+              )),
+          body: Stack(
+            children: [
+              GoogleMap(
+                myLocationButtonEnabled: true,
+                zoomGesturesEnabled: true,
+                initialCameraPosition: CameraPosition(
+                  target:
+                  LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
+                  zoom: 14.0,
+                ),
+                mapType: MapType.normal,
+                onMapCreated: (controller) {
+                  setState(() {
+                    mapController = controller;
+                  });
+                },
+                onCameraMove: (position) {
+                  cameraPositionNotifier!.value = position;
+                },
+              ),
+              const Center(
+                  child: Icon(Icons.location_pin,
+                      color: AppColors.primaryColor, size: 50)),
+              Positioned(
+                  top: 10,
+                  child: Container(
+                    width: screenSize.width,
+                    padding: const EdgeInsets.all(20),
+                    child: GooglePlacesAutoCompleteTextFormField(
+                        textAlignVertical: TextAlignVertical.center,
+                        inputDecoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                searchController.clear();
+                              },
+                              child: const Icon(Icons.clear)),
+                          hintText: 'Search a place',
+                          counterText: "",
+                          isCollapsed: true,
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding:
+                          const EdgeInsets.symmetric(vertical: 16.0),
                         ),
-                      );
-                    },
-                    itmClick: (prediction) async {
-                      searchController.text = prediction.description!;
-                      searchController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: prediction.description!.length));
-                    }),
-              ))
-        ],
-      ),
-      bottomNavigationBar: _buildMapConfirmationBar(screenSize, arguments),
+                        textEditingController: searchController,
+                        googleAPIKey: UrlConstant.googleApiKey,
+                        debounceTime: 400,
+                        countries: const ["In"],
+                        isLatLngRequired: true,
+                        getPlaceDetailWithLatLng: (prediction) async {
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            location = prediction.description ?? "Search location";
+                          });
+                          var newLatLng = LatLng(double.parse(prediction.lat!),
+                              double.parse(prediction.lng!));
+
+                          mapController?.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(target: newLatLng, zoom: 17),
+                            ),
+                          );
+                        },
+                        itmClick: (prediction) async {
+                          searchController.text = prediction.description!;
+                          searchController.selection = TextSelection.fromPosition(
+                              TextPosition(offset: prediction.description!.length));
+                        }),
+                  ))
+            ],
+          ),
+          bottomNavigationBar: _buildMapConfirmationBar(screenSize,authProvider),
+        );
+      },
     );
   }
 
   Widget _buildMapConfirmationBar(
-      Size screenSize, Map<dynamic, dynamic> arguments) {
+      Size screenSize, AuthProvider authProvider) {
     return ValueListenableBuilder<CameraPosition>(
       valueListenable: cameraPositionNotifier!,
       builder: (context, cameraPosition, _) {
@@ -221,7 +225,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       InkWell(
                         onTap: () {
                           showInputCompleteAddressModal(context, snapshot.data!,
-                              cameraPosition.target, arguments);
+                              cameraPosition.target, authProvider);
                         },
                         child: Container(
                           width: double.infinity,
@@ -269,19 +273,12 @@ class _MarkLocationState extends State<MarkLocation> {
       BuildContext context,
       Map<String, dynamic> locationData,
       LatLng target,
-      Map<dynamic, dynamic> arguments) {
-    final formKey = GlobalKey<FormState>();
-
-    List<String> addressType = ['Home', 'Office', 'Others'];
-    String selectedAddressType = '';
-
-    TextEditingController addressController = TextEditingController();
-    TextEditingController stateController = TextEditingController();
-    TextEditingController cityController = TextEditingController();
-    TextEditingController postalCodeController = TextEditingController();
-    postalCodeController.text = locationData['postalCode'].toString();
-    stateController.text = locationData['administrativeArea'].toString();
-    cityController.text = locationData['subAdministrativeArea'].toString();
+      AuthProvider authProvider) {
+    authProvider.markLocationContext = context;
+    authProvider.selectedLocation = target;
+    authProvider.newPostalCodeController.text = locationData['postalCode'].toString();
+    authProvider.newStateController.text = locationData['administrativeArea'].toString();
+    authProvider.newCityController.text = locationData['subAdministrativeArea'].toString();
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.white,
@@ -301,7 +298,7 @@ class _MarkLocationState extends State<MarkLocation> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20.0),
               child: Form(
-                key: formKey,
+                key: authProvider.newAddressFormKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -327,16 +324,16 @@ class _MarkLocationState extends State<MarkLocation> {
                     ),
                     Row(
                       children: [
-                        for (int i = 0; i < addressType.length; i++)
+                        for (int i = 0; i < authProvider.addressType.length; i++)
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                selectedAddressType = addressType[i];
+                                authProvider.selectedAddressType = authProvider.addressType[i];
                               });
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: addressType[i] == selectedAddressType
+                                  color: authProvider.addressType[i] == authProvider.selectedAddressType
                                       ? AppColors.secondaryColor
                                       : Colors.grey,
                                   borderRadius: const BorderRadius.all(
@@ -346,7 +343,7 @@ class _MarkLocationState extends State<MarkLocation> {
                               padding: const EdgeInsets.all(10),
                               child: Center(
                                 child: Text(
-                                  addressType[i],
+                                  authProvider.addressType[i],
                                   style: const TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -358,7 +355,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: addressController,
+                      controller: authProvider.newAddressController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter complete address';
@@ -385,7 +382,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: stateController,
+                      controller: authProvider.newStateController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your state';
@@ -412,7 +409,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: cityController,
+                      controller: authProvider.newCityController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your city';
@@ -439,7 +436,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: postalCodeController,
+                      controller: authProvider.newPostalCodeController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your postal code';
@@ -466,10 +463,9 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                      onTap: () async {
+                        if (authProvider.newAddressFormKey.currentState!.validate()) {
+                          await authProvider.addNewAddress();
                         }
                         return;
                       },

@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text:
                                   'By clicking on proceed, you agree to our \n',
                               style: TextStyle(
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextSpan(
                               text: 'Privacy policy ',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       });
                                 },
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: 'and ',
                               style: TextStyle(
                                 color: AppColors.fontColor,
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextSpan(
                               text: 'Terms and conditions',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),

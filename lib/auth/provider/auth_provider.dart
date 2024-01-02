@@ -64,6 +64,19 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController postalCodeController = TextEditingController();
   BuildContext? fillAddressBottomSheetContext;
 
+
+  // add new address declarations
+  final newAddressFormKey = GlobalKey<FormState>();
+
+  List<String> addressType = ['Home', 'Office', 'Other'];
+  String selectedAddressType = '';
+
+  TextEditingController newAddressController = TextEditingController();
+  TextEditingController newStateController = TextEditingController();
+  TextEditingController newCityController = TextEditingController();
+  TextEditingController newPostalCodeController = TextEditingController();
+  BuildContext? markLocationContext;
+
   bool isNotValidEmail(String email) {
     const emailRegex =
         r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$';
@@ -214,6 +227,25 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getApproxLocationForAdd() async {
+    showLoaderDialog(selectAddressPageContext!);
+    try {
+      currentPosition = await getCurrentLocation();
+    } catch (e) {
+      currentPosition = const Position(
+          latitude: 10.1632,
+          longitude: 76.6413,
+          timestamp: null,
+          accuracy: 100,
+          altitude: 0,
+          heading: 0,
+          speed: 0,
+          speedAccuracy: 0);
+    }
+    Navigator.pop(selectAddressPageContext!);
+    Navigator.pushNamed(selectAddressPageContext!, Routes.markLocationRoute);
+  }
+
   getApproxLocation() async {
     showLoaderDialog(registerPageContext!);
     try {
@@ -275,5 +307,22 @@ class AuthProvider extends ChangeNotifier {
       Navigator.pop(fillAddressBottomSheetContext!);
       showErrorToast(fillAddressBottomSheetContext!, registerResponse.message!);
     }
+  }
+
+  addNewAddress() async {
+    showLoaderDialog(markLocationContext!);
+    LoginResponseModel newAddressResponse = await apiCalls.apiAddNewAddress(selectedLocation,selectedAddressType,newAddressController.text,newCityController.text,newStateController.text,newPostalCodeController.text);
+    if(newAddressResponse.statusCode==200){
+      prefModel.userData = newAddressResponse.result;
+      AppPref.setPref(prefModel);
+      Navigator.pop(markLocationContext!);
+      Navigator.pop(markLocationContext!);
+      notifyListeners();
+      showSuccessToast(markLocationContext!, newAddressResponse.message!);
+    }else{
+      Navigator.pop(markLocationContext!);
+      showErrorToast(markLocationContext!, newAddressResponse.message!);
+    }
+
   }
 }
