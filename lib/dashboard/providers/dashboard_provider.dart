@@ -76,8 +76,7 @@ class DashboardProvider extends ChangeNotifier {
           defaultAddressJson['subAdministrativeArea'] +
           " " +
           defaultAddressJson['administrativeArea'];
-      homeData = apiCalls.fetchHomeData(
-          currentPosition!.latitude, currentPosition!.longitude);
+      homeData = apiCalls.fetchHomeData(currentPosition!.latitude, currentPosition!.longitude);
     }
     notifyListeners();
   }
@@ -95,20 +94,25 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   double payable = 0.0;
+
   addUpdateProductToCart(ProductList product, String operation) {
-    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
-    int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
+    var contain = prefModel.cartItems!
+        .where((element) => element.productUuid == product.productUuid);
+    int index = prefModel.cartItems!
+        .indexWhere((element) => element.productUuid == product.productUuid);
     if (operation == 'add') {
       if (contain.isEmpty) {
-        product.addedCartQuantity=1;
+        product.addedCartQuantity = 1;
         prefModel.cartItems!.add(product);
-      }else{
-        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity!+1;
+      } else {
+        prefModel.cartItems![index].addedCartQuantity =
+            prefModel.cartItems![index].addedCartQuantity! + 1;
       }
     } else if (operation == 'remove') {
-      if(prefModel.cartItems![index].addedCartQuantity!>1){
-        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity!-1;
-      }else if(prefModel.cartItems![index].addedCartQuantity==1){
+      if (prefModel.cartItems![index].addedCartQuantity! > 1) {
+        prefModel.cartItems![index].addedCartQuantity =
+            prefModel.cartItems![index].addedCartQuantity! - 1;
+      } else if (prefModel.cartItems![index].addedCartQuantity == 1) {
         prefModel.cartItems!.removeAt(index);
       }
     }
@@ -117,41 +121,46 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   bool productExistInCart(ProductList product) {
-    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
+    var contain = prefModel.cartItems!
+        .where((element) => element.productUuid == product.productUuid);
     if (contain.isEmpty) {
       return false;
-    }else{
+    } else {
       return true;
     }
   }
 
   int getProductCountInCart(ProductList product) {
-    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
+    var contain = prefModel.cartItems!
+        .where((element) => element.productUuid == product.productUuid);
     if (contain.isEmpty) {
       return 0;
-    }else{
-      int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
+    } else {
+      int index = prefModel.cartItems!
+          .indexWhere((element) => element.productUuid == product.productUuid);
       return prefModel.cartItems![index].addedCartQuantity!;
     }
   }
 
   getTotal() {
     payable = 0.0;
-    for(ProductList cartItem in prefModel.cartItems!){
-      payable = payable + (cartItem.sellingPrice!*cartItem.addedCartQuantity!);
+    for (ProductList cartItem in prefModel.cartItems!) {
+      payable =
+          payable + (cartItem.sellingPrice! * cartItem.addedCartQuantity!);
     }
     return payable.toString();
   }
 
   deleteUserAddress(String? addressId, int index) async {
     showLoaderDialog(selectAddressPageContext!);
-    DeleteAddressResponseModel deleteAddressResponse = await apiCalls.deleteAddress(addressId);
-    if(deleteAddressResponse.statusCode==200){
+    DeleteAddressResponseModel deleteAddressResponse =
+        await apiCalls.deleteAddress(addressId);
+    if (deleteAddressResponse.statusCode == 200) {
       prefModel.userData!.addressArray!.removeAt(index);
       AppPref.setPref(prefModel);
       Navigator.pop(selectAddressPageContext!);
       notifyListeners();
-    }else{
+    } else {
       Navigator.pop(selectAddressPageContext!);
       showErrorToast(selectAddressPageContext!, deleteAddressResponse.message!);
     }
