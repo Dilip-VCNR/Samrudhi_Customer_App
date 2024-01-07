@@ -396,8 +396,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      if (prefModel.cartItems![index]
-                                              .addedCartQuantity ==
+                                      if (dashboardProvider.reviewCartResponse!.result!.productDetails![index].
+                                              addedCartQuantity ==
                                           0)
                                         InkWell(
                                           onTap: () {
@@ -438,16 +438,15 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           children: [
                                             GestureDetector(
                                               onTap: () async {
-                                                await dashboardProvider
-                                                    .addUpdateProductToCart(
-                                                        prefModel
-                                                            .cartItems![index],
-                                                        'remove');
-                                                dashboardProvider
-                                                    .reviewCartResponse = null;
-                                                setState(() {
-                                                  firstTimeLoading = false;
-                                                });
+                                                await dashboardProvider.addUpdateProductToCart(prefModel.cartItems![index], 'remove');
+                                                if(prefModel.cartItems!.isEmpty){
+                                                  Navigator.pop(context);
+                                                }else{
+                                                  setState(() {
+                                                    dashboardProvider.reviewCartResponse = null;
+                                                    firstTimeLoading = false;
+                                                  });
+                                                }
                                               },
                                               child: Container(
                                                 width: 35,
@@ -480,7 +479,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 10),
                                               child: Text(
-                                                '${prefModel.cartItems![index].addedCartQuantity}',
+                                                '${dashboardProvider.reviewCartResponse!.result!.productDetails![index].addedCartQuantity}',
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   color: AppColors.fontColor,
