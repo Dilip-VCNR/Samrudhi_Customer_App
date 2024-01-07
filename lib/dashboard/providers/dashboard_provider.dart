@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/api_calls.dart';
+import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/models/store_data_model.dart';
 import 'package:samruddhi/database/app_pref.dart';
 import 'package:samruddhi/utils/app_widgets.dart';
@@ -24,6 +25,15 @@ class DashboardProvider extends ChangeNotifier {
   bool? serviceEnabled;
   LocationPermission? permission;
   StoreDataModel? storeData;
+
+
+  // search screen declarations
+  BuildContext? searchScreenContext;
+  String? searchType;
+  String? searchKeyWord;
+  SearchResponseModel? searchResponse;
+  TextEditingController searchController = TextEditingController();
+
 
   Future<Position> getCurrentLocation() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -76,7 +86,8 @@ class DashboardProvider extends ChangeNotifier {
           defaultAddressJson['subAdministrativeArea'] +
           " " +
           defaultAddressJson['administrativeArea'];
-      homeData = apiCalls.fetchHomeData(currentPosition!.latitude, currentPosition!.longitude);
+      homeData = apiCalls.fetchHomeData(
+          currentPosition!.latitude, currentPosition!.longitude);
     }
     notifyListeners();
   }
@@ -164,5 +175,19 @@ class DashboardProvider extends ChangeNotifier {
       Navigator.pop(selectAddressPageContext!);
       showErrorToast(selectAddressPageContext!, deleteAddressResponse.message!);
     }
+  }
+
+  getSearchResults() async {
+    if (prefModel.selectedAddress != null) {
+      searchResponse = await apiCalls.searchStore(searchType, searchKeyWord,prefModel.selectedAddress!.lat,prefModel.selectedAddress!.lng);
+    }else{
+      searchResponse = await apiCalls.searchStore(searchType, searchKeyWord,currentPosition!.latitude,currentPosition!.longitude);
+    }
+    if(searchResponse!.statusCode==200){
+      notifyListeners();
+    }else{
+      showErrorToast(searchScreenContext!, searchResponse!.message!);
+    }
+    notifyListeners();
   }
 }

@@ -131,8 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, Routes.searchScreenRoute);
+                            dashboardProvider.searchType = 'productName';
+                            dashboardProvider.searchController.clear();
+                            dashboardProvider.searchKeyWord = '';
+                            Navigator.pushNamed(context, Routes.searchScreenRoute);
                           },
                           child: TextField(
                             enabled: false,
@@ -311,9 +313,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () async {
-                                Navigator.pushNamed(
-                                    context, Routes.searchScreenRoute,
-                                    arguments: {'searchQuery': 'Fruits'});
+                                dashboardProvider.searchType = 'productCategory';
+                                dashboardProvider.searchKeyWord = '${snapshot.data!.result!.productCategories![index].productCategoryName}';
+                                dashboardProvider.searchController.clear();
+                                Navigator.pushNamed(context, Routes.searchScreenRoute);
                               },
                               child: Padding(
                                 padding:

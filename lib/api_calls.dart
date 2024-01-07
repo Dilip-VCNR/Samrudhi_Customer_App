@@ -7,6 +7,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
+import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -163,4 +164,27 @@ class ApiCalls {
         }));
     return DeleteAddressResponseModel.fromJson(json.decode(response.body));
   }
+
+  Future<SearchResponseModel> searchStore(String? searchType ,String? searchKeyword, double? lat, double? lng) async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.searchApiUrl,
+        jsonEncode({
+          "searchType":searchType,
+          "searchKeyWord":searchKeyword,
+          "lat":lat,
+          "lng":lng
+        }));
+    print(response.body);
+    print({
+      "searchType":searchType,
+      "searchKeyWord":searchKeyword,
+      "lat":lat,
+      "lng":lng
+    });
+    return SearchResponseModel.fromJson(json.decode(response.body));
+  }
+
+
+
 }
