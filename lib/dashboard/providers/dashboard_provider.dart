@@ -5,6 +5,8 @@ import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/models/store_data_model.dart';
+import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
+import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
 import 'package:samruddhi/database/app_pref.dart';
 import 'package:samruddhi/utils/app_widgets.dart';
 
@@ -35,6 +37,11 @@ class DashboardProvider extends ChangeNotifier {
   TextEditingController searchController = TextEditingController();
 
 
+  //reviewCart screen declarations
+  ReviewCartResponseModel? reviewCartResponse;
+  BuildContext? reviewCartScreenContext;
+
+  OrderResponseModel? orderResponse;
   Future<Position> getCurrentLocation() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled!) {
@@ -107,17 +114,14 @@ class DashboardProvider extends ChangeNotifier {
   double payable = 0.0;
 
   addUpdateProductToCart(ProductList product, String operation) {
-    var contain = prefModel.cartItems!
-        .where((element) => element.productUuid == product.productUuid);
-    int index = prefModel.cartItems!
-        .indexWhere((element) => element.productUuid == product.productUuid);
+    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
+    int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
     if (operation == 'add') {
       if (contain.isEmpty) {
         product.addedCartQuantity = 1;
         prefModel.cartItems!.add(product);
       } else {
-        prefModel.cartItems![index].addedCartQuantity =
-            prefModel.cartItems![index].addedCartQuantity! + 1;
+        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + 1;
       }
     } else if (operation == 'remove') {
       if (prefModel.cartItems![index].addedCartQuantity! > 1) {
@@ -189,5 +193,45 @@ class DashboardProvider extends ChangeNotifier {
       showErrorToast(searchScreenContext!, searchResponse!.message!);
     }
     notifyListeners();
+  }
+
+  reviewMyCart() async {
+    reviewCartResponse = await apiCalls.reviewCart();
+    if(reviewCartResponse!.statusCode==200){
+      notifyListeners();
+    }else{
+      showErrorToast(reviewCartScreenContext!, reviewCartResponse!.message!);
+    }
+  }
+
+  String getTaxes() {
+    double totalTax = 0;
+    for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
+      totalTax = totalTax+item.taxAdded!;
+    }
+    return totalTax.toStringAsFixed(2).toString();
+  }
+
+  String getSubTotal() {
+    double subTotal = 0;
+    for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
+      subTotal = subTotal+item.subTotal!;
+    }
+    return subTotal.toStringAsFixed(2).toString();
+  }
+
+  placeOrder() async {
+    showLoaderDialog(reviewCartScreenContext!);
+    orderResponse = await apiCalls.placeOrder(reviewCartResponse!.result!);
+    if(orderResponse!.statusCode==200){
+      prefModel.cartItems!.clear();
+      AppPref.setPref(prefModel);
+      Navigator.pop(reviewCartScreenContext!);
+      showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);
+      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute);
+    }else{
+      Navigator.pop(reviewCartScreenContext!);
+      showErrorToast(reviewCartScreenContext!, orderResponse!.message!);
+    }
   }
 }

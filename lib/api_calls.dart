@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +9,8 @@ import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
+import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
+import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -185,6 +188,28 @@ class ApiCalls {
     return SearchResponseModel.fromJson(json.decode(response.body));
   }
 
+  Future<ReviewCartResponseModel>reviewCart() async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.reviewCart,
+        jsonEncode({
+          "customerUuid":prefModel.userData!.customerUuid,
+          "storeUuid":prefModel.cartItems![0].storeUuid,
+          "productDetails":prefModel.cartItems,
+        }));
+    log(response.body);
+    return ReviewCartResponseModel.fromJson(json.decode(response.body));
+  }
 
+  Future<OrderResponseModel>placeOrder(ReviewCartResult result) async {
+    Map req = result.toJson();
+    req['storeUuid'] = result.productDetails![0].storeUuid;
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.placeOrder,
+        jsonEncode(req));
+    log(response.body);
+    return OrderResponseModel.fromJson(json.decode(response.body));
 
+  }
 }
