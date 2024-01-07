@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:samruddhi/api_calls.dart';
+import 'package:samruddhi/database/app_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/app_colors.dart';
@@ -165,6 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                         break;
                       case 'logout':
+                        AppPref.clearPref();
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             Routes.loginRoute, (route) => false);
                         break;
