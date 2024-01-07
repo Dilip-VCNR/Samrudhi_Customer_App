@@ -48,7 +48,7 @@ class Result {
   int? orderPickupId;
   bool? isVerified;
   dynamic discountType;
-  int? orderGrandTotal;
+  double? orderGrandTotal;
   List<OrderStatusTrackArray>? orderStatusTrackArray;
   dynamic hubUuid;
   dynamic operatorUuid;
@@ -97,7 +97,7 @@ class Result {
     orderPickupId: json["orderPickupId"],
     isVerified: json["isVerified"],
     discountType: json["discountType"],
-    orderGrandTotal: json["orderGrandTotal"],
+    orderGrandTotal: json["orderGrandTotal"].toDouble(),
     orderStatusTrackArray: json["orderStatusTrackArray"] == null ? [] : List<OrderStatusTrackArray>.from(json["orderStatusTrackArray"]!.map((x) => OrderStatusTrackArray.fromJson(x))),
     hubUuid: json["hubUuid"],
     operatorUuid: json["operatorUuid"],
@@ -210,11 +210,11 @@ class ProductDetail {
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
-  int? productGrandTotal;
+  double? productGrandTotal;
   List<dynamic>? productImgArray;
   int? v;
-  int? subTotal;
-  int? taxAdded;
+  double? subTotal;
+  double? taxAdded;
 
   ProductDetail({
     this.productCategory,
@@ -275,10 +275,10 @@ class ProductDetail {
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productGrandTotal: json["productGrandTotal"],
+    productGrandTotal: json["productGrandTotal"].toDouble(),
     productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
     v: json["__v"],
-    subTotal: json["subTotal"],
+    subTotal: json["subTotal"].toDouble(),
     taxAdded: json["taxAdded"],
   );
 

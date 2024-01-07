@@ -228,7 +228,7 @@ class DashboardProvider extends ChangeNotifier {
       AppPref.setPref(prefModel);
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);
-      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute);
+      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'orderId':orderResponse!.result});
     }else{
       Navigator.pop(reviewCartScreenContext!);
       showErrorToast(reviewCartScreenContext!, orderResponse!.message!);
