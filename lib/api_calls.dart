@@ -11,6 +11,7 @@ import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
+import 'package:samruddhi/dashboard/wallet/models/wallet_response_model.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -210,6 +211,18 @@ class ApiCalls {
         jsonEncode(req));
     log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
+
+  }
+
+  Future<WalletResponseModel> getWalletData() async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getWallet,
+        jsonEncode({
+          'customerUuid':prefModel.userData!.customerUuid
+        }));
+    log(response.body);
+    return WalletResponseModel.fromJson(json.decode(response.body));
 
   }
 }

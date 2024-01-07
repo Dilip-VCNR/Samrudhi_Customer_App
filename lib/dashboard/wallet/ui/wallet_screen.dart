@@ -1,239 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 
-import '../../../utils/routes.dart';
+import '../provider/wallet_provider.dart';
 
 class WalletScreen extends StatefulWidget {
-  const WalletScreen({Key? key}) : super(key: key);
+  final Function(int) changeScreen;
+
+  const WalletScreen({Key? key,required this.changeScreen}) : super(key: key);
 
   @override
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  bool firstTimeLoading = false;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: screenSize.width,
-              height: screenSize.height / 5,
-              decoration: const ShapeDecoration(
-                color: AppColors.storeBackground,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-              ),
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'The Wallet',
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 212,
-                    child: Text(
-                      'Rewards from your purchases and referrals appear here',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.fontColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+    return Consumer(
+      builder: (BuildContext context, WalletProvider walletProvider, Widget? child) {
+        walletProvider.walletScreenContext =  context;
+        if(firstTimeLoading!=true){
+          walletProvider.getWalletData();
+          firstTimeLoading = true;
+        }
+        return Scaffold(
+          body: walletProvider.walletResponse!=null?SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: screenSize.width,
+                  height: screenSize.height / 5,
+                  decoration: const ShapeDecoration(
+                    color: AppColors.storeBackground,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(20),
-              width: screenSize.width,
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              decoration: ShapeDecoration(
-                color: AppColors.walletBg,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Available reward points',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.walletFont,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
                   ),
-                  Text(
-                    '10,967',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF1B8902),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            'Total earned',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1B8902),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            '19,967',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1B8902),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            'Total Orders',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1B8902),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            '17',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF1B8902),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.redeemPointsOperatorRoute);
-              },
-              child: Container(
-                width: screenSize.width,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.all(20),
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  shadows: const [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Claim for operator bill payment',
-                          style: TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 212,
-                          child: Text(
-                            'You can claim your wallet points against operator bill payment',
-                            style: TextStyle(
-                              color: AppColors.fontColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Icon(Icons.arrow_forward)
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: screenSize.width,
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              padding: const EdgeInsets.all(20),
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Redeem points on shopping',
+                        'The Wallet',
                         style: TextStyle(
                           color: AppColors.fontColor,
-                          fontSize: 14,
+                          fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       SizedBox(
                         width: 212,
                         child: Text(
-                          'You can redeem your wallet points on shopping in app (Min order value should be ₹500)',
+                          'Rewards from your purchases and referrals appear here',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 12,
@@ -243,132 +69,352 @@ class _WalletScreenState extends State<WalletScreen> {
                       )
                     ],
                   ),
-                  Icon(Icons.arrow_forward)
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 20.0),
-              child: Text(
-                'History',
-                style: TextStyle(
-                  color: AppColors.fontColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              width: screenSize.width,
-              padding: const EdgeInsets.all(20),
-              decoration: ShapeDecoration(
-                color: AppColors.creditBg,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  width: screenSize.width,
+                  margin: const EdgeInsets.only(top: 20, left: 20,right: 20),
+                  decoration: ShapeDecoration(
+                    color: AppColors.walletBg,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        '300 points credited for',
+                      const Text(
+                        'Available reward points',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                          color: AppColors.walletFont,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
-                        'Order #36',
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                        '${walletProvider.walletResponse!.result!.totalAvailableRedeemPoints!}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Color(0xFF1B8902),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Text(
-                        'August 27, 2023 4:50 AM',
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              const Text(
+                                'Total earned',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF1B8902),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                '${walletProvider.walletResponse!.result!.totalEarnedPoints!}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Color(0xFF1B8902),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              const Text(
+                                'Points Redeemed',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF1B8902),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                '${walletProvider.walletResponse!.result!.redeemPoints!}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Color(0xFF1B8902),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
+                          )
+                        ],
                       )
                     ],
                   ),
-                  Icon(
-                    Icons.navigate_next_rounded,
-                    size: 40,
-                    color: AppColors.fontColor,
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              width: screenSize.width,
-              padding: const EdgeInsets.all(20),
-              decoration: ShapeDecoration(
-                color: AppColors.debitBg,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '300 points credited for',
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
+                // InkWell(
+                //   onTap: () {
+                //     Navigator.pushNamed(context, Routes.redeemPointsOperatorRoute);
+                //   },
+                //   child: Container(
+                //     width: screenSize.width,
+                //     margin: const EdgeInsets.symmetric(horizontal: 20),
+                //     padding: const EdgeInsets.all(20),
+                //     decoration: ShapeDecoration(
+                //       color: Colors.white,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //       shadows: const [
+                //         BoxShadow(
+                //           color: Color(0x3F000000),
+                //           blurRadius: 4,
+                //           offset: Offset(0, 4),
+                //           spreadRadius: 0,
+                //         )
+                //       ],
+                //     ),
+                //     child: const Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Column(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               'Claim for operator bill payment',
+                //               style: TextStyle(
+                //                 color: AppColors.fontColor,
+                //                 fontSize: 14,
+                //                 fontWeight: FontWeight.w600,
+                //               ),
+                //             ),
+                //             SizedBox(
+                //               width: 212,
+                //               child: Text(
+                //                 'You can claim your wallet points against operator bill payment',
+                //                 style: TextStyle(
+                //                   color: AppColors.fontColor,
+                //                   fontSize: 12,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //             )
+                //           ],
+                //         ),
+                //         Icon(Icons.arrow_forward)
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                GestureDetector(
+                  onTap: (){
+                    widget.changeScreen(0);
+                  },
+                  child: Container(
+                    width: screenSize.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    padding: const EdgeInsets.all(20),
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      Text(
-                        'Order #36',
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x3F000000),
+                          blurRadius: 4,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Redeem points on shopping',
+                              style: TextStyle(
+                                color: AppColors.fontColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 212,
+                              child: Text(
+                                'You can redeem your wallet points on shopping in app (Min order value should be ₹500)',
+                                style: TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                      Text(
-                        'August 27, 2023 4:50 AM',
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    ],
+                        Icon(Icons.arrow_forward)
+                      ],
+                    ),
                   ),
-                  Icon(
-                    Icons.navigate_next_rounded,
-                    size: 40,
-                    color: AppColors.fontColor,
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Earn History',
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                walletProvider.walletResponse!.result!.earnedPointsDetails!.isNotEmpty?ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: walletProvider.walletResponse!.result!.earnedPointsDetails!.length,
+                  itemBuilder: (BuildContext context,int index) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      width: screenSize.width,
+                      padding: const EdgeInsets.all(20),
+                      decoration: ShapeDecoration(
+                        color: AppColors.debitBg,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${walletProvider.walletResponse!.result!.earnedPointsDetails![index].earnedpoint} points credited for',
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                'Order #${walletProvider.walletResponse!.result!.earnedPointsDetails![index].orderId}',
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                '${walletProvider.walletResponse!.result!.earnedPointsDetails![index].date}',
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
+                            ],
+                          ),
+                          const Icon(
+                            Icons.navigate_next_rounded,
+                            size: 40,
+                            color: AppColors.fontColor,
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                ):const Center(child: Text("No records found"),),
+
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    'Redeem History',
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                walletProvider.walletResponse!.result!.redeemPointsDetails!.isNotEmpty?ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: walletProvider.walletResponse!.result!.redeemPointsDetails!.length,
+                    itemBuilder: (BuildContext context,int index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        width: screenSize.width,
+                        padding: const EdgeInsets.all(20),
+                        decoration: ShapeDecoration(
+                          color: AppColors.creditBg,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${walletProvider.walletResponse!.result!.redeemPointsDetails![index].earnedpoint} points credited for',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  'Order #${walletProvider.walletResponse!.result!.redeemPointsDetails![index].orderId}',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  '${walletProvider.walletResponse!.result!.redeemPointsDetails![index].date}',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
+                            ),
+                            const Icon(
+                              Icons.navigate_next_rounded,
+                              size: 40,
+                              color: AppColors.fontColor,
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                ):const Center(child: Text("No records found"),),
+              ],
+            ),
+          ):const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }

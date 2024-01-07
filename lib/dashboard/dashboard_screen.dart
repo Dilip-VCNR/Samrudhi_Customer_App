@@ -30,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     screens = [
       const HomeScreen(),
       const OrdersScreen(),
-      const WalletScreen(),
+      WalletScreen(changeScreen: changeScreen),
       ProfileScreen(changeScreen: changeScreen),
     ];
   }
