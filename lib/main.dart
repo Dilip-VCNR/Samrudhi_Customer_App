@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:samruddhi/dashboard/orders/provider/orders_provider.dart';
 import 'package:samruddhi/dashboard/orders/ui/order_details.dart';
 import 'package:samruddhi/dashboard/wallet/provider/wallet_provider.dart';
 import 'package:samruddhi/splash/ui/splash_screen.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => DashboardProvider()),
         ChangeNotifierProvider(create: (context) => WalletProvider()),
+        ChangeNotifierProvider(create: (context) => OrdersProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -9,6 +9,7 @@ import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
+import 'package:samruddhi/dashboard/orders/models/all_orders_model.dart';
 import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
 import 'package:samruddhi/dashboard/wallet/models/wallet_response_model.dart';
@@ -118,11 +119,7 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
-    if (response.statusCode == 201) {
-      return HomeDataModel.fromJson(json.decode(response.body));
-    } else {
-      throw "err loading";
-    }
+    return HomeDataModel.fromJson(json.decode(response.body));
   }
 
   Future<StoreDataModel> getStoreData(NearStoresdatum nearStoresdatum) async {
@@ -154,7 +151,6 @@ class ApiCalls {
             }]
 
         }));
-    print(response.body);
     return LoginResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -179,13 +175,6 @@ class ApiCalls {
           "lat":lat,
           "lng":lng
         }));
-    print(response.body);
-    print({
-      "searchType":searchType,
-      "searchKeyWord":searchKeyword,
-      "lat":lat,
-      "lng":lng
-    });
     return SearchResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -224,5 +213,16 @@ class ApiCalls {
     log(response.body);
     return WalletResponseModel.fromJson(json.decode(response.body));
 
+  }
+
+  Future<AllOrdersResponseModel>getAllOrders() async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getOrders,
+        jsonEncode({
+          'customerUuid':prefModel.userData!.customerUuid,
+        }));
+    log(response.body);
+    return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 }

@@ -2,6 +2,7 @@ import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/app_colors.dart';
+import '../models/all_orders_model.dart';
 
 class OrderDetails extends StatefulWidget {
   const OrderDetails({Key? key}) : super(key: key);
@@ -15,6 +16,10 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    OrderList order = arguments['order'];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -104,7 +109,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30))),
                         child: const Icon(Icons.check, color: Colors.white),
-                      )),
+                      )
+                  ),
                   StepperData(
                       title: StepperText(
                           "Delivery hub allocated a delivery agent"),

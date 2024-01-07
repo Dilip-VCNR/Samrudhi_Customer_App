@@ -19,7 +19,7 @@ class DashboardProvider extends ChangeNotifier {
   BuildContext? homePageContext;
   BuildContext? selectAddressPageContext;
   ApiCalls apiCalls = ApiCalls();
-  Future<HomeDataModel>? homeData;
+  HomeDataModel? homeData;
   Position? currentPosition;
   LocationController locationController = LocationController();
   String? address;
@@ -68,7 +68,7 @@ class DashboardProvider extends ChangeNotifier {
   getHomeData() async {
     homeData = null;
     if (prefModel.selectedAddress != null) {
-      homeData = apiCalls.fetchHomeData(
+      homeData = await apiCalls.fetchHomeData(
           prefModel.selectedAddress!.lat!, prefModel.selectedAddress!.lng!);
       address = prefModel.selectedAddress!.completeAddress;
     } else {
@@ -93,7 +93,7 @@ class DashboardProvider extends ChangeNotifier {
           defaultAddressJson['subAdministrativeArea'] +
           " " +
           defaultAddressJson['administrativeArea'];
-      homeData = apiCalls.fetchHomeData(
+      homeData = await apiCalls.fetchHomeData(
           currentPosition!.latitude, currentPosition!.longitude);
     }
     notifyListeners();
@@ -228,7 +228,7 @@ class DashboardProvider extends ChangeNotifier {
       AppPref.setPref(prefModel);
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);
-      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'orderId':orderResponse!.result});
+      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'order':orderResponse!.result});
     }else{
       Navigator.pop(reviewCartScreenContext!);
       showErrorToast(reviewCartScreenContext!, orderResponse!.message!);

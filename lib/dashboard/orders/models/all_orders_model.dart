@@ -1,42 +1,58 @@
 // To parse this JSON data, do
 //
-//     final orderResponseModel = orderResponseModelFromJson(jsonString);
+//     final allOrdersResponseModel = allOrdersResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
-OrderResponseModel orderResponseModelFromJson(String str) => OrderResponseModel.fromJson(json.decode(str));
+AllOrdersResponseModel allOrdersResponseModelFromJson(String str) => AllOrdersResponseModel.fromJson(json.decode(str));
 
-String orderResponseModelToJson(OrderResponseModel data) => json.encode(data.toJson());
+String allOrdersResponseModelToJson(AllOrdersResponseModel data) => json.encode(data.toJson());
 
-class OrderResponseModel {
+class AllOrdersResponseModel {
   bool? status;
   int? statusCode;
   String? message;
-  Result? result;
+  List<Result>? result;
 
-  OrderResponseModel({
+  AllOrdersResponseModel({
     this.status,
     this.statusCode,
     this.message,
     this.result,
   });
 
-  factory OrderResponseModel.fromJson(Map<String, dynamic> json) => OrderResponseModel(
+  factory AllOrdersResponseModel.fromJson(Map<String, dynamic> json) => AllOrdersResponseModel(
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
+    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "statusCode": statusCode,
     "message": message,
-    "result": result?.toJson(),
+    "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
   };
 }
 
 class Result {
+  List<OrderList>? orderList;
+
+  Result({
+    this.orderList,
+  });
+
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
+    orderList: json["orderList"] == null ? [] : List<OrderList>.from(json["orderList"]!.map((x) => OrderList.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "orderList": orderList == null ? [] : List<dynamic>.from(orderList!.map((x) => x.toJson())),
+  };
+}
+
+class OrderList {
   DeliveryDetailsArray? deliveryDetailsArray;
   String? id;
   String? orderNumber;
@@ -60,7 +76,7 @@ class Result {
   List<dynamic>? additionalChargesArray;
   int? v;
 
-  Result({
+  OrderList({
     this.deliveryDetailsArray,
     this.id,
     this.orderNumber,
@@ -85,7 +101,7 @@ class Result {
     this.v,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory OrderList.fromJson(Map<String, dynamic> json) => OrderList(
     deliveryDetailsArray: json["deliveryDetailsArray"] == null ? null : DeliveryDetailsArray.fromJson(json["deliveryDetailsArray"]),
     id: json["_id"],
     orderNumber: json["orderNumber"],
@@ -97,7 +113,7 @@ class Result {
     orderPickupId: json["orderPickupId"],
     isVerified: json["isVerified"],
     discountType: json["discountType"],
-    orderGrandTotal: json["orderGrandTotal"].toDouble(),
+    orderGrandTotal: json["orderGrandTotal"]?.toDouble(),
     orderStatusTrackArray: json["orderStatusTrackArray"] == null ? [] : List<OrderStatusTrackArray>.from(json["orderStatusTrackArray"]!.map((x) => OrderStatusTrackArray.fromJson(x))),
     hubUuid: json["hubUuid"],
     operatorUuid: json["operatorUuid"],
@@ -213,7 +229,7 @@ class ProductDetail {
   double? productGrandTotal;
   List<dynamic>? productImgArray;
   int? v;
-  double? subTotal;
+  int? subTotal;
   double? taxAdded;
 
   ProductDetail({
@@ -275,11 +291,11 @@ class ProductDetail {
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productGrandTotal: json["productGrandTotal"].toDouble(),
+    productGrandTotal: json["productGrandTotal"]?.toDouble(),
     productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
     v: json["__v"],
-    subTotal: json["subTotal"].toDouble(),
-    taxAdded: json["taxAdded"].toDouble(),
+    subTotal: json["subTotal"],
+    taxAdded: json["taxAdded"]?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
