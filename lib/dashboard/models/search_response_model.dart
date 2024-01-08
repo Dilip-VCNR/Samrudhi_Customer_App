@@ -14,7 +14,7 @@ class SearchResponseModel {
   bool? status;
   int? statusCode;
   String? message;
-  List<NearStoresdatum>? result;
+  List<MyStore>? result;
 
   SearchResponseModel({
     this.status,
@@ -27,7 +27,7 @@ class SearchResponseModel {
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
-    result: json["result"] == null ? [] : List<NearStoresdatum>.from(json["result"]!.map((x) => NearStoresdatum.fromJson(x))),
+    result: json["result"] == null ? [] : List<MyStore>.from(json["result"]!.map((x) => MyStore.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

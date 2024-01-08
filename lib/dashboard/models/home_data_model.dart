@@ -38,8 +38,8 @@ class HomeDataModel {
 
 class Result {
   List<dynamic>? previousOrders;
-  List<NearStoresdatum>? nearStoresdata;
-  List<dynamic>? myStore;
+  List<MyStore>? nearStoresdata;
+  List<MyStore>? myStore;
   List<ProductCategory>? productCategories;
   List<dynamic>? banners;
 
@@ -53,8 +53,8 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     previousOrders: json["previousOrders"] == null ? [] : List<dynamic>.from(json["previousOrders"]!.map((x) => x)),
-    nearStoresdata: json["nearStoresdata"] == null ? [] : List<NearStoresdatum>.from(json["nearStoresdata"]!.map((x) => NearStoresdatum.fromJson(x))),
-    myStore: json["myStore"] == null ? [] : List<dynamic>.from(json["myStore"]!.map((x) => x)),
+    nearStoresdata: json["nearStoresdata"] == null ? [] : List<MyStore>.from(json["nearStoresdata"]!.map((x) => MyStore.fromJson(x))),
+    myStore: json["myStore"] == null ? [] : List<MyStore>.from(json["myStore"]!.map((x) => MyStore.fromJson(x))),
     productCategories: json["productCategories"] == null ? [] : List<ProductCategory>.from(json["productCategories"]!.map((x) => ProductCategory.fromJson(x))),
     banners: json["banners"] == null ? [] : List<dynamic>.from(json["banners"]!.map((x) => x)),
   );
@@ -62,13 +62,13 @@ class Result {
   Map<String, dynamic> toJson() => {
     "previousOrders": previousOrders == null ? [] : List<dynamic>.from(previousOrders!.map((x) => x)),
     "nearStoresdata": nearStoresdata == null ? [] : List<dynamic>.from(nearStoresdata!.map((x) => x.toJson())),
-    "myStore": myStore == null ? [] : List<dynamic>.from(myStore!.map((x) => x)),
+    "myStore": myStore == null ? [] : List<dynamic>.from(myStore!.map((x) => x.toJson())),
     "productCategories": productCategories == null ? [] : List<dynamic>.from(productCategories!.map((x) => x.toJson())),
     "banners": banners == null ? [] : List<dynamic>.from(banners!.map((x) => x)),
   };
 }
 
-class NearStoresdatum {
+class MyStore {
   String? id;
   String? createdAt;
   bool? isHeadquarters;
@@ -81,11 +81,11 @@ class NearStoresdatum {
   int? mobile;
   String? emailId;
   String? password;
+  List<ImgArray>? documentImgArray;
   List<AddressArray>? addressArray;
   List<ImgArray>? storeImgArray;
   String? storeFcmToken;
   String? storeAuthToken;
-  String? storeCategoryId;
   String? storeCategoryName;
   String? zone;
   String? deliveryType;
@@ -95,12 +95,12 @@ class NearStoresdatum {
   bool? isApproved;
   bool? isDeleted;
   bool? isHomeDelivery;
-  dynamic operatorUuid;
-  List<ImgArray>? documentImgArray;
+  String? operatorUuid;
   List<dynamic>? orderDeliveryDetails;
   int? v;
+  String? storeHeadquartersUuid;
 
-  NearStoresdatum({
+  MyStore({
     this.id,
     this.createdAt,
     this.isHeadquarters,
@@ -113,11 +113,11 @@ class NearStoresdatum {
     this.mobile,
     this.emailId,
     this.password,
+    this.documentImgArray,
     this.addressArray,
     this.storeImgArray,
     this.storeFcmToken,
     this.storeAuthToken,
-    this.storeCategoryId,
     this.storeCategoryName,
     this.zone,
     this.deliveryType,
@@ -128,12 +128,12 @@ class NearStoresdatum {
     this.isDeleted,
     this.isHomeDelivery,
     this.operatorUuid,
-    this.documentImgArray,
     this.orderDeliveryDetails,
     this.v,
+    this.storeHeadquartersUuid,
   });
 
-  factory NearStoresdatum.fromJson(Map<String, dynamic> json) => NearStoresdatum(
+  factory MyStore.fromJson(Map<String, dynamic> json) => MyStore(
     id: json["_id"],
     createdAt: json["createdAt"],
     isHeadquarters: json["isHeadquarters"],
@@ -146,11 +146,11 @@ class NearStoresdatum {
     mobile: json["mobile"],
     emailId: json["emailId"],
     password: json["password"],
+    documentImgArray: json["documentImgArray"] == null ? [] : List<ImgArray>.from(json["documentImgArray"]!.map((x) => ImgArray.fromJson(x))),
     addressArray: json["addressArray"] == null ? [] : List<AddressArray>.from(json["addressArray"]!.map((x) => AddressArray.fromJson(x))),
     storeImgArray: json["storeImgArray"] == null ? [] : List<ImgArray>.from(json["storeImgArray"]!.map((x) => ImgArray.fromJson(x))),
     storeFcmToken: json["storeFcmToken"],
     storeAuthToken: json["storeAuthToken"],
-    storeCategoryId: json["storeCategoryId"],
     storeCategoryName: json["storeCategoryName"],
     zone: json["zone"],
     deliveryType: json["deliveryType"],
@@ -161,9 +161,9 @@ class NearStoresdatum {
     isDeleted: json["isDeleted"],
     isHomeDelivery: json["isHomeDelivery"],
     operatorUuid: json["operatorUuid"],
-    documentImgArray: json["documentImgArray"] == null ? [] : List<ImgArray>.from(json["documentImgArray"]!.map((x) => ImgArray.fromJson(x))),
     orderDeliveryDetails: json["orderDeliveryDetails"] == null ? [] : List<dynamic>.from(json["orderDeliveryDetails"]!.map((x) => x)),
     v: json["__v"],
+    storeHeadquartersUuid: json["storeHeadquartersUuid"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -179,11 +179,11 @@ class NearStoresdatum {
     "mobile": mobile,
     "emailId": emailId,
     "password": password,
+    "documentImgArray": documentImgArray == null ? [] : List<dynamic>.from(documentImgArray!.map((x) => x.toJson())),
     "addressArray": addressArray == null ? [] : List<dynamic>.from(addressArray!.map((x) => x.toJson())),
     "storeImgArray": storeImgArray == null ? [] : List<dynamic>.from(storeImgArray!.map((x) => x.toJson())),
     "storeFcmToken": storeFcmToken,
     "storeAuthToken": storeAuthToken,
-    "storeCategoryId": storeCategoryId,
     "storeCategoryName": storeCategoryName,
     "zone": zone,
     "deliveryType": deliveryType,
@@ -194,9 +194,9 @@ class NearStoresdatum {
     "isDeleted": isDeleted,
     "isHomeDelivery": isHomeDelivery,
     "operatorUuid": operatorUuid,
-    "documentImgArray": documentImgArray == null ? [] : List<dynamic>.from(documentImgArray!.map((x) => x.toJson())),
     "orderDeliveryDetails": orderDeliveryDetails == null ? [] : List<dynamic>.from(orderDeliveryDetails!.map((x) => x)),
     "__v": v,
+    "storeHeadquartersUuid": storeHeadquartersUuid,
   };
 }
 

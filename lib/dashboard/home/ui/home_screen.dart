@@ -32,13 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.notificationsRoute);
-                  },
-                  icon: const Icon(Icons.notifications_none_outlined))
-            ],
+            // actions: [
+            //   IconButton(
+            //       onPressed: () {
+            //         Navigator.pushNamed(context, Routes.notificationsRoute);
+            //       },
+            //       icon: const Icon(Icons.notifications_none_outlined))
+            // ],
             title: Text(
               'Hi ${prefModel.userData!.firstName}',
               style: const TextStyle(
@@ -155,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, Routes.storeInRoute);
+                        dashboardProvider.getIntoStore(dashboardProvider.homeData!.result!.myStore![0]);
+                        // Navigator.pushNamed(context, Routes.storeInRoute);
                       },
                       child: Container(
                         width: screenSize.width,
@@ -170,10 +171,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             Container(
                               width: 125,
                               height: 130,
-                              decoration: const ShapeDecoration(
+                              decoration: ShapeDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                      "https://via.placeholder.com/110x125"),
+                                      '${UrlConstant.imageBaseUrl}${dashboardProvider.homeData!.result!.myStore![0].storeImgArray![0].imageUrl}',
+                                  ),
                                   fit: BoxFit.fill,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -203,8 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 1.25,
                                   ),
                                 ),
-                                const Text(
-                                  'Vinayaka Provision stores',
+                                Text(
+                                  '${dashboardProvider.homeData!.result!.myStore![0].displayName}',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -217,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 SizedBox(
                                   width: screenSize.width / 2,
-                                  child: const Text(
-                                    '#11, First floor vcnr Hospital, Nelamangala bangalore - 562123',
+                                  child: Text(
+                                    '${dashboardProvider.homeData!.result!.myStore![0].addressArray![0].completeAddress}',
                                     style: TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 10,

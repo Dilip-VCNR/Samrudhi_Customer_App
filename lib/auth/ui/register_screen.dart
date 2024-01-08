@@ -195,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            backgroundColor: AppColors.fontColor,
+                            backgroundColor: Colors.grey,
                             backgroundImage: authProvider.selectedImage != null
                                 ? FileImage(authProvider.selectedImage!)
                                 : null,
@@ -331,67 +331,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      controller: authProvider.operatorCodeController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.settings_input_antenna),
-                        hintText: 'Operator code (Optional)',
-                        counterText: "",
-                        isCollapsed: true,
-                        filled: true,
-                        fillColor: AppColors.inputFieldColor,
-                        // Set the fill color to grey
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          // Set the border radius
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: authProvider.operatorTypeController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.settings_input_antenna),
-                        hintText: 'Operator type (Optional)',
-                        counterText: "",
-                        isCollapsed: true,
-                        filled: true,
-                        fillColor: AppColors.inputFieldColor,
-                        // Set the fill color to grey
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          // Set the border radius
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: authProvider.cableSubscriberIdController,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.tv),
-                        hintText: 'Cable subscriber Id (Optional)',
-                        counterText: "",
-                        isCollapsed: true,
-                        filled: true,
-                        fillColor: AppColors.inputFieldColor,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                    ),
+                    // TextFormField(
+                    //   controller: authProvider.operatorCodeController,
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: const Icon(Icons.settings_input_antenna),
+                    //     hintText: 'Operator code (Optional)',
+                    //     counterText: "",
+                    //     isCollapsed: true,
+                    //     filled: true,
+                    //     fillColor: AppColors.inputFieldColor,
+                    //     // Set the fill color to grey
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //       // Set the border radius
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //     contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                    //   ),
+                    //   textAlignVertical: TextAlignVertical.center,
+                    // ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // TextFormField(
+                    //   controller: authProvider.operatorTypeController,
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: const Icon(Icons.settings_input_antenna),
+                    //     hintText: 'Operator type (Optional)',
+                    //     counterText: "",
+                    //     isCollapsed: true,
+                    //     filled: true,
+                    //     fillColor: AppColors.inputFieldColor,
+                    //     // Set the fill color to grey
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //       // Set the border radius
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //     contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                    //   ),
+                    //   textAlignVertical: TextAlignVertical.center,
+                    // ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // TextFormField(
+                    //   controller: authProvider.cableSubscriberIdController,
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: const Icon(Icons.tv),
+                    //     hintText: 'Cable subscriber Id (Optional)',
+                    //     counterText: "",
+                    //     isCollapsed: true,
+                    //     filled: true,
+                    //     fillColor: AppColors.inputFieldColor,
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //       borderSide: BorderSide.none,
+                    //     ),
+                    //     contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                    //   ),
+                    //   textAlignVertical: TextAlignVertical.center,
+                    // ),
                     const SizedBox(
                       height: 40,
                     ),

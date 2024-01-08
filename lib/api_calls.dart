@@ -119,16 +119,18 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
+    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
-  Future<StoreDataModel> getStoreData(NearStoresdatum nearStoresdatum) async {
+  Future<StoreDataModel> getStoreData(MyStore nearStoresdatum) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.getStoreData,
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
         }));
+    log(response.body);
     return StoreDataModel.fromJson(json.decode(response.body));
   }
 

@@ -12,7 +12,7 @@ class OrderResponseModel {
   bool? status;
   int? statusCode;
   String? message;
-  Result? result;
+  OrderList? result;
 
   OrderResponseModel({
     this.status,
@@ -25,7 +25,7 @@ class OrderResponseModel {
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
-    result: json["result"] == null ? null : Result.fromJson(json["result"]),
+    result: json["result"] == null ? null : OrderList.fromJson(json["result"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -36,7 +36,7 @@ class OrderResponseModel {
   };
 }
 
-class Result {
+class OrderList {
   DeliveryDetailsArray? deliveryDetailsArray;
   String? id;
   String? orderNumber;
@@ -60,7 +60,7 @@ class Result {
   List<dynamic>? additionalChargesArray;
   int? v;
 
-  Result({
+  OrderList({
     this.deliveryDetailsArray,
     this.id,
     this.orderNumber,
@@ -85,7 +85,7 @@ class Result {
     this.v,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory OrderList.fromJson(Map<String, dynamic> json) => OrderList(
     deliveryDetailsArray: json["deliveryDetailsArray"] == null ? null : DeliveryDetailsArray.fromJson(json["deliveryDetailsArray"]),
     id: json["_id"],
     orderNumber: json["orderNumber"],
@@ -97,7 +97,7 @@ class Result {
     orderPickupId: json["orderPickupId"],
     isVerified: json["isVerified"],
     discountType: json["discountType"],
-    orderGrandTotal: json["orderGrandTotal"].toDouble(),
+    orderGrandTotal: json["orderGrandTotal"]?.toDouble(),
     orderStatusTrackArray: json["orderStatusTrackArray"] == null ? [] : List<OrderStatusTrackArray>.from(json["orderStatusTrackArray"]!.map((x) => OrderStatusTrackArray.fromJson(x))),
     hubUuid: json["hubUuid"],
     operatorUuid: json["operatorUuid"],
@@ -213,8 +213,9 @@ class ProductDetail {
   double? productGrandTotal;
   List<dynamic>? productImgArray;
   int? v;
-  double? subTotal;
-  double? taxAdded;
+  int? taxableValue;
+  double? productTaxValue;
+  int? subTotal;
 
   ProductDetail({
     this.productCategory,
@@ -245,8 +246,9 @@ class ProductDetail {
     this.productGrandTotal,
     this.productImgArray,
     this.v,
+    this.taxableValue,
+    this.productTaxValue,
     this.subTotal,
-    this.taxAdded,
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) => ProductDetail(
@@ -275,11 +277,12 @@ class ProductDetail {
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productGrandTotal: json["productGrandTotal"].toDouble(),
+    productGrandTotal: json["productGrandTotal"]?.toDouble(),
     productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
     v: json["__v"],
-    subTotal: json["subTotal"].toDouble(),
-    taxAdded: json["taxAdded"].toDouble(),
+    taxableValue: json["taxableValue"],
+    productTaxValue: json["productTaxValue"]?.toDouble(),
+    subTotal: json["subTotal"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -311,8 +314,9 @@ class ProductDetail {
     "productGrandTotal": productGrandTotal,
     "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x)),
     "__v": v,
+    "taxableValue": taxableValue,
+    "productTaxValue": productTaxValue,
     "subTotal": subTotal,
-    "taxAdded": taxAdded,
   };
 }
 

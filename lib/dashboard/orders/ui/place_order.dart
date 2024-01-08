@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
@@ -73,8 +74,17 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             Navigator.pushNamed(
                                 context, Routes.selectAddressRoute);
                           },
-                          child: const Text(
+                          child: prefModel.selectedAddress!=null? const Text(
                             'Change',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                color: AppColors.walletFont,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.60,
+                                decoration: TextDecoration.underline),
+                          ):const Text(
+                            'Choose',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 color: AppColors.walletFont,
@@ -101,7 +111,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         const SizedBox(
                           width: 20,
                         ),
-                        SizedBox(
+                        prefModel.selectedAddress!=null?SizedBox(
                           width: screenSize.width - 100,
                           child: Text(
                             prefModel.selectedAddress!.completeAddress!,
@@ -111,6 +121,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
+                        ):const Text(
+                          "Please select the delivery address",
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         )
                       ],
                     ),
@@ -119,7 +136,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     ),
                     InkWell(
                       onTap: () {
-                        dashboardProvider.placeOrder();
+                        if(prefModel.selectedAddress!=null){
+                          dashboardProvider.placeOrder();
+                        }else{
+                          showErrorToast(context, "Please select delivery address");
+                        }
                       },
                       child: Container(
                         width: double.infinity,
@@ -172,41 +193,41 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: screenSize.width,
-                    padding: const EdgeInsets.all(20),
-                    decoration: ShapeDecoration(
-                      color: AppColors.walletBg,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Column(
-                      children: [
-                        Text(
-                          'You have 1200 points in wallet \neligible to redeem',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.walletFont,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          'Redeem Now !',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFF1B8902),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Container(
+                  //   width: screenSize.width,
+                  //   padding: const EdgeInsets.all(20),
+                  //   decoration: ShapeDecoration(
+                  //     color: AppColors.walletBg,
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(8)),
+                  //   ),
+                  //   child: const Column(
+                  //     children: [
+                  //       Text(
+                  //         'You have 1200 points in wallet \neligible to redeem',
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyle(
+                  //           color: AppColors.walletFont,
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         'Redeem Now !',
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyle(
+                  //           color: Color(0xFF1B8902),
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.w500,
+                  //           decoration: TextDecoration.underline,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -240,7 +261,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Taxes',
                         style: TextStyle(
                           color: AppColors.fontColor,
@@ -252,7 +273,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       Text(
                         dashboardProvider.getTaxes(),
                         textAlign: TextAlign.right,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.fontColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -291,18 +312,18 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
-                    'Payment Methods',
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.60,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  ),
+                  // const Text(
+                  //   'Payment Methods',
+                  //   style: TextStyle(
+                  //     color: AppColors.fontColor,
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.w500,
+                  //     letterSpacing: 0.60,
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 100,
+                  // ),
                   const Text(
                     'Products',
                     style: TextStyle(

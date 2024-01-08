@@ -99,7 +99,7 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getIntoStore(NearStoresdatum nearStoresdatum) async {
+  Future<void> getIntoStore(MyStore nearStoresdatum) async {
     showLoaderDialog(homePageContext!);
     storeData = await apiCalls.getStoreData(nearStoresdatum);
     if (storeData!.statusCode == 200) {
@@ -207,7 +207,7 @@ class DashboardProvider extends ChangeNotifier {
   String getTaxes() {
     double totalTax = 0;
     for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-      totalTax = totalTax+item.taxAdded!;
+      totalTax = totalTax+item.productTaxValue!;
     }
     return totalTax.toStringAsFixed(2).toString();
   }

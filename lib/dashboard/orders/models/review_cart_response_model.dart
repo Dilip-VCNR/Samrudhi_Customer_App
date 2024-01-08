@@ -89,8 +89,9 @@ class ReviewProductDetail {
   double? productGrandTotal;
   List<dynamic>? productImgArray;
   int? v;
+  int? taxableValue;
+  double? productTaxValue;
   double? subTotal;
-  double? taxAdded;
 
   ReviewProductDetail({
     this.productCategory,
@@ -121,8 +122,9 @@ class ReviewProductDetail {
     this.productGrandTotal,
     this.productImgArray,
     this.v,
+    this.taxableValue,
+    this.productTaxValue,
     this.subTotal,
-    this.taxAdded,
   });
 
   factory ReviewProductDetail.fromJson(Map<String, dynamic> json) => ReviewProductDetail(
@@ -154,8 +156,9 @@ class ReviewProductDetail {
     productGrandTotal: json["productGrandTotal"]?.toDouble(),
     productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
     v: json["__v"],
-    subTotal: json["subTotal"]==null?0.0:json["subTotal"].toDouble(),
-    taxAdded: json["taxAdded"]==null?0.0:json["taxAdded"].toDouble(),
+    taxableValue: json["taxableValue"],
+    productTaxValue: json["productTaxValue"] == null? 0.0 : json["productTaxValue"].toDouble(),
+    subTotal: json["subTotal"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -187,8 +190,9 @@ class ReviewProductDetail {
     "productGrandTotal": productGrandTotal,
     "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x)),
     "__v": v,
+    "taxableValue": taxableValue,
+    "productTaxValue": productTaxValue,
     "subTotal": subTotal,
-    "taxAdded": taxAdded,
   };
 }
 
