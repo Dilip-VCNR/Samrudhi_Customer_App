@@ -36,7 +36,36 @@ class _OrderDetailsState extends State<OrderDetails> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                'Items',
+                style: TextStyle(
+                  color: AppColors.fontColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.w500,
+                  letterSpacing: 0.60,
+                ),
+              ),
+              const SizedBox(height: 10,),
+              ListView.separated(
+                shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: order.productDetails!.length,
+                  itemBuilder: (BuildContext context,int index){
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${order.productDetails![index].productName}',style: const TextStyle(fontSize: 16),),
+                    Text('X ${order.productDetails![index].addedCartQuantity}',style: const TextStyle(fontSize: 16),)
+                  ],
+                );
+              }, separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(height: 5,);
+              },),
+              const SizedBox(height: 10,),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -44,7 +73,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                     'Order status',
                     style: TextStyle(
                       color: AppColors.fontColor,
-                      fontSize: 16,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                       // fontWeight: FontWeight.w500,
                       letterSpacing: 0.60,
                     ),
@@ -94,7 +124,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       subtitle: StepperText('${order.orderStatusTrackArray![i].remarks}\n${order.orderStatusTrackArray![i].date}'),
                       iconWidget: Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.green,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30))),

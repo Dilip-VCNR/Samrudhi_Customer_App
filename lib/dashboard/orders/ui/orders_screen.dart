@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/dashboard/orders/provider/orders_provider.dart';
@@ -66,11 +68,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: ongoingOrderWidget(screenSize, ordersProvider,"ongoing"),
+                        child: ongoingOrderWidget(
+                            screenSize, ordersProvider, "ongoing"),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: completedOrderWidget(screenSize, ordersProvider,"completed"),
+                        child: completedOrderWidget(
+                            screenSize, ordersProvider, "completed"),
                       )
                     ],
                   ),
@@ -83,8 +87,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
-
-  ongoingOrderWidget(Size screenSize, OrdersProvider ordersProvider,String type) {
+  ongoingOrderWidget(
+      Size screenSize, OrdersProvider ordersProvider, String type) {
     return SingleChildScrollView(
         child: ListView.builder(
             shrinkWrap: true,
@@ -93,7 +97,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.orderDetailsRoute,arguments: {'order':ordersProvider.ongoingOrders[index]});
+                    Navigator.pushNamed(context, Routes.orderDetailsRoute,
+                        arguments: {
+                          'order': ordersProvider.ongoingOrders[index]
+                        });
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),
@@ -141,7 +148,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
@@ -170,7 +178,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       ),
                                       child: Center(
                                           child: Text(
-                                            '${ordersProvider.ongoingOrders[index].orderStatus}',
+                                        '${ordersProvider.ongoingOrders[index].orderStatus}',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
@@ -199,9 +207,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           height: 10,
                         ),
                         for (int i = 0;
-                            i <
-                                ordersProvider.ongoingOrders[index].productDetails!.length;
-                            i++)
+                        i <
+                            min(
+                                3,
+                                ordersProvider.ongoingOrders[index]
+                                    .productDetails!.length);
+                        i++)
                           Text(
                             '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
                             style: TextStyle(
@@ -210,6 +221,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                        ordersProvider.finishedOrders[index]
+                            .productDetails!.length>3?Text(
+                          '${ordersProvider.finishedOrders[index]
+                              .productDetails!.length-3} Other products',
+                            style: TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ):SizedBox(),
                         const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,7 +258,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ),
                 )));
   }
-  completedOrderWidget(Size screenSize, OrdersProvider ordersProvider,String type) {
+
+  completedOrderWidget(
+      Size screenSize, OrdersProvider ordersProvider, String type) {
     return SingleChildScrollView(
         child: ListView.builder(
             shrinkWrap: true,
@@ -246,7 +269,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.orderDetailsRoute,arguments: {'order':ordersProvider.finishedOrders[index]});
+                    Navigator.pushNamed(context, Routes.orderDetailsRoute,
+                        arguments: {
+                          'order': ordersProvider.finishedOrders[index]
+                        });
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),
@@ -294,7 +320,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
@@ -323,7 +350,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       ),
                                       child: Center(
                                           child: Text(
-                                            '${ordersProvider.finishedOrders[index].orderStatus}',
+                                        '${ordersProvider.finishedOrders[index].orderStatus}',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
@@ -353,7 +380,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ),
                         for (int i = 0;
                             i <
-                                ordersProvider.finishedOrders[index].productDetails!.length;
+                                min(
+                                    3,
+                                    ordersProvider.finishedOrders[index]
+                                        .productDetails!.length);
                             i++)
                           Text(
                             '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
@@ -363,6 +393,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                        ordersProvider.finishedOrders[index]
+                            .productDetails!.length>3?Text(
+                          "${ordersProvider.finishedOrders[index]
+                              .productDetails!.length-3} Other products",
+                            style: TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ):SizedBox(),
                         const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
