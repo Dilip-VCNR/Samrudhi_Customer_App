@@ -274,9 +274,9 @@ class _WalletScreenState extends State<WalletScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
                 walletProvider.walletResponse!.result!.earnedPointsDetails!.isNotEmpty?ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -336,6 +336,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   }
                 ):const Center(child: Text("No records found"),),
 
+                SizedBox(height: 10,),
                 const Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
