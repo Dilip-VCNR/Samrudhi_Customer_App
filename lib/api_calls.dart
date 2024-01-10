@@ -196,6 +196,7 @@ class ApiCalls {
   Future<OrderResponseModel>placeOrder(ReviewCartResult result) async {
     Map req = result.toJson();
     req['storeUuid'] = result.productDetails![0].storeUuid;
+    req['deliveryAddress'] = prefModel.selectedAddress!.toJson();
     http.Response response = await hitApi(
         true,
         UrlConstant.placeOrder,

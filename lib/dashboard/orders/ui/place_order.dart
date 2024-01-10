@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/utils/app_widgets.dart';
+import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
@@ -350,9 +351,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               width: screenSize.width / 6,
                               height: screenSize.width / 6,
                               decoration: ShapeDecoration(
-                                image: const DecorationImage(
-                                  image: NetworkImage(
-                                      "https://via.placeholder.com/115x111"),
+                                image: DecorationImage(
+                                  image: dashboardProvider.reviewCartResponse!.result!.productDetails![index].productImgArray!.isEmpty?NetworkImage(
+                                      "https://via.placeholder.com/115x111"):NetworkImage('${UrlConstant.imageBaseUrl}${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productImgArray![0].imagePath!}'),
                                   fit: BoxFit.fill,
                                 ),
                                 shape: RoundedRectangleBorder(

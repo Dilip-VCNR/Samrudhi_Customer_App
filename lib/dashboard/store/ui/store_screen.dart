@@ -5,6 +5,7 @@ import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 
 import '../../../utils/routes.dart';
+import '../../../utils/url_constants.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({Key? key}) : super(key: key);
@@ -206,9 +207,18 @@ class _StoreScreenState extends State<StoreScreen> {
                                       width: screenSize.width / 3.75,
                                       height: screenSize.width / 3.75,
                                       decoration: ShapeDecoration(
-                                        image: const DecorationImage(
-                                          image: NetworkImage(
-                                              "https://via.placeholder.com/115x111"),
+                                        image: DecorationImage(
+                                          image: dashboardProvider
+                                                  .storeData!
+                                                  .result!
+                                                  .productDetails![i]
+                                                  .productList![index]
+                                                  .productImgArray!
+                                                  .isEmpty
+                                              ? const NetworkImage(
+                                                  "https://via.placeholder.com/115x111")
+                                              : NetworkImage(
+                                                  '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productImgArray![0].imagePath!}'),
                                           fit: BoxFit.fill,
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -242,7 +252,13 @@ class _StoreScreenState extends State<StoreScreen> {
                                             ),
                                           ),
                                           Text(
-                                            dashboardProvider.storeData!.result!.productDetails![i].productList![index].productSubCategory!.productSubCategoryName!,
+                                            dashboardProvider
+                                                .storeData!
+                                                .result!
+                                                .productDetails![i]
+                                                .productList![index]
+                                                .productSubCategory!
+                                                .productSubCategoryName!,
                                             style: const TextStyle(
                                               color: Color(0x8937474F),
                                               fontSize: 14,
@@ -263,133 +279,162 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                               ),
-                                              !dashboardProvider.productExistInCart(dashboardProvider
-                                                  .storeData!
-                                                  .result!
-                                                  .productDetails![i]
-                                                  .productList![index])?
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await dashboardProvider
-                                                        .addUpdateProductToCart(
-                                                            dashboardProvider
-                                                                .storeData!
-                                                                .result!
-                                                                .productDetails![
-                                                                    i]
-                                                                .productList![index],'add');
-                                                  },
-                                                  child: Container(
-                                                    width: screenSize.width / 4,
-                                                    height: 40,
-                                                    decoration: ShapeDecoration(
-                                                      color: AppColors
-                                                          .secondaryColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(7),
-                                                      ),
-                                                    ),
-                                                    child: const Center(
-                                                      child: Text(
-                                                        'Add',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              :
-                                                Row(
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap:(){
-                                                        dashboardProvider.addUpdateProductToCart(dashboardProvider.storeData!.result!.productDetails![i].productList![index],'remove');
+                                              !dashboardProvider
+                                                      .productExistInCart(
+                                                          dashboardProvider
+                                                              .storeData!
+                                                              .result!
+                                                              .productDetails![
+                                                                  i]
+                                                              .productList![index])
+                                                  ? InkWell(
+                                                      onTap: () async {
+                                                        await dashboardProvider
+                                                            .addUpdateProductToCart(
+                                                                dashboardProvider
+                                                                    .storeData!
+                                                                    .result!
+                                                                    .productDetails![
+                                                                        i]
+                                                                    .productList![index],
+                                                                'add');
                                                       },
                                                       child: Container(
+                                                        width:
+                                                            screenSize.width /
+                                                                4,
                                                         height: 40,
-                                                        width: 40,
-                                                        decoration: const BoxDecoration(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            borderRadius:
-                                                                BorderRadius.all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            5))),
-                                                        child: const Center(
-                                                            child: Text(
-                                                          "-",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        )),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 30,
-                                                      width: 30,
-                                                      child: Center(
-                                                          child: Text(
-                                                            dashboardProvider.getProductCountInCart(dashboardProvider
-                                                                .storeData!
-                                                                .result!
-                                                                .productDetails![i]
-                                                                .productList![index]).toString(),
-                                                        // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
-                                                        style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        dashboardProvider.addUpdateProductToCart(dashboardProvider.storeData!.result!.productDetails![i].productList![index],'add');
-                                                      },
-                                                      child: Container(
-                                                        height: 40,
-                                                        width: 40,
-                                                        decoration: const BoxDecoration(
-                                                            color: AppColors
-                                                                .secondaryColor,
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          shape:
+                                                              RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius
+                                                                    .circular(
+                                                                        7),
+                                                          ),
+                                                        ),
+                                                        child: const Center(
+                                                          child: Text(
+                                                            'Add',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            dashboardProvider.addUpdateProductToCart(
+                                                                dashboardProvider
+                                                                    .storeData!
+                                                                    .result!
+                                                                    .productDetails![
+                                                                        i]
+                                                                    .productList![index],
+                                                                'remove');
+                                                          },
+                                                          child: Container(
+                                                            height: 40,
+                                                            width: 40,
+                                                            decoration: const BoxDecoration(
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                borderRadius: BorderRadius
                                                                     .all(Radius
                                                                         .circular(
                                                                             5))),
-                                                        child: const Center(
-                                                            child: Text(
-                                                          "+",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        )),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
+                                                            child: const Center(
+                                                                child: Text(
+                                                              "-",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            )),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 30,
+                                                          width: 30,
+                                                          child: Center(
+                                                              child: Text(
+                                                            dashboardProvider
+                                                                .getProductCountInCart(
+                                                                    dashboardProvider
+                                                                        .storeData!
+                                                                        .result!
+                                                                        .productDetails![
+                                                                            i]
+                                                                        .productList![index])
+                                                                .toString(),
+                                                            // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          )),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            dashboardProvider.addUpdateProductToCart(
+                                                                dashboardProvider
+                                                                    .storeData!
+                                                                    .result!
+                                                                    .productDetails![
+                                                                        i]
+                                                                    .productList![index],
+                                                                'add');
+                                                          },
+                                                          child: Container(
+                                                            height: 40,
+                                                            width: 40,
+                                                            decoration: const BoxDecoration(
+                                                                color: AppColors
+                                                                    .secondaryColor,
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5))),
+                                                            child: const Center(
+                                                                child: Text(
+                                                              "+",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            )),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
                                             ],
                                           )
                                         ],

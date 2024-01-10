@@ -17,7 +17,7 @@ class PrefModel {
     return PrefModel(
       userData: parsedJson["userData"] == null ? null : UserDetailsModel.fromJson(parsedJson["userData"]),
       selectedAddress: parsedJson["selectedAddress"] == null ? null : AddressArray.fromJson(parsedJson["selectedAddress"]),
-      cartItems: parsedJson["cartProducts"] == null ? [] : List<ProductList>.from(parsedJson["cartProducts"].map((x) => ProductList.fromJson(x))),
+      cartItems: parsedJson["cartItems"] == null ? [] : List<ProductList>.from(parsedJson["cartItems"].map((x) => ProductList.fromJson(x))),
     );
   }
 

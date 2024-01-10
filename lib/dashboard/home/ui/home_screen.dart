@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body:dashboardProvider.homeData!=null?RefreshIndicator(
             onRefresh: () async {
-              await Future.delayed(Duration(seconds: 1));
+              await Future.delayed(const Duration(seconds: 1));
               _pullRefresh(dashboardProvider);
               },
             child: SingleChildScrollView(
@@ -148,10 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
+                  dashboardProvider.homeData!.result!.myStore!.isNotEmpty?const SizedBox(
                     height: 20,
-                  ),
-                  Padding(
+                  ):const SizedBox.shrink(),
+                  dashboardProvider.homeData!.result!.myStore!.isNotEmpty?Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
                       onTap: () {
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   fit: BoxFit.fill,
                                 ),
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15.50),
                                     bottomLeft: Radius.circular(15.50),
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Text(
                                   '${dashboardProvider.homeData!.result!.myStore![0].displayName}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -221,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: screenSize.width / 2,
                                   child: Text(
                                     '${dashboardProvider.homeData!.result!.myStore![0].addressArray![0].completeAddress}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  ),
+                  ):const SizedBox.shrink(),
                   const SizedBox(
                     height: 20,
                   ),
@@ -506,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-          ):Center(child: CircularProgressIndicator(),),
+          ):const Center(child: CircularProgressIndicator(),),
         );
       },
     );

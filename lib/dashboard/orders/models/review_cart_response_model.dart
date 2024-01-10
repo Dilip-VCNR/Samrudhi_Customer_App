@@ -86,12 +86,10 @@ class ReviewProductDetail {
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
-  double? productGrandTotal;
-  List<dynamic>? productImgArray;
-  int? v;
-  int? taxableValue;
-  double? productTaxValue;
+  int? productGrandTotal;
   double? subTotal;
+  List<ProductImgArray>? productImgArray;
+  int? v;
 
   ReviewProductDetail({
     this.productCategory,
@@ -120,11 +118,9 @@ class ReviewProductDetail {
     this.productModel,
     this.isDeleted,
     this.productGrandTotal,
+    this.subTotal,
     this.productImgArray,
     this.v,
-    this.taxableValue,
-    this.productTaxValue,
-    this.subTotal,
   });
 
   factory ReviewProductDetail.fromJson(Map<String, dynamic> json) => ReviewProductDetail(
@@ -153,12 +149,10 @@ class ReviewProductDetail {
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productGrandTotal: json["productGrandTotal"]?.toDouble(),
-    productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
+    productGrandTotal: json["productGrandTotal"],
+    subTotal: json["subTotal"] ?? 0.0,
+    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
-    taxableValue: json["taxableValue"],
-    productTaxValue: json["productTaxValue"] == null? 0.0 : json["productTaxValue"].toDouble(),
-    subTotal: json["subTotal"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -188,11 +182,9 @@ class ReviewProductDetail {
     "productModel": productModel,
     "isDeleted": isDeleted,
     "productGrandTotal": productGrandTotal,
-    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x)),
-    "__v": v,
-    "taxableValue": taxableValue,
-    "productTaxValue": productTaxValue,
     "subTotal": subTotal,
+    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
+    "__v": v,
   };
 }
 
@@ -213,6 +205,38 @@ class ProductCategory {
   Map<String, dynamic> toJson() => {
     "productCategoryId": productCategoryId,
     "productCategoryName": productCategoryName,
+  };
+}
+
+class ProductImgArray {
+  String? imagePath;
+  String? imageType;
+  bool? isPrimary;
+  String? imageDescription;
+  String? id;
+
+  ProductImgArray({
+    this.imagePath,
+    this.imageType,
+    this.isPrimary,
+    this.imageDescription,
+    this.id,
+  });
+
+  factory ProductImgArray.fromJson(Map<String, dynamic> json) => ProductImgArray(
+    imagePath: json["imagePath"],
+    imageType: json["imageType"],
+    isPrimary: json["isPrimary"],
+    imageDescription: json["imageDescription"],
+    id: json["_id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "imagePath": imagePath,
+    "imageType": imageType,
+    "isPrimary": isPrimary,
+    "imageDescription": imageDescription,
+    "_id": id,
   };
 }
 

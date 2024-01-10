@@ -207,7 +207,7 @@ class DashboardProvider extends ChangeNotifier {
   String getTaxes() {
     double totalTax = 0;
     for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-      totalTax = totalTax+item.productTaxValue!;
+      totalTax = totalTax+item.productTax!;
     }
     return totalTax.toStringAsFixed(2).toString();
   }
@@ -226,6 +226,7 @@ class DashboardProvider extends ChangeNotifier {
     if(orderResponse!.statusCode==200){
       prefModel.cartItems!.clear();
       AppPref.setPref(prefModel);
+      notifyListeners();
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);
       Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'order':orderResponse!.result});
