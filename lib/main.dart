@@ -70,8 +70,7 @@ class MyApp extends StatelessWidget {
           Routes.registerRoute: (context) => const RegisterScreen(),
           Routes.dashboardRoute: (context) => const DashboardScreen(),
           Routes.orderDetailsRoute: (context) => const OrderDetails(),
-          Routes.redeemPointsOperatorRoute: (context) =>
-              const RedeemPointsOperator(),
+          Routes.redeemPointsOperatorRoute: (context) => const RedeemPointsOperator(),
           Routes.notificationsRoute: (context) => const NotificationsScreen(),
           Routes.searchScreenRoute: (context) => const SearchScreen(),
           Routes.storeInRoute: (context) => const StoreScreen(),

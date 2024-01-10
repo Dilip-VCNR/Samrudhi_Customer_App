@@ -153,7 +153,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   children: [
                                     Text(
                                       '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w400,
@@ -179,7 +179,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       child: Center(
                                           child: Text(
                                         '${ordersProvider.ongoingOrders[index].orderStatus}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
                                           fontWeight: FontWeight.w700,
@@ -215,29 +215,29 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         i++)
                           Text(
                             '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.fontColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ordersProvider.finishedOrders[index]
-                            .productDetails!.length>3?Text(
-                          '${ordersProvider.finishedOrders[index]
-                              .productDetails!.length-3} Other products',
-                            style: TextStyle(
-                              color: AppColors.fontColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ):SizedBox(),
+                        // ordersProvider.finishedOrders[index]
+                        //     .productDetails!.length>3?Text(
+                        //   '${ordersProvider.finishedOrders[index]
+                        //       .productDetails!.length-3} Other products',
+                        //     style: const TextStyle(
+                        //       color: AppColors.fontColor,
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //   ):const SizedBox(),
                         const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
@@ -245,7 +245,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             ),
                             Text(
                               '₹${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderGrandTotal}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
@@ -325,7 +325,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   children: [
                                     Text(
                                       '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w400,
@@ -351,7 +351,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       child: Center(
                                           child: Text(
                                         '${ordersProvider.finishedOrders[index].orderStatus}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 10,
                                           fontWeight: FontWeight.w700,
@@ -387,29 +387,29 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             i++)
                           Text(
                             '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.fontColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ordersProvider.finishedOrders[index]
-                            .productDetails!.length>3?Text(
-                          "${ordersProvider.finishedOrders[index]
-                              .productDetails!.length-3} Other products",
-                            style: TextStyle(
-                              color: AppColors.fontColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ):SizedBox(),
+                        // ordersProvider.finishedOrders[index]
+                        //     .productDetails!.length>3?Text(
+                        //   "${ordersProvider.finishedOrders[index]
+                        //       .productDetails!.length-3} Other products",
+                        //     style: const TextStyle(
+                        //       color: AppColors.fontColor,
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //   ):const SizedBox(),
                         const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               '${ordersProvider.finishedOrders[index].orderDate}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
@@ -417,7 +417,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             ),
                             Text(
                               '₹${ordersProvider.finishedOrders[index].orderGrandTotal}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,

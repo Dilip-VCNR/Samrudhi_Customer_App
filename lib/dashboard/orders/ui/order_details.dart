@@ -39,6 +39,23 @@ class _OrderDetailsState extends State<OrderDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              Text('Order : #${order.orderNumber!}',
+                style: TextStyle(
+                  color: AppColors.fontColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.w500,
+                  letterSpacing: 0.60,
+                ),),
+              Text(order.productDetails![0].storeName!,
+                style: TextStyle(
+                  color: AppColors.fontColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.w500,
+                  letterSpacing: 0.60,
+                ),),
               const Text(
                 'Items',
                 style: TextStyle(
@@ -65,6 +82,29 @@ class _OrderDetailsState extends State<OrderDetails> {
               }, separatorBuilder: (BuildContext context, int index) {
                   return const SizedBox(height: 5,);
               },),
+              const SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Total",
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),),
+                  Text(order.orderGrandTotal!.toStringAsFixed(2),
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),),
+
+                ],
+              ),
               const SizedBox(height: 10,),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
