@@ -41,7 +41,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             children: [
 
               Text('Order : #${order.orderNumber!}',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.fontColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   letterSpacing: 0.60,
                 ),),
               Text(order.productDetails![0].storeName!,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.fontColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -86,7 +86,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Total",
+                  const Text("Total",
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 16,
@@ -95,7 +95,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       letterSpacing: 0.60,
                     ),),
                   Text(order.orderGrandTotal!.toStringAsFixed(2),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

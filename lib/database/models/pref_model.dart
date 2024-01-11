@@ -5,7 +5,7 @@ import '../../auth/models/login_response_model.dart';
 class PrefModel {
   UserDetailsModel? userData;
   AddressArray? selectedAddress;
-  List<ProductList>? cartItems;
+  List<ProductList>? cartItems = [];
 
   PrefModel({
     this.userData,

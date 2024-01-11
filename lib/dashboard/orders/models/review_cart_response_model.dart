@@ -86,7 +86,7 @@ class ReviewProductDetail {
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
-  int? productGrandTotal;
+  double? productGrandTotal;
   double? subTotal;
   List<ProductImgArray>? productImgArray;
   int? v;
