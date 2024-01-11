@@ -236,7 +236,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Subtotal',
+                        'Sub total',
                         style: TextStyle(
                           color: AppColors.fontColor,
                           fontSize: 15,
@@ -411,7 +411,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Sub total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].subTotal!}',
+                                        'Sub total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productGrandTotal!}',
                                         style: const TextStyle(
                                           color: AppColors.primaryColor,
                                           fontSize: 16,

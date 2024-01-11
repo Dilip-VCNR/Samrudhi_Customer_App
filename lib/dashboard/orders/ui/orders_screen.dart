@@ -90,344 +90,359 @@ class _OrdersScreenState extends State<OrdersScreen> {
   ongoingOrderWidget(
       Size screenSize, OrdersProvider ordersProvider, String type) {
     return SingleChildScrollView(
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: ordersProvider.ongoingOrders.length,
-            scrollDirection: Axis.vertical,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.orderDetailsRoute,
-                        arguments: {
-                          'order': ordersProvider.ongoingOrders[index]
-                        });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    width: screenSize.width,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      shadows: [
-                        BoxShadow(
-                          color: Colors.grey.shade400,
-                          blurRadius: 2,
-                          offset: const Offset(0, 2),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+        child: ordersProvider.ongoingOrders.isNotEmpty
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: ordersProvider.ongoingOrders.length,
+                scrollDirection: Axis.vertical,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.orderDetailsRoute,
+                            arguments: {
+                              'order': ordersProvider.ongoingOrders[index]
+                            });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        width: screenSize.width,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 2,
+                              offset: const Offset(0, 2),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Container(
-                            //   width: 100,
-                            //   height: 100,
-                            //   decoration: ShapeDecoration(
-                            //     image: const DecorationImage(
-                            //       image: NetworkImage(
-                            //           "https://via.placeholder.com/75x75"),
-                            //       fit: BoxFit.fill,
-                            //     ),
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(15),
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   width: 10,
-                            // ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.48,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 10),
-                                      decoration: ShapeDecoration(
-                                        color: const Color(0xFFFF8702),
-                                        shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              width: 0.50,
-                                              color: Color(0xFFFF8702)),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                        '${ordersProvider.ongoingOrders[index].orderStatus}',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )),
-                                    )
-                                  ],
-                                ),
-                                // const SizedBox(
-                                //   width: 212,
-                                //   child: Text(
-                                //     '#11, First floor vcnr Hospital, Nelamangala \nbangalore - 562123',
-                                //     style: TextStyle(
-                                //       color: AppColors.fontColor,
-                                //       fontSize: 11,
-                                //       fontWeight: FontWeight.w500,
+                                // Container(
+                                //   width: 100,
+                                //   height: 100,
+                                //   decoration: ShapeDecoration(
+                                //     image: const DecorationImage(
+                                //       image: NetworkImage(
+                                //           "https://via.placeholder.com/75x75"),
+                                //       fit: BoxFit.fill,
+                                //     ),
+                                //     shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.circular(15),
                                 //     ),
                                 //   ),
-                                // )
+                                // ),
+                                // const SizedBox(
+                                //   width: 10,
+                                // ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.48,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 10),
+                                          decoration: ShapeDecoration(
+                                            color: const Color(0xFFFF8702),
+                                            shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                  width: 0.50,
+                                                  color: Color(0xFFFF8702)),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                            '${ordersProvider.ongoingOrders[index].orderStatus}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )),
+                                        )
+                                      ],
+                                    ),
+                                    // const SizedBox(
+                                    //   width: 212,
+                                    //   child: Text(
+                                    //     '#11, First floor vcnr Hospital, Nelamangala \nbangalore - 562123',
+                                    //     style: TextStyle(
+                                    //       color: AppColors.fontColor,
+                                    //       fontSize: 11,
+                                    //       fontWeight: FontWeight.w500,
+                                    //     ),
+                                    //   ),
+                                    // )
+                                  ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            for (int i = 0;
+                                i <
+                                    min(
+                                        3,
+                                        ordersProvider.ongoingOrders[index]
+                                            .productDetails!.length);
+                                i++)
+                              Text(
+                                '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            // ordersProvider.finishedOrders[index]
+                            //     .productDetails!.length>3?Text(
+                            //   '${ordersProvider.finishedOrders[index]
+                            //       .productDetails!.length-3} Other products',
+                            //     style: const TextStyle(
+                            //       color: AppColors.fontColor,
+                            //       fontSize: 12,
+                            //       fontWeight: FontWeight.bold,
+                            //     ),
+                            //   ):const SizedBox(),
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate}',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  '₹${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderGrandTotal}',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ],
                             )
                           ],
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        for (int i = 0;
-                        i <
-                            min(
-                                3,
-                                ordersProvider.ongoingOrders[index]
-                                    .productDetails!.length);
-                        i++)
-                          Text(
-                            '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
-                            style: const TextStyle(
-                              color: AppColors.fontColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        // ordersProvider.finishedOrders[index]
-                        //     .productDetails!.length>3?Text(
-                        //   '${ordersProvider.finishedOrders[index]
-                        //       .productDetails!.length-3} Other products',
-                        //     style: const TextStyle(
-                        //       color: AppColors.fontColor,
-                        //       fontSize: 12,
-                        //       fontWeight: FontWeight.bold,
-                        //     ),
-                        //   ):const SizedBox(),
-                        const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate}',
-                              style: const TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              '₹${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderGrandTotal}',
-                              style: const TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )));
+                      ),
+                    ))
+            : const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text("No Orders Yet !"),
+                ),
+              ));
   }
 
   completedOrderWidget(
       Size screenSize, OrdersProvider ordersProvider, String type) {
     return SingleChildScrollView(
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: ordersProvider.finishedOrders.length,
-            scrollDirection: Axis.vertical,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.orderDetailsRoute,
-                        arguments: {
-                          'order': ordersProvider.finishedOrders[index]
-                        });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    width: screenSize.width,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      shadows: [
-                        BoxShadow(
-                          color: Colors.grey.shade400,
-                          blurRadius: 2,
-                          offset: const Offset(0, 2),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+        child: ordersProvider.finishedOrders.isNotEmpty
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: ordersProvider.finishedOrders.length,
+                scrollDirection: Axis.vertical,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.orderDetailsRoute,
+                            arguments: {
+                              'order': ordersProvider.finishedOrders[index]
+                            });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        width: screenSize.width,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.grey.shade400,
+                              blurRadius: 2,
+                              offset: const Offset(0, 2),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Container(
-                            //   width: 100,
-                            //   height: 100,
-                            //   decoration: ShapeDecoration(
-                            //     image: const DecorationImage(
-                            //       image: NetworkImage(
-                            //           "https://via.placeholder.com/75x75"),
-                            //       fit: BoxFit.fill,
-                            //     ),
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(15),
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   width: 10,
-                            // ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.48,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 10),
-                                      decoration: ShapeDecoration(
-                                        color: AppColors.secondaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              width: 0.50,
-                                              color: AppColors.secondaryColor),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                        '${ordersProvider.finishedOrders[index].orderStatus}',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      )),
-                                    )
-                                  ],
-                                ),
-                                // const SizedBox(
-                                //   width: 212,
-                                //   child: Text(
-                                //     '#11, First floor vcnr Hospital, Nelamangala \nbangalore - 562123',
-                                //     style: TextStyle(
-                                //       color: AppColors.fontColor,
-                                //       fontSize: 11,
-                                //       fontWeight: FontWeight.w500,
+                                // Container(
+                                //   width: 100,
+                                //   height: 100,
+                                //   decoration: ShapeDecoration(
+                                //     image: const DecorationImage(
+                                //       image: NetworkImage(
+                                //           "https://via.placeholder.com/75x75"),
+                                //       fit: BoxFit.fill,
+                                //     ),
+                                //     shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.circular(15),
                                 //     ),
                                 //   ),
-                                // )
+                                // ),
+                                // const SizedBox(
+                                //   width: 10,
+                                // ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.48,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 10),
+                                          decoration: ShapeDecoration(
+                                            color: AppColors.secondaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                  width: 0.50,
+                                                  color:
+                                                      AppColors.secondaryColor),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                            '${ordersProvider.finishedOrders[index].orderStatus}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          )),
+                                        )
+                                      ],
+                                    ),
+                                    // const SizedBox(
+                                    //   width: 212,
+                                    //   child: Text(
+                                    //     '#11, First floor vcnr Hospital, Nelamangala \nbangalore - 562123',
+                                    //     style: TextStyle(
+                                    //       color: AppColors.fontColor,
+                                    //       fontSize: 11,
+                                    //       fontWeight: FontWeight.w500,
+                                    //     ),
+                                    //   ),
+                                    // )
+                                  ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            for (int i = 0;
+                                i <
+                                    min(
+                                        3,
+                                        ordersProvider.finishedOrders[index]
+                                            .productDetails!.length);
+                                i++)
+                              Text(
+                                '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            // ordersProvider.finishedOrders[index]
+                            //     .productDetails!.length>3?Text(
+                            //   "${ordersProvider.finishedOrders[index]
+                            //       .productDetails!.length-3} Other products",
+                            //     style: const TextStyle(
+                            //       color: AppColors.fontColor,
+                            //       fontSize: 12,
+                            //       fontWeight: FontWeight.bold,
+                            //     ),
+                            //   ):const SizedBox(),
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${ordersProvider.finishedOrders[index].orderDate}',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  '₹${ordersProvider.finishedOrders[index].orderGrandTotal}',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ],
                             )
                           ],
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        for (int i = 0;
-                            i <
-                                min(
-                                    3,
-                                    ordersProvider.finishedOrders[index]
-                                        .productDetails!.length);
-                            i++)
-                          Text(
-                            '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
-                            style: const TextStyle(
-                              color: AppColors.fontColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        // ordersProvider.finishedOrders[index]
-                        //     .productDetails!.length>3?Text(
-                        //   "${ordersProvider.finishedOrders[index]
-                        //       .productDetails!.length-3} Other products",
-                        //     style: const TextStyle(
-                        //       color: AppColors.fontColor,
-                        //       fontSize: 12,
-                        //       fontWeight: FontWeight.bold,
-                        //     ),
-                        //   ):const SizedBox(),
-                        const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${ordersProvider.finishedOrders[index].orderDate}',
-                              style: const TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              '₹${ordersProvider.finishedOrders[index].orderGrandTotal}',
-                              style: const TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )));
+                      ),
+                    ))
+            : const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text("No Orders Yet !"),
+                ),
+              ));
   }
 }

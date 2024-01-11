@@ -25,7 +25,7 @@ class PrefModel {
     return {
       "userData": userData?.toJson(),
       "selectedAddress": selectedAddress?.toJson(),
-      "cartItems": cartItems == null ? [] : List<dynamic>.from(cartItems!.map((x) => x.toJson())),
+      "cartItems": cartItems == null ? [] : List<ProductList>.from(cartItems!.map((x) => x.toJson())),
     };
   }
 }

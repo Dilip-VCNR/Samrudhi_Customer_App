@@ -86,10 +86,12 @@ class ReviewProductDetail {
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
-  double? productGrandTotal;
-  double? subTotal;
+  int? productGrandTotal;
   List<ProductImgArray>? productImgArray;
   int? v;
+  int? taxableValue;
+  String? productTaxValue;
+  int? subTotal;
 
   ReviewProductDetail({
     this.productCategory,
@@ -118,9 +120,11 @@ class ReviewProductDetail {
     this.productModel,
     this.isDeleted,
     this.productGrandTotal,
-    this.subTotal,
     this.productImgArray,
     this.v,
+    this.taxableValue,
+    this.productTaxValue,
+    this.subTotal,
   });
 
   factory ReviewProductDetail.fromJson(Map<String, dynamic> json) => ReviewProductDetail(
@@ -150,9 +154,11 @@ class ReviewProductDetail {
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
     productGrandTotal: json["productGrandTotal"],
-    subTotal: json["subTotal"] ?? 0.0,
     productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
+    taxableValue: json["taxableValue"],
+    productTaxValue: json["productTaxValue"],
+    subTotal: json["subTotal"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -182,9 +188,11 @@ class ReviewProductDetail {
     "productModel": productModel,
     "isDeleted": isDeleted,
     "productGrandTotal": productGrandTotal,
-    "subTotal": subTotal,
     "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "__v": v,
+    "taxableValue": taxableValue,
+    "productTaxValue": productTaxValue,
+    "subTotal": subTotal,
   };
 }
 
