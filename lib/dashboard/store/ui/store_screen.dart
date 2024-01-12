@@ -42,7 +42,7 @@ class _StoreScreenState extends State<StoreScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.placeOrderRoute);
+                          Navigator.pushNamed(context, Routes.placeOrderRoute,arguments: {"delivery":dashboardProvider.storeData!.result!.storeDetails!.isHomeDelivery});
                         },
                         child: Container(
                           width: double.infinity,

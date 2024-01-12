@@ -19,10 +19,16 @@ class PlaceOrder extends StatefulWidget {
 class _PlaceOrderState extends State<PlaceOrder> {
   bool firstTimeLoading = false;
 
+  int _selectedValue = 1;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    bool delivery = arguments['delivery'];
+    if(!delivery){
+      _selectedValue=2;
+    }
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
@@ -58,7 +64,42 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Text(
+                      'Delivery Type',
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.60,
+                      ),
+                    ),
+                    delivery?RadioListTile(
+                      title: Text('Delivery'), // Display the title for option 1
+                      subtitle: Text(
+                          'Order will be delivered to selected address'), // Display a subtitle for option 1
+                      value: 1, // Assign a value of 1 to this option
+                      groupValue: _selectedValue, // Use _selectedValue to track the selected option
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedValue =
+                          value!; // Update _selectedValue when option 1 is selected
+                        });
+                      },
+                    ):const SizedBox.shrink(),
+                    RadioListTile(
+                      title: Text('Self Pickup'), // Display the title for option 1
+                      subtitle: Text(
+                          'You can pick up your order by visiting the store'), // Display a subtitle for option 1
+                      value: 2, // Assign a value of 1 to this option
+                      groupValue: _selectedValue, // Use _selectedValue to track the selected option
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedValue =
+                              value!; // Update _selectedValue when option 1 is selected
+                        });
+                      },
+                    ),
+                    _selectedValue==1?Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
@@ -75,32 +116,34 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             Navigator.pushNamed(
                                 context, Routes.selectAddressRoute);
                           },
-                          child: prefModel.selectedAddress!=null? const Text(
-                            'Change',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                color: AppColors.walletFont,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.60,
-                                decoration: TextDecoration.underline),
-                          ):const Text(
-                            'Choose',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                color: AppColors.walletFont,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.60,
-                                decoration: TextDecoration.underline),
-                          ),
+                          child: prefModel.selectedAddress != null
+                              ? const Text(
+                                  'Change',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: AppColors.walletFont,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.60,
+                                      decoration: TextDecoration.underline),
+                                )
+                              : const Text(
+                                  'Choose',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: AppColors.walletFont,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.60,
+                                      decoration: TextDecoration.underline),
+                                ),
                         )
                       ],
-                    ),
+                    ):SizedBox.shrink(),
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
+                    _selectedValue==1?Row(
                       children: [
                         const CircleAvatar(
                           backgroundColor: AppColors.primaryColor,
@@ -112,35 +155,37 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         const SizedBox(
                           width: 20,
                         ),
-                        prefModel.selectedAddress!=null?SizedBox(
-                          width: screenSize.width - 100,
-                          child: Text(
-                            prefModel.selectedAddress!.completeAddress!,
-                            style: const TextStyle(
-                              color: AppColors.fontColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ):const Text(
-                          "Please select the delivery address",
-                          style: TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
+                        prefModel.selectedAddress != null
+                            ? SizedBox(
+                                width: screenSize.width - 100,
+                                child: Text(
+                                  prefModel.selectedAddress!.completeAddress!,
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                "Please select the delivery address",
+                                style: TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              )
                       ],
-                    ),
+                    ):SizedBox.shrink(),
                     const SizedBox(
                       height: 20,
                     ),
                     InkWell(
                       onTap: () {
-                        if(prefModel.selectedAddress!=null){
-                          dashboardProvider.placeOrder();
-                        }else{
+                        if (prefModel.selectedAddress == null && _selectedValue==1) {
                           showErrorToast(context, "Please select delivery address");
+                        } else {
+                          dashboardProvider.placeOrder(_selectedValue);
                         }
                       },
                       child: Container(
@@ -352,8 +397,16 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               height: screenSize.width / 6,
                               decoration: ShapeDecoration(
                                 image: DecorationImage(
-                                  image: dashboardProvider.reviewCartResponse!.result!.productDetails![index].productImgArray!.isEmpty?NetworkImage(
-                                      "https://via.placeholder.com/115x111"):NetworkImage('${UrlConstant.imageBaseUrl}${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productImgArray![0].imagePath!}'),
+                                  image: dashboardProvider
+                                          .reviewCartResponse!
+                                          .result!
+                                          .productDetails![index]
+                                          .productImgArray!
+                                          .isEmpty
+                                      ? NetworkImage(
+                                          "https://via.placeholder.com/115x111")
+                                      : NetworkImage(
+                                          '${UrlConstant.imageBaseUrl}${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productImgArray![0].imagePath!}'),
                                   fit: BoxFit.fill,
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -418,8 +471,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      if (dashboardProvider.reviewCartResponse!.result!.productDetails![index].
-                                              addedCartQuantity ==
+                                      if (dashboardProvider
+                                              .reviewCartResponse!
+                                              .result!
+                                              .productDetails![index]
+                                              .addedCartQuantity ==
                                           0)
                                         InkWell(
                                           onTap: () {
@@ -460,12 +516,19 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           children: [
                                             GestureDetector(
                                               onTap: () async {
-                                                await dashboardProvider.addUpdateProductToCart(prefModel.cartItems![index], 'remove');
-                                                if(prefModel.cartItems!.isEmpty){
+                                                await dashboardProvider
+                                                    .addUpdateProductToCart(
+                                                        prefModel
+                                                            .cartItems![index],
+                                                        'remove');
+                                                if (prefModel
+                                                    .cartItems!.isEmpty) {
                                                   Navigator.pop(context);
-                                                }else{
+                                                } else {
                                                   setState(() {
-                                                    dashboardProvider.reviewCartResponse = null;
+                                                    dashboardProvider
+                                                            .reviewCartResponse =
+                                                        null;
                                                     firstTimeLoading = false;
                                                   });
                                                 }
@@ -597,11 +660,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
         } else {
           return Scaffold(
               body: Center(
-                child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 Lottie.asset('assets/lottie/loading_delivery_boy.json',
                     height: 150),
                 const Text(
@@ -611,9 +674,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                 )
-                            ],
-                          ),
-              ));
+              ],
+            ),
+          ));
         }
       },
     );

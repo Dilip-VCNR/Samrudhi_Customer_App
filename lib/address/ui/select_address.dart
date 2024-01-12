@@ -5,6 +5,7 @@ import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/login_response_model.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/database/app_pref.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import '../../auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/url_constants.dart';
@@ -161,6 +162,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       onTap: () {
                         prefModel.selectedAddress = prefModel.userData!.addressArray![index];
                         AppPref.setPref(prefModel);
+                        showSuccessToast(context, "Address selected successfully");
                         dashboardProvider.getHomeData();
                         Navigator.pop(context);
                       },
@@ -173,7 +175,7 @@ class _SelectAddressState extends State<SelectAddress> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -188,12 +190,15 @@ class _SelectAddressState extends State<SelectAddress> {
                                       letterSpacing: 0.60,
                                     ),
                                   ),
-                                  Text(
-                                    '${prefModel.userData!.addressArray![index].completeAddress}',
-                                    style: const TextStyle(
-                                      color: AppColors.fontColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                                  SizedBox(
+                                    width: screenSize.width/1.5,
+                                    child: Text(
+                                      '${prefModel.userData!.addressArray![index].completeAddress}',
+                                      style: const TextStyle(
+                                        color: AppColors.fontColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                 ],

@@ -48,14 +48,76 @@ class _OrderDetailsState extends State<OrderDetails> {
                   // fontWeight: FontWeight.w500,
                   letterSpacing: 0.60,
                 ),),
-              Text(order.productDetails![0].storeName!,
-                style: const TextStyle(
-                  color: AppColors.fontColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  // fontWeight: FontWeight.w500,
-                  letterSpacing: 0.60,
-                ),),
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    order.productDetails![0].storeName!,
+
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: AppColors.primaryColor,
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    child: Text(
+                      order.orderDeliveryType!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                        letterSpacing: 0.60,
+                      ),),
+                  ),
+
+                ],
+              ),
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Your Pick up Code : ",
+
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: AppColors.primaryColor,
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    child: Text(
+                      order.orderPickupId!.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                        letterSpacing: 0.60,
+                      ),),
+                  ),
+
+                ],
+              ),
+
+
+
+              SizedBox(height: 10,),
               const Text(
                 'Items',
                 style: TextStyle(
@@ -94,7 +156,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       // fontWeight: FontWeight.w500,
                       letterSpacing: 0.60,
                     ),),
-                  Text(order.orderGrandTotal!.toStringAsFixed(2),
+                  Text(double.parse(order.orderGrandTotal!).toStringAsFixed(2),
                     style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 16,

@@ -116,6 +116,14 @@ class DashboardProvider extends ChangeNotifier {
   addUpdateProductToCart(ProductList product, String operation) {
     var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
     int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
+
+    bool shouldClearCart = prefModel.cartItems!.isNotEmpty &&
+        prefModel.cartItems![0].storeUuid != product.storeUuid;
+
+    if (shouldClearCart) {
+      prefModel.cartItems!.clear();
+    }
+
     if (operation == 'add') {
       if (contain.isEmpty) {
         product.addedCartQuantity = 1;
@@ -215,14 +223,14 @@ class DashboardProvider extends ChangeNotifier {
   String getSubTotal() {
     double subTotal = 0;
     for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-      subTotal = subTotal+item.subTotal!;
+      subTotal = subTotal+double.parse(item.subTotal!);
     }
     return subTotal.toStringAsFixed(2).toString();
   }
 
-  placeOrder() async {
+  placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);
-    orderResponse = await apiCalls.placeOrder(reviewCartResponse!.result!);
+    orderResponse = await apiCalls.placeOrder(reviewCartResponse!.result!,selectedValue);
     if(orderResponse!.statusCode==200){
       prefModel.cartItems!.clear();
       AppPref.setPref(prefModel);

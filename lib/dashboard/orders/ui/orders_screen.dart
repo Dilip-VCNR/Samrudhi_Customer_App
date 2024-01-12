@@ -222,6 +222,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
+                            ordersProvider.ongoingOrders[index]
+                                .productDetails!.length>3?Text('and ${ordersProvider.ongoingOrders[index].productDetails!.length - 3} more items'):SizedBox.shrink(),
                             // ordersProvider.finishedOrders[index]
                             //     .productDetails!.length>3?Text(
                             //   '${ordersProvider.finishedOrders[index]
@@ -237,7 +239,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate}',
+                                  '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate} ${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderTime}',
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,

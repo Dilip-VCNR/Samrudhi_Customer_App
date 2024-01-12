@@ -193,10 +193,11 @@ class ApiCalls {
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 
-  Future<OrderResponseModel>placeOrder(ReviewCartResult result) async {
+  Future<OrderResponseModel>placeOrder(ReviewCartResult result, int selectedValue) async {
     Map req = result.toJson();
     req['storeUuid'] = result.productDetails![0].storeUuid;
     req['deliveryAddress'] = prefModel.selectedAddress!.toJson();
+    req['orderDeliveryType'] = selectedValue==1?"homeDelivery":"selfPickUp";
     http.Response response = await hitApi(
         true,
         UrlConstant.placeOrder,
