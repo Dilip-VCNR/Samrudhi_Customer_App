@@ -76,14 +76,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 children: [
                   CircleAvatar(
                     radius: 50,
                     backgroundImage:
-                        NetworkImage("https://via.placeholder.com/50x50"),
+                        NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0]['imageURL']}'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Column(
@@ -91,14 +91,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tony stark',
-                        style: TextStyle(
+                  '${prefModel.userData!.firstName}',
+                      style: const TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
+                      const Text(
                         '+91 8660225160',
                         style: TextStyle(
                           color: Color(0xFF545454),

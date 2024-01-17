@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20,
                   ),
                   SizedBox(
-                    height: 210,
+                    height: 230,
                     child: GridView.builder(
                       shrinkWrap: true,
                       gridDelegate:
@@ -377,8 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             dashboardProvider.getIntoStore(dashboardProvider.homeData!.result!.nearStoresdata![index]);
                           },
                           child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 10),
+                            margin: const EdgeInsets.symmetric(vertical: 10),
                             width: screenSize.width,
                             decoration: ShapeDecoration(
                               color: AppColors.storeBackground,
@@ -446,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(
                                       width: 212,
                                       child: Text(
-                                        '${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].completeAddress} ${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].state} ${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].city} ${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].completeAddress} ${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].zipCode}',
+                                        '${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].completeAddress}',
                                         style: const TextStyle(
                                           color: AppColors.fontColor,
                                           fontSize: 10,

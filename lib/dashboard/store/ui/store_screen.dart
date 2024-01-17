@@ -21,6 +21,7 @@ class _StoreScreenState extends State<StoreScreen> {
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
+        prefModel.cartItems ??= [];
         return Scaffold(
           bottomNavigationBar: prefModel.cartItems!.isNotEmpty
               ? Container(

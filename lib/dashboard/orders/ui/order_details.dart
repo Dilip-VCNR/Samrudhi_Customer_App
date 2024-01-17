@@ -48,7 +48,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   // fontWeight: FontWeight.w500,
                   letterSpacing: 0.60,
                 ),),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -63,11 +63,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                       letterSpacing: 0.60,
                     ),),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: AppColors.primaryColor,
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                     child: Text(
                       order.orderDeliveryType!,
                       style: const TextStyle(
@@ -81,14 +81,14 @@ class _OrderDetailsState extends State<OrderDetails> {
 
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Your Pick up Code : ",
 
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -96,11 +96,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                       letterSpacing: 0.60,
                     ),),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: AppColors.primaryColor,
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                     child: Text(
                       order.orderPickupId!.toString(),
                       style: const TextStyle(
@@ -117,7 +117,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
 
 
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               const Text(
                 'Items',
                 style: TextStyle(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -119,7 +118,6 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
-    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
@@ -130,7 +128,6 @@ class ApiCalls {
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
         }));
-    log(response.body);
     return StoreDataModel.fromJson(json.decode(response.body));
   }
 
@@ -189,7 +186,6 @@ class ApiCalls {
           "storeUuid":prefModel.cartItems![0].storeUuid,
           "productDetails":prefModel.cartItems,
         }));
-    log(response.body);
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -202,7 +198,6 @@ class ApiCalls {
         true,
         UrlConstant.placeOrder,
         jsonEncode(req));
-    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
 
   }
@@ -214,7 +209,6 @@ class ApiCalls {
         jsonEncode({
           'customerUuid':prefModel.userData!.customerUuid
         }));
-    log(response.body);
     return WalletResponseModel.fromJson(json.decode(response.body));
 
   }
@@ -226,7 +220,6 @@ class ApiCalls {
         jsonEncode({
           'customerUuid':prefModel.userData!.customerUuid,
         }));
-    log(response.body);
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 }

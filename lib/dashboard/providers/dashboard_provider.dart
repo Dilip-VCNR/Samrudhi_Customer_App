@@ -139,6 +139,7 @@ class DashboardProvider extends ChangeNotifier {
         prefModel.cartItems!.removeAt(index);
       }
     }
+    print(prefModel.toJson());
     AppPref.setPref(prefModel);
     notifyListeners();
   }
