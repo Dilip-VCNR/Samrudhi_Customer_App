@@ -91,7 +91,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                   initialCameraPosition: CameraPosition(
                     target:
                     LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
-                    zoom: 14.0,
+                    zoom: 17.0,
                   ),
                   mapType: MapType.normal,
                   onMapCreated: (controller) {
@@ -344,6 +344,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.addressController,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -371,6 +372,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.stateController,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -398,6 +400,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                    textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.cityController,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -425,6 +428,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: authProvider.postalCodeController,
                     validator: (value) {
                       if (value!.isEmpty) {

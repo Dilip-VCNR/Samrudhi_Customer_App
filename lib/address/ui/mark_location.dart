@@ -355,6 +355,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newAddressController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -382,6 +383,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newStateController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -409,6 +411,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newCityController,
                       validator: (value) {
                         if (value!.isEmpty) {

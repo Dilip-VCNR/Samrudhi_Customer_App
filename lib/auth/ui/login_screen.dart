@@ -154,6 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   isCollapsed: true,
                                   errorStyle: const TextStyle(
                                       color: AppColors.secondaryColor),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.secondaryColor, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                   border: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: Colors.black, width: 2),
