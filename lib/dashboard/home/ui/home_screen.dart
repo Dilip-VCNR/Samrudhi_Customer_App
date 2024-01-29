@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 SizedBox(
                                   width: screenSize.width / 2,
                                   child: Text(
-                                    '${dashboardProvider.homeData!.result!.myStore![0].addressArray![0].completeAddress}',
+                                    '${dashboardProvider.homeData!.result!.myStore![0].addressArray!.completeAddress}',
                                     style: const TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 10,
@@ -445,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(
                                       width: 212,
                                       child: Text(
-                                        '${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray![0].completeAddress}',
+                                        '${dashboardProvider.homeData!.result!.nearStoresdata![index].addressArray!.completeAddress}',
                                         style: const TextStyle(
                                           color: AppColors.fontColor,
                                           fontSize: 10,

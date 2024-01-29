@@ -172,7 +172,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             SizedBox(
                                               width: 212,
                                               child: Text(
-                                                '${dashboardProvider.searchResponse!.result![index].addressArray![0].completeAddress}',
+                                                '${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress}',
                                                 style: TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 10,

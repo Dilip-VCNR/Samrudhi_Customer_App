@@ -9,6 +9,8 @@ class UrlConstant {
 
   static const String imageBaseUrl = "http://103.120.63.7:8020/";
   static const String apiBaseUrl = "http://103.120.63.7:8020/api/";
+
+
   static const String userDetails = "${apiBaseUrl}customer/getCustomerById";
   static const String registerUser = "${apiBaseUrl}customer/registerCustomer";
   static const String userHomePage = "${apiBaseUrl}customer/customerHomepage";

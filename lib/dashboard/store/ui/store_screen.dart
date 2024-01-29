@@ -153,7 +153,7 @@ class _StoreScreenState extends State<StoreScreen> {
                         SizedBox(
                           width: screenSize.width / 1.75,
                           child: Text(
-                            '${dashboardProvider.storeData!.result!.storeDetails!.addressArray![0].completeAddress} ${dashboardProvider.storeData!.result!.storeDetails!.addressArray![0].state} ${dashboardProvider.storeData!.result!.storeDetails!.addressArray![0].city} ${dashboardProvider.storeData!.result!.storeDetails!.addressArray![0].zipCode}',
+                            '${dashboardProvider.storeData!.result!.storeDetails!.addressArray!.completeAddress} ${dashboardProvider.storeData!.result!.storeDetails!.addressArray!.state} ${dashboardProvider.storeData!.result!.storeDetails!.addressArray!.city} ${dashboardProvider.storeData!.result!.storeDetails!.addressArray!.zipCode}',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: AppColors.fontColor,
@@ -214,12 +214,12 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   .result!
                                                   .productDetails![i]
                                                   .productList![index]
-                                                  .productImgArray!
+                                                  .productDetail!.productImgArray!
                                                   .isEmpty
                                               ? const NetworkImage(
                                                   "https://via.placeholder.com/115x111")
                                               : NetworkImage(
-                                                  '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productImgArray![0].imagePath!}'),
+                                                  '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productImgArray![0].imagePath!}'),
                                           fit: BoxFit.fill,
                                         ),
                                         shape: RoundedRectangleBorder(
@@ -244,7 +244,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 .result!
                                                 .productDetails![i]
                                                 .productList![index]
-                                                .productName!,
+                                                .productDetail!.productName!,
                                             style: const TextStyle(
                                               color: AppColors.fontColor,
                                               fontSize: 16,
@@ -258,7 +258,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 .result!
                                                 .productDetails![i]
                                                 .productList![index]
-                                                .productSubCategory!
+                                                .productDetail!.productSubCategory!
                                                 .productSubCategoryName!,
                                             style: const TextStyle(
                                               color: Color(0x8937474F),
@@ -273,7 +273,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].sellingPrice!}',
+                                                '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.sellingPrice!}',
                                                 style: const TextStyle(
                                                   color: AppColors.primaryColor,
                                                   fontSize: 20,

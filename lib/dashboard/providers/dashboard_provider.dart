@@ -114,11 +114,11 @@ class DashboardProvider extends ChangeNotifier {
   double payable = 0.0;
 
   addUpdateProductToCart(ProductList product, String operation) {
-    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
-    int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
+    var contain = prefModel.cartItems!.where((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
+    int index = prefModel.cartItems!.indexWhere((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
 
     bool shouldClearCart = prefModel.cartItems!.isNotEmpty &&
-        prefModel.cartItems![0].storeUuid != product.storeUuid;
+        prefModel.cartItems![0].productDetail!.storeUuid != product.productDetail!.storeUuid;
 
     if (shouldClearCart) {
       prefModel.cartItems!.clear();
@@ -126,16 +126,16 @@ class DashboardProvider extends ChangeNotifier {
 
     if (operation == 'add') {
       if (contain.isEmpty) {
-        product.addedCartQuantity = 1;
+        product.productDetail!.addedCartQuantity = 1;
         prefModel.cartItems!.add(product);
       } else {
-        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + 1;
+        prefModel.cartItems![index].productDetail!.addedCartQuantity = prefModel.cartItems![index].productDetail!.addedCartQuantity! + 1;
       }
     } else if (operation == 'remove') {
-      if (prefModel.cartItems![index].addedCartQuantity! > 1) {
-        prefModel.cartItems![index].addedCartQuantity =
-            prefModel.cartItems![index].addedCartQuantity! - 1;
-      } else if (prefModel.cartItems![index].addedCartQuantity == 1) {
+      if (prefModel.cartItems![index].productDetail!.addedCartQuantity! > 1) {
+        prefModel.cartItems![index].productDetail!.addedCartQuantity =
+            prefModel.cartItems![index].productDetail!.addedCartQuantity! - 1;
+      } else if (prefModel.cartItems![index].productDetail!.addedCartQuantity == 1) {
         prefModel.cartItems!.removeAt(index);
       }
     }
@@ -146,7 +146,7 @@ class DashboardProvider extends ChangeNotifier {
 
   bool productExistInCart(ProductList product) {
     var contain = prefModel.cartItems!
-        .where((element) => element.productUuid == product.productUuid);
+        .where((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return false;
     } else {
@@ -156,13 +156,13 @@ class DashboardProvider extends ChangeNotifier {
 
   int getProductCountInCart(ProductList product) {
     var contain = prefModel.cartItems!
-        .where((element) => element.productUuid == product.productUuid);
+        .where((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return 0;
     } else {
       int index = prefModel.cartItems!
-          .indexWhere((element) => element.productUuid == product.productUuid);
-      return prefModel.cartItems![index].addedCartQuantity!;
+          .indexWhere((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
+      return prefModel.cartItems![index].productDetail!.addedCartQuantity!;
     }
   }
 
@@ -170,7 +170,7 @@ class DashboardProvider extends ChangeNotifier {
     payable = 0.0;
     for (ProductList cartItem in prefModel.cartItems!) {
       payable =
-          payable + (cartItem.sellingPrice! * cartItem.addedCartQuantity!);
+          payable + (cartItem.productDetail!.sellingPrice! * cartItem.productDetail!.addedCartQuantity!);
     }
     return payable.toString();
   }

@@ -1,6 +1,6 @@
-import 'package:samruddhi/dashboard/models/store_data_model.dart';
 
 import '../../auth/models/login_response_model.dart';
+import '../../dashboard/models/store_data_model.dart';
 
 class PrefModel {
   UserDetailsModel? userData;

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -118,6 +119,7 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
+    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
@@ -128,6 +130,7 @@ class ApiCalls {
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
         }));
+    log(response.body);
     return StoreDataModel.fromJson(json.decode(response.body));
   }
 
@@ -183,9 +186,14 @@ class ApiCalls {
         UrlConstant.reviewCart,
         jsonEncode({
           "customerUuid":prefModel.userData!.customerUuid,
-          "storeUuid":prefModel.cartItems![0].storeUuid,
+          "storeUuid":prefModel.cartItems![0].productDetail!.storeUuid,
           "productDetails":prefModel.cartItems,
         }));
+    log({
+      "customerUuid":prefModel.userData!.customerUuid,
+      "storeUuid":prefModel.cartItems![0].productDetail!.storeUuid,
+      "productDetails":jsonEncode(prefModel.cartItems!),
+    }.toString());
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 

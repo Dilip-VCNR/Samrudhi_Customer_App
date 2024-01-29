@@ -38,7 +38,7 @@ class StoreDataModel {
 
 class Result {
   StoreDetails? storeDetails;
-  List<ProductDetail>? productDetails;
+  List<ProductDetailElement>? productDetails;
 
   Result({
     this.storeDetails,
@@ -47,7 +47,7 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     storeDetails: json["storeDetails"] == null ? null : StoreDetails.fromJson(json["storeDetails"]),
-    productDetails: json["productDetails"] == null ? [] : List<ProductDetail>.from(json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
+    productDetails: json["productDetails"] == null ? [] : List<ProductDetailElement>.from(json["productDetails"]!.map((x) => ProductDetailElement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -56,16 +56,16 @@ class Result {
   };
 }
 
-class ProductDetail {
+class ProductDetailElement {
   String? productCategories;
   List<ProductList>? productList;
 
-  ProductDetail({
+  ProductDetailElement({
     this.productCategories,
     this.productList,
   });
 
-  factory ProductDetail.fromJson(Map<String, dynamic> json) => ProductDetail(
+  factory ProductDetailElement.fromJson(Map<String, dynamic> json) => ProductDetailElement(
     productCategories: json["productCategories"],
     productList: json["productList"] == null ? [] : List<ProductList>.from(json["productList"]!.map((x) => ProductList.fromJson(x))),
   );
@@ -77,45 +77,65 @@ class ProductDetail {
 }
 
 class ProductList {
+  String? productCategories;
+  ProductListProductDetail? productDetail;
+  String? saveMessage;
+
+  ProductList({
+    this.productCategories,
+    this.productDetail,
+    this.saveMessage,
+  });
+
+  factory ProductList.fromJson(Map<String, dynamic> json) => ProductList(
+    productCategories: json["productCategories"],
+    productDetail: json["productDetail"] == null ? null : ProductListProductDetail.fromJson(json["productDetail"]),
+    saveMessage: json["saveMessage"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "productCategories": productCategories,
+    "productDetail": productDetail?.toJson(),
+    "saveMessage": saveMessage,
+  };
+}
+
+class ProductListProductDetail {
   ProductCategory? productCategory;
   ProductSubCategory? productSubCategory;
-  Variants? variants;
   String? id;
   String? createdAt;
   String? productUuid;
   String? productName;
-  List<ProductImgArray>? productImgArray;
   String? storeUuid;
   String? storeName;
   String? description;
   bool? isMrp;
-  double? sellingPrice;
+  int? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  double? productTax;
-  double? productDiscount;
-  int? productTaxValue;
-  double? productOffer;
+  int? productTax;
+  int? productDiscount;
+  double? productDiscountedValue;
   int? productQuantity;
   int? addedCartQuantity;
-  int? purchaseMinQuantity;
+  bool? isReturnable;
+  bool? isPerishable;
   int? productHsnCode;
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
-  int? productGrandTotal;
+  List<dynamic>? productImgArray;
   int? v;
 
-  ProductList({
+  ProductListProductDetail({
     this.productCategory,
     this.productSubCategory,
-    this.variants,
     this.id,
     this.createdAt,
     this.productUuid,
     this.productName,
-    this.productImgArray,
     this.storeUuid,
     this.storeName,
     this.description,
@@ -126,60 +146,56 @@ class ProductList {
     this.productUom,
     this.productTax,
     this.productDiscount,
-    this.productTaxValue,
-    this.productOffer,
+    this.productDiscountedValue,
     this.productQuantity,
     this.addedCartQuantity,
-    this.purchaseMinQuantity,
+    this.isReturnable,
+    this.isPerishable,
     this.productHsnCode,
     this.manufacturer,
     this.productModel,
     this.isDeleted,
-    this.productGrandTotal,
+    this.productImgArray,
     this.v,
   });
 
-  factory ProductList.fromJson(Map<String, dynamic> json) => ProductList(
+  factory ProductListProductDetail.fromJson(Map<String, dynamic> json) => ProductListProductDetail(
     productCategory: json["productCategory"] == null ? null : ProductCategory.fromJson(json["productCategory"]),
     productSubCategory: json["productSubCategory"] == null ? null : ProductSubCategory.fromJson(json["productSubCategory"]),
-    variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
     id: json["_id"],
     createdAt: json["createdAt"],
     productUuid: json["productUuid"],
     productName: json["productName"],
-    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     storeUuid: json["storeUuid"],
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"]?.toDouble(),
+    sellingPrice: json["sellingPrice"],
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"]?.toDouble(),
-    productDiscount: json["productDiscount"]?.toDouble(),
-    productTaxValue: json["productTaxValue"],
-    productOffer: json["productOffer"]?.toDouble(),
+    productTax: json["productTax"],
+    productDiscount: json["productDiscount"],
+    productDiscountedValue: json["productDiscountedValue"]?.toDouble(),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
-    purchaseMinQuantity: json["purchaseMinQuantity"],
+    isReturnable: json["isReturnable"],
+    isPerishable: json["isPerishable"],
     productHsnCode: json["productHsnCode"],
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productGrandTotal: json["productGrandTotal"],
+    productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
     v: json["__v"],
   );
 
   Map<String, dynamic> toJson() => {
     "productCategory": productCategory?.toJson(),
     "productSubCategory": productSubCategory?.toJson(),
-    "variants": variants?.toJson(),
     "_id": id,
     "createdAt": createdAt,
     "productUuid": productUuid,
     "productName": productName,
-    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "storeUuid": storeUuid,
     "storeName": storeName,
     "description": description,
@@ -190,16 +206,16 @@ class ProductList {
     "productUom": productUom,
     "productTax": productTax,
     "productDiscount": productDiscount,
-    "productTaxValue": productTaxValue,
-    "productOffer": productOffer,
+    "productDiscountedValue": productDiscountedValue,
     "productQuantity": productQuantity,
     "addedCartQuantity": addedCartQuantity,
-    "purchaseMinQuantity": purchaseMinQuantity,
+    "isReturnable": isReturnable,
+    "isPerishable": isPerishable,
     "productHsnCode": productHsnCode,
     "manufacturer": manufacturer,
     "productModel": productModel,
     "isDeleted": isDeleted,
-    "productGrandTotal": productGrandTotal,
+    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x)),
     "__v": v,
   };
 }
@@ -224,87 +240,28 @@ class ProductCategory {
   };
 }
 
-class ProductImgArray {
-  String? imagePath;
-  String? imageType;
-  bool? isPrimary;
-  String? imageDescription;
-  String? id;
-
-  ProductImgArray({
-    this.imagePath,
-    this.imageType,
-    this.isPrimary,
-    this.imageDescription,
-    this.id,
-  });
-
-  factory ProductImgArray.fromJson(Map<String, dynamic> json) => ProductImgArray(
-    imagePath: json["imagePath"],
-    imageType: json["imageType"],
-    isPrimary: json["isPrimary"],
-    imageDescription: json["imageDescription"],
-    id: json["_id"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "imagePath": imagePath,
-    "imageType": imageType,
-    "isPrimary": isPrimary,
-    "imageDescription": imageDescription,
-    "_id": id,
-  };
-}
-
 class ProductSubCategory {
-  String? productCategoryId;
   String? productSubCategoryId;
   String? productSubCategoryName;
 
   ProductSubCategory({
-    this.productCategoryId,
     this.productSubCategoryId,
     this.productSubCategoryName,
   });
 
   factory ProductSubCategory.fromJson(Map<String, dynamic> json) => ProductSubCategory(
-    productCategoryId: json["productCategoryId"],
     productSubCategoryId: json["productSubCategoryId"],
     productSubCategoryName: json["productSubCategoryName"],
   );
 
   Map<String, dynamic> toJson() => {
-    "productCategoryId": productCategoryId,
     "productSubCategoryId": productSubCategoryId,
     "productSubCategoryName": productSubCategoryName,
   };
 }
 
-class Variants {
-  String? color;
-  String? size;
-  String? quality;
-
-  Variants({
-    this.color,
-    this.size,
-    this.quality,
-  });
-
-  factory Variants.fromJson(Map<String, dynamic> json) => Variants(
-    color: json["color"],
-    size: json["size"],
-    quality: json["quality"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "color": color,
-    "size": size,
-    "quality": quality,
-  };
-}
-
 class StoreDetails {
+  StoreAddressArray? addressArray;
   String? id;
   String? createdAt;
   bool? isHeadquarters;
@@ -317,7 +274,6 @@ class StoreDetails {
   int? mobile;
   String? emailId;
   String? password;
-  List<StoreAddressArray>? addressArray;
   List<StoreImgArray>? storeImgArray;
   String? storeFcmToken;
   String? storeAuthToken;
@@ -327,7 +283,6 @@ class StoreDetails {
   String? deliveryType;
   int? deliveryFee;
   String? hubUuid;
-  int? storeOffer;
   bool? isApproved;
   bool? isDeleted;
   bool? isHomeDelivery;
@@ -337,6 +292,7 @@ class StoreDetails {
   int? v;
 
   StoreDetails({
+    this.addressArray,
     this.id,
     this.createdAt,
     this.isHeadquarters,
@@ -349,7 +305,6 @@ class StoreDetails {
     this.mobile,
     this.emailId,
     this.password,
-    this.addressArray,
     this.storeImgArray,
     this.storeFcmToken,
     this.storeAuthToken,
@@ -359,7 +314,6 @@ class StoreDetails {
     this.deliveryType,
     this.deliveryFee,
     this.hubUuid,
-    this.storeOffer,
     this.isApproved,
     this.isDeleted,
     this.isHomeDelivery,
@@ -370,6 +324,7 @@ class StoreDetails {
   });
 
   factory StoreDetails.fromJson(Map<String, dynamic> json) => StoreDetails(
+    addressArray: json["addressArray"] == null ? null : StoreAddressArray.fromJson(json["addressArray"]),
     id: json["_id"],
     createdAt: json["createdAt"],
     isHeadquarters: json["isHeadquarters"],
@@ -382,7 +337,6 @@ class StoreDetails {
     mobile: json["mobile"],
     emailId: json["emailId"],
     password: json["password"],
-    addressArray: json["addressArray"] == null ? [] : List<StoreAddressArray>.from(json["addressArray"]!.map((x) => StoreAddressArray.fromJson(x))),
     storeImgArray: json["storeImgArray"] == null ? [] : List<StoreImgArray>.from(json["storeImgArray"]!.map((x) => StoreImgArray.fromJson(x))),
     storeFcmToken: json["storeFcmToken"],
     storeAuthToken: json["storeAuthToken"],
@@ -392,7 +346,6 @@ class StoreDetails {
     deliveryType: json["deliveryType"],
     deliveryFee: json["deliveryFee"],
     hubUuid: json["hubUuid"],
-    storeOffer: json["storeOffer"],
     isApproved: json["isApproved"],
     isDeleted: json["isDeleted"],
     isHomeDelivery: json["isHomeDelivery"],
@@ -403,6 +356,7 @@ class StoreDetails {
   );
 
   Map<String, dynamic> toJson() => {
+    "addressArray": addressArray?.toJson(),
     "_id": id,
     "createdAt": createdAt,
     "isHeadquarters": isHeadquarters,
@@ -415,7 +369,6 @@ class StoreDetails {
     "mobile": mobile,
     "emailId": emailId,
     "password": password,
-    "addressArray": addressArray == null ? [] : List<dynamic>.from(addressArray!.map((x) => x.toJson())),
     "storeImgArray": storeImgArray == null ? [] : List<dynamic>.from(storeImgArray!.map((x) => x.toJson())),
     "storeFcmToken": storeFcmToken,
     "storeAuthToken": storeAuthToken,
@@ -425,7 +378,6 @@ class StoreDetails {
     "deliveryType": deliveryType,
     "deliveryFee": deliveryFee,
     "hubUuid": hubUuid,
-    "storeOffer": storeOffer,
     "isApproved": isApproved,
     "isDeleted": isDeleted,
     "isHomeDelivery": isHomeDelivery,
@@ -445,7 +397,6 @@ class StoreAddressArray {
   double? lng;
   int? zipCode;
   bool? isDeleted;
-  String? id;
 
   StoreAddressArray({
     this.addressType,
@@ -456,7 +407,6 @@ class StoreAddressArray {
     this.lng,
     this.zipCode,
     this.isDeleted,
-    this.id,
   });
 
   factory StoreAddressArray.fromJson(Map<String, dynamic> json) => StoreAddressArray(
@@ -468,7 +418,6 @@ class StoreAddressArray {
     lng: json["lng"]?.toDouble(),
     zipCode: json["zipCode"],
     isDeleted: json["isDeleted"],
-    id: json["_id"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -480,7 +429,6 @@ class StoreAddressArray {
     "lng": lng,
     "zipCode": zipCode,
     "isDeleted": isDeleted,
-    "_id": id,
   };
 }
 
