@@ -57,6 +57,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Samruddhi',
         theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            scrolledUnderElevation: 0
+          ),
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           primaryColor: AppColors.primaryColor,
           useMaterial3: true,
