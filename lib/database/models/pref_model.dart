@@ -5,7 +5,7 @@ import '../../dashboard/models/store_data_model.dart';
 class PrefModel {
   UserDetailsModel? userData;
   AddressArray? selectedAddress;
-  List<ProductList>? cartItems;
+  List<ProductListProductDetail>? cartItems;
 
   PrefModel({
     this.userData,
@@ -17,7 +17,7 @@ class PrefModel {
     return PrefModel(
       userData: parsedJson["userData"] == null ? null : UserDetailsModel.fromJson(parsedJson["userData"]),
       selectedAddress: parsedJson["selectedAddress"] == null ? null : AddressArray.fromJson(parsedJson["selectedAddress"]),
-      cartItems: parsedJson["cartItems"] == null ? [] : List<ProductList>.from(parsedJson["cartItems"].map((x) => ProductList.fromJson(x))),
+      cartItems: parsedJson["cartItems"] == null ? [] : List<ProductListProductDetail>.from(parsedJson["cartItems"].map((x) => ProductListProductDetail.fromJson(x))),
     );
   }
 

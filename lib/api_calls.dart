@@ -186,14 +186,15 @@ class ApiCalls {
         UrlConstant.reviewCart,
         jsonEncode({
           "customerUuid":prefModel.userData!.customerUuid,
-          "storeUuid":prefModel.cartItems![0].productDetail!.storeUuid,
+          "storeUuid":prefModel.cartItems![0].storeUuid,
           "productDetails":prefModel.cartItems,
         }));
     log({
       "customerUuid":prefModel.userData!.customerUuid,
-      "storeUuid":prefModel.cartItems![0].productDetail!.storeUuid,
+      "storeUuid":prefModel.cartItems![0].storeUuid,
       "productDetails":jsonEncode(prefModel.cartItems!),
     }.toString());
+    log(response.body);
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 

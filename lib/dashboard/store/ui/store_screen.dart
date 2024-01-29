@@ -43,7 +43,7 @@ class _StoreScreenState extends State<StoreScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.placeOrderRoute,arguments: {"delivery":dashboardProvider.storeData!.result!.storeDetails!.isHomeDelivery});
+                          Navigator.pushNamed(context, Routes.placeOrderRoute);
                         },
                         child: Container(
                           width: double.infinity,
@@ -66,9 +66,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: dashboardProvider.getTotal(),
-                                  // text: prefModel.cartItems!.length.toString(),
-                                  // text: '₹${dashboardProvider.payable}',
+                                  text: "₹"+dashboardProvider.getTotal(),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -166,9 +164,9 @@ class _StoreScreenState extends State<StoreScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 for (int i = 0;
                     i <
                         dashboardProvider
@@ -179,7 +177,7 @@ class _StoreScreenState extends State<StoreScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                         child: Text(
                           dashboardProvider.storeData!.result!
                               .productDetails![i].productCategories!,
@@ -190,7 +188,11 @@ class _StoreScreenState extends State<StoreScreen> {
                           ),
                         ),
                       ),
-                      ListView.builder(
+                      ListView.separated(
+                        separatorBuilder: (context, index){
+                          return const Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Divider());
+                        },
                         physics: const NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
@@ -201,12 +203,13 @@ class _StoreScreenState extends State<StoreScreen> {
                             children: [
                               Container(
                                 width: screenSize.width,
-                                padding: const EdgeInsets.all(20),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Container(
-                                      width: screenSize.width / 3.75,
-                                      height: screenSize.width / 3.75,
+                                      width: screenSize.width*.25,
+                                      height: screenSize.width*.25,
                                       decoration: ShapeDecoration(
                                         image: DecorationImage(
                                           image: dashboardProvider
@@ -231,7 +234,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                     const SizedBox(
                                       width: 20,
                                     ),
-                                    Expanded(
+                                    SizedBox(
+                                      width: screenSize.width*.6,
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -268,14 +272,44 @@ class _StoreScreenState extends State<StoreScreen> {
                                               //     TextDecoration.lineThrough,
                                             ),
                                           ),
+                                          Text(
+                                            "UOM : ${dashboardProvider
+                                                .storeData!
+                                                .result!
+                                                .productDetails![i]
+                                                .productList![index]
+                                                .productDetail!.productUom!}",
+                                            style: const TextStyle(
+                                              color: Color(0x8937474F),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              // decoration:
+                                              //     TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                          dashboardProvider
+                                              .storeData!
+                                              .result!
+                                              .productDetails![i]
+                                              .productList![index]
+                                              .productDetail!.productDiscount!>0?Text(
+                                            '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.sellingPrice!}',
+                                            style: const TextStyle(
+                                              color: AppColors.primaryColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              decoration: TextDecoration.lineThrough,
+                                              decorationColor: AppColors.secondaryColor
+                                            ),
+                                          ):const SizedBox.shrink(),
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Text(
-                                                '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.sellingPrice!}',
+                                                '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscountedValue!}',
                                                 style: const TextStyle(
-                                                  color: AppColors.primaryColor,
+                                                  color: AppColors.walletFont,
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -296,15 +330,15 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                     .storeData!
                                                                     .result!
                                                                     .productDetails![
-                                                                        i]
-                                                                    .productList![index],
+                                                                i]
+                                                                    .productList![index].productDetail!,
                                                                 'add');
                                                       },
                                                       child: Container(
                                                         width:
                                                             screenSize.width /
                                                                 4,
-                                                        height: 40,
+                                                        height: 35,
                                                         decoration:
                                                             ShapeDecoration(
                                                           color: AppColors
@@ -337,17 +371,18 @@ class _StoreScreenState extends State<StoreScreen> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             dashboardProvider.addUpdateProductToCart(
-                                                                dashboardProvider
-                                                                    .storeData!
-                                                                    .result!
-                                                                    .productDetails![
-                                                                        i]
-                                                                    .productList![index],
+
+                                                               dashboardProvider
+                                                                   .storeData!
+                                                                   .result!
+                                                                   .productDetails![
+                                                               i]
+                                                                   .productList![index].productDetail!,
                                                                 'remove');
                                                           },
                                                           child: Container(
-                                                            height: 40,
-                                                            width: 40,
+                                                            height: 35,
+                                                            width: 35,
                                                             decoration: const BoxDecoration(
                                                                 color: AppColors
                                                                     .primaryColor,
@@ -372,8 +407,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                           ),
                                                         ),
                                                         SizedBox(
-                                                          height: 30,
-                                                          width: 30,
+                                                          height: 35,
+                                                          width: 35,
                                                           child: Center(
                                                               child: Text(
                                                             dashboardProvider
@@ -404,13 +439,13 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                     .storeData!
                                                                     .result!
                                                                     .productDetails![
-                                                                        i]
-                                                                    .productList![index],
+                                                                i]
+                                                                    .productList![index].productDetail!,
                                                                 'add');
                                                           },
                                                           child: Container(
-                                                            height: 40,
-                                                            width: 40,
+                                                            height: 35,
+                                                            width: 35,
                                                             decoration: const BoxDecoration(
                                                                 color: AppColors
                                                                     .secondaryColor,
@@ -437,7 +472,23 @@ class _StoreScreenState extends State<StoreScreen> {
                                                       ],
                                                     )
                                             ],
-                                          )
+                                          ),
+                                          const SizedBox(height: 5,),
+                                          dashboardProvider
+                                              .storeData!
+                                              .result!
+                                              .productDetails![i]
+                                              .productList![index]
+                                              .productDetail!.productDiscount!>0?Text("You save ₹${dashboardProvider
+                                              .storeData!
+                                              .result!
+                                              .productDetails![i]
+                                              .productList![index]
+                                              .productDetail!.productDiscount!} on this order",
+                                          style: const TextStyle(
+                                            color: AppColors.secondaryColor,
+                                            fontSize: 12
+                                          ),):const SizedBox.shrink()
                                         ],
                                       ),
                                     ),

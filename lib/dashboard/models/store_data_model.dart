@@ -126,7 +126,7 @@ class ProductListProductDetail {
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
-  List<dynamic>? productImgArray;
+  List<ProductImgArray>? productImgArray;
   int? v;
 
   ProductListProductDetail({
@@ -176,7 +176,7 @@ class ProductListProductDetail {
     productUom: json["productUom"],
     productTax: json["productTax"],
     productDiscount: json["productDiscount"],
-    productDiscountedValue: json["productDiscountedValue"]?.toDouble(),
+    productDiscountedValue: json["productDiscountedValue"]==null?0.0:double.parse(json["productDiscountedValue"].toString()),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
     isReturnable: json["isReturnable"],
@@ -185,7 +185,7 @@ class ProductListProductDetail {
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
+    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
   );
 
@@ -215,7 +215,7 @@ class ProductListProductDetail {
     "manufacturer": manufacturer,
     "productModel": productModel,
     "isDeleted": isDeleted,
-    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x)),
+    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "__v": v,
   };
 }
@@ -237,6 +237,38 @@ class ProductCategory {
   Map<String, dynamic> toJson() => {
     "productCategoryId": productCategoryId,
     "productCategoryName": productCategoryName,
+  };
+}
+
+class ProductImgArray {
+  String? imagePath;
+  String? imageType;
+  bool? isPrimary;
+  String? imageDescription;
+  String? id;
+
+  ProductImgArray({
+    this.imagePath,
+    this.imageType,
+    this.isPrimary,
+    this.imageDescription,
+    this.id,
+  });
+
+  factory ProductImgArray.fromJson(Map<String, dynamic> json) => ProductImgArray(
+    imagePath: json["imagePath"],
+    imageType: json["imageType"],
+    isPrimary: json["isPrimary"],
+    imageDescription: json["imageDescription"],
+    id: json["_id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "imagePath": imagePath,
+    "imageType": imageType,
+    "isPrimary": isPrimary,
+    "imageDescription": imageDescription,
+    "_id": id,
   };
 }
 

@@ -113,12 +113,12 @@ class DashboardProvider extends ChangeNotifier {
 
   double payable = 0.0;
 
-  addUpdateProductToCart(ProductList product, String operation) {
-    var contain = prefModel.cartItems!.where((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
-    int index = prefModel.cartItems!.indexWhere((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
+  addUpdateProductToCart(ProductListProductDetail product, String operation) {
+    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
+    int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
 
     bool shouldClearCart = prefModel.cartItems!.isNotEmpty &&
-        prefModel.cartItems![0].productDetail!.storeUuid != product.productDetail!.storeUuid;
+        prefModel.cartItems![0].storeUuid != product.storeUuid;
 
     if (shouldClearCart) {
       prefModel.cartItems!.clear();
@@ -126,27 +126,26 @@ class DashboardProvider extends ChangeNotifier {
 
     if (operation == 'add') {
       if (contain.isEmpty) {
-        product.productDetail!.addedCartQuantity = 1;
+        product.addedCartQuantity = 1;
         prefModel.cartItems!.add(product);
       } else {
-        prefModel.cartItems![index].productDetail!.addedCartQuantity = prefModel.cartItems![index].productDetail!.addedCartQuantity! + 1;
+        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + 1;
       }
     } else if (operation == 'remove') {
-      if (prefModel.cartItems![index].productDetail!.addedCartQuantity! > 1) {
-        prefModel.cartItems![index].productDetail!.addedCartQuantity =
-            prefModel.cartItems![index].productDetail!.addedCartQuantity! - 1;
-      } else if (prefModel.cartItems![index].productDetail!.addedCartQuantity == 1) {
+      if (prefModel.cartItems![index].addedCartQuantity! > 1) {
+        prefModel.cartItems![index].addedCartQuantity =
+            prefModel.cartItems![index].addedCartQuantity! - 1;
+      } else if (prefModel.cartItems![index].addedCartQuantity == 1) {
         prefModel.cartItems!.removeAt(index);
       }
     }
-    print(prefModel.toJson());
     AppPref.setPref(prefModel);
     notifyListeners();
   }
 
   bool productExistInCart(ProductList product) {
     var contain = prefModel.cartItems!
-        .where((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
+        .where((element) => element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return false;
     } else {
@@ -156,21 +155,20 @@ class DashboardProvider extends ChangeNotifier {
 
   int getProductCountInCart(ProductList product) {
     var contain = prefModel.cartItems!
-        .where((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
+        .where((element) => element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return 0;
     } else {
       int index = prefModel.cartItems!
-          .indexWhere((element) => element.productDetail!.productUuid == product.productDetail!.productUuid);
-      return prefModel.cartItems![index].productDetail!.addedCartQuantity!;
+          .indexWhere((element) => element.productUuid == product.productDetail!.productUuid);
+      return prefModel.cartItems![index].addedCartQuantity!;
     }
   }
 
   getTotal() {
     payable = 0.0;
-    for (ProductList cartItem in prefModel.cartItems!) {
-      payable =
-          payable + (cartItem.productDetail!.sellingPrice! * cartItem.productDetail!.addedCartQuantity!);
+    for (ProductListProductDetail cartItem in prefModel.cartItems!) {
+      payable = payable + (cartItem.productDiscountedValue! * cartItem.addedCartQuantity!);
     }
     return payable.toString();
   }
@@ -213,21 +211,21 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-  String getTaxes() {
-    double totalTax = 0;
-    for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-      totalTax = totalTax+item.productTax!;
-    }
-    return totalTax.toStringAsFixed(2).toString();
-  }
+  // String getTaxes() {
+  //   double totalTax = 0;
+  //   for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
+  //     totalTax = totalTax+item.productTax!;
+  //   }
+  //   return totalTax.toStringAsFixed(2).toString();
+  // }
 
-  String getSubTotal() {
-    double subTotal = 0;
-    for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-      subTotal = subTotal+double.parse(item.subTotal!);
-    }
-    return subTotal.toStringAsFixed(2).toString();
-  }
+  // String getSubTotal() {
+  //   double subTotal = 0;
+  //   for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
+  //     subTotal = subTotal+double.parse(item.subTotal!);
+  //   }
+  //   return subTotal.toStringAsFixed(2).toString();
+  // }
 
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);

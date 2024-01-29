@@ -51,11 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.notificationsRoute);
-                          },
-                          icon: const Icon(Icons.notifications_none_outlined))
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, Routes.placeOrderRoute);
+                              },
+                              icon: const Icon(Icons.shopping_cart_outlined)),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, Routes.notificationsRoute);
+                              },
+                              icon: const Icon(Icons.notifications_none_outlined)),
+                        ],
+                      )
                     ],
                   ),
                   const SizedBox(
