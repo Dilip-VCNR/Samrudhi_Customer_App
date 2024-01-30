@@ -123,6 +123,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () async {
                     switch (options[i]['clickType']) {
                       case 'edit_profile':
+                        Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
+                          setState(() {
+                          });
+                          return null;
+                        });
                         break;
                       case 'my_address':
                         Navigator.pushNamed(context, Routes.selectAddressRoute);

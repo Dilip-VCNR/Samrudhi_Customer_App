@@ -53,6 +53,14 @@ class AuthProvider extends ChangeNotifier {
   BuildContext? registerPageContext;
   File? selectedImage;
 
+  BuildContext? editProfilePageContext;
+
+
+  TextEditingController editFirstNameController = TextEditingController();
+  TextEditingController editLastNameController = TextEditingController();
+  TextEditingController editEmailController = TextEditingController();
+  TextEditingController editStoreReferralCodeController = TextEditingController();
+
   Position? currentPosition;
 
   // selectPrimaryAddress Bottom sheet declarations
@@ -203,8 +211,7 @@ class AuthProvider extends ChangeNotifier {
 
   apiCallForUserDetails(String uid) async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
-    LoginResponseModel authResponse =
-        await apiCalls.getUserDetails(uid, fcmToken!);
+    LoginResponseModel authResponse = await apiCalls.getUserDetails(uid, fcmToken!);
     if (authResponse.statusCode == 200) {
       otpCode = "";
       notifyListeners();
@@ -324,5 +331,26 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(markLocationContext!, newAddressResponse.message!);
     }
 
+  }
+
+  updateProfile() async {
+    showLoaderDialog(editProfilePageContext!);
+    LoginResponseModel updateResponse = await apiCalls.updateUserDetails(editFirstNameController.text,editLastNameController.text,editEmailController.text,editStoreReferralCodeController.text,selectedImage);
+    selectedImage = null;
+    if (updateResponse.statusCode == 200) {
+      otpCode = "";
+      prefModel.userData = updateResponse.result;
+      await AppPref.setPref(prefModel);
+      notifyListeners();
+      showSuccessToast(editProfilePageContext!, updateResponse.message!);
+      Navigator.pop(editProfilePageContext!);
+      Navigator.pop(editProfilePageContext!);
+    } else if (updateResponse.statusCode == 404) {
+      Navigator.pop(editProfilePageContext!);
+      Navigator.pushNamed(editProfilePageContext!, Routes.registerRoute);
+    } else {
+      Navigator.pop(editProfilePageContext!);
+      showErrorToast(editProfilePageContext!, updateResponse.message!);
+    }
   }
 }

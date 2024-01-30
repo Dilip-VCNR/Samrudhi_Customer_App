@@ -73,8 +73,9 @@ class ApiCalls {
       File? selectedImage) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.registerUser));
-    // Add form fields
+    // Add folds
     request.fields['firstName'] = firstName;
+
     request.fields['lastName'] = lastName;
     request.fields['customerUuid'] = latestUid!;
     request.fields['emailId'] = email;
@@ -233,5 +234,35 @@ class ApiCalls {
           'customerUuid':prefModel.userData!.customerUuid,
         }));
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
+  }
+
+  updateUserDetails(String fName, String lName, String email, String storeReferralCode, File? selectedImage) async {
+
+    var request =
+    http.MultipartRequest('POST', Uri.parse(UrlConstant.updateUser));
+    // Add form fields
+    request.fields['firstName'] = fName;
+    request.fields['lastName'] = lName;
+    request.fields['customerUuid'] = prefModel.userData!.customerUuid!;
+    request.fields['emailId'] = email;
+    request.fields['storeReferralCode'] = storeReferralCode;
+
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'userImage',
+        picStream,
+        length,
+        filename: selectedImage.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    request.headers.addAll(getHeaders(true));
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    return LoginResponseModel.fromJson(responseJson);
   }
 }

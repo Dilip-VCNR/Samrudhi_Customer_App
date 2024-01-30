@@ -13,6 +13,7 @@ class UrlConstant {
 
   static const String userDetails = "${apiBaseUrl}customer/getCustomerById";
   static const String registerUser = "${apiBaseUrl}customer/registerCustomer";
+  static const String updateUser = "${apiBaseUrl}customer/updateCustomer";
   static const String userHomePage = "${apiBaseUrl}customer/customerHomepage";
   static const String getStoreData = "${apiBaseUrl}store/getCategoryAndProductOnStore";
   static const String addNewAddress = "${apiBaseUrl}customer/addCustomerAddress";

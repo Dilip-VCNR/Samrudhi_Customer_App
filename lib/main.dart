@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/dashboard/orders/provider/orders_provider.dart';
 import 'package:samruddhi/dashboard/orders/ui/order_details.dart';
+import 'package:samruddhi/dashboard/profile/ui/edit_profile.dart';
 import 'package:samruddhi/dashboard/wallet/provider/wallet_provider.dart';
 import 'package:samruddhi/splash/ui/splash_screen.dart';
 import 'package:samruddhi/utils/app_colors.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
           Routes.loginRoute: (context) => const LoginScreen(),
           Routes.otpScreenRoute: (context) => const OtpScreen(),
           Routes.registerRoute: (context) => const RegisterScreen(),
+          Routes.editProfileRoute: (context) => const EditProfile(),
           Routes.dashboardRoute: (context) => const DashboardScreen(),
           Routes.orderDetailsRoute: (context) => const OrderDetails(),
           Routes.redeemPointsOperatorRoute: (context) => const RedeemPointsOperator(),
