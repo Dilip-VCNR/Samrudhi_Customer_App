@@ -147,7 +147,7 @@ class _StoreSearchState extends State<StoreSearch> {
                                     ),
                                     filteredProducts[index]
                                         .productDetail!.productDiscount!>0?Text(
-                                      '₹${filteredProducts[index].productDetail!.sellingPrice!}',
+                                      '₹${filteredProducts[index].productDetail!.sellingPrice!}/${filteredProducts[index].productDetail!.productUom!}',
                                       style: const TextStyle(
                                           color: AppColors.primaryColor,
                                           fontSize: 14,
@@ -161,7 +161,7 @@ class _StoreSearchState extends State<StoreSearch> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Text(
-                                          '₹${filteredProducts[index].productDetail!.productDiscountedValue!}',
+                                          '₹${filteredProducts[index].productDetail!.productDiscountedValue!}/${filteredProducts[index].productDetail!.productUom!}',
                                           style: const TextStyle(
                                             color: AppColors.walletFont,
                                             fontSize: 20,

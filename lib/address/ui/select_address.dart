@@ -3,6 +3,7 @@ import 'package:google_places_autocomplete_text_field/google_places_autocomplete
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/login_response_model.dart';
+import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/database/app_pref.dart';
 import 'package:samruddhi/utils/app_widgets.dart';
@@ -23,6 +24,9 @@ class _SelectAddressState extends State<SelectAddress> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    DeliverableAddressModel? deliverableAddress = arguments['deliverableAddress'];
 
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider, Widget? child) {
@@ -160,11 +164,23 @@ class _SelectAddressState extends State<SelectAddress> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        prefModel.selectedAddress = prefModel.userData!.addressArray![index];
-                        AppPref.setPref(prefModel);
-                        showSuccessToast(context, "Address selected successfully");
-                        dashboardProvider.getHomeData();
-                        Navigator.pop(context);
+                        if(deliverableAddress!=null){
+                          if (deliverableAddress.result!.contains(prefModel.userData!.addressArray![index].id)) {
+                            prefModel.selectedAddress = prefModel.userData!.addressArray![index];
+                            AppPref.setPref(prefModel);
+                            showSuccessToast(context, "Address selected successfully");
+                            dashboardProvider.getHomeData();
+                            Navigator.pop(context);
+                          } else {
+                            showErrorToast(context, "This address is not eligible for delivery for this store");
+                          }
+                        }else{
+                          prefModel.selectedAddress = prefModel.userData!.addressArray![index];
+                          AppPref.setPref(prefModel);
+                          showSuccessToast(context, "Address selected successfully");
+                          dashboardProvider.getHomeData();
+                          Navigator.pop(context);
+                        }
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

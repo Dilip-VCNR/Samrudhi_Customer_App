@@ -10,6 +10,7 @@ import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/all_orders_model.dart';
+import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart';
 import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
 import 'package:samruddhi/dashboard/wallet/models/wallet_response_model.dart';
@@ -264,5 +265,16 @@ class ApiCalls {
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
     return LoginResponseModel.fromJson(responseJson);
+  }
+
+  getDeliverableAddress(String? storeUuid) async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getDeliverableAddress,
+        jsonEncode({
+          'customerUuid':prefModel.userData!.customerUuid,
+          'storeUuid':storeUuid
+        }));
+    return DeliverableAddressModel.fromJson(json.decode(response.body));
   }
 }

@@ -23,6 +23,7 @@ class UrlConstant {
   static const String placeOrder = "${apiBaseUrl}order/placeOrder";
   static const String getWallet = "${apiBaseUrl}customerPoint/getCustomerPoints";
   static const String getOrders = "${apiBaseUrl}order/customerOrderList";
+  static const String getDeliverableAddress = "${apiBaseUrl}customer/changeCustomerDeliveryAddress";
 
   static const String getUserProfile = "${apiBaseUrl}get_user_profile";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";

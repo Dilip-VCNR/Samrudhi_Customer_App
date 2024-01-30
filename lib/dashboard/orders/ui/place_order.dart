@@ -7,7 +7,6 @@ import 'package:samruddhi/utils/url_constants.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_widgets.dart';
-import '../../../utils/routes.dart';
 
 class PlaceOrder extends StatefulWidget {
   const PlaceOrder({Key? key}) : super(key: key);
@@ -20,10 +19,15 @@ class _PlaceOrderState extends State<PlaceOrder> {
   bool firstTimeLoading = false;
   bool delivery = true;
   int _selectedValue = 1;
+
+  @override
+  void initState() {
+    prefModel.selectedAddress = null;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
@@ -473,13 +477,36 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           '${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productSubCategory!.productSubCategoryName}',
                                           style: const TextStyle(
                                             color: Color(0x8937474F),
-                                            fontSize: 14,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                             // decoration: TextDecoration.lineThrough,
                                           ),
                                         ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
+                                              style: const TextStyle(
+                                                color: AppColors.fontColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                decoration: TextDecoration.lineThrough,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
+                                              style: const TextStyle(
+                                                color: AppColors.primaryColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                // decoration: TextDecoration.lineThrough,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                         Text(
-                                          'Selling price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}',
+                                          'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productSubTotal}',
                                           style: const TextStyle(
                                             color: AppColors.secondaryColor,
                                             fontSize: 14,
@@ -488,7 +515,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           ),
                                         ),
                                         Text(
-                                          'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
+                                          'UOM : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
                                           style: const TextStyle(
                                             color: AppColors.secondaryColor,
                                             fontSize: 14,
@@ -501,7 +528,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              'Sub total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productGrandTotal!}',
+                                              'Total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productGrandTotal!}',
                                               style: const TextStyle(
                                                 color: AppColors.primaryColor,
                                                 fontSize: 16,
@@ -763,8 +790,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                     // letterSpacing: 0.60,
                                   ),),
                                 GestureDetector(
-                                  onTap: (){
-                                    Navigator.pushNamed(context, Routes.selectAddressRoute);
+                                  onTap: () async {
+                                    await dashboardProvider.getDeliverableAddress();
                                   },
                                   child: const Text("Change",
                                     style: TextStyle(

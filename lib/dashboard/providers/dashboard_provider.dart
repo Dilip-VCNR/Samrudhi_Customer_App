@@ -5,6 +5,7 @@ import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/models/store_data_model.dart';
+import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart';
 import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
 import 'package:samruddhi/database/app_pref.dart';
@@ -257,4 +258,11 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   applyWalletPoints() {}
+
+  getDeliverableAddress() async {
+    showLoaderDialog(reviewCartScreenContext!);
+    DeliverableAddressModel deliverableAddressResponse  = await apiCalls.getDeliverableAddress(storeData!.result!.storeDetails!.storeUuid);
+    Navigator.pop(reviewCartScreenContext!);
+    Navigator.pushNamed(reviewCartScreenContext!, Routes.selectAddressRoute,arguments: {'deliverableAddress':deliverableAddressResponse});
+  }
 }

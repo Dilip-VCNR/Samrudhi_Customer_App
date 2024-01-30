@@ -149,46 +149,48 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.48,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 10),
-                                          decoration: ShapeDecoration(
-                                            color: const Color(0xFFFF8702),
-                                            shape: RoundedRectangleBorder(
-                                              side: const BorderSide(
-                                                  width: 0.50,
-                                                  color: Color(0xFFFF8702)),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                          ),
-                                          child: Center(
-                                              child: Text(
-                                            '${ordersProvider.ongoingOrders[index].orderStatus}',
+                                    SizedBox(
+                                      width: screenSize.width-75,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
                                             style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w700,
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.48,
                                             ),
-                                          )),
-                                        )
-                                      ],
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3, horizontal: 10),
+                                            decoration: ShapeDecoration(
+                                              color: const Color(0xFFFF8702),
+                                              shape: RoundedRectangleBorder(
+                                                side: const BorderSide(
+                                                    width: 0.50,
+                                                    color: Color(0xFFFF8702)),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                              '${ordersProvider.ongoingOrders[index].orderStatus}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            )),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                     // const SizedBox(
                                     //   width: 212,
@@ -206,7 +208,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             for (int i = 0;
                                 i <
@@ -236,6 +238,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             //     ),
                             //   ):const SizedBox(),
                             const Divider(),
+                            Text(ordersProvider.ongoingOrders[index].orderDeliveryType!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                            SizedBox(height: 5,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -248,7 +252,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   ),
                                 ),
                                 Text(
-                                  '₹${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderGrandTotal}',
+                                  '₹${ordersProvider.ongoingOrders[index].orderGrandTotal}',
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,
@@ -388,7 +392,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               ],
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             for (int i = 0;
                                 i <
@@ -416,6 +420,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             //     ),
                             //   ):const SizedBox(),
                             const Divider(),
+                            Text(ordersProvider.finishedOrders[index].orderDeliveryType!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                            SizedBox(height: 5,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
