@@ -80,73 +80,126 @@ class _WalletScreenState extends State<WalletScreen> {
                         borderRadius: BorderRadius.circular(8)),
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Available reward points',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.walletFont,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        '${walletProvider.walletResponse!.result!.totalAvailableRedeemPoints!}',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF1B8902),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: screenSize.width/2.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Points earned',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  '${walletProvider.walletResponse!.result!.totalEarnedPoints!}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenSize.width/2.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Points Value',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  '${walletProvider.walletResponse!.result!.totalAvailableRedeemPointsValue}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            children: [
-                              const Text(
-                                'Total earned',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF1B8902),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: screenSize.width/2.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Redeemable',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                '${walletProvider.walletResponse!.result!.totalEarnedPoints!}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Color(0xFF1B8902),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
+                                Text(
+                                  '${walletProvider.walletResponse!.result!.totalAvailableRedeemPoints}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                          Column(
-                            children: [
-                              const Text(
-                                'Points Redeemed',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFF1B8902),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: screenSize.width/2.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Redeemed',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                '${walletProvider.walletResponse!.result!.redeemPoints!}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Color(0xFF1B8902),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
+                                Text(
+                                  '${walletProvider.walletResponse!.result!.redeemPoints!}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xFF1B8902),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       )
@@ -208,63 +261,63 @@ class _WalletScreenState extends State<WalletScreen> {
                 //     ),
                 //   ),
                 // ),
-                GestureDetector(
-                  onTap: (){
-                    widget.changeScreen(0);
-                  },
-                  child: Container(
-                    width: screenSize.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    padding: const EdgeInsets.all(20),
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 4,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        )
-                      ],
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Redeem points on shopping',
-                              style: TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 212,
-                              child: Text(
-                                'You can redeem your wallet points on shopping in app (Min order value should be ₹500)',
-                                style: TextStyle(
-                                  color: AppColors.fontColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Icon(Icons.arrow_forward)
-                      ],
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: (){
+                //     widget.changeScreen(0);
+                //   },
+                //   child: Container(
+                //     width: screenSize.width,
+                //     margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                //     padding: const EdgeInsets.all(20),
+                //     decoration: ShapeDecoration(
+                //       color: Colors.white,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //       shadows: const [
+                //         BoxShadow(
+                //           color: Color(0x3F000000),
+                //           blurRadius: 4,
+                //           offset: Offset(0, 4),
+                //           spreadRadius: 0,
+                //         )
+                //       ],
+                //     ),
+                //     child: const Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Column(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               'Redeem points on shopping',
+                //               style: TextStyle(
+                //                 color: AppColors.fontColor,
+                //                 fontSize: 14,
+                //                 fontWeight: FontWeight.w600,
+                //               ),
+                //             ),
+                //             SizedBox(
+                //               width: 212,
+                //               child: Text(
+                //                 'You can redeem your wallet points on shopping in app (Min order value should be ₹500)',
+                //                 style: TextStyle(
+                //                   color: AppColors.fontColor,
+                //                   fontSize: 12,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //             )
+                //           ],
+                //         ),
+                //         Icon(Icons.arrow_forward)
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 const Padding(
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
                   child: Text(
                     'Earn History',
                     style: TextStyle(
@@ -336,7 +389,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   }
                 ):const Center(child: Text("No records found"),),
 
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 const Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
