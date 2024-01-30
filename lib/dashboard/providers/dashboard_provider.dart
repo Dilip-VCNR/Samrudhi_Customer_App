@@ -211,11 +211,16 @@ class DashboardProvider extends ChangeNotifier {
 
   reviewMyCart() async {
     reviewCartResponse = await apiCalls.reviewCart();
+    print("case1");
     walletData = await apiCalls.getWalletData();
+    print("case2");
     if(reviewCartResponse!.statusCode==200){
       notifyListeners();
+      print("case3");
     }else{
+      print("case4");
       showErrorToast(reviewCartScreenContext!, reviewCartResponse!.message!);
+      notifyListeners();
     }
   }
 

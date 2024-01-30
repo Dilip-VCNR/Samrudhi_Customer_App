@@ -58,20 +58,24 @@ class Result {
 
 class ProductDetailElement {
   String? productCategories;
+  bool? isExpanded = true;
   List<ProductList>? productList;
 
   ProductDetailElement({
     this.productCategories,
+    this.isExpanded,
     this.productList,
   });
 
   factory ProductDetailElement.fromJson(Map<String, dynamic> json) => ProductDetailElement(
     productCategories: json["productCategories"],
+      isExpanded:true,
     productList: json["productList"] == null ? [] : List<ProductList>.from(json["productList"]!.map((x) => ProductList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "productCategories": productCategories,
+    "isExpanded": isExpanded,
     "productList": productList == null ? [] : List<dynamic>.from(productList!.map((x) => x.toJson())),
   };
 }

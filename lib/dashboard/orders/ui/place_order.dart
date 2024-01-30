@@ -27,6 +27,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
+        print("case0");
         dashboardProvider.reviewCartScreenContext = context;
         if (firstTimeLoading != true) {
           dashboardProvider.reviewCartResponse = null;
@@ -607,7 +608,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    width: 20,
+                                                    width: 30,
                                                     margin: const EdgeInsets
                                                         .symmetric(
                                                         horizontal: 10),

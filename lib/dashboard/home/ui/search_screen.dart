@@ -125,7 +125,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   '${UrlConstant.imageBaseUrl}${dashboardProvider.searchResponse!.result![index].storeImgArray![0].imageUrl}'),
                                               fit: BoxFit.fill,
                                             ),
-                                            shape: RoundedRectangleBorder(
+                                            shape: const RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(15.50),
                                                 bottomLeft:
@@ -148,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             ),
                                              Text(
                                               '${dashboardProvider.searchResponse!.result![index].displayName}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16.55,
                                                 fontWeight: FontWeight.bold,
@@ -158,10 +158,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                             SizedBox(
                                               width: 212,
                                               child: Text(
-                                                '${dashboardProvider.searchResponse!.result![index].deliveryType}',
-                                                style: TextStyle(
+                                                '${dashboardProvider.searchResponse!.result![index].storeCategoryName}',
+                                                style: const TextStyle(
                                                   color: AppColors.fontColor,
-                                                  fontSize: 8,
+                                                  fontSize: 10,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
@@ -173,7 +173,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               width: 212,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w500,
@@ -183,45 +183,56 @@ class _SearchScreenState extends State<SearchScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 4),
-                                              decoration: ShapeDecoration(
-                                                color: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          31.03),
+                                            SizedBox(
+                                              width: 212,
+                                              child: Text(
+                                                dashboardProvider.searchResponse!.result![index].isHomeDelivery!?'Home delivery':'Self pickup',
+                                                style: const TextStyle(
+                                                  color: AppColors.fontColor,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              child: const Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'Browse ',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12.41,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      height: 1.33,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 4.14),
-                                                  Icon(
-                                                      Icons.navigate_next_sharp)
-                                                ],
-                                              ),
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            // Container(
+                                            //   padding:
+                                            //       const EdgeInsets.symmetric(
+                                            //           horizontal: 16,
+                                            //           vertical: 4),
+                                            //   decoration: ShapeDecoration(
+                                            //     color: Colors.white,
+                                            //     shape: RoundedRectangleBorder(
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(
+                                            //               31.03),
+                                            //     ),
+                                            //   ),
+                                            //   child: const Row(
+                                            //     mainAxisSize: MainAxisSize.min,
+                                            //     mainAxisAlignment:
+                                            //         MainAxisAlignment.center,
+                                            //     crossAxisAlignment:
+                                            //         CrossAxisAlignment.center,
+                                            //     children: [
+                                            //       Text(
+                                            //         'Browse ',
+                                            //         style: TextStyle(
+                                            //           color: Colors.black,
+                                            //           fontSize: 12.41,
+                                            //           fontWeight:
+                                            //               FontWeight.w400,
+                                            //           height: 1.33,
+                                            //         ),
+                                            //       ),
+                                            //       SizedBox(width: 4.14),
+                                            //       Icon(
+                                            //           Icons.navigate_next_sharp)
+                                            //     ],
+                                            //   ),
+                                            // ),
+                                            // const SizedBox(
+                                            //   height: 5,
+                                            // ),
                                           ],
                                         )
                                       ],

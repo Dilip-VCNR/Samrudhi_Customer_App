@@ -133,7 +133,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.ios_share_outlined),
+                              icon: const Icon(Icons.search),
                               color: AppColors.fontColor,
                               onPressed: () {},
                             )
@@ -176,19 +176,34 @@ class _StoreScreenState extends State<StoreScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                        child: Text(
-                          dashboardProvider.storeData!.result!
-                              .productDetails![i].productCategories!,
-                          style: const TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                            child: Text(
+                              dashboardProvider.storeData!.result!.productDetails![i].productCategories!,
+                              style: const TextStyle(
+                                color: AppColors.fontColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ),
+                          GestureDetector(
+                            onTap: (){
+                              print("hello");
+                              setState(() {
+                                dashboardProvider.storeData!.result!.productDetails![i].isExpanded = !dashboardProvider.storeData!.result!.productDetails![i].isExpanded!;
+                              });
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(right: 20),
+                                child: !dashboardProvider.storeData!.result!.productDetails![i].isExpanded!? Icon(Icons.keyboard_arrow_down_rounded,size: 30,):Icon(Icons.keyboard_arrow_up,size: 30,)),
+                          )
+                        ],
                       ),
-                      ListView.separated(
+                      dashboardProvider.storeData!.result!.productDetails![i].isExpanded!?ListView.separated(
                         separatorBuilder: (context, index){
                           return const Padding(padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Divider());
@@ -497,7 +512,7 @@ class _StoreScreenState extends State<StoreScreen> {
                             ],
                           );
                         },
-                      ),
+                      ):SizedBox.shrink(),
                     ],
                   )
               ],

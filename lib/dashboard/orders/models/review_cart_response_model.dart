@@ -13,7 +13,7 @@ class ReviewCartResponseModel {
   int? statusCode;
   String? message;
   ReviewCartResult? result;
-  int? overAlldiscountAmount;
+  double? overAlldiscountAmount;
   String? orderGrandTotal;
   String? customerUuid;
 
@@ -32,7 +32,7 @@ class ReviewCartResponseModel {
     statusCode: json["statusCode"],
     message: json["message"],
     result: json["result"] == null ? null : ReviewCartResult.fromJson(json["result"]),
-    overAlldiscountAmount: json["OverAlldiscountAmount"],
+    overAlldiscountAmount: json["OverAlldiscountAmount"]==null?0.0:json["OverAlldiscountAmount"].toDouble(),
     orderGrandTotal: json["orderGrandTotal"],
     customerUuid: json["customerUuid"],
   );
@@ -109,9 +109,9 @@ class ProductDetail {
   String? productUom;
   int? productTax;
   int? productDiscount;
-  int? productDiscountedValue;
+  double? productDiscountedValue;
   int? productQuantity;
-  int? addedCartQuantity;
+  double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
   int? productHsnCode;
@@ -122,8 +122,8 @@ class ProductDetail {
   int? v;
   int? taxableValue;
   double? productTaxValue;
-  int? productSubTotal;
-  int? productGrandTotal;
+  double? productSubTotal;
+  double? productGrandTotal;
 
   ProductDetail({
     this.productCategory,
@@ -176,9 +176,9 @@ class ProductDetail {
     productUom: json["productUom"],
     productTax: json["productTax"],
     productDiscount: json["productDiscount"],
-    productDiscountedValue: json["productDiscountedValue"],
+    productDiscountedValue: json["productDiscountedValue"].toDouble(),
     productQuantity: json["productQuantity"],
-    addedCartQuantity: json["addedCartQuantity"],
+    addedCartQuantity: json["addedCartQuantity"].toDouble(),
     isReturnable: json["isReturnable"],
     isPerishable: json["isPerishable"],
     productHsnCode: json["productHsnCode"],
@@ -189,8 +189,8 @@ class ProductDetail {
     v: json["__v"],
     taxableValue: json["taxableValue"],
     productTaxValue: json["productTaxValue"]?.toDouble(),
-    productSubTotal: json["productSubTotal"],
-    productGrandTotal: json["productGrandTotal"],
+    productSubTotal: json["productSubTotal"].toDouble(),
+    productGrandTotal: json["productGrandTotal"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
