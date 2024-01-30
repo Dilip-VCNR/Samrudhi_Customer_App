@@ -135,7 +135,9 @@ class _StoreScreenState extends State<StoreScreen> {
                             IconButton(
                               icon: const Icon(Icons.search),
                               color: AppColors.fontColor,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, Routes.storeSearchRoute);
+                              },
                             )
                           ],
                         ),
@@ -192,7 +194,6 @@ class _StoreScreenState extends State<StoreScreen> {
                           ),
                           GestureDetector(
                             onTap: (){
-                              print("hello");
                               setState(() {
                                 dashboardProvider.storeData!.result!.productDetails![i].isExpanded = !dashboardProvider.storeData!.result!.productDetails![i].isExpanded!;
                               });

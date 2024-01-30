@@ -12,6 +12,7 @@ class Routes {
   static const String redeemPointsOperatorRoute = "/redeemPointsOperator";
   static const String searchScreenRoute = "/search";
   static const String storeInRoute = "/store";
+  static const String storeSearchRoute = "/storeSearch";
   static const String placeOrderRoute = "/placeOrder";
   static const String selectAddressRoute = "/selectAddress";
   static const String markLocationRoute = "/markLocation";

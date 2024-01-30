@@ -25,6 +25,7 @@ import 'dashboard/orders/ui/place_order.dart';
 import 'dashboard/profile/web_view_screen.dart';
 import 'dashboard/providers/dashboard_provider.dart';
 import 'dashboard/store/ui/store_screen.dart';
+import 'dashboard/store/ui/store_search.dart';
 import 'dashboard/wallet/ui/redeem_points_operator.dart';
 import 'database/app_pref.dart';
 import 'firebase_options.dart';
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
           Routes.notificationsRoute: (context) => const NotificationsScreen(),
           Routes.searchScreenRoute: (context) => const SearchScreen(),
           Routes.storeInRoute: (context) => const StoreScreen(),
+          Routes.storeSearchRoute: (context) => const StoreSearch(),
           Routes.placeOrderRoute: (context) => const PlaceOrder(),
           Routes.selectAddressRoute: (context) => const SelectAddress(),
           Routes.markLocationRoute: (context) => const MarkLocation(),
