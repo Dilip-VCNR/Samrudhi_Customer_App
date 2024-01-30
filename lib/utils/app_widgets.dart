@@ -52,3 +52,29 @@ showLoaderDialog(BuildContext context) {
       ));
 }
 
+showWarningDialog(BuildContext context, String message, {required Null Function() onPressed}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Warning'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              onPressed();
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('Proceed'),
+          ),
+        ],
+      );
+    },
+  );
+}

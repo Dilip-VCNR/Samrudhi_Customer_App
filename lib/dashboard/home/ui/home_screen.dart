@@ -35,15 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
             toolbarHeight: 120,
             backgroundColor: AppColors.scaffoldBackground,
             automaticallyImplyLeading: false,
-            title: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
                         'Hi ${prefModel.userData!.firstName}',
                         style: const TextStyle(
                           color: AppColors.fontColor,
@@ -51,60 +51,88 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Row(
-                        children: [
-                          IconButton(
+                    ),
+                    Row(
+                      children: [
+                        Stack(
+                          children: [
+                            IconButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, Routes.placeOrderRoute);
                               },
-                              icon: const Icon(Icons.shopping_cart_outlined)),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, Routes.notificationsRoute);
-                              },
-                              icon: const Icon(Icons.notifications_none_outlined)),
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:0.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        dashboardProvider.searchType = 'productName';
-                        dashboardProvider.searchController.clear();
-                        dashboardProvider.searchKeyWord = '';
-                        Navigator.pushNamed(
-                            context, Routes.searchScreenRoute);
-                      },
-                      child: TextField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search),
-                          hintText: 'Search products or stores',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
+                              icon: const Icon(Icons.shopping_cart_outlined),
+                            ),
+                            Positioned(
+                              right: 5,
+                              top: 5,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: Text(
+                                  prefModel.cartItems!.length.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 8,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        textAlignVertical: TextAlignVertical.center,
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.notificationsRoute);
+                          },
+                          icon: const Icon(Icons.notifications_none_outlined),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      dashboardProvider.searchType = 'productName';
+                      dashboardProvider.searchController.clear();
+                      dashboardProvider.searchKeyWord = '';
+                      Navigator.pushNamed(context, Routes.searchScreenRoute);
+                    },
+                    child: TextField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: 'Search products or stores',
+                        counterText: "",
+                        isCollapsed: true,
+                        filled: true,
+                        fillColor: AppColors.inputFieldColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding:
+                        const EdgeInsets.symmetric(vertical: 16.0),
                       ),
+                      textAlignVertical: TextAlignVertical.center,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
             ),
           ),
           body: dashboardProvider.homeData != null
@@ -342,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
+                            crossAxisCount: 3,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
                           ),
@@ -375,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         shape: const OvalBorder(),
                                       ),
                                     ),
-                                    SizedBox(height: 5,),
+                                    const SizedBox(height: 5,),
                                     Text(
                                       '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}',
                                       textAlign: TextAlign.center,

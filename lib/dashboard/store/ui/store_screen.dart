@@ -332,7 +332,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                     .productDetails![
                                                                 i]
                                                                     .productList![index].productDetail!,
-                                                                'add');
+                                                                'add',context);
                                                       },
                                                       child: Container(
                                                         width:
@@ -378,7 +378,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                    .productDetails![
                                                                i]
                                                                    .productList![index].productDetail!,
-                                                                'remove');
+                                                                'remove',context);
                                                           },
                                                           child: Container(
                                                             height: 35,
@@ -418,8 +418,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                         .result!
                                                                         .productDetails![
                                                                             i]
-                                                                        .productList![index])
-                                                                .toString(),
+                                                                        .productList![index]).toString(),
                                                             // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
                                                             style: const TextStyle(
                                                                 color: Colors
@@ -441,7 +440,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                     .productDetails![
                                                                 i]
                                                                     .productList![index].productDetail!,
-                                                                'add');
+                                                                'add',context);
                                                           },
                                                           child: Container(
                                                             height: 35,

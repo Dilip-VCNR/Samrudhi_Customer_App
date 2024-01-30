@@ -39,14 +39,14 @@ class AllOrdersResponseModel {
 }
 
 class Result {
-  List<OrderList>? orderList;
+  List<Docs>? orderList;
 
   Result({
     this.orderList,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    orderList: json["orderList"] == null ? [] : List<OrderList>.from(json["orderList"]!.map((x) => OrderList.fromJson(x))),
+    orderList: json["orderList"] == null ? [] : List<Docs>.from(json["orderList"]!.map((x) => Docs.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

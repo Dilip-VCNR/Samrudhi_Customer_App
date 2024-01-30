@@ -18,13 +18,14 @@ class _OrderDetailsState extends State<OrderDetails> {
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    OrderList order = arguments['order'];
-
+    Docs order = arguments['order'];
+    String? message = arguments['message'];
+    print(order.toJson());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
         title: const Text(
-          'Delivery Details',
+          'Order Details',
           style: TextStyle(
             color: AppColors.fontColor,
             fontSize: 20,
@@ -39,7 +40,11 @@ class _OrderDetailsState extends State<OrderDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+              message!=null?Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),color: AppColors.creditBg),
+                  padding:EdgeInsets.symmetric(horizontal: 10,vertical: 10),child: Text(message)):SizedBox.shrink(),
               Text('Order : #${order.orderNumber!}',
                 style: const TextStyle(
                   color: AppColors.fontColor,
@@ -114,9 +119,6 @@ class _OrderDetailsState extends State<OrderDetails> {
 
                 ],
               ),
-
-
-
               const SizedBox(height: 10,),
               const Text(
                 'Items',
@@ -145,6 +147,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   return const SizedBox(height: 5,);
               },),
               const SizedBox(height: 10,),
+              for(int i=0;i<order.additionalChargesArray!.length;i++)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

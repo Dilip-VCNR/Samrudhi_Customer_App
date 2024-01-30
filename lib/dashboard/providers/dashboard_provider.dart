@@ -13,6 +13,7 @@ import 'package:samruddhi/utils/app_widgets.dart';
 import '../../address/controller/location_controller.dart';
 import '../../utils/routes.dart';
 import '../models/home_data_model.dart';
+import '../wallet/models/wallet_response_model.dart';
 
 class DashboardProvider extends ChangeNotifier {
   TextEditingController addressSearchController = TextEditingController();
@@ -40,6 +41,7 @@ class DashboardProvider extends ChangeNotifier {
   //reviewCart screen declarations
   ReviewCartResponseModel? reviewCartResponse;
   BuildContext? reviewCartScreenContext;
+  WalletResponseModel? walletData;
 
   OrderResponseModel? orderResponse;
   Future<Position> getCurrentLocation() async {
@@ -113,29 +115,34 @@ class DashboardProvider extends ChangeNotifier {
 
   double payable = 0.0;
 
-  addUpdateProductToCart(ProductListProductDetail product, String operation) {
+  addUpdateProductToCart(ProductListProductDetail product, String operation, BuildContext context) async {
+    double incrementQty = 1;
     var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
     int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
-
+    if(product.productUom=="KG"){
+      incrementQty=0.5;
+    }
     bool shouldClearCart = prefModel.cartItems!.isNotEmpty &&
         prefModel.cartItems![0].storeUuid != product.storeUuid;
 
     if (shouldClearCart) {
-      prefModel.cartItems!.clear();
+      await showWarningDialog(context,"You already have items in your card from other store,\nCart will be cleared if you wish to proceed !",onPressed:(){
+        prefModel.cartItems!.clear();
+      });
     }
 
     if (operation == 'add') {
       if (contain.isEmpty) {
-        product.addedCartQuantity = 1;
+        product.addedCartQuantity = incrementQty;
         prefModel.cartItems!.add(product);
       } else {
-        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + 1;
+        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + incrementQty;
       }
     } else if (operation == 'remove') {
-      if (prefModel.cartItems![index].addedCartQuantity! > 1) {
+      if (prefModel.cartItems![index].addedCartQuantity! > incrementQty) {
         prefModel.cartItems![index].addedCartQuantity =
-            prefModel.cartItems![index].addedCartQuantity! - 1;
-      } else if (prefModel.cartItems![index].addedCartQuantity == 1) {
+            prefModel.cartItems![index].addedCartQuantity! - incrementQty;
+      } else if (prefModel.cartItems![index].addedCartQuantity == incrementQty) {
         prefModel.cartItems!.removeAt(index);
       }
     }
@@ -153,7 +160,7 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-  int getProductCountInCart(ProductList product) {
+  getProductCountInCart(ProductList product) {
     var contain = prefModel.cartItems!
         .where((element) => element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
@@ -204,6 +211,7 @@ class DashboardProvider extends ChangeNotifier {
 
   reviewMyCart() async {
     reviewCartResponse = await apiCalls.reviewCart();
+    walletData = await apiCalls.getWalletData();
     if(reviewCartResponse!.statusCode==200){
       notifyListeners();
     }else{
@@ -236,10 +244,12 @@ class DashboardProvider extends ChangeNotifier {
       notifyListeners();
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);
-      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'order':orderResponse!.result});
+      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'order':orderResponse!.result!.docs,'message':orderResponse!.result!.message});
     }else{
       Navigator.pop(reviewCartScreenContext!);
       showErrorToast(reviewCartScreenContext!, orderResponse!.message!);
     }
   }
+
+  applyWalletPoints() {}
 }

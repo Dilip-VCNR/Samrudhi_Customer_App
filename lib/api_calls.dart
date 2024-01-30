@@ -186,13 +186,13 @@ class ApiCalls {
         UrlConstant.reviewCart,
         jsonEncode({
           "customerUuid":prefModel.userData!.customerUuid,
-          "storeUuid":prefModel.cartItems![0].storeUuid,
+          "storeUuid":prefModel.cartItems!.isNotEmpty?prefModel.cartItems![0].storeUuid:null,
           "productDetails":prefModel.cartItems,
         }));
     log({
       "customerUuid":prefModel.userData!.customerUuid,
-      "storeUuid":prefModel.cartItems![0].storeUuid,
-      "productDetails":jsonEncode(prefModel.cartItems!),
+      "storeUuid":prefModel.cartItems!.isNotEmpty?prefModel.cartItems![0].storeUuid:null,
+      "productDetails":prefModel.cartItems,
     }.toString());
     log(response.body);
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
@@ -201,12 +201,15 @@ class ApiCalls {
   Future<OrderResponseModel>placeOrder(ReviewCartResult result, int selectedValue) async {
     Map req = result.toJson();
     req['storeUuid'] = result.productDetails![0].storeUuid;
+    req['customerUuid'] = prefModel.userData!.customerUuid;
     req['deliveryAddress'] = prefModel.selectedAddress!.toJson();
     req['orderDeliveryType'] = selectedValue==1?"homeDelivery":"selfPickUp";
     http.Response response = await hitApi(
         true,
         UrlConstant.placeOrder,
         jsonEncode(req));
+    log(jsonEncode(req));
+    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
 
   }

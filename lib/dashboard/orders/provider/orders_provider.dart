@@ -7,8 +7,8 @@ class OrdersProvider extends ChangeNotifier {
   ApiCalls apiCalls = ApiCalls();
   AllOrdersResponseModel? allOrdersResponse;
   BuildContext? ordersPageContext;
-  List<OrderList> ongoingOrders = [];
-  List<OrderList> finishedOrders = [];
+  List<Docs> ongoingOrders = [];
+  List<Docs> finishedOrders = [];
 
   getAllOrders() async {
     ongoingOrders = [];

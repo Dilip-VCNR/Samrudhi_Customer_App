@@ -100,7 +100,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       onTap: () {
                         Navigator.pushNamed(context, Routes.orderDetailsRoute,
                             arguments: {
-                              'order': ordersProvider.ongoingOrders[index]
+                              'order': ordersProvider.ongoingOrders[index],
+                              'message':null
                             });
                       },
                       child: Container(
