@@ -121,7 +121,6 @@ class ApiCalls {
           "lat": latitude,
           "lng": longitude
         }));
-    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
@@ -132,7 +131,6 @@ class ApiCalls {
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
         }));
-    log(response.body);
     return StoreDataModel.fromJson(json.decode(response.body));
   }
 
@@ -191,12 +189,6 @@ class ApiCalls {
           "storeUuid":prefModel.cartItems!.isNotEmpty?prefModel.cartItems![0].storeUuid:null,
           "productDetails":prefModel.cartItems,
         }));
-    log({
-      "customerUuid":prefModel.userData!.customerUuid,
-      "storeUuid":prefModel.cartItems!.isNotEmpty?prefModel.cartItems![0].storeUuid:null,
-      "productDetails":prefModel.cartItems,
-    }.toString());
-    log(response.body);
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -211,7 +203,6 @@ class ApiCalls {
         UrlConstant.placeOrder,
         jsonEncode(req));
     log(jsonEncode(req));
-    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
 
   }
