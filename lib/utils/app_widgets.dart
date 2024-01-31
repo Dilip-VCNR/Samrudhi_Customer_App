@@ -52,25 +52,25 @@ showLoaderDialog(BuildContext context) {
       ));
 }
 
-showWarningDialog(BuildContext context, String message) {
-  showDialog(
+Future<bool?> showWarningDialog(BuildContext context, String message) async {
+  return await showDialog<bool>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Warning'),
+        title: Text("Warning"),
         content: Text(message),
-        actions: <Widget>[
+        actions: [
           TextButton(
+            child: Text("Cancel"),
             onPressed: () {
-              Navigator.of(context).pop(false); // Close the dialog
+              Navigator.of(context).pop(false);
             },
-            child: Text('Cancel'),
           ),
           TextButton(
+            child: Text("Proceed"),
             onPressed: () {
-              Navigator.of(context).pop(true); // Close the dialog
+              Navigator.of(context).pop(true);
             },
-            child: Text('Proceed'),
           ),
         ],
       );

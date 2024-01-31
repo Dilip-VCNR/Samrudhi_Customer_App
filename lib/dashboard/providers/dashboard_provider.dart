@@ -127,12 +127,13 @@ class DashboardProvider extends ChangeNotifier {
         prefModel.cartItems![0].storeUuid != product.storeUuid;
 
     if (shouldClearCart) {
-      await showWarningDialog(context,"You already have items in your card from other store,\nCart will be cleared if you wish to proceed !").then((confirmed){
-        if (!confirmed) {
-          return;
-        }
-        prefModel.cartItems!.clear();
-      });
+      bool? confirmed = await showWarningDialog(context, "You already have items in your cart from other store,\nCart will be cleared if you wish to proceed !");
+      if (!confirmed!) {
+        // User didn't confirm, exit the function
+        return;
+      }
+
+      prefModel.cartItems!.clear();
     }
 
     if (operation == 'add') {
