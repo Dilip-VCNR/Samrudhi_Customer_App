@@ -44,7 +44,6 @@ class _StoreSearchState extends State<StoreSearch> {
                                 .contains(val.toLowerCase()))
                             .toList();
                       });
-                      print(filteredProducts);
                     },
                     autofocus: true,
                     decoration: InputDecoration(

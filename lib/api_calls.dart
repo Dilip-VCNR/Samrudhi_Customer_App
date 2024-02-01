@@ -212,7 +212,6 @@ class ApiCalls {
     });
     Calculation? redeemPoints;
     Calculation? redeemPointsValue;
-    print("case1");
     try {
       redeemPoints = result.calculation!.firstWhere((element) {
         return element.name == 'redeemPoints';
@@ -224,11 +223,8 @@ class ApiCalls {
       print(e);
     }
 
-    print("case2");
     req['orderGrandTotal'] = total.value;
     req['OverAlldiscountAmount'] = discount.value;
-    print(redeemPoints);
-    print(redeemPointsValue.runtimeType);
     if (redeemPoints != null) {
       req['redeemPoints'] = redeemPoints.value;
       req['redeemPointsValue'] = redeemPointsValue!.value;

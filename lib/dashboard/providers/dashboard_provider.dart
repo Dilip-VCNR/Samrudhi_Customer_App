@@ -171,7 +171,7 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-  
+
   getProductCountInCart(ProductList product) {
     var contain = prefModel.cartItems!.where(
         (element) => element.productUuid == product.productDetail!.productUuid);
@@ -226,14 +226,10 @@ class DashboardProvider extends ChangeNotifier {
 
   reviewMyCart() async {
     reviewCartResponse = await apiCalls.reviewCart();
-    print("case1");
     walletData = await apiCalls.getWalletData();
-    print("case2");
     if (reviewCartResponse!.statusCode == 200) {
       notifyListeners();
-      print("case3");
     } else {
-      print("case4");
       showErrorToast(reviewCartScreenContext!, reviewCartResponse!.message!);
       notifyListeners();
     }
@@ -257,7 +253,6 @@ class DashboardProvider extends ChangeNotifier {
 
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);
-    print("caca");
     orderResponse =
         await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue);
     if (orderResponse!.statusCode == 200) {
