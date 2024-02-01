@@ -101,7 +101,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         Navigator.pushNamed(context, Routes.orderDetailsRoute,
                             arguments: {
                               'order': ordersProvider.ongoingOrders[index],
-                              'message':null
+                              'message': null
                             });
                       },
                       child: Container(
@@ -150,9 +150,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: screenSize.width-75,
+                                      width: screenSize.width - 75,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
@@ -225,8 +226,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            ordersProvider.ongoingOrders[index]
-                                .productDetails!.length>3?Text('and ${ordersProvider.ongoingOrders[index].productDetails!.length - 3} more items'):SizedBox.shrink(),
+                            ordersProvider.ongoingOrders[index].productDetails!
+                                        .length >
+                                    3
+                                ? Text(
+                                    'and ${ordersProvider.ongoingOrders[index].productDetails!.length - 3} more items')
+                                : SizedBox.shrink(),
                             // ordersProvider.finishedOrders[index]
                             //     .productDetails!.length>3?Text(
                             //   '${ordersProvider.finishedOrders[index]
@@ -238,8 +243,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             //     ),
                             //   ):const SizedBox(),
                             const Divider(),
-                            Text(ordersProvider.ongoingOrders[index].orderDeliveryType!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                            SizedBox(height: 5,),
+                            Text(
+                              ordersProvider
+                                  .ongoingOrders[index].orderDeliveryType!,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -420,8 +432,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             //     ),
                             //   ):const SizedBox(),
                             const Divider(),
-                            Text(ordersProvider.finishedOrders[index].orderDeliveryType!,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                            SizedBox(height: 5,),
+                            Text(
+                              ordersProvider
+                                  .finishedOrders[index].orderDeliveryType!,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

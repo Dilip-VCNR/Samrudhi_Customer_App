@@ -24,17 +24,18 @@ class _PlaceOrderState extends State<PlaceOrder> {
   void initState() {
     prefModel.selectedAddress = null;
     super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     if (prefModel.cartStoreDeliveryType != null &&
         prefModel.cartStoreDeliveryType == true) {
       _selectedValue = 1;
     } else {
       _selectedValue = 2;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
@@ -340,62 +341,64 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         //   height: 100,
                         // ),
                         const Divider(),
-                        dashboardProvider.walletData!.result!
+                        if (dashboardProvider.walletData!.result!
                                     .totalAvailableRedeemPoints! >
-                                0
-                            ? Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                width: screenSize.width,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15),
-                                decoration: const BoxDecoration(
-                                    color: AppColors.debitBg,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'You have ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue} You can apply to get discount on this order',
-                                      style: const TextStyle(
-                                        color: AppColors.fontColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.60,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        dashboardProvider.applyWalletPoints();
-                                      },
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          color: AppColors.secondaryColor,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        child: const Center(
-                                          child: Text(
-                                            "Redeem",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                                0 &&
+                            dashboardProvider
+                                .reviewCartResponse!.result!.calculation!
+                                .every((element) =>
+                                    element.name != 'redeemPointValue'))
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            width: screenSize.width,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15),
+                            decoration: const BoxDecoration(
+                                color: AppColors.debitBg,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'You have ${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue} You can apply to get discount on this order',
+                                  style: const TextStyle(
+                                    color: AppColors.fontColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.60,
+                                  ),
                                 ),
-                              )
-                            : const SizedBox.shrink(),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    dashboardProvider.applyWalletPoints();
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: const Center(
+                                      child: Text(
+                                        "Redeem",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           width: screenSize.width,
@@ -761,28 +764,29 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         const SizedBox(
                           height: 10,
                         ),
-                        prefModel.cartStoreDeliveryType==true?RadioListTile(
-                          title: const Text('Delivery'),
-                          subtitle: const Text(
-                              'Order will be delivered to selected address'),
-                          value: 1,
-                          groupValue: _selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedValue =
-                                  value!;
-                            });
-                          },
-                        ):const SizedBox.shrink(),
+                        prefModel.cartStoreDeliveryType == true
+                            ? RadioListTile(
+                                title: const Text('Delivery'),
+                                subtitle: const Text(
+                                    'Order will be delivered to selected address'),
+                                value: 1,
+                                groupValue: _selectedValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedValue = value!;
+                                  });
+                                },
+                              )
+                            : const SizedBox.shrink(),
                         RadioListTile(
                           title: const Text('Self Pickup'),
-                          subtitle: const Text('You can pick up your order by visiting the store'),
+                          subtitle: const Text(
+                              'You can pick up your order by visiting the store'),
                           value: 2,
                           groupValue: _selectedValue,
                           onChanged: (value) {
                             setState(() {
-                              _selectedValue =
-                                  value!;
+                              _selectedValue = value!;
                             });
                           },
                         ),

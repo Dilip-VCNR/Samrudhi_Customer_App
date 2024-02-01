@@ -7,6 +7,7 @@ import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/database/app_pref.dart';
 import 'package:samruddhi/utils/app_widgets.dart';
+
 import '../../auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/url_constants.dart';
@@ -19,17 +20,17 @@ class SelectAddress extends StatefulWidget {
 }
 
 class _SelectAddressState extends State<SelectAddress> {
-
-
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    DeliverableAddressModel? deliverableAddress = arguments['deliverableAddress'];
+    DeliverableAddressModel? deliverableAddress =
+        arguments['deliverableAddress'];
 
     return Consumer(
-      builder: (BuildContext context, DashboardProvider dashboardProvider, Widget? child) {
+      builder: (BuildContext context, DashboardProvider dashboardProvider,
+          Widget? child) {
         dashboardProvider.selectAddressPageContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -44,7 +45,8 @@ class _SelectAddressState extends State<SelectAddress> {
             ),
           ),
           bottomNavigationBar: Consumer(
-            builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+            builder: (BuildContext context, AuthProvider authProvider,
+                Widget? child) {
               authProvider.selectAddressPageContext = context;
               return Container(
                 width: screenSize.width,
@@ -128,19 +130,19 @@ class _SelectAddressState extends State<SelectAddress> {
                             borderSide: BorderSide.none,
                           ),
                           contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
-                        textEditingController: dashboardProvider.addressSearchController,
+                        textEditingController:
+                            dashboardProvider.addressSearchController,
                         googleAPIKey: UrlConstant.googleApiKey,
                         debounceTime: 400,
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
                           prefModel.selectedAddress = AddressArray(
-                            lat: double.parse(prediction.lat!),
-                            lng: double.parse(prediction.lng!),
-                            completeAddress: prediction.description
-                          );
+                              lat: double.parse(prediction.lat!),
+                              lng: double.parse(prediction.lng!),
+                              completeAddress: prediction.description);
                           AppPref.setPref(prefModel);
                           dashboardProvider.getHomeData();
                           Navigator.pop(context);
@@ -164,20 +166,26 @@ class _SelectAddressState extends State<SelectAddress> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        if(deliverableAddress!=null){
-                          if (deliverableAddress.result!.contains(prefModel.userData!.addressArray![index].id)) {
-                            prefModel.selectedAddress = prefModel.userData!.addressArray![index];
+                        if (deliverableAddress != null) {
+                          if (deliverableAddress.result!.contains(
+                              prefModel.userData!.addressArray![index].id)) {
+                            prefModel.selectedAddress =
+                                prefModel.userData!.addressArray![index];
                             AppPref.setPref(prefModel);
-                            showSuccessToast(context, "Address selected successfully");
+                            showSuccessToast(
+                                context, "Address selected successfully");
                             dashboardProvider.getHomeData();
                             Navigator.pop(context);
                           } else {
-                            showErrorToast(context, "This address is not eligible for delivery for this store");
+                            showErrorToast(context,
+                                "This address is not eligible for delivery for this store");
                           }
-                        }else{
-                          prefModel.selectedAddress = prefModel.userData!.addressArray![index];
+                        } else {
+                          prefModel.selectedAddress =
+                              prefModel.userData!.addressArray![index];
                           AppPref.setPref(prefModel);
-                          showSuccessToast(context, "Address selected successfully");
+                          showSuccessToast(
+                              context, "Address selected successfully");
                           dashboardProvider.getHomeData();
                           Navigator.pop(context);
                         }
@@ -198,7 +206,8 @@ class _SelectAddressState extends State<SelectAddress> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    prefModel.userData!.addressArray![index].addressType!,
+                                    prefModel.userData!.addressArray![index]
+                                        .addressType!,
                                     style: const TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 16,
@@ -207,7 +216,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: screenSize.width/1.5,
+                                    width: screenSize.width / 1.5,
                                     child: Text(
                                       '${prefModel.userData!.addressArray![index].completeAddress}',
                                       style: const TextStyle(
@@ -231,8 +240,11 @@ class _SelectAddressState extends State<SelectAddress> {
                                   //   width: 20,
                                   // ),
                                   GestureDetector(
-                                    onTap:() async {
-                                      await dashboardProvider.deleteUserAddress(prefModel.userData!.addressArray![index].id,index);
+                                    onTap: () async {
+                                      await dashboardProvider.deleteUserAddress(
+                                          prefModel.userData!
+                                              .addressArray![index].id,
+                                          index);
                                     },
                                     child: const CircleAvatar(
                                         backgroundColor: Colors.red,

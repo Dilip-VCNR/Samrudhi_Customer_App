@@ -55,11 +55,11 @@ class AuthProvider extends ChangeNotifier {
 
   BuildContext? editProfilePageContext;
 
-
   TextEditingController editFirstNameController = TextEditingController();
   TextEditingController editLastNameController = TextEditingController();
   TextEditingController editEmailController = TextEditingController();
-  TextEditingController editStoreReferralCodeController = TextEditingController();
+  TextEditingController editStoreReferralCodeController =
+      TextEditingController();
 
   Position? currentPosition;
 
@@ -71,7 +71,6 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController cityController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
   BuildContext? fillAddressBottomSheetContext;
-
 
   // add new address declarations
   final newAddressFormKey = GlobalKey<FormState>();
@@ -211,7 +210,8 @@ class AuthProvider extends ChangeNotifier {
 
   apiCallForUserDetails(String uid) async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
-    LoginResponseModel authResponse = await apiCalls.getUserDetails(uid, fcmToken!);
+    LoginResponseModel authResponse =
+        await apiCalls.getUserDetails(uid, fcmToken!);
     if (authResponse.statusCode == 200) {
       otpCode = "";
       notifyListeners();
@@ -302,15 +302,15 @@ class AuthProvider extends ChangeNotifier {
         selectedLocation!.latitude,
         selectedLocation!.longitude,
         postalCodeController.text,
-        selectedImage
-    );
-    if(registerResponse.statusCode==201){
+        selectedImage);
+    if (registerResponse.statusCode == 201) {
       prefModel.userData = registerResponse.result;
       await AppPref.setPref(prefModel);
       await clearFieldData();
       Navigator.pop(fillAddressBottomSheetContext!);
-      Navigator.pushNamedAndRemoveUntil(fillAddressBottomSheetContext!, Routes.dashboardRoute, (route) => false);
-    }else{
+      Navigator.pushNamedAndRemoveUntil(fillAddressBottomSheetContext!,
+          Routes.dashboardRoute, (route) => false);
+    } else {
       Navigator.pop(fillAddressBottomSheetContext!);
       showErrorToast(fillAddressBottomSheetContext!, registerResponse.message!);
     }
@@ -318,24 +318,34 @@ class AuthProvider extends ChangeNotifier {
 
   addNewAddress() async {
     showLoaderDialog(markLocationContext!);
-    LoginResponseModel newAddressResponse = await apiCalls.apiAddNewAddress(selectedLocation,selectedAddressType,newAddressController.text,newCityController.text,newStateController.text,newPostalCodeController.text);
-    if(newAddressResponse.statusCode==200){
+    LoginResponseModel newAddressResponse = await apiCalls.apiAddNewAddress(
+        selectedLocation,
+        selectedAddressType,
+        newAddressController.text,
+        newCityController.text,
+        newStateController.text,
+        newPostalCodeController.text);
+    if (newAddressResponse.statusCode == 200) {
       prefModel.userData = newAddressResponse.result;
       AppPref.setPref(prefModel);
       Navigator.pop(markLocationContext!);
       Navigator.pop(markLocationContext!);
       notifyListeners();
       showSuccessToast(markLocationContext!, newAddressResponse.message!);
-    }else{
+    } else {
       Navigator.pop(markLocationContext!);
       showErrorToast(markLocationContext!, newAddressResponse.message!);
     }
-
   }
 
   updateProfile() async {
     showLoaderDialog(editProfilePageContext!);
-    LoginResponseModel updateResponse = await apiCalls.updateUserDetails(editFirstNameController.text,editLastNameController.text,editEmailController.text,editStoreReferralCodeController.text,selectedImage);
+    LoginResponseModel updateResponse = await apiCalls.updateUserDetails(
+        editFirstNameController.text,
+        editLastNameController.text,
+        editEmailController.text,
+        editStoreReferralCodeController.text,
+        selectedImage);
     selectedImage = null;
     if (updateResponse.statusCode == 200) {
       otpCode = "";

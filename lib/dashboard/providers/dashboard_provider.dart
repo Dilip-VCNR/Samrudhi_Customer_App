@@ -30,7 +30,6 @@ class DashboardProvider extends ChangeNotifier {
   LocationPermission? permission;
   StoreDataModel? storeData;
 
-
   // search screen declarations
   BuildContext? searchScreenContext;
   String? searchType;
@@ -38,13 +37,13 @@ class DashboardProvider extends ChangeNotifier {
   SearchResponseModel? searchResponse;
   TextEditingController searchController = TextEditingController();
 
-
   //reviewCart screen declarations
   ReviewCartResponseModel? reviewCartResponse;
   BuildContext? reviewCartScreenContext;
   WalletResponseModel? walletData;
 
   OrderResponseModel? orderResponse;
+
   Future<Position> getCurrentLocation() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled!) {
@@ -116,18 +115,22 @@ class DashboardProvider extends ChangeNotifier {
 
   double payable = 0.0;
 
-  addUpdateProductToCart(ProductListProductDetail product, String operation, BuildContext context) async {
+  addUpdateProductToCart(ProductListProductDetail product, String operation,
+      BuildContext context) async {
     double incrementQty = 1;
-    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
-    int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
-    if(product.productUom=="KG"){
-      incrementQty=0.5;
+    var contain = prefModel.cartItems!
+        .where((element) => element.productUuid == product.productUuid);
+    int index = prefModel.cartItems!
+        .indexWhere((element) => element.productUuid == product.productUuid);
+    if (product.productUom == "KG") {
+      incrementQty = 0.5;
     }
     bool shouldClearCart = prefModel.cartItems!.isNotEmpty &&
         prefModel.cartItems![0].storeUuid != product.storeUuid;
 
     if (shouldClearCart) {
-      bool? confirmed = await showWarningDialog(context, "You already have items in your cart from other store,\nCart will be cleared if you wish to proceed !");
+      bool? confirmed = await showWarningDialog(context,
+          "You already have items in your cart from other store,\nCart will be cleared if you wish to proceed !");
       if (!confirmed!) {
         // User didn't confirm, exit the function
         return;
@@ -141,24 +144,27 @@ class DashboardProvider extends ChangeNotifier {
         product.addedCartQuantity = incrementQty;
         prefModel.cartItems!.add(product);
       } else {
-        prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + incrementQty;
+        prefModel.cartItems![index].addedCartQuantity =
+            prefModel.cartItems![index].addedCartQuantity! + incrementQty;
       }
     } else if (operation == 'remove') {
       if (prefModel.cartItems![index].addedCartQuantity! > incrementQty) {
         prefModel.cartItems![index].addedCartQuantity =
             prefModel.cartItems![index].addedCartQuantity! - incrementQty;
-      } else if (prefModel.cartItems![index].addedCartQuantity == incrementQty) {
+      } else if (prefModel.cartItems![index].addedCartQuantity ==
+          incrementQty) {
         prefModel.cartItems!.removeAt(index);
       }
     }
-    prefModel.cartStoreDeliveryType = storeData!.result!.storeDetails!.isHomeDelivery;
+    prefModel.cartStoreDeliveryType =
+        storeData!.result!.storeDetails!.isHomeDelivery;
     AppPref.setPref(prefModel);
     notifyListeners();
   }
 
   bool productExistInCart(ProductList product) {
-    var contain = prefModel.cartItems!
-        .where((element) => element.productUuid == product.productDetail!.productUuid);
+    var contain = prefModel.cartItems!.where(
+        (element) => element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return false;
     } else {
@@ -167,13 +173,13 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   getProductCountInCart(ProductList product) {
-    var contain = prefModel.cartItems!
-        .where((element) => element.productUuid == product.productDetail!.productUuid);
+    var contain = prefModel.cartItems!.where(
+        (element) => element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return 0;
     } else {
-      int index = prefModel.cartItems!
-          .indexWhere((element) => element.productUuid == product.productDetail!.productUuid);
+      int index = prefModel.cartItems!.indexWhere((element) =>
+          element.productUuid == product.productDetail!.productUuid);
       return prefModel.cartItems![index].addedCartQuantity!;
     }
   }
@@ -181,7 +187,8 @@ class DashboardProvider extends ChangeNotifier {
   getTotal() {
     payable = 0.0;
     for (ProductListProductDetail cartItem in prefModel.cartItems!) {
-      payable = payable + (cartItem.productDiscountedValue! * cartItem.addedCartQuantity!);
+      payable = payable +
+          (cartItem.productDiscountedValue! * cartItem.addedCartQuantity!);
     }
     return payable.toString();
   }
@@ -203,13 +210,15 @@ class DashboardProvider extends ChangeNotifier {
 
   getSearchResults() async {
     if (prefModel.selectedAddress != null) {
-      searchResponse = await apiCalls.searchStore(searchType, searchKeyWord,prefModel.selectedAddress!.lat,prefModel.selectedAddress!.lng);
-    }else{
-      searchResponse = await apiCalls.searchStore(searchType, searchKeyWord,currentPosition!.latitude,currentPosition!.longitude);
+      searchResponse = await apiCalls.searchStore(searchType, searchKeyWord,
+          prefModel.selectedAddress!.lat, prefModel.selectedAddress!.lng);
+    } else {
+      searchResponse = await apiCalls.searchStore(searchType, searchKeyWord,
+          currentPosition!.latitude, currentPosition!.longitude);
     }
-    if(searchResponse!.statusCode==200){
+    if (searchResponse!.statusCode == 200) {
       notifyListeners();
-    }else{
+    } else {
       showErrorToast(searchScreenContext!, searchResponse!.message!);
     }
     notifyListeners();
@@ -220,10 +229,10 @@ class DashboardProvider extends ChangeNotifier {
     print("case1");
     walletData = await apiCalls.getWalletData();
     print("case2");
-    if(reviewCartResponse!.statusCode==200){
+    if (reviewCartResponse!.statusCode == 200) {
       notifyListeners();
       print("case3");
-    }else{
+    } else {
       print("case4");
       showErrorToast(reviewCartScreenContext!, reviewCartResponse!.message!);
       notifyListeners();
@@ -248,26 +257,49 @@ class DashboardProvider extends ChangeNotifier {
 
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);
-    orderResponse = await apiCalls.placeOrder(reviewCartResponse!.result!,selectedValue);
-    if(orderResponse!.statusCode==200){
+    print("caca");
+    orderResponse =
+        await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue);
+    if (orderResponse!.statusCode == 200) {
       prefModel.cartItems!.clear();
       AppPref.setPref(prefModel);
       notifyListeners();
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);
-      Navigator.pushReplacementNamed(reviewCartScreenContext!, Routes.orderDetailsRoute,arguments: {'order':orderResponse!.result!.docs,'message':orderResponse!.result!.message});
-    }else{
+      Navigator.pushReplacementNamed(
+          reviewCartScreenContext!, Routes.orderDetailsRoute, arguments: {
+        'order': orderResponse!.result!.docs,
+        'message': orderResponse!.result!.message
+      });
+    } else {
       Navigator.pop(reviewCartScreenContext!);
       showErrorToast(reviewCartScreenContext!, orderResponse!.message!);
     }
   }
 
-  applyWalletPoints() {}
+  applyWalletPoints() async {
+    reviewCartResponse!.result!.calculation!.add(Calculation(
+        name: 'redeemPoints',
+        value: walletData!.result!.totalAvailableRedeemPoints.toString()));
+    reviewCartResponse!.result!.calculation!.add(Calculation(
+        name: 'redeemPointValue',
+        value: walletData!.result!.totalAvailableRedeemPointsValue.toString()));
+    var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
+        .firstWhere((element) => element.name == 'orderGrandTotal');
+    orderGrandTotalElement
+        .value = (double.parse(orderGrandTotalElement.value!) -
+            double.parse(
+                walletData!.result!.totalAvailableRedeemPointsValue.toString()))
+        .toString();
+    notifyListeners();
+  }
 
   getDeliverableAddress() async {
     showLoaderDialog(reviewCartScreenContext!);
-    DeliverableAddressModel deliverableAddressResponse  = await apiCalls.getDeliverableAddress(storeData!.result!.storeDetails!.storeUuid);
+    DeliverableAddressModel deliverableAddressResponse = await apiCalls
+        .getDeliverableAddress(storeData!.result!.storeDetails!.storeUuid);
     Navigator.pop(reviewCartScreenContext!);
-    Navigator.pushNamed(reviewCartScreenContext!, Routes.selectAddressRoute,arguments: {'deliverableAddress':deliverableAddressResponse});
+    Navigator.pushNamed(reviewCartScreenContext!, Routes.selectAddressRoute,
+        arguments: {'deliverableAddress': deliverableAddressResponse});
   }
 }

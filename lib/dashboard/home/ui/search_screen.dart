@@ -23,7 +23,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
-        if (firstTimeLoading != true && dashboardProvider.searchKeyWord!=null && dashboardProvider.searchKeyWord!='') {
+        if (firstTimeLoading != true &&
+            dashboardProvider.searchKeyWord != null &&
+            dashboardProvider.searchKeyWord != '') {
           dashboardProvider.searchScreenContext = context;
           dashboardProvider.getSearchResults();
           firstTimeLoading = true;
@@ -79,7 +81,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: 20,
                   ),
                   if (dashboardProvider.searchKeyWord != null &&
-                      dashboardProvider.searchKeyWord != "" && dashboardProvider.searchResponse != null)
+                      dashboardProvider.searchKeyWord != "" &&
+                      dashboardProvider.searchResponse != null)
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,12 +97,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         ListView.builder(
                             shrinkWrap: true,
-                            itemCount: dashboardProvider.searchResponse!.result!.length,
+                            itemCount: dashboardProvider
+                                .searchResponse!.result!.length,
                             scrollDirection: Axis.vertical,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => GestureDetector(
                                   onTap: () {
-                                    dashboardProvider.getIntoStore(dashboardProvider.searchResponse!.result![index]);
+                                    dashboardProvider.getIntoStore(
+                                        dashboardProvider
+                                            .searchResponse!.result![index]);
                                     // Navigator.pushNamed(
                                     //     context, Routes.storeInRoute);
                                   },
@@ -146,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                             Text(
+                                            Text(
                                               '${dashboardProvider.searchResponse!.result![index].displayName}',
                                               style: const TextStyle(
                                                 color: Colors.black,
@@ -186,7 +192,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                             SizedBox(
                                               width: 212,
                                               child: Text(
-                                                dashboardProvider.searchResponse!.result![index].isHomeDelivery!?'Home delivery':'Self pickup',
+                                                dashboardProvider
+                                                        .searchResponse!
+                                                        .result![index]
+                                                        .isHomeDelivery!
+                                                    ? 'Home delivery'
+                                                    : 'Self pickup',
                                                 style: const TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 10,

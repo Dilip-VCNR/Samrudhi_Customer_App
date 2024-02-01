@@ -58,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, Routes.placeOrderRoute);
+                                Navigator.pushNamed(
+                                    context, Routes.placeOrderRoute);
                               },
                               icon: const Icon(Icons.shopping_cart_outlined),
                             ),
@@ -89,7 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         IconButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, Routes.notificationsRoute);
+                            Navigator.pushNamed(
+                                context, Routes.notificationsRoute);
                           },
                           icon: const Icon(Icons.notifications_none_outlined),
                         ),
@@ -123,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderSide: BorderSide.none,
                         ),
                         contentPadding:
-                        const EdgeInsets.symmetric(vertical: 16.0),
+                            const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                       textAlignVertical: TextAlignVertical.center,
                     ),
@@ -146,7 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: GestureDetector(
@@ -365,7 +366,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         GridView.builder(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          itemCount: dashboardProvider.homeData!.result!.productCategories!.length,
+                          itemCount: dashboardProvider
+                              .homeData!.result!.productCategories!.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
@@ -386,7 +388,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context, Routes.searchScreenRoute);
                               },
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -403,12 +406,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         shape: const OvalBorder(),
                                       ),
                                     ),
-                                    const SizedBox(height: 5,),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
                                     Text(
                                       '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}',
                                       textAlign: TextAlign.center,
-                                      maxLines: 2, // Set maximum number of lines
-                                      overflow: TextOverflow.ellipsis, // Define overflow behavior
+                                      maxLines: 2,
+                                      // Set maximum number of lines
+                                      overflow: TextOverflow.ellipsis,
+                                      // Define overflow behavior
                                       style: const TextStyle(
                                         color: AppColors.fontColor,
                                         fontSize: 10,
@@ -503,56 +510,83 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: [
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
-                                    nearbyStoreFilter=1;
+                                    nearbyStoreFilter = 1;
                                   });
                                 },
                                 child: Container(
-                                  margin:const EdgeInsets.only(right: 20),
+                                  margin: const EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
-                                    color: nearbyStoreFilter==1?AppColors.secondaryColor:Colors.grey,
-                                    borderRadius: const BorderRadius.all(Radius.circular(8))
-                                  ),
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+                                      color: nearbyStoreFilter == 1
+                                          ? AppColors.secondaryColor
+                                          : Colors.grey,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8))),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
                                   child: const Center(
-                                    child: Text("All",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                                    child: Text(
+                                      "All",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
-                                    nearbyStoreFilter=2;
+                                    nearbyStoreFilter = 2;
                                   });
                                 },
                                 child: Container(
-                                  margin:const EdgeInsets.only(right: 20),
-                                  decoration:BoxDecoration(
-                                      color: nearbyStoreFilter==2?AppColors.secondaryColor:Colors.grey,
-                                      borderRadius: const BorderRadius.all(Radius.circular(8))
-                                  ),
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+                                  margin: const EdgeInsets.only(right: 20),
+                                  decoration: BoxDecoration(
+                                      color: nearbyStoreFilter == 2
+                                          ? AppColors.secondaryColor
+                                          : Colors.grey,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8))),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
                                   child: const Center(
-                                    child: Text("Delivery",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                                    child: Text(
+                                      "Delivery",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   setState(() {
-                                    nearbyStoreFilter=3;
+                                    nearbyStoreFilter = 3;
                                   });
                                 },
                                 child: Container(
-                                  margin:const EdgeInsets.only(right: 20),
-                                  decoration:BoxDecoration(
-                                      color: nearbyStoreFilter==3?AppColors.secondaryColor:Colors.grey,
-                                      borderRadius: const BorderRadius.all(Radius.circular(8))
-                                  ),
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+                                  margin: const EdgeInsets.only(right: 20),
+                                  decoration: BoxDecoration(
+                                      color: nearbyStoreFilter == 3
+                                          ? AppColors.secondaryColor
+                                          : Colors.grey,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8))),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
                                   child: const Center(
-                                    child: Text("Self pickup",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                                    child: Text(
+                                      "Self pickup",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -565,172 +599,197 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: ListView.separated(
-                              shrinkWrap: true,
-                            itemCount: nearbyStoreFilter==2?dashboardProvider.homeData!.result!.nearStoresdata!.where((store) => store.isHomeDelivery!).length:nearbyStoreFilter==1?dashboardProvider.homeData!.result!.nearStoresdata!.length:nearbyStoreFilter==3?dashboardProvider.homeData!.result!.nearStoresdata!.where((store) => !store.isHomeDelivery!).length:0,
-                              scrollDirection: Axis.vertical,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                MyStore? store;
-                                if(nearbyStoreFilter==1){
-                                  store = dashboardProvider.homeData!.result!.nearStoresdata![index];
-                                }else if(nearbyStoreFilter==2){
-                                  store = dashboardProvider.homeData!.result!.nearStoresdata!.where((store) => store.isHomeDelivery!).toList()[index];
-                                }else if(nearbyStoreFilter==3){
-                                  store = dashboardProvider.homeData!.result!.nearStoresdata!.where((store) => !store.isHomeDelivery!).toList()[index];
-                                }
-                                return GestureDetector(
-                                    onTap: () {
-                                      dashboardProvider.getIntoStore(store!);
-                                    },
-                                    child: Container(
-                                      // margin: const EdgeInsets.only(
-                                      //     bottom: 10),
-                                      width: screenSize.width,
-                                      decoration: ShapeDecoration(
-                                        color: AppColors.storeBackground,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.52),
+                            shrinkWrap: true,
+                            itemCount: nearbyStoreFilter == 2
+                                ? dashboardProvider
+                                    .homeData!.result!.nearStoresdata!
+                                    .where((store) => store.isHomeDelivery!)
+                                    .length
+                                : nearbyStoreFilter == 1
+                                    ? dashboardProvider.homeData!.result!
+                                        .nearStoresdata!.length
+                                    : nearbyStoreFilter == 3
+                                        ? dashboardProvider
+                                            .homeData!.result!.nearStoresdata!
+                                            .where((store) =>
+                                                !store.isHomeDelivery!)
+                                            .length
+                                        : 0,
+                            scrollDirection: Axis.vertical,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              MyStore? store;
+                              if (nearbyStoreFilter == 1) {
+                                store = dashboardProvider
+                                    .homeData!.result!.nearStoresdata![index];
+                              } else if (nearbyStoreFilter == 2) {
+                                store = dashboardProvider
+                                    .homeData!.result!.nearStoresdata!
+                                    .where((store) => store.isHomeDelivery!)
+                                    .toList()[index];
+                              } else if (nearbyStoreFilter == 3) {
+                                store = dashboardProvider
+                                    .homeData!.result!.nearStoresdata!
+                                    .where((store) => !store.isHomeDelivery!)
+                                    .toList()[index];
+                              }
+                              return GestureDetector(
+                                onTap: () {
+                                  dashboardProvider.getIntoStore(store!);
+                                },
+                                child: Container(
+                                  // margin: const EdgeInsets.only(
+                                  //     bottom: 10),
+                                  width: screenSize.width,
+                                  decoration: ShapeDecoration(
+                                    color: AppColors.storeBackground,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(15.52),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 125,
+                                        height: 130,
+                                        decoration: ShapeDecoration(
+                                          image: DecorationImage(
+                                            image: store!
+                                                    .storeImgArray!.isNotEmpty
+                                                ? NetworkImage(
+                                                    "${UrlConstant.imageBaseUrl}${store.storeImgArray![0].imageUrl}")
+                                                : const NetworkImage(
+                                                    "https://via.placeholder.com/110x125"),
+                                            fit: BoxFit.fill,
+                                          ),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(15.50),
+                                              bottomLeft:
+                                                  Radius.circular(15.50),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                      child: Row(
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            width: 125,
-                                            height: 130,
-                                            decoration: ShapeDecoration(
-                                              image: DecorationImage(
-                                                image: store!
-                                                        .storeImgArray!
-                                                        .isNotEmpty
-                                                    ? NetworkImage(
-                                                        "${UrlConstant.imageBaseUrl}${store.storeImgArray![0].imageUrl}")
-                                                    : const NetworkImage(
-                                                        "https://via.placeholder.com/110x125"),
-                                                fit: BoxFit.fill,
-                                              ),
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                      Radius.circular(15.50),
-                                                  bottomLeft:
-                                                      Radius.circular(15.50),
-                                                ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            '${store.displayName}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.55,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.25,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 212,
+                                            child: Text(
+                                              '${store.storeCategoryName}',
+                                              style: const TextStyle(
+                                                color: AppColors.fontColor,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w500,
                                               ),
                                             ),
                                           ),
                                           const SizedBox(
-                                            width: 10,
+                                            height: 3,
                                           ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const SizedBox(
-                                                height: 5,
+                                          SizedBox(
+                                            child: Text(
+                                              store.isHomeDelivery!
+                                                  ? 'Home Delivery'
+                                                  : 'Self pickup',
+                                              style: const TextStyle(
+                                                color: AppColors.fontColor,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              Text(
-                                                '${store.displayName}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16.55,
-                                                  fontWeight: FontWeight.bold,
-                                                  height: 1.25,
-                                                ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          SizedBox(
+                                            width: 212,
+                                            child: Text(
+                                              '${store.addressArray!.completeAddress}',
+                                              style: const TextStyle(
+                                                color: AppColors.fontColor,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w500,
                                               ),
-                                              SizedBox(
-                                                width: 212,
-                                                child: Text(
-                                                  '${store.storeCategoryName}',
-                                                  style: const TextStyle(
-                                                    color: AppColors.fontColor,
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              SizedBox(
-                                                child: Text(
-                                                  store.isHomeDelivery!?'Home Delivery':'Self pickup',
-                                                  style: const TextStyle(
-                                                    color: AppColors.fontColor,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              SizedBox(
-                                                width: 212,
-                                                child: Text(
-                                                  '${store.addressArray!.completeAddress}',
-                                                  style: const TextStyle(
-                                                    color: AppColors.fontColor,
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              // Container(
-                                              //   padding:
-                                              //       const EdgeInsets.symmetric(
-                                              //           horizontal: 16,
-                                              //           vertical: 4),
-                                              //   decoration: ShapeDecoration(
-                                              //     color: Colors.white,
-                                              //     shape: RoundedRectangleBorder(
-                                              //       borderRadius:
-                                              //           BorderRadius.circular(
-                                              //               31.03),
-                                              //     ),
-                                              //   ),
-                                              //   child: const Row(
-                                              //     mainAxisSize:
-                                              //         MainAxisSize.min,
-                                              //     mainAxisAlignment:
-                                              //         MainAxisAlignment.center,
-                                              //     crossAxisAlignment:
-                                              //         CrossAxisAlignment.center,
-                                              //     children: [
-                                              //       Text(
-                                              //         'Browse ',
-                                              //         style: TextStyle(
-                                              //           color: Colors.black,
-                                              //           fontSize: 12.41,
-                                              //           fontWeight:
-                                              //               FontWeight.w400,
-                                              //           height: 1.33,
-                                              //         ),
-                                              //       ),
-                                              //       SizedBox(width: 4.14),
-                                              //       Icon(Icons
-                                              //           .navigate_next_sharp)
-                                              //     ],
-                                              //   ),
-                                              // ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                            ],
-                                          )
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          // Container(
+                                          //   padding:
+                                          //       const EdgeInsets.symmetric(
+                                          //           horizontal: 16,
+                                          //           vertical: 4),
+                                          //   decoration: ShapeDecoration(
+                                          //     color: Colors.white,
+                                          //     shape: RoundedRectangleBorder(
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(
+                                          //               31.03),
+                                          //     ),
+                                          //   ),
+                                          //   child: const Row(
+                                          //     mainAxisSize:
+                                          //         MainAxisSize.min,
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.center,
+                                          //     crossAxisAlignment:
+                                          //         CrossAxisAlignment.center,
+                                          //     children: [
+                                          //       Text(
+                                          //         'Browse ',
+                                          //         style: TextStyle(
+                                          //           color: Colors.black,
+                                          //           fontSize: 12.41,
+                                          //           fontWeight:
+                                          //               FontWeight.w400,
+                                          //           height: 1.33,
+                                          //         ),
+                                          //       ),
+                                          //       SizedBox(width: 4.14),
+                                          //       Icon(Icons
+                                          //           .navigate_next_sharp)
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
                                         ],
-                                      ),
-                                    ),
-                                  );
-                              }, separatorBuilder: (BuildContext context, int index) {
-                                return const SizedBox(height: 10,);
-                          },),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 10,
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),

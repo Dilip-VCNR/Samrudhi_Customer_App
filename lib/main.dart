@@ -59,9 +59,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Samruddhi',
         theme: ThemeData(
-          appBarTheme: AppBarTheme(
-            scrolledUnderElevation: 0
-          ),
+          appBarTheme: AppBarTheme(scrolledUnderElevation: 0),
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           primaryColor: AppColors.primaryColor,
           useMaterial3: true,
@@ -76,7 +74,8 @@ class MyApp extends StatelessWidget {
           Routes.editProfileRoute: (context) => const EditProfile(),
           Routes.dashboardRoute: (context) => const DashboardScreen(),
           Routes.orderDetailsRoute: (context) => const OrderDetails(),
-          Routes.redeemPointsOperatorRoute: (context) => const RedeemPointsOperator(),
+          Routes.redeemPointsOperatorRoute: (context) =>
+              const RedeemPointsOperator(),
           Routes.notificationsRoute: (context) => const NotificationsScreen(),
           Routes.searchScreenRoute: (context) => const SearchScreen(),
           Routes.storeInRoute: (context) => const StoreScreen(),

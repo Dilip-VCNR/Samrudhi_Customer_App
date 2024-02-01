@@ -18,8 +18,8 @@ class OrdersProvider extends ChangeNotifier {
 
     if (allOrdersResponse!.statusCode == 200) {
       for (int i = 0;
-      i < allOrdersResponse!.result![0].orderList!.length;
-      i++) {
+          i < allOrdersResponse!.result![0].orderList!.length;
+          i++) {
         if (allOrdersResponse!.result![0].orderList![i].orderStatus !=
             'delivered') {
           ongoingOrders.add(allOrdersResponse!.result![0].orderList![i]);

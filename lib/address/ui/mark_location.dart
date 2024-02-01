@@ -32,12 +32,11 @@ class _MarkLocationState extends State<MarkLocation> {
 
   @override
   Widget build(BuildContext context) {
-
-
     var screenSize = MediaQuery.of(context).size;
 
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
             target: LatLng(authProvider.currentPosition!.latitude,
                 authProvider.currentPosition!.longitude),
@@ -63,8 +62,8 @@ class _MarkLocationState extends State<MarkLocation> {
                   mapController?.animateCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
-                          target: LatLng(
-                              authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
+                          target: LatLng(authProvider.currentPosition!.latitude,
+                              authProvider.currentPosition!.longitude),
                           zoom: 17.0),
                     ),
                   );
@@ -84,8 +83,8 @@ class _MarkLocationState extends State<MarkLocation> {
                 myLocationButtonEnabled: true,
                 zoomGesturesEnabled: true,
                 initialCameraPosition: CameraPosition(
-                  target:
-                  LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
+                  target: LatLng(authProvider.currentPosition!.latitude,
+                      authProvider.currentPosition!.longitude),
                   zoom: 14.0,
                 ),
                 mapType: MapType.normal,
@@ -125,7 +124,7 @@ class _MarkLocationState extends State<MarkLocation> {
                             borderSide: BorderSide.none,
                           ),
                           contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textEditingController: searchController,
                         googleAPIKey: UrlConstant.googleApiKey,
@@ -135,7 +134,8 @@ class _MarkLocationState extends State<MarkLocation> {
                         getPlaceDetailWithLatLng: (prediction) async {
                           FocusScope.of(context).unfocus();
                           setState(() {
-                            location = prediction.description ?? "Search location";
+                            location =
+                                prediction.description ?? "Search location";
                           });
                           var newLatLng = LatLng(double.parse(prediction.lat!),
                               double.parse(prediction.lng!));
@@ -148,20 +148,21 @@ class _MarkLocationState extends State<MarkLocation> {
                         },
                         itmClick: (prediction) async {
                           searchController.text = prediction.description!;
-                          searchController.selection = TextSelection.fromPosition(
-                              TextPosition(offset: prediction.description!.length));
+                          searchController.selection =
+                              TextSelection.fromPosition(TextPosition(
+                                  offset: prediction.description!.length));
                         }),
                   ))
             ],
           ),
-          bottomNavigationBar: _buildMapConfirmationBar(screenSize,authProvider),
+          bottomNavigationBar:
+              _buildMapConfirmationBar(screenSize, authProvider),
         );
       },
     );
   }
 
-  Widget _buildMapConfirmationBar(
-      Size screenSize, AuthProvider authProvider) {
+  Widget _buildMapConfirmationBar(Size screenSize, AuthProvider authProvider) {
     return ValueListenableBuilder<CameraPosition>(
       valueListenable: cameraPositionNotifier!,
       builder: (context, cameraPosition, _) {
@@ -276,9 +277,12 @@ class _MarkLocationState extends State<MarkLocation> {
       AuthProvider authProvider) {
     authProvider.markLocationContext = context;
     authProvider.selectedLocation = target;
-    authProvider.newPostalCodeController.text = locationData['postalCode'].toString();
-    authProvider.newStateController.text = locationData['administrativeArea'].toString();
-    authProvider.newCityController.text = locationData['subAdministrativeArea'].toString();
+    authProvider.newPostalCodeController.text =
+        locationData['postalCode'].toString();
+    authProvider.newStateController.text =
+        locationData['administrativeArea'].toString();
+    authProvider.newCityController.text =
+        locationData['subAdministrativeArea'].toString();
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.white,
@@ -324,16 +328,20 @@ class _MarkLocationState extends State<MarkLocation> {
                     ),
                     Row(
                       children: [
-                        for (int i = 0; i < authProvider.addressType.length; i++)
+                        for (int i = 0;
+                            i < authProvider.addressType.length;
+                            i++)
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                authProvider.selectedAddressType = authProvider.addressType[i];
+                                authProvider.selectedAddressType =
+                                    authProvider.addressType[i];
                               });
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: authProvider.addressType[i] == authProvider.selectedAddressType
+                                  color: authProvider.addressType[i] ==
+                                          authProvider.selectedAddressType
                                       ? AppColors.secondaryColor
                                       : Colors.grey,
                                   borderRadius: const BorderRadius.all(
@@ -467,7 +475,8 @@ class _MarkLocationState extends State<MarkLocation> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (authProvider.newAddressFormKey.currentState!.validate()) {
+                        if (authProvider.newAddressFormKey.currentState!
+                            .validate()) {
                           await authProvider.addNewAddress();
                         }
                         return;

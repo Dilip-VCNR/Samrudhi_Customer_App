@@ -156,7 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: AppColors.secondaryColor),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
-                                        color: AppColors.secondaryColor, width: 2),
+                                        color: AppColors.secondaryColor,
+                                        width: 2),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   border: OutlineInputBorder(
@@ -235,7 +236,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       InkWell(
                         onTap: () async {
-                          if (authProvider.loginFormKey.currentState!.validate()) {
+                          if (authProvider.loginFormKey.currentState!
+                              .validate()) {
                             await authProvider.loginWithPhoneNumber();
                           }
                         },

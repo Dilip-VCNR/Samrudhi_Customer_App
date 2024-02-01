@@ -134,8 +134,13 @@ class ApiCalls {
     return StoreDataModel.fromJson(json.decode(response.body));
   }
 
-  Future<LoginResponseModel>apiAddNewAddress(LatLng? selectedLocation, String selectedAddressType,
-      String completeAddress, String city, String state, String postalCode) async {
+  Future<LoginResponseModel> apiAddNewAddress(
+      LatLng? selectedLocation,
+      String selectedAddressType,
+      String completeAddress,
+      String city,
+      String state,
+      String postalCode) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.addNewAddress,
@@ -150,8 +155,8 @@ class ApiCalls {
               "lat": selectedLocation!.latitude,
               "lng": selectedLocation.longitude,
               "zipCode": postalCode
-            }]
-
+            }
+          ]
         }));
     return LoginResponseModel.fromJson(json.decode(response.body));
   }
@@ -167,82 +172,102 @@ class ApiCalls {
     return DeleteAddressResponseModel.fromJson(json.decode(response.body));
   }
 
-  Future<SearchResponseModel> searchStore(String? searchType ,String? searchKeyword, double? lat, double? lng) async {
+  Future<SearchResponseModel> searchStore(String? searchType,
+      String? searchKeyword, double? lat, double? lng) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.searchApiUrl,
         jsonEncode({
-          "searchType":searchType,
-          "searchKeyWord":searchKeyword,
-          "lat":lat,
-          "lng":lng
+          "searchType": searchType,
+          "searchKeyWord": searchKeyword,
+          "lat": lat,
+          "lng": lng
         }));
     return SearchResponseModel.fromJson(json.decode(response.body));
   }
 
-  Future<ReviewCartResponseModel>reviewCart() async {
+  Future<ReviewCartResponseModel> reviewCart() async {
     http.Response response = await hitApi(
         true,
         UrlConstant.reviewCart,
         jsonEncode({
-          "customerUuid":prefModel.userData!.customerUuid,
-          "storeUuid":prefModel.cartItems!.isNotEmpty?prefModel.cartItems![0].storeUuid:null,
-          "productDetails":prefModel.cartItems,
+          "customerUuid": prefModel.userData!.customerUuid,
+          "storeUuid": prefModel.cartItems!.isNotEmpty
+              ? prefModel.cartItems![0].storeUuid
+              : null,
+          "productDetails": prefModel.cartItems,
         }));
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 
-  Future<OrderResponseModel>placeOrder(ReviewCartResult result, int selectedValue) async {
+  Future<OrderResponseModel> placeOrder(
+      ReviewCartResult result, int selectedValue) async {
     Map req = result.toJson();
     Calculation total = result.calculation!.firstWhere((element) {
-      return element.name=='orderGrandTotal';
+      return element.name == 'orderGrandTotal';
     });
 
     Calculation discount = result.calculation!.firstWhere((element) {
-      return element.name=='OverAlldiscountAmount';
+      return element.name == 'OverAlldiscountAmount';
     });
+    Calculation? redeemPoints;
+    Calculation? redeemPointsValue;
+    print("case1");
+    try {
+      redeemPoints = result.calculation!.firstWhere((element) {
+        return element.name == 'redeemPoints';
+      });
+      redeemPointsValue = result.calculation!.firstWhere((element) {
+        return element.name == 'redeemPointValue';
+      });
+    } catch (e) {
+      print(e);
+    }
 
+    print("case2");
     req['orderGrandTotal'] = total.value;
     req['OverAlldiscountAmount'] = discount.value;
-    
+    print(redeemPoints);
+    print(redeemPointsValue.runtimeType);
+    if (redeemPoints != null) {
+      req['redeemPoints'] = redeemPoints.value;
+      req['redeemPointsValue'] = redeemPointsValue!.value;
+    }
+
     req['storeUuid'] = result.productDetails![0].storeUuid;
     req['customerUuid'] = prefModel.userData!.customerUuid;
-    req['deliveryAddress'] = prefModel.selectedAddress!.toJson();
-    req['orderDeliveryType'] = selectedValue==1?"homeDelivery":"selfPickUp";
-    http.Response response = await hitApi(
-        true,
-        UrlConstant.placeOrder,
-        jsonEncode(req));
-    log(jsonEncode(req));
+    if (prefModel.selectedAddress != null) {
+      req['deliveryAddress'] = prefModel.selectedAddress!.toJson();
+    }
+    req['orderDeliveryType'] =
+        selectedValue == 1 ? "homeDelivery" : "selfPickUp";
+    http.Response response =
+        await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
+    // log(jsonEncode(req));
+    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
-
   }
 
   Future<WalletResponseModel> getWalletData() async {
-    http.Response response = await hitApi(
-        true,
-        UrlConstant.getWallet,
-        jsonEncode({
-          'customerUuid':prefModel.userData!.customerUuid
-        }));
+    http.Response response = await hitApi(true, UrlConstant.getWallet,
+        jsonEncode({'customerUuid': prefModel.userData!.customerUuid}));
     return WalletResponseModel.fromJson(json.decode(response.body));
-
   }
 
-  Future<AllOrdersResponseModel>getAllOrders() async {
+  Future<AllOrdersResponseModel> getAllOrders() async {
     http.Response response = await hitApi(
         true,
         UrlConstant.getOrders,
         jsonEncode({
-          'customerUuid':prefModel.userData!.customerUuid,
+          'customerUuid': prefModel.userData!.customerUuid,
         }));
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 
-  updateUserDetails(String fName, String lName, String email, String storeReferralCode, File? selectedImage) async {
-
+  updateUserDetails(String fName, String lName, String email,
+      String storeReferralCode, File? selectedImage) async {
     var request =
-    http.MultipartRequest('POST', Uri.parse(UrlConstant.updateUser));
+        http.MultipartRequest('POST', Uri.parse(UrlConstant.updateUser));
     // Add form fields
     request.fields['firstName'] = fName;
     request.fields['lastName'] = lName;
@@ -274,8 +299,8 @@ class ApiCalls {
         true,
         UrlConstant.getDeliverableAddress,
         jsonEncode({
-          'customerUuid':prefModel.userData!.customerUuid,
-          'storeUuid':storeUuid
+          'customerUuid': prefModel.userData!.customerUuid,
+          'storeUuid': storeUuid
         }));
     return DeliverableAddressModel.fromJson(json.decode(response.body));
   }

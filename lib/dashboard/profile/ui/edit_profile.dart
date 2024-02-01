@@ -14,26 +14,28 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-
   final editFormKey = GlobalKey<FormState>();
   bool isFirstTimeLoading = true;
 
-
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    // Size screenSize = MediaQuery.of(context).size;
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.editProfilePageContext = context;
-        if(isFirstTimeLoading){
-          authProvider.editFirstNameController.text = prefModel.userData!.firstName!;
-          authProvider.editLastNameController.text = prefModel.userData!.lastName!;
+        if (isFirstTimeLoading) {
+          authProvider.editFirstNameController.text =
+              prefModel.userData!.firstName!;
+          authProvider.editLastNameController.text =
+              prefModel.userData!.lastName!;
           authProvider.editEmailController.text = prefModel.userData!.emailId!;
-          authProvider.editStoreReferralCodeController.text = prefModel.userData!.storeReferralCode??'';
+          authProvider.editStoreReferralCodeController.text =
+              prefModel.userData!.storeReferralCode ?? '';
           isFirstTimeLoading = false;
         }
         return GestureDetector(
-          onTap: (){
+          onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: Scaffold(
@@ -49,28 +51,32 @@ class _EditProfileState extends State<EditProfile> {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
                 child: Form(
                   key: editFormKey,
                   child: Column(
                     children: [
-
                       GestureDetector(
                         onTap: authProvider.getImageFromGallery,
                         child: Stack(
                           children: [
-                            authProvider.selectedImage!=null?CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: authProvider.selectedImage != null
-                                  ? FileImage(authProvider.selectedImage!)
-                                  : null,
-                            ):CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.grey,
-                              backgroundImage:
-                              NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0]['imageURL']}'),
-                            ),
+                            authProvider.selectedImage != null
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage: authProvider
+                                                .selectedImage !=
+                                            null
+                                        ? FileImage(authProvider.selectedImage!)
+                                        : null,
+                                  )
+                                : CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.grey,
+                                    backgroundImage: NetworkImage(
+                                        '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0]['imageURL']}'),
+                                  ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -81,7 +87,8 @@ class _EditProfileState extends State<EditProfile> {
                                     radius: 15,
                                     backgroundColor: Colors.grey.shade400,
                                     child: IconButton(
-                                        onPressed: authProvider.getImageFromGallery,
+                                        onPressed:
+                                            authProvider.getImageFromGallery,
                                         icon: const Icon(
                                           Icons.file_upload_outlined,
                                           size: 15,
@@ -116,7 +123,8 @@ class _EditProfileState extends State<EditProfile> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -146,7 +154,8 @@ class _EditProfileState extends State<EditProfile> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -175,7 +184,8 @@ class _EditProfileState extends State<EditProfile> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -183,7 +193,8 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
-                        controller: authProvider.editStoreReferralCodeController,
+                        controller:
+                            authProvider.editStoreReferralCodeController,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.store),
                           hintText: 'Store referral code (Optional)',
@@ -197,7 +208,8 @@ class _EditProfileState extends State<EditProfile> {
                             // Set the border radius
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -286,7 +298,8 @@ class _EditProfileState extends State<EditProfile> {
                             children: [
                               Text(
                                 'Continue',
-                                style: TextStyle(color: Colors.white, fontSize: 17),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 17),
                               ),
                             ],
                           ),

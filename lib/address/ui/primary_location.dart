@@ -38,7 +38,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
     var screenSize = MediaQuery.of(context).size;
 
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
             target: LatLng(authProvider.currentPosition!.latitude,
                 authProvider.currentPosition!.longitude),
@@ -68,7 +69,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     mapController?.animateCamera(
                       CameraUpdate.newCameraPosition(
                         CameraPosition(
-                            target: LatLng(authProvider.currentPosition!.latitude,
+                            target: LatLng(
+                                authProvider.currentPosition!.latitude,
                                 authProvider.currentPosition!.longitude),
                             zoom: 17.0),
                       ),
@@ -89,8 +91,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                   myLocationButtonEnabled: true,
                   zoomGesturesEnabled: true,
                   initialCameraPosition: CameraPosition(
-                    target:
-                    LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
+                    target: LatLng(authProvider.currentPosition!.latitude,
+                        authProvider.currentPosition!.longitude),
                     zoom: 17.0,
                   ),
                   mapType: MapType.normal,
@@ -130,7 +132,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                               borderSide: BorderSide.none,
                             ),
                             contentPadding:
-                            const EdgeInsets.symmetric(vertical: 16.0),
+                                const EdgeInsets.symmetric(vertical: 16.0),
                           ),
                           textEditingController: searchController,
                           googleAPIKey: UrlConstant.googleApiKey,
@@ -143,7 +145,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                               location =
                                   prediction.description ?? "Search location";
                             });
-                            var newLatLng = LatLng(double.parse(prediction.lat!),
+                            var newLatLng = LatLng(
+                                double.parse(prediction.lat!),
                                 double.parse(prediction.lng!));
 
                             mapController?.animateCamera(
@@ -154,22 +157,22 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                           },
                           itmClick: (prediction) async {
                             searchController.text = prediction.description!;
-                            searchController.selection = TextSelection.fromPosition(
-                                TextPosition(
+                            searchController.selection =
+                                TextSelection.fromPosition(TextPosition(
                                     offset: prediction.description!.length));
                           }),
                     ))
               ],
             ),
-            bottomNavigationBar: _buildMapConfirmationBar(screenSize,authProvider),
+            bottomNavigationBar:
+                _buildMapConfirmationBar(screenSize, authProvider),
           ),
         );
       },
     );
   }
 
-  Widget _buildMapConfirmationBar(
-      Size screenSize, AuthProvider authProvider) {
+  Widget _buildMapConfirmationBar(Size screenSize, AuthProvider authProvider) {
     return ValueListenableBuilder<CameraPosition>(
       valueListenable: cameraPositionNotifier!,
       builder: (context, cameraPosition, _) {
@@ -233,7 +236,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                       InkWell(
                         onTap: () {
                           showInputCompleteAddressModal(context, snapshot.data!,
-                              cameraPosition.target,authProvider);
+                              cameraPosition.target, authProvider);
                         },
                         child: Container(
                           width: double.infinity,
@@ -280,11 +283,15 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
   showInputCompleteAddressModal(
       BuildContext context,
       Map<String, dynamic> locationData,
-      LatLng target, AuthProvider authProvider) {
+      LatLng target,
+      AuthProvider authProvider) {
     authProvider.selectedLocation = target;
-    authProvider.postalCodeController.text = locationData['postalCode'].toString();
-    authProvider.stateController.text = locationData['administrativeArea'].toString();
-    authProvider.cityController.text = locationData['subAdministrativeArea'].toString();
+    authProvider.postalCodeController.text =
+        locationData['postalCode'].toString();
+    authProvider.stateController.text =
+        locationData['administrativeArea'].toString();
+    authProvider.cityController.text =
+        locationData['subAdministrativeArea'].toString();
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.white,
@@ -457,7 +464,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      if (authProvider.primaryAddressFormKey.currentState!.validate()) {
+                      if (authProvider.primaryAddressFormKey.currentState!
+                          .validate()) {
                         await authProvider.registerNewUser();
                       }
                       return;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         <String, dynamic>{}) as Map;
     Docs order = arguments['order'];
     String? message = arguments['message'];
-    print(order.toJson());
+    log(order.toJson().toString());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -40,39 +42,112 @@ class _OrderDetailsState extends State<OrderDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              message!=null?Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),color: AppColors.creditBg),
-                  padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 10),child: Text(message)):const SizedBox.shrink(),
-              Text('Order : #${order.orderNumber!}',
+              message != null
+                  ? Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: AppColors.creditBg),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Text(message))
+                  : const SizedBox.shrink(),
+              Text(
+                'Order : #${order.orderNumber!}',
                 style: const TextStyle(
                   color: AppColors.fontColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   // fontWeight: FontWeight.w500,
                   letterSpacing: 0.60,
-                ),),
-              const SizedBox(height: 10,),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Delivery address : ',
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),
+                  ),
+                  Text(
+                    '${order.deliveryAddress!.completeAddress}\n${order.deliveryAddress!.state} ${order.deliveryAddress!.city} \n${order.deliveryAddress!.zipCode}',
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 14,
+                      // fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Payment Mode',
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.w500,
+                      letterSpacing: 0.60,
+                    ),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: AppColors.secondaryColor,
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: Text(
+                      order.paymentDetailsArray!.modeOfPay!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                        letterSpacing: 0.60,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     order.productDetails![0].storeName!,
-
                     style: const TextStyle(
                       color: AppColors.fontColor,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       // fontWeight: FontWeight.w500,
                       letterSpacing: 0.60,
-                    ),),
+                    ),
+                  ),
                   Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: AppColors.primaryColor,
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: Text(
                       order.orderDeliveryType!,
                       style: const TextStyle(
@@ -81,31 +156,34 @@ class _OrderDetailsState extends State<OrderDetails> {
                         fontWeight: FontWeight.bold,
                         // fontWeight: FontWeight.w500,
                         letterSpacing: 0.60,
-                      ),),
+                      ),
+                    ),
                   ),
-
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
                     "Your Pick up Code : ",
-
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       // fontWeight: FontWeight.w500,
                       letterSpacing: 0.60,
-                    ),),
+                    ),
+                  ),
                   Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: AppColors.primaryColor,
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: Text(
                       order.orderPickupId!.toString(),
                       style: const TextStyle(
@@ -114,12 +192,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                         fontWeight: FontWeight.bold,
                         // fontWeight: FontWeight.w500,
                         letterSpacing: 0.60,
-                      ),),
+                      ),
+                    ),
                   ),
-
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               const Text(
                 'Items',
                 style: TextStyle(
@@ -130,47 +210,123 @@ class _OrderDetailsState extends State<OrderDetails> {
                   letterSpacing: 0.60,
                 ),
               ),
-              const SizedBox(height: 10,),
-              ListView.separated(
-                shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: order.productDetails!.length,
-                  itemBuilder: (BuildContext context,int index){
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('${order.productDetails![index].productName}',style: const TextStyle(fontSize: 16),),
-                    Text('X ${order.productDetails![index].addedCartQuantity}',style: const TextStyle(fontSize: 16),)
-                  ],
-                );
-              }, separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 5,);
-              },),
-              const SizedBox(height: 10,),
-              for(int i=0;i<order.additionalChargesArray!.length;i++)
+              const SizedBox(
+                height: 10,
+              ),
+              Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(2),
+                  // Adjust the width of the first column
+                  1: FlexColumnWidth(2),
+                  // Adjust the width of the second column
+                  2: FlexColumnWidth(2),
+                  // Adjust the width of the third column
+                  3: FlexColumnWidth(2),
+                  // Adjust the width of the fourth column
+                },
+                children: [
+                  const TableRow(
+                    decoration: BoxDecoration(color: Colors.grey),
+                    // Optionally add background color for header
+                    children: [
+                      TableCell(
+                        child: Text(
+                          'Item',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Quantity',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'UOM',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TableCell(
+                        child: Text(
+                          'Total',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  ...List<TableRow>.generate(
+                    order.productDetails!.length,
+                    (index) {
+                      return TableRow(
+                        children: [
+                          TableCell(
+                            child: Text(
+                              '${order.productDetails![index].productName}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          TableCell(
+                            child: Text(
+                              '${order.productDetails![index].addedCartQuantity}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          TableCell(
+                            child: Text(
+                              '${order.productDetails![index].productUom}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          TableCell(
+                            child: Text(
+                              '${order.productDetails![index].productGrandTotal}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Total",
+                  const Text(
+                    "Total payable",
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       // fontWeight: FontWeight.w500,
                       letterSpacing: 0.60,
-                    ),),
-                  Text(double.parse(order.orderGrandTotal!).toStringAsFixed(2),
+                    ),
+                  ),
+                  Text(
+                    double.parse(order.orderGrandTotal!).toStringAsFixed(2),
                     style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       // fontWeight: FontWeight.w500,
                       letterSpacing: 0.60,
-                    ),),
-
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -221,20 +377,20 @@ class _OrderDetailsState extends State<OrderDetails> {
               // ),
               AnotherStepper(
                 stepperList: [
-                  for(int i=0;i<order.orderStatusTrackArray!.length;i++)
+                  for (int i = 0; i < order.orderStatusTrackArray!.length; i++)
                     StepperData(
-                      title: StepperText(
-                       '${order.orderStatusTrackArray![i].action}'
-                      ),
-                      subtitle: StepperText('${order.orderStatusTrackArray![i].remarks}\n${order.orderStatusTrackArray![i].date}'),
-                      iconWidget: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                            color: Colors.green,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        child: const Icon(Icons.check, color: Colors.white),
-                      )),
+                        title: StepperText(
+                            '${order.orderStatusTrackArray![i].action}'),
+                        subtitle: StepperText(
+                            '${order.orderStatusTrackArray![i].remarks}\n${order.orderStatusTrackArray![i].date}'),
+                        iconWidget: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          child: const Icon(Icons.check, color: Colors.white),
+                        )),
                   // StepperData(
                   //   title: StepperText(
                   //       "Delivered",

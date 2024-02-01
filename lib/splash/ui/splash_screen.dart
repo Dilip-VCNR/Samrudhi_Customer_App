@@ -19,19 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     // splashController.moveToCorrespondingScreen(context);
-    Timer(
-        const Duration(seconds: 3),
-            () {
-              if (prefModel.userData == null) {
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(context, Routes.loginRoute);
-                }
-              } else {
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
-                }
-              }
-            });
+    Timer(const Duration(seconds: 3), () {
+      if (prefModel.userData == null) {
+        if (context.mounted) {
+          Navigator.pushReplacementNamed(context, Routes.loginRoute);
+        }
+      } else {
+        if (context.mounted) {
+          Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
+        }
+      }
+    });
 
     return const Scaffold(
       body: Center(

@@ -6,9 +6,11 @@ import 'dart:convert';
 
 import 'order_response_model.dart';
 
-AllOrdersResponseModel allOrdersResponseModelFromJson(String str) => AllOrdersResponseModel.fromJson(json.decode(str));
+AllOrdersResponseModel allOrdersResponseModelFromJson(String str) =>
+    AllOrdersResponseModel.fromJson(json.decode(str));
 
-String allOrdersResponseModelToJson(AllOrdersResponseModel data) => json.encode(data.toJson());
+String allOrdersResponseModelToJson(AllOrdersResponseModel data) =>
+    json.encode(data.toJson());
 
 class AllOrdersResponseModel {
   bool? status;
@@ -23,19 +25,24 @@ class AllOrdersResponseModel {
     this.result,
   });
 
-  factory AllOrdersResponseModel.fromJson(Map<String, dynamic> json) => AllOrdersResponseModel(
-    status: json["status"],
-    statusCode: json["statusCode"],
-    message: json["message"],
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
-  );
+  factory AllOrdersResponseModel.fromJson(Map<String, dynamic> json) =>
+      AllOrdersResponseModel(
+        status: json["status"],
+        statusCode: json["statusCode"],
+        message: json["message"],
+        result: json["result"] == null
+            ? []
+            : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "statusCode": statusCode,
-    "message": message,
-    "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
-  };
+        "status": status,
+        "statusCode": statusCode,
+        "message": message,
+        "result": result == null
+            ? []
+            : List<dynamic>.from(result!.map((x) => x.toJson())),
+      };
 }
 
 class Result {
@@ -46,10 +53,14 @@ class Result {
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-    orderList: json["orderList"] == null ? [] : List<Docs>.from(json["orderList"]!.map((x) => Docs.fromJson(x))),
-  );
+        orderList: json["orderList"] == null
+            ? []
+            : List<Docs>.from(json["orderList"]!.map((x) => Docs.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "orderList": orderList == null ? [] : List<dynamic>.from(orderList!.map((x) => x.toJson())),
-  };
+        "orderList": orderList == null
+            ? []
+            : List<dynamic>.from(orderList!.map((x) => x.toJson())),
+      };
 }

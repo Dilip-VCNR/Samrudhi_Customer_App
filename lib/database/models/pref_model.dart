@@ -1,4 +1,3 @@
-
 import '../../auth/models/login_response_model.dart';
 import '../../dashboard/models/store_data_model.dart';
 
@@ -8,28 +7,34 @@ class PrefModel {
   List<ProductListProductDetail>? cartItems;
   bool? cartStoreDeliveryType;
 
-  PrefModel({
-    this.userData,
-    this.selectedAddress,
-    this.cartItems,
-    this.cartStoreDeliveryType
-  });
+  PrefModel(
+      {this.userData,
+      this.selectedAddress,
+      this.cartItems,
+      this.cartStoreDeliveryType});
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
     return PrefModel(
-      userData: parsedJson["userData"] == null ? null : UserDetailsModel.fromJson(parsedJson["userData"]),
-      selectedAddress: parsedJson["selectedAddress"] == null ? null : AddressArray.fromJson(parsedJson["selectedAddress"]),
-      cartItems: parsedJson["cartItems"] == null ? [] : List<ProductListProductDetail>.from(parsedJson["cartItems"].map((x) => ProductListProductDetail.fromJson(x))),
-        cartStoreDeliveryType:parsedJson["cartStoreDeliveryType"]
-
-    );
+        userData: parsedJson["userData"] == null
+            ? null
+            : UserDetailsModel.fromJson(parsedJson["userData"]),
+        selectedAddress: parsedJson["selectedAddress"] == null
+            ? null
+            : AddressArray.fromJson(parsedJson["selectedAddress"]),
+        cartItems: parsedJson["cartItems"] == null
+            ? []
+            : List<ProductListProductDetail>.from(parsedJson["cartItems"]
+                .map((x) => ProductListProductDetail.fromJson(x))),
+        cartStoreDeliveryType: parsedJson["cartStoreDeliveryType"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
       "userData": userData?.toJson(),
       "selectedAddress": selectedAddress?.toJson(),
-      "cartItems": cartItems == null ? [] : List<dynamic>.from(cartItems!.map((x) => x.toJson())),
+      "cartItems": cartItems == null
+          ? []
+          : List<dynamic>.from(cartItems!.map((x) => x.toJson())),
       "cartStoreDeliveryType": cartStoreDeliveryType
     };
   }

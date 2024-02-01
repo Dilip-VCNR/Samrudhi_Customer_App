@@ -69,7 +69,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           decoration: BoxLooseDecoration(
                               radius: const Radius.circular(12),
                               strokeColorBuilder:
-                              const FixedColorBuilder(AppColors.fontColor)),
+                                  const FixedColorBuilder(AppColors.fontColor)),
                           codeLength: 6,
                           onCodeChanged: (code) {
                             authProvider.otpCode = code.toString();

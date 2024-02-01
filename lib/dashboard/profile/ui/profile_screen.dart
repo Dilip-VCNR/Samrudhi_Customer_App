@@ -80,8 +80,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage:
-                        NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0]['imageURL']}'),
+                    backgroundImage: NetworkImage(
+                        '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0]['imageURL']}'),
                   ),
                   const SizedBox(
                     width: 20,
@@ -91,8 +91,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                  '${prefModel.userData!.firstName}',
-                      style: const TextStyle(
+                        '${prefModel.userData!.firstName}',
+                        style: const TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -123,9 +123,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onTap: () async {
                     switch (options[i]['clickType']) {
                       case 'edit_profile':
-                        Navigator.pushNamed(context, Routes.editProfileRoute).then((value) {
-                          setState(() {
-                          });
+                        Navigator.pushNamed(context, Routes.editProfileRoute)
+                            .then((value) {
+                          setState(() {});
                           return null;
                         });
                         break;

@@ -1,4 +1,3 @@
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,16 +16,15 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.registerPageContext = context;
         return GestureDetector(
-          onTap: (){
+          onTap: () {
             FocusScope.of(context).unfocus();
           },
           child: Scaffold(
@@ -81,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     children: <TextSpan>[
                                       const TextSpan(
                                           text:
-                                          'By clicking on proceed, you agree with our '),
+                                              'By clicking on proceed, you agree with our '),
                                       TextSpan(
                                         text: 'Privacy Policy ',
                                         style: const TextStyle(
@@ -91,7 +89,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             Navigator.pushNamed(
                                                 context, Routes.webViewRoute,
                                                 arguments: {
-                                                  'url': UrlConstant.privacyPolicy,
+                                                  'url':
+                                                      UrlConstant.privacyPolicy,
                                                   'title': "Privacy Policy",
                                                 });
                                           },
@@ -107,7 +106,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 context, Routes.webViewRoute,
                                                 arguments: {
                                                   'url': UrlConstant.termsOfUse,
-                                                  'title': "Terms and Conditions",
+                                                  'title':
+                                                      "Terms and Conditions",
                                                 });
                                           },
                                       ),
@@ -123,7 +123,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             value: authProvider.termsAndConditionsIsChecked,
                             onChanged: (bool? value) {
                               setState(() {
-                                authProvider.termsAndConditionsIsChecked = value!;
+                                authProvider.termsAndConditionsIsChecked =
+                                    value!;
                               });
                             },
                           )
@@ -133,23 +134,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     InkWell(
                       onTap: () async {
                         FocusScope.of(context).unfocus();
-                        if (authProvider.registerFormKey.currentState!.validate()) {
+                        if (authProvider.registerFormKey.currentState!
+                            .validate()) {
                           if (!authProvider.termsAndConditionsIsChecked) {
-                            showErrorToast(context, "Please agree to terms and conditions and privacy policy");
+                            showErrorToast(context,
+                                "Please agree to terms and conditions and privacy policy");
                             return;
                           }
                           await authProvider.getApproxLocation();
                           // if (context.mounted) {
                           //   Navigator.pushNamed(context, Routes.primaryLocationRoute,
-                              // arguments: {
-                              //   'name': authProvider.nameController.text,
-                              //   'email': authProvider.emailController.text,
-                              //   'storeReferralCode': authProvider.storeReferralCodeController.text,
-                              //   'operatorCode': authProvider.operatorCodeController.text,
-                              //   'cableSubscriberId': authProvider.cableSubscriberIdController.text,
-                              //   "currentLocation": currentPosition
-                              // }
-                            // );
+                          // arguments: {
+                          //   'name': authProvider.nameController.text,
+                          //   'email': authProvider.emailController.text,
+                          //   'storeReferralCode': authProvider.storeReferralCodeController.text,
+                          //   'operatorCode': authProvider.operatorCodeController.text,
+                          //   'cableSubscriberId': authProvider.cableSubscriberIdController.text,
+                          //   "currentLocation": currentPosition
+                          // }
+                          // );
                           // }
                         }
                       },
@@ -167,7 +170,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               'Continue',
-                              style: TextStyle(color: Colors.white, fontSize: 17),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
                             ),
                           ],
                         ),
@@ -177,7 +181,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 )),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
                 child: Form(
                   key: authProvider.registerFormKey,
                   child: Column(
@@ -200,9 +205,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.grey,
-                              backgroundImage: authProvider.selectedImage != null
-                                  ? FileImage(authProvider.selectedImage!)
-                                  : null,
+                              backgroundImage:
+                                  authProvider.selectedImage != null
+                                      ? FileImage(authProvider.selectedImage!)
+                                      : null,
                             ),
                             const SizedBox(
                               height: 10,
@@ -214,7 +220,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     radius: 15,
                                     backgroundColor: Colors.grey.shade400,
                                     child: IconButton(
-                                        onPressed: authProvider.getImageFromGallery,
+                                        onPressed:
+                                            authProvider.getImageFromGallery,
                                         icon: const Icon(
                                           Icons.file_upload_outlined,
                                           size: 15,
@@ -249,7 +256,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -279,7 +287,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -308,7 +317,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -330,7 +340,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             // Set the border radius
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
