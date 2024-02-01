@@ -225,6 +225,11 @@ class _MarkLocationState extends State<MarkLocation> {
                       ),
                       InkWell(
                         onTap: () {
+                          authProvider.selectedAddressType = '';
+                          authProvider.newAddressController.clear();
+                          authProvider.newCityController.clear();
+                          authProvider.newStateController.clear();
+                          authProvider.newPostalCodeController.clear();
                           showInputCompleteAddressModal(context, snapshot.data!,
                               cameraPosition.target, authProvider);
                         },

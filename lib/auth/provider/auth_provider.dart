@@ -330,6 +330,11 @@ class AuthProvider extends ChangeNotifier {
       AppPref.setPref(prefModel);
       Navigator.pop(markLocationContext!);
       Navigator.pop(markLocationContext!);
+      selectedAddressType = '';
+      newAddressController.clear();
+      newCityController.clear();
+      newStateController.clear();
+      newPostalCodeController.clear();
       notifyListeners();
       showSuccessToast(markLocationContext!, newAddressResponse.message!);
     } else {
