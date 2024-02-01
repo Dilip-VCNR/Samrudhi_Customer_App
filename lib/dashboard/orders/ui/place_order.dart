@@ -24,8 +24,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
   void initState() {
     prefModel.selectedAddress = null;
     super.initState();
-    if (prefModel.cartStoreDeliveryType != null &&
-        prefModel.cartStoreDeliveryType == true) {
+    if (prefModel.cartStore != null &&
+        prefModel.cartStore!.isHomeDelivery == true) {
       _selectedValue = 1;
     } else {
       _selectedValue = 2;
@@ -282,6 +282,34 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         //     ],
                         //   ),
                         // ),
+                        const Text(
+                          'Store Details',
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.60,
+                          ),
+                        ),
+                        Text(
+                          '${prefModel.cartStore!.storeName}',
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.60,
+                          ),
+                        ),
+                        Text(
+                          '${prefModel.cartStore!.addressArray!.completeAddress}\n${prefModel.cartStore!.addressArray!.state} ${prefModel.cartStore!.addressArray!.city} ${prefModel.cartStore!.addressArray!.zipCode}',
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            // fontWeight: FontWeight.bold,
+                            letterSpacing: 0.60,
+                          ),
+                        ),
+                        const Divider(),
                         const Text(
                           'Payment Details',
                           style: TextStyle(
@@ -764,7 +792,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         const SizedBox(
                           height: 10,
                         ),
-                        prefModel.cartStoreDeliveryType == true
+                        prefModel.cartStore!.isHomeDelivery == true
                             ? RadioListTile(
                                 title: const Text('Delivery'),
                                 subtitle: const Text(
@@ -852,7 +880,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         ),
                                 ],
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                         const SizedBox(
                           height: 10,
                         ),
