@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -109,6 +108,7 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
+
     return RegisterResponseModel.fromJson(responseJson);
   }
 
@@ -243,8 +243,6 @@ class ApiCalls {
         selectedValue == 1 ? "homeDelivery" : "selfPickUp";
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
-    // log(jsonEncode(req));
-    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
   }
 

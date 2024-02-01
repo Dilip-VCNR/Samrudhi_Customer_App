@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ class _OrderDetailsState extends State<OrderDetails> {
         <String, dynamic>{}) as Map;
     Docs order = arguments['order'];
     String? message = arguments['message'];
-    log(order.toJson().toString());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -63,7 +61,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   letterSpacing: 0.60,
                 ),
               ),
-              Column(
+              order.deliveryAddress!=null?Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -88,7 +86,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ),
                 ],
-              ),
+              ):const SizedBox.shrink(),
               const SizedBox(
                 height: 10,
               ),

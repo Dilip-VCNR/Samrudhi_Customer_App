@@ -25,18 +25,20 @@ class PrefModel {
             ? []
             : List<ProductListProductDetail>.from(parsedJson["cartItems"]
                 .map((x) => ProductListProductDetail.fromJson(x))),
-        cartStore: parsedJson["cartStoreDeliveryType"]==null?null:StoreDetails.fromJson(parsedJson["cartStoreDeliveryType"])
+        cartStore: parsedJson["cartStore"]==null
+            ? null
+            :StoreDetails.fromJson(parsedJson["cartStore"])
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "userData": userData?.toJson(),
+      "userData": userData!.toJson(),
       "selectedAddress": selectedAddress?.toJson(),
       "cartItems": cartItems == null
           ? []
           : List<dynamic>.from(cartItems!.map((x) => x.toJson())),
-      "cartStoreDeliveryType": cartStore!.toJson()
+      "cartStore": cartStore?.toJson()
     };
   }
 }

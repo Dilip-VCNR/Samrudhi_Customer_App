@@ -171,6 +171,7 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
+  
   getProductCountInCart(ProductList product) {
     var contain = prefModel.cartItems!.where(
         (element) => element.productUuid == product.productDetail!.productUuid);
