@@ -41,10 +41,10 @@ class _OrderDetailsState extends State<OrderDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               message!=null?Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),color: AppColors.creditBg),
-                  padding:EdgeInsets.symmetric(horizontal: 10,vertical: 10),child: Text(message)):SizedBox.shrink(),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),color: AppColors.creditBg),
+                  padding:const EdgeInsets.symmetric(horizontal: 10,vertical: 10),child: Text(message)):const SizedBox.shrink(),
               Text('Order : #${order.orderNumber!}',
                 style: const TextStyle(
                   color: AppColors.fontColor,

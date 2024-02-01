@@ -194,6 +194,17 @@ class ApiCalls {
 
   Future<OrderResponseModel>placeOrder(ReviewCartResult result, int selectedValue) async {
     Map req = result.toJson();
+    Calculation total = result.calculation!.firstWhere((element) {
+      return element.name=='orderGrandTotal';
+    });
+
+    Calculation discount = result.calculation!.firstWhere((element) {
+      return element.name=='OverAlldiscountAmount';
+    });
+
+    req['orderGrandTotal'] = total.value;
+    req['OverAlldiscountAmount'] = discount.value;
+    
     req['storeUuid'] = result.productDetails![0].storeUuid;
     req['customerUuid'] = prefModel.userData!.customerUuid;
     req['deliveryAddress'] = prefModel.selectedAddress!.toJson();

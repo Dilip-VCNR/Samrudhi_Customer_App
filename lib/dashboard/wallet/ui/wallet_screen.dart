@@ -316,8 +316,9 @@ class _WalletScreenState extends State<WalletScreen> {
                 //     ),
                 //   ),
                 // ),
+                SizedBox(height: 10,),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     'Earn History',
                     style: TextStyle(
@@ -330,7 +331,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 // const SizedBox(
                 //   height: 20,
                 // ),
-                walletProvider.walletResponse!.result!.earnedPointsDetails!.isNotEmpty?ListView.builder(
+                if (walletProvider.walletResponse!.result!.earnedPointsDetails!.isNotEmpty) ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: walletProvider.walletResponse!.result!.earnedPointsDetails!.length,
@@ -386,8 +387,10 @@ class _WalletScreenState extends State<WalletScreen> {
                         ],
                       ),
                     );
-                  }
-                ):const Center(child: Text("No records found"),),
+                  }, separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 10,);
+                },
+                ) else const Center(child: Text("No records found"),),
 
                 const SizedBox(height: 10,),
                 const Padding(
@@ -404,7 +407,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                walletProvider.walletResponse!.result!.redeemPointsDetails!.isNotEmpty?ListView.builder(
+                walletProvider.walletResponse!.result!.redeemPointsDetails!.isNotEmpty?ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: walletProvider.walletResponse!.result!.redeemPointsDetails!.length,
@@ -460,7 +463,9 @@ class _WalletScreenState extends State<WalletScreen> {
                           ],
                         ),
                       );
-                    }
+                    }, separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: 10,);
+                },
                 ):const Center(child: Text("No records found"),),
               ],
             ),

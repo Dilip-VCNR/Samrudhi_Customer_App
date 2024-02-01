@@ -223,29 +223,34 @@ class _StoreScreenState extends State<StoreScreen> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Container(
-                                      width: screenSize.width*.25,
-                                      height: screenSize.width*.25,
-                                      decoration: ShapeDecoration(
-                                        image: DecorationImage(
-                                          image: dashboardProvider
-                                                  .storeData!
-                                                  .result!
-                                                  .productDetails![i]
-                                                  .productList![index]
-                                                  .productDetail!.productImgArray!
-                                                  .isEmpty
-                                              ? const NetworkImage(
-                                                  "https://via.placeholder.com/115x111")
-                                              : NetworkImage(
-                                                  '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productImgArray![0].imagePath!}'),
-                                          fit: BoxFit.fill,
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: screenSize.width*.25,
+                                          height: screenSize.width*.25,
+                                          decoration: ShapeDecoration(
+                                            image: DecorationImage(
+                                              image: dashboardProvider
+                                                      .storeData!
+                                                      .result!
+                                                      .productDetails![i]
+                                                      .productList![index]
+                                                      .productDetail!.productImgArray!
+                                                      .isEmpty
+                                                  ? const NetworkImage(
+                                                      "https://via.placeholder.com/115x111")
+                                                  : NetworkImage(
+                                                      '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productImgArray![0].imagePath!}'),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(9),
+                                            ),
+                                          ),
                                         ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(9),
-                                        ),
-                                      ),
+                                        Positioned(right: 5,child: CircleAvatar(radius: 20,backgroundColor: AppColors.primaryColor,child: Center(child: Text('${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount}%\noff',textAlign: TextAlign.center,style: TextStyle(fontSize: 10),)),))
+                                      ],
                                     ),
                                     const SizedBox(
                                       width: 20,

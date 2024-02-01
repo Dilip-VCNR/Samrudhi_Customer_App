@@ -6,11 +6,13 @@ class PrefModel {
   UserDetailsModel? userData;
   AddressArray? selectedAddress;
   List<ProductListProductDetail>? cartItems;
+  bool? cartStoreDeliveryType;
 
   PrefModel({
     this.userData,
     this.selectedAddress,
     this.cartItems,
+    this.cartStoreDeliveryType
   });
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
@@ -18,6 +20,8 @@ class PrefModel {
       userData: parsedJson["userData"] == null ? null : UserDetailsModel.fromJson(parsedJson["userData"]),
       selectedAddress: parsedJson["selectedAddress"] == null ? null : AddressArray.fromJson(parsedJson["selectedAddress"]),
       cartItems: parsedJson["cartItems"] == null ? [] : List<ProductListProductDetail>.from(parsedJson["cartItems"].map((x) => ProductListProductDetail.fromJson(x))),
+        cartStoreDeliveryType:parsedJson["cartStoreDeliveryType"]
+
     );
   }
 
@@ -26,6 +30,7 @@ class PrefModel {
       "userData": userData?.toJson(),
       "selectedAddress": selectedAddress?.toJson(),
       "cartItems": cartItems == null ? [] : List<dynamic>.from(cartItems!.map((x) => x.toJson())),
+      "cartStoreDeliveryType": cartStoreDeliveryType
     };
   }
 }

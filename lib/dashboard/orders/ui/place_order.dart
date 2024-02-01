@@ -25,13 +25,19 @@ class _PlaceOrderState extends State<PlaceOrder> {
     prefModel.selectedAddress = null;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    if (prefModel.cartStoreDeliveryType != null &&
+        prefModel.cartStoreDeliveryType == true) {
+      _selectedValue = 1;
+    } else {
+      _selectedValue = 2;
+    }
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
-        print("case0");
         dashboardProvider.reviewCartScreenContext = context;
         if (firstTimeLoading != true) {
           dashboardProvider.reviewCartResponse = null;
@@ -365,7 +371,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       height: 10,
                                     ),
                                     GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         dashboardProvider.applyWalletPoints();
                                       },
                                       child: Container(
@@ -400,7 +406,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                           child: Text(
-                            'You will save ₹${dashboardProvider.reviewCartResponse!.overAlldiscountAmount} on this order',
+                            'You will save ₹${dashboardProvider.reviewCartResponse!.overAlldiscountAmount!.toStringAsFixed(2)} on this order',
                             style: const TextStyle(
                               color: AppColors.fontColor,
                               fontSize: 16,
@@ -483,7 +489,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           ),
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
@@ -491,7 +498,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                 color: AppColors.fontColor,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                decoration: TextDecoration.lineThrough,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
                                               ),
                                             ),
                                             Text(
@@ -547,7 +555,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                       .addUpdateProductToCart(
                                                           prefModel.cartItems![
                                                               index],
-                                                          "add",context);
+                                                          "add",
+                                                          context);
                                                   dashboardProvider
                                                           .reviewCartResponse =
                                                       null;
@@ -591,7 +600,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                               prefModel
                                                                       .cartItems![
                                                                   index],
-                                                              'remove',context);
+                                                              'remove',
+                                                              context);
                                                       if (prefModel
                                                           .cartItems!.isEmpty) {
                                                         Navigator.pop(context);
@@ -659,7 +669,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                               prefModel
                                                                       .cartItems![
                                                                   index],
-                                                              'add',context);
+                                                              'add',
+                                                              context);
                                                       dashboardProvider
                                                               .reviewCartResponse =
                                                           null;
@@ -738,99 +749,115 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text("Delivery type",
+                        const Text(
+                          "Delivery type",
                           style: TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             // letterSpacing: 0.60,
-                          ),),
+                          ),
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
-                        RadioListTile(
-                          title: const Text('Delivery'), // Display the title for option 1
+                        prefModel.cartStoreDeliveryType==true?RadioListTile(
+                          title: const Text('Delivery'),
                           subtitle: const Text(
-                              'Order will be delivered to selected address'), // Display a subtitle for option 1
-                          value: 1, // Assign a value of 1 to this option
-                          groupValue: _selectedValue, // Use _selectedValue to track the selected option
+                              'Order will be delivered to selected address'),
+                          value: 1,
+                          groupValue: _selectedValue,
                           onChanged: (value) {
                             setState(() {
                               _selectedValue =
-                              value!; // Update _selectedValue when option 1 is selected
+                                  value!;
                             });
                           },
-                        ),
+                        ):const SizedBox.shrink(),
                         RadioListTile(
-                          title: const Text('Self Pickup'), // Display the title for option 1
-                          subtitle: const Text(
-                              'You can pick up your order by visiting the store'), // Display a subtitle for option 1
-                          value: 2, // Assign a value of 1 to this option
-                          groupValue: _selectedValue, // Use _selectedValue to track the selected option
+                          title: const Text('Self Pickup'),
+                          subtitle: const Text('You can pick up your order by visiting the store'),
+                          value: 2,
+                          groupValue: _selectedValue,
                           onChanged: (value) {
                             setState(() {
                               _selectedValue =
-                              value!; // Update _selectedValue when option 1 is selected
+                                  value!;
                             });
                           },
                         ),
-                        _selectedValue==1?Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Text("Delivery address",
-                                  style: TextStyle(
-                                    color: AppColors.fontColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    // letterSpacing: 0.60,
-                                  ),),
-                                GestureDetector(
-                                  onTap: () async {
-                                    await dashboardProvider.getDeliverableAddress();
-                                  },
-                                  child: const Text("Change",
-                                    style: TextStyle(
-                                      color: AppColors.secondaryColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 0.60,
-                                    ),),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            prefModel.selectedAddress != null ? SizedBox(
-                              width: screenSize.width - 100,
-                              child: Text(
-                                '${prefModel.selectedAddress!.addressType!} - ${prefModel.selectedAddress!.completeAddress!}',
-                                style: const TextStyle(
-                                  color: AppColors.fontColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ): const Text(
-                              "Please select the delivery address",
-                              style: TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ):SizedBox.shrink(),
-                        const SizedBox(height: 10,),
+                        _selectedValue == 1
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "Delivery address",
+                                        style: TextStyle(
+                                          color: AppColors.fontColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          // letterSpacing: 0.60,
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          await dashboardProvider
+                                              .getDeliverableAddress();
+                                        },
+                                        child: const Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: AppColors.secondaryColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 0.60,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  prefModel.selectedAddress != null
+                                      ? SizedBox(
+                                          width: screenSize.width - 100,
+                                          child: Text(
+                                            '${prefModel.selectedAddress!.addressType!} - ${prefModel.selectedAddress!.completeAddress!}',
+                                            style: const TextStyle(
+                                              color: AppColors.fontColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        )
+                                      : const Text(
+                                          "Please select the delivery address",
+                                          style: TextStyle(
+                                            color: AppColors.fontColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         InkWell(
                           onTap: () {
-                            if (prefModel.selectedAddress == null && _selectedValue==1) {
-                              showErrorToast(context, "Please select delivery address");
+                            if (prefModel.selectedAddress == null &&
+                                _selectedValue == 1) {
+                              showErrorToast(
+                                  context, "Please select delivery address");
                             } else {
                               dashboardProvider.placeOrder(_selectedValue);
                             }
@@ -844,7 +871,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 Radius.circular(10.0),
                               ),
                             ),
-                            child:  Text.rich(
+                            child: Text.rich(
                               TextSpan(
                                 children: [
                                   const TextSpan(
@@ -857,9 +884,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   ),
                                   TextSpan(
                                     text:
-                                        '₹${dashboardProvider.reviewCartResponse!.result!.calculation
-                                            ?.firstWhere((calculation) => calculation.name == 'orderGrandTotal')
-                                            .value}',
+                                        '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) => calculation.name == 'orderGrandTotal').value}',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -880,7 +905,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 50,),
+                        const SizedBox(
+                          height: 50,
+                        ),
                       ],
                     ),
                   )

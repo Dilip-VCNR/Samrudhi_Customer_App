@@ -151,6 +151,7 @@ class DashboardProvider extends ChangeNotifier {
         prefModel.cartItems!.removeAt(index);
       }
     }
+    prefModel.cartStoreDeliveryType = storeData!.result!.storeDetails!.isHomeDelivery;
     AppPref.setPref(prefModel);
     notifyListeners();
   }
