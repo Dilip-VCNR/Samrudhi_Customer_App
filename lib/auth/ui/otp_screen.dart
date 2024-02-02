@@ -52,9 +52,9 @@ class _OtpScreenState extends State<OtpScreen> {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          'We have sent a verification code to \n+91 98765432221',
-                          style: TextStyle(
+                        Text(
+                          'We have sent a verification code to \n+91 ${authProvider.phoneNumberController.text}',
+                          style: const TextStyle(
                             color: Color(0xB737474F),
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
