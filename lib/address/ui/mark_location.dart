@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:provider/provider.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
@@ -85,7 +86,7 @@ class _MarkLocationState extends State<MarkLocation> {
                 initialCameraPosition: CameraPosition(
                   target: LatLng(authProvider.currentPosition!.latitude,
                       authProvider.currentPosition!.longitude),
-                  zoom: 14.0,
+                  zoom: 17.0,
                 ),
                 mapType: MapType.normal,
                 onMapCreated: (controller) {
@@ -128,7 +129,7 @@ class _MarkLocationState extends State<MarkLocation> {
                         ),
                         textEditingController: searchController,
                         googleAPIKey: UrlConstant.googleApiKey,
-                        debounceTime: 400,
+                        debounceTime: 100,
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
@@ -480,8 +481,13 @@ class _MarkLocationState extends State<MarkLocation> {
                     ),
                     GestureDetector(
                       onTap: () async {
+                        FocusScope.of(context).unfocus();
                         if (authProvider.newAddressFormKey.currentState!
                             .validate()) {
+                          if(authProvider.selectedAddressType==''){
+                            showErrorToast(context, "Please select address tyep");
+                            return;
+                          }
                           await authProvider.addNewAddress();
                         }
                         return;

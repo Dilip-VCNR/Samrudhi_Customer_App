@@ -139,7 +139,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
-                          prefModel.selectedAddress = AddressArray(
+                          prefModel.selectedAddress = UserAddressArray(
                               lat: double.parse(prediction.lat!),
                               lng: double.parse(prediction.lng!),
                               completeAddress: prediction.description);
@@ -169,13 +169,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         if (deliverableAddress != null) {
                           if (deliverableAddress.result!.contains(
                               prefModel.userData!.addressArray![index].id)) {
-                            prefModel.selectedAddress =
-                                prefModel.userData!.addressArray![index];
-                            AppPref.setPref(prefModel);
-                            showSuccessToast(
-                                context, "Address selected successfully");
-                            dashboardProvider.getHomeData();
-                            Navigator.pop(context);
+                            dashboardProvider.setDeliveryAddress(prefModel.userData!.addressArray![index]);
                           } else {
                             showErrorToast(context,
                                 "This address is not eligible for delivery for this store");

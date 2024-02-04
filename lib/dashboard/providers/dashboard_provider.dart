@@ -12,6 +12,7 @@ import 'package:samruddhi/database/app_pref.dart';
 import 'package:samruddhi/utils/app_widgets.dart';
 
 import '../../address/controller/location_controller.dart';
+import '../../auth/models/login_response_model.dart';
 import '../../utils/routes.dart';
 import '../models/home_data_model.dart';
 import '../wallet/models/wallet_response_model.dart';
@@ -44,28 +45,66 @@ class DashboardProvider extends ChangeNotifier {
 
   OrderResponseModel? orderResponse;
 
+  //place order declarations
+  UserAddressArray? deliveryAddress;
+
+
   Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled!) {
-      return Future.error('Location services are disabled.');
+    if (!serviceEnabled) {
+      // Return last known location if available
+      return getLastKnownLocation();
     }
+
+    // Check location permission
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
+      // Request location permission
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        // Return last known location if permission is denied
+        return getLastKnownLocation();
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      // Return last known location if permission is permanently denied
+      return getLastKnownLocation();
     }
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    return position;
+
+    // Get current position
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      return position;
+    } catch (e) {
+      // Handle any errors while getting current position
+      print('Error getting current position: $e');
+      // Return last known location if there is an error
+      return getLastKnownLocation();
+    }
   }
+
+  Future<Position> getLastKnownLocation() async {
+    try {
+      Position? position = await Geolocator.getLastKnownPosition();
+      if (position != null) {
+        print('Using last known location');
+        return position;
+      } else {
+        throw Exception('No last known location available');
+      }
+    } catch (e) {
+      print('Error getting last known location: $e');
+      throw Exception('Error getting last known location');
+    }
+  }
+
 
   getHomeData() async {
     homeData = null;
@@ -190,7 +229,7 @@ class DashboardProvider extends ChangeNotifier {
       payable = payable +
           (cartItem.productDiscountedValue! * cartItem.addedCartQuantity!);
     }
-    return payable.toString();
+    return payable.toStringAsFixed(2);
   }
 
   deleteUserAddress(String? addressId, int index) async {
@@ -254,9 +293,10 @@ class DashboardProvider extends ChangeNotifier {
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);
     orderResponse =
-        await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue);
+        await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue,deliveryAddress);
     if (orderResponse!.statusCode == 200) {
       prefModel.cartItems!.clear();
+      deliveryAddress = null;
       AppPref.setPref(prefModel);
       notifyListeners();
       Navigator.pop(reviewCartScreenContext!);
@@ -297,4 +337,21 @@ class DashboardProvider extends ChangeNotifier {
     Navigator.pushNamed(reviewCartScreenContext!, Routes.selectAddressRoute,
         arguments: {'deliverableAddress': deliverableAddressResponse});
   }
+
+  void setDeliveryAddress(UserAddressArray userAddressArray) {
+    deliveryAddress = userAddressArray;
+    showSuccessToast(
+        selectAddressPageContext!, "Delivery address selected successfully");
+    Navigator.pop(selectAddressPageContext!);
+    notifyListeners();
+  }
+
+  String capitalizeWords(String input) {
+    List<String> words = input.split(RegExp(r'(?=[A-Z])'));
+    for (int i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    }
+    return words.join(' ');
+  }
+
 }

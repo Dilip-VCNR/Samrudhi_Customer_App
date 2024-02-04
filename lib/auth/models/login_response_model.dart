@@ -46,7 +46,7 @@ class UserDetailsModel {
   String? emailId;
   String? password;
   int? mobile;
-  List<AddressArray>? addressArray;
+  List<UserAddressArray>? addressArray;
   String? customerAuthToken;
   String? customerFcmToken;
   dynamic operatorUuid;
@@ -91,7 +91,7 @@ class UserDetailsModel {
     emailId: json["emailId"],
     password: json["password"],
     mobile: json["mobile"],
-    addressArray: json["addressArray"] == null ? [] : List<AddressArray>.from(json["addressArray"]!.map((x) => AddressArray.fromJson(x))),
+    addressArray: json["addressArray"] == null ? [] : List<UserAddressArray>.from(json["addressArray"]!.map((x) => UserAddressArray.fromJson(x))),
     customerAuthToken: json["customerAuthToken"],
     customerFcmToken: json["customerFcmToken"],
     operatorUuid: json["operatorUuid"],
@@ -128,7 +128,7 @@ class UserDetailsModel {
   };
 }
 
-class AddressArray {
+class UserAddressArray {
   String? addressType;
   String? completeAddress;
   String? city;
@@ -139,7 +139,7 @@ class AddressArray {
   bool? isDeleted;
   String? id;
 
-  AddressArray({
+  UserAddressArray({
     this.addressType,
     this.completeAddress,
     this.city,
@@ -151,7 +151,7 @@ class AddressArray {
     this.id,
   });
 
-  factory AddressArray.fromJson(Map<String, dynamic> json) => AddressArray(
+  factory UserAddressArray.fromJson(Map<String, dynamic> json) => UserAddressArray(
     addressType: json["addressType"],
     completeAddress: json["completeAddress"],
     city: json["city"],

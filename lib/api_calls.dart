@@ -201,7 +201,7 @@ class ApiCalls {
   }
 
   Future<OrderResponseModel> placeOrder(
-      ReviewCartResult result, int selectedValue) async {
+      ReviewCartResult result, int selectedValue, UserAddressArray? deliveryAddress) async {
     Map req = result.toJson();
     Calculation total = result.calculation!.firstWhere((element) {
       return element.name == 'orderGrandTotal';
@@ -232,11 +232,10 @@ class ApiCalls {
 
     req['storeUuid'] = result.productDetails![0].storeUuid;
     req['customerUuid'] = prefModel.userData!.customerUuid;
-    if (prefModel.selectedAddress != null) {
-      req['deliveryAddress'] = prefModel.selectedAddress!.toJson();
+    if (deliveryAddress != null) {
+      req['deliveryAddress'] = deliveryAddress.toJson();
     }
-    req['orderDeliveryType'] =
-        selectedValue == 1 ? "homeDelivery" : "selfPickUp";
+    req['orderDeliveryType'] = selectedValue == 1 ? "homeDelivery" : "selfPickUp";
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
     return OrderResponseModel.fromJson(json.decode(response.body));

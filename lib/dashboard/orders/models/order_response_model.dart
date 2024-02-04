@@ -305,7 +305,7 @@ class ProductDetail {
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
@@ -322,7 +322,7 @@ class ProductDetail {
   bool? isDeleted;
   List<ProductImgArray>? productImgArray;
   int? v;
-  int? taxableValue;
+  double? taxableValue;
   double? productTaxValue;
   double? productSubTotal;
   double? productGrandTotal;
@@ -376,7 +376,7 @@ class ProductDetail {
         storeName: json["storeName"],
         description: json["description"],
         isMrp: json["isMrp"],
-        sellingPrice: json["sellingPrice"],
+        sellingPrice: json["sellingPrice"].toDouble(),
         isAvailable: json["isAvailable"],
         productSku: json["productSku"],
         productUom: json["productUom"],
@@ -396,7 +396,7 @@ class ProductDetail {
             : List<ProductImgArray>.from(json["productImgArray"]!
                 .map((x) => ProductImgArray.fromJson(x))),
         v: json["__v"],
-        taxableValue: json["taxableValue"],
+        taxableValue: json["taxableValue"].toDouble(),
         productTaxValue: json["productTaxValue"]?.toDouble(),
         productSubTotal: json["productSubTotal"]?.toDouble(),
         productGrandTotal: json["productGrandTotal"]?.toDouble(),

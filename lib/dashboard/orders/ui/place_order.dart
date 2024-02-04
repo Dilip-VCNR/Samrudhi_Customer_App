@@ -22,7 +22,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
 
   @override
   void initState() {
-    prefModel.selectedAddress = null;
     super.initState();
     if (prefModel.cartStore != null &&
         prefModel.cartStore!.isHomeDelivery == true) {
@@ -331,7 +330,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Text(
-                                  '${dashboardProvider.reviewCartResponse!.result!.calculation![i].name}',
+                                  dashboardProvider.capitalizeWords(dashboardProvider.reviewCartResponse!.result!.calculation![i].name!),
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 15,
@@ -343,8 +342,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Text(
-                                  '${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
-                                  // '₹${dashboardProvider.getSubTotal()}',
+                                  '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
                                   textAlign: TextAlign.right,
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
@@ -858,11 +856,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  prefModel.selectedAddress != null
+                                  dashboardProvider.deliveryAddress != null
                                       ? SizedBox(
                                           width: screenSize.width - 100,
                                           child: Text(
-                                            '${prefModel.selectedAddress!.addressType!} - ${prefModel.selectedAddress!.completeAddress!}',
+                                            '${dashboardProvider.deliveryAddress!.addressType!} - ${dashboardProvider.deliveryAddress!.completeAddress!}',
                                             style: const TextStyle(
                                               color: AppColors.fontColor,
                                               fontSize: 14,
@@ -886,7 +884,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         ),
                         InkWell(
                           onTap: () {
-                            if (prefModel.selectedAddress == null &&
+                            if (dashboardProvider.deliveryAddress == null &&
                                 _selectedValue == 1) {
                               showErrorToast(
                                   context, "Please select delivery address");

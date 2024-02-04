@@ -128,23 +128,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           children: [
                             Row(
                               children: [
-                                // Container(
-                                //   width: 100,
-                                //   height: 100,
-                                //   decoration: ShapeDecoration(
-                                //     image: const DecorationImage(
-                                //       image: NetworkImage(
-                                //           "https://via.placeholder.com/75x75"),
-                                //       fit: BoxFit.fill,
-                                //     ),
-                                //     shape: RoundedRectangleBorder(
-                                //       borderRadius: BorderRadius.circular(15),
-                                //     ),
-                                //   ),
-                                // ),
-                                // const SizedBox(
-                                //   width: 10,
-                                // ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,17 +176,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         ],
                                       ),
                                     ),
-                                    // const SizedBox(
-                                    //   width: 212,
-                                    //   child: Text(
-                                    //     '#11, First floor vcnr Hospital, Nelamangala \nbangalore - 562123',
-                                    //     style: TextStyle(
-                                    //       color: AppColors.fontColor,
-                                    //       fontSize: 11,
-                                    //       fontWeight: FontWeight.w500,
-                                    //     ),
-                                    //   ),
-                                    // )
                                   ],
                                 )
                               ],
@@ -219,7 +191,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             .productDetails!.length);
                                 i++)
                               Text(
-                                '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
+                                '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity} X ${ordersProvider.ongoingOrders[index].productDetails![i].productName}',
                                 style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 12,
@@ -231,7 +203,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                     3
                                 ? Text(
                                     'and ${ordersProvider.ongoingOrders[index].productDetails!.length - 3} more items')
-                                : SizedBox.shrink(),
+                                : const SizedBox.shrink(),
                             // ordersProvider.finishedOrders[index]
                             //     .productDetails!.length>3?Text(
                             //   '${ordersProvider.finishedOrders[index]
@@ -244,12 +216,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             //   ):const SizedBox(),
                             const Divider(),
                             Text(
-                              ordersProvider
-                                  .ongoingOrders[index].orderDeliveryType!,
-                              style: TextStyle(
+                              ordersProvider.capitalizeWords(ordersProvider
+                                  .ongoingOrders[index].orderDeliveryType!),
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -325,23 +297,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           children: [
                             Row(
                               children: [
-                                // Container(
-                                //   width: 100,
-                                //   height: 100,
-                                //   decoration: ShapeDecoration(
-                                //     image: const DecorationImage(
-                                //       image: NetworkImage(
-                                //           "https://via.placeholder.com/75x75"),
-                                //       fit: BoxFit.fill,
-                                //     ),
-                                //     shape: RoundedRectangleBorder(
-                                //       borderRadius: BorderRadius.circular(15),
-                                //     ),
-                                //   ),
-                                // ),
-                                // const SizedBox(
-                                //   width: 10,
-                                // ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -388,17 +343,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         )
                                       ],
                                     ),
-                                    // const SizedBox(
-                                    //   width: 212,
-                                    //   child: Text(
-                                    //     '#11, First floor vcnr Hospital, Nelamangala \nbangalore - 562123',
-                                    //     style: TextStyle(
-                                    //       color: AppColors.fontColor,
-                                    //       fontSize: 11,
-                                    //       fontWeight: FontWeight.w500,
-                                    //     ),
-                                    //   ),
-                                    // )
                                   ],
                                 )
                               ],
@@ -407,38 +351,28 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               height: 5,
                             ),
                             for (int i = 0;
-                                i <
-                                    min(
-                                        3,
-                                        ordersProvider.finishedOrders[index]
-                                            .productDetails!.length);
-                                i++)
+                            i <
+                                min(
+                                    3,
+                                    ordersProvider.finishedOrders[index]
+                                        .productDetails!.length);
+                            i++)
                               Text(
-                                '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity}X ${ordersProvider.allOrdersResponse!.result![0].orderList![index].productDetails![i].productName}',
+                                '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity} X ${ordersProvider.finishedOrders[index].productDetails![i].productName}',
                                 style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            // ordersProvider.finishedOrders[index]
-                            //     .productDetails!.length>3?Text(
-                            //   "${ordersProvider.finishedOrders[index]
-                            //       .productDetails!.length-3} Other products",
-                            //     style: const TextStyle(
-                            //       color: AppColors.fontColor,
-                            //       fontSize: 12,
-                            //       fontWeight: FontWeight.bold,
-                            //     ),
-                            //   ):const SizedBox(),
                             const Divider(),
                             Text(
-                              ordersProvider
-                                  .finishedOrders[index].orderDeliveryType!,
-                              style: TextStyle(
+                              ordersProvider.capitalizeWords(ordersProvider
+                                  .finishedOrders[index].orderDeliveryType!),
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(

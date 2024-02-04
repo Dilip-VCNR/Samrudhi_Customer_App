@@ -15,7 +15,6 @@ class OrdersProvider extends ChangeNotifier {
     finishedOrders = [];
     allOrdersResponse = null;
     allOrdersResponse = await apiCalls.getAllOrders();
-
     if (allOrdersResponse!.statusCode == 200) {
       for (int i = 0;
           i < allOrdersResponse!.result![0].orderList!.length;
@@ -27,10 +26,20 @@ class OrdersProvider extends ChangeNotifier {
           finishedOrders.add(allOrdersResponse!.result![0].orderList![i]);
         }
       }
+      print(finishedOrders);
       notifyListeners();
     } else {
       // showErrorToast(ordersPageContext!, allOrdersResponse!.message!);
       notifyListeners();
     }
+  }
+
+
+  String capitalizeWords(String input) {
+    List<String> words = input.split(RegExp(r'(?=[A-Z])'));
+    for (int i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    }
+    return words.join(' ');
   }
 }

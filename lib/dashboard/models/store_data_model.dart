@@ -131,7 +131,7 @@ class ProductListProductDetail {
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
@@ -195,7 +195,7 @@ class ProductListProductDetail {
         storeName: json["storeName"],
         description: json["description"],
         isMrp: json["isMrp"],
-        sellingPrice: json["sellingPrice"],
+        sellingPrice: json["sellingPrice"].toDouble(),
         isAvailable: json["isAvailable"],
         productSku: json["productSku"],
         productUom: json["productUom"],

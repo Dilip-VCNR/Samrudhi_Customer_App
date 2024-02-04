@@ -1,7 +1,5 @@
-
 import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
-
 import '../../../utils/app_colors.dart';
 import '../models/order_response_model.dart';
 
@@ -57,36 +55,39 @@ class _OrderDetailsState extends State<OrderDetails> {
                   color: AppColors.fontColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  // fontWeight: FontWeight.w500,
                   letterSpacing: 0.60,
                 ),
               ),
-              order.deliveryAddress!=null?Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Delivery address : ',
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      // fontWeight: FontWeight.w500,
-                      letterSpacing: 0.60,
-                    ),
-                  ),
-                  Text(
-                    '${order.deliveryAddress!.completeAddress}\n${order.deliveryAddress!.state} ${order.deliveryAddress!.city} \n${order.deliveryAddress!.zipCode}',
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 14,
-                      // fontWeight: FontWeight.bold,
-                      // fontWeight: FontWeight.w500,
-                      letterSpacing: 0.60,
-                    ),
-                  ),
-                ],
-              ):const SizedBox.shrink(),
+              const Divider(),
+              order.deliveryAddress != null
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Delivery address : ',
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.w500,
+                            letterSpacing: 0.60,
+                          ),
+                        ),
+                        Text(
+                          '${order.deliveryAddress!.completeAddress}\n${order.deliveryAddress!.state} ${order.deliveryAddress!.city} \n${order.deliveryAddress!.zipCode}',
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 14,
+                            // fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.w500,
+                            letterSpacing: 0.60,
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+              const Divider(),
               const SizedBox(
                 height: 10,
               ),
@@ -147,7 +148,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: Text(
-                      order.orderDeliveryType!,
+                      capitalizeWords(order.orderDeliveryType!),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -198,6 +199,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               const SizedBox(
                 height: 10,
               ),
+              const Divider(),
               const Text(
                 'Items',
                 style: TextStyle(
@@ -208,10 +210,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                   letterSpacing: 0.60,
                 ),
               ),
+              const Divider(),
+
               const SizedBox(
                 height: 10,
               ),
               Table(
+                border: TableBorder.all(color: Colors.black),
                 columnWidths: const {
                   0: FlexColumnWidth(2),
                   // Adjust the width of the first column
@@ -224,35 +229,47 @@ class _OrderDetailsState extends State<OrderDetails> {
                 },
                 children: [
                   const TableRow(
-                    decoration: BoxDecoration(color: Colors.grey),
+                    decoration: BoxDecoration(color: AppColors.secondaryColor),
                     // Optionally add background color for header
                     children: [
                       TableCell(
                         child: Text(
                           'Item',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       TableCell(
                         child: Text(
                           'Quantity',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       TableCell(
                         child: Text(
                           'UOM',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       TableCell(
                         child: Text(
                           'Total',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
@@ -266,24 +283,28 @@ class _OrderDetailsState extends State<OrderDetails> {
                             child: Text(
                               '${order.productDetails![index].productName}',
                               style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           TableCell(
                             child: Text(
                               '${order.productDetails![index].addedCartQuantity}',
                               style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           TableCell(
                             child: Text(
                               '${order.productDetails![index].productUom}',
                               style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           TableCell(
                             child: Text(
                               '${order.productDetails![index].productGrandTotal}',
                               style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ],
@@ -292,11 +313,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                   ),
                 ],
               ),
-
+              const Divider(),
               const SizedBox(
                 height: 10,
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -322,6 +342,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   ),
                 ],
               ),
+              const Divider(),
               const SizedBox(
                 height: 10,
               ),
@@ -338,41 +359,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                       letterSpacing: 0.60,
                     ),
                   ),
-                  // Text(
-                  //   '6:30 pm',
-                  //   textAlign: TextAlign.right,
-                  //   style: TextStyle(
-                  //     color: AppColors.primaryColor,
-                  //     fontSize: 17,
-                  //     fontWeight: FontWeight.w500,
-                  //     height: 1.88,
-                  //     letterSpacing: 0.98,
-                  //   ),
-                  // )
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   children: [
-              //     Icon(
-              //       Icons.calendar_month,
-              //       color: AppColors.fontColor,
-              //       size: 32,
-              //     ),
-              //     // SizedBox(
-              //     //   width: 20,
-              //     // ),
-              //     // Text(
-              //     //   'August 27, 2023',
-              //     //   style: TextStyle(
-              //     //     color: AppColors.fontColor,
-              //     //     fontSize: 32,
-              //     //     fontWeight: FontWeight.w400,
-              //     //     letterSpacing: 1.28,
-              //     //   ),
-              //     // )
-              //   ],
-              // ),
               AnotherStepper(
                 stepperList: [
                   for (int i = 0; i < order.orderStatusTrackArray!.length; i++)
@@ -389,13 +377,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   BorderRadius.all(Radius.circular(30))),
                           child: const Icon(Icons.check, color: Colors.white),
                         )),
-                  // StepperData(
-                  //   title: StepperText(
-                  //       "Delivered",
-                  //       textStyle: TextStyle(
-                  //         color: order.orderStatusTrackArray![i].action!='delivered'?Colors.grey:Colors.green,
-                  //       )),
-                  // ),
                 ],
                 stepperDirection: Axis.vertical,
                 iconWidth: 40,
@@ -409,4 +390,15 @@ class _OrderDetailsState extends State<OrderDetails> {
       ),
     );
   }
+
+
+  String capitalizeWords(String input) {
+    List<String> words = input.split(RegExp(r'(?=[A-Z])'));
+    for (int i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    }
+    return words.join(' ');
+  }
+
+
 }
