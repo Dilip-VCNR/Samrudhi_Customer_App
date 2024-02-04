@@ -1,7 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
-
 import '../../../auth/provider/auth_provider.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/url_constants.dart';
@@ -25,13 +25,6 @@ class _EditProfileState extends State<EditProfile> {
           (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.editProfilePageContext = context;
         if (isFirstTimeLoading) {
-          authProvider.editFirstNameController.text =
-              prefModel.userData!.firstName!;
-          authProvider.editLastNameController.text =
-              prefModel.userData!.lastName!;
-          authProvider.editEmailController.text = prefModel.userData!.emailId!;
-          authProvider.editStoreReferralCodeController.text =
-              prefModel.userData!.storeReferralCode ?? '';
           isFirstTimeLoading = false;
         }
         return GestureDetector(
@@ -297,7 +290,7 @@ class _EditProfileState extends State<EditProfile> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Continue',
+                                'Update',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 17),
                               ),
@@ -319,4 +312,5 @@ class _EditProfileState extends State<EditProfile> {
       },
     );
   }
+
 }

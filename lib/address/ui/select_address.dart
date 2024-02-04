@@ -55,25 +55,6 @@ class _SelectAddressState extends State<SelectAddress> {
                 child: InkWell(
                   onTap: () async {
                     await authProvider.getApproxLocationForAdd();
-                    // Position currentPosition;
-                    // try {
-                    //   currentPosition = await dashboardProvider.getCurrentLocation();
-                    // } catch (e) {
-                    //   currentPosition = const Position(
-                    //     latitude: 10.1632,
-                    //     longitude: 76.6413,
-                    //     timestamp: null,
-                    //     accuracy: 100,
-                    //     altitude: 0,
-                    //     heading: 0,
-                    //     speed: 0,
-                    //     speedAccuracy: 0,
-                    //   );
-                    // }
-                    // if (context.mounted) {
-                    //   Navigator.pushNamed(context, Routes.markLocationRoute,
-                    //       arguments: {"currentLocation": currentPosition});
-                    // }
                   },
                   child: Container(
                     width: screenSize.width,
@@ -224,15 +205,7 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                               Row(
                                 children: [
-                                  // CircleAvatar(
-                                  //     backgroundColor: AppColors.primaryColor,
-                                  //     child: Icon(
-                                  //       Icons.edit,
-                                  //       color: Colors.white,
-                                  //     )),
-                                  // SizedBox(
-                                  //   width: 20,
-                                  // ),
+
                                   GestureDetector(
                                     onTap: () async {
                                       await dashboardProvider.deleteUserAddress(

@@ -26,7 +26,6 @@ class OrdersProvider extends ChangeNotifier {
           finishedOrders.add(allOrdersResponse!.result![0].orderList![i]);
         }
       }
-      print(finishedOrders);
       notifyListeners();
     } else {
       // showErrorToast(ordersPageContext!, allOrdersResponse!.message!);

@@ -142,18 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return;
                           }
                           await authProvider.getApproxLocation();
-                          // if (context.mounted) {
-                          //   Navigator.pushNamed(context, Routes.primaryLocationRoute,
-                          // arguments: {
-                          //   'name': authProvider.nameController.text,
-                          //   'email': authProvider.emailController.text,
-                          //   'storeReferralCode': authProvider.storeReferralCodeController.text,
-                          //   'operatorCode': authProvider.operatorCodeController.text,
-                          //   'cableSubscriberId': authProvider.cableSubscriberIdController.text,
-                          //   "currentLocation": currentPosition
-                          // }
-                          // );
-                          // }
+
                         }
                       },
                       child: Container(

@@ -214,9 +214,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             : const SizedBox.shrink(),
                         dashboardProvider.homeData!.result!.myStore!.isNotEmpty
+                            ? const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Text(
+                                  'My Store',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.25,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                        dashboardProvider.homeData!.result!.myStore!.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0),
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, bottom: 10),
                                 child: GestureDetector(
                                   onTap: () {
                                     dashboardProvider.getIntoStore(
@@ -263,30 +277,44 @@ class _HomeScreenState extends State<HomeScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            const Text(
-                                              'My Store',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16.55,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1.25,
-                                              ),
-                                            ),
                                             Text(
                                               '${dashboardProvider.homeData!.result!.myStore![0].displayName}',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.48,
+                                              ),
+                                            ),
+                                            Text(
+                                              dashboardProvider
+                                                      .homeData!
+                                                      .result!
+                                                      .myStore![0]
+                                                      .isHomeDelivery!
+                                                  ? 'Home Delivery'
+                                                  : 'Self pickup',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                                 height: 1.48,
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 3,
+                                            Text(
+                                              dashboardProvider
+                                                  .homeData!
+                                                  .result!
+                                                  .myStore![0]
+                                                  .storeCategoryName!,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.48,
+                                              ),
                                             ),
+
                                             SizedBox(
                                               width: screenSize.width / 2,
                                               child: Text(

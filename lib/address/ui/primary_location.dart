@@ -32,9 +32,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
 
   @override
   Widget build(BuildContext context) {
-    // final arguments = (ModalRoute.of(context)?.settings.arguments ??
-    //     <String, dynamic>{}) as Map;
-    // Position currentLocation = arguments['currentLocation'];
+
     var screenSize = MediaQuery.of(context).size;
 
     return Consumer(

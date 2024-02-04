@@ -274,21 +274,6 @@ class DashboardProvider extends ChangeNotifier {
     }
   }
 
-  // String getTaxes() {
-  //   double totalTax = 0;
-  //   for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-  //     totalTax = totalTax+item.productTax!;
-  //   }
-  //   return totalTax.toStringAsFixed(2).toString();
-  // }
-
-  // String getSubTotal() {
-  //   double subTotal = 0;
-  //   for(ReviewProductDetail item in reviewCartResponse!.result!.productDetails!){
-  //     subTotal = subTotal+double.parse(item.subTotal!);
-  //   }
-  //   return subTotal.toStringAsFixed(2).toString();
-  // }
 
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);

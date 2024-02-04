@@ -167,9 +167,7 @@ class _StoreScreenState extends State<StoreScreen> {
                     ),
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
+
                 for (int i = 0;
                     i <
                         dashboardProvider

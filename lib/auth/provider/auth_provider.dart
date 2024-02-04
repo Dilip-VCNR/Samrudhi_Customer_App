@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -13,6 +14,7 @@ import 'package:timer_count_down/timer_controller.dart';
 import '../../database/app_pref.dart';
 import '../../utils/app_widgets.dart';
 import '../../utils/routes.dart';
+import '../../utils/url_constants.dart';
 import '../models/login_response_model.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -53,6 +55,7 @@ class AuthProvider extends ChangeNotifier {
   BuildContext? registerPageContext;
   File? selectedImage;
 
+  BuildContext? profilePageContext;
   BuildContext? editProfilePageContext;
 
   TextEditingController editFirstNameController = TextEditingController();
@@ -231,6 +234,7 @@ class AuthProvider extends ChangeNotifier {
   clearFieldData() {
     phoneNumberController.text = "";
     otpCode = "";
+    selectedImage = null;
     notifyListeners();
   }
 
@@ -366,6 +370,43 @@ class AuthProvider extends ChangeNotifier {
     } else {
       Navigator.pop(editProfilePageContext!);
       showErrorToast(editProfilePageContext!, updateResponse.message!);
+    }
+  }
+
+  setEditProfile() async {
+    editFirstNameController.text = prefModel.userData!.firstName!;
+    editLastNameController.text = prefModel.userData!.lastName!;
+    editEmailController.text = prefModel.userData!.emailId!;
+    editStoreReferralCodeController.text = prefModel.userData!.storeReferralCode ?? '';
+    selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+prefModel.userData!.profileImgArray![0].imageUrl!);
+    Navigator.pushNamed(profilePageContext!, Routes.editProfileRoute)
+        .then((value) {
+          notifyListeners();
+      return null;
+    });
+  }
+
+  Future<File?> downloadImageAndReturnFilePath(String imageUrl) async {
+    try {
+      // Fetch the image data
+      final response = await http.get(Uri.parse(imageUrl));
+
+      if (response.statusCode == 200) {
+        // Create a temporary file
+        File tempFile = File('${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+        // Write the image data to the temporary file
+        await tempFile.writeAsBytes(response.bodyBytes);
+
+        // Return the path to the temporary file
+        return tempFile;
+      } else {
+        print('Failed to download image. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
     }
   }
 }

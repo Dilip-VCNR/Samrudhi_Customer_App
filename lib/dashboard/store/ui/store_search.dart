@@ -63,7 +63,6 @@ class _StoreSearchState extends State<StoreSearch> {
                     textAlignVertical: TextAlignVertical.center,
                   ),
                 ),
-                // for (int i = 0; i < filteredProducts.length; i++)
                 ListView.separated(
                   separatorBuilder: (context, index) {
                     return const Padding(
@@ -132,8 +131,6 @@ class _StoreSearchState extends State<StoreSearch> {
                                         color: Color(0x8937474F),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        // decoration:
-                                        //     TextDecoration.lineThrough,
                                       ),
                                     ),
                                     Text(
