@@ -104,12 +104,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ),
                         ),
                         const Divider(),
-                        for (int i = 0;
-                            i <
-                                dashboardProvider.reviewCartResponse!.result!
-                                    .calculation!.length;
-                            i++)
-                          Row(
+                        for (int i = 0; i < dashboardProvider.reviewCartResponse!.result!.calculation!.length;i++)
+                          dashboardProvider.reviewCartResponse!.result!.calculation![i].name != 'redeemPoints'?Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
@@ -138,7 +134,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 ),
                               )
                             ],
-                          ),
+                          ):const SizedBox.shrink(),
                         // const Text(
                         //   'Payment Methods',
                         //   style: TextStyle(
