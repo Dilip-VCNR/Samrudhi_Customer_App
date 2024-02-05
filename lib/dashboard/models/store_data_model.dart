@@ -348,7 +348,7 @@ class StoreDetails {
   String? storeCategoryName;
   String? zone;
   String? deliveryType;
-  int? deliveryFee;
+  double? deliveryFee;
   String? hubUuid;
   bool? isApproved;
   bool? isDeleted;
@@ -416,7 +416,7 @@ class StoreDetails {
         storeCategoryName: json["storeCategoryName"],
         zone: json["zone"],
         deliveryType: json["deliveryType"],
-        deliveryFee: json["deliveryFee"],
+        deliveryFee: json["deliveryFee"].toDouble(),
         hubUuid: json["hubUuid"],
         isApproved: json["isApproved"],
         isDeleted: json["isDeleted"],

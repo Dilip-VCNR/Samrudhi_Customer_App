@@ -141,6 +141,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 "Please agree to terms and conditions and privacy policy");
                             return;
                           }
+                          if(authProvider.selectedImage==null){
+                            showErrorToast(context, "Please select image");
+                            return;
+                          }
                           await authProvider.getApproxLocation();
 
                         }

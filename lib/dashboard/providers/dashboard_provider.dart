@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:samruddhi/address/model/delete_address_response_model.dart';
@@ -56,8 +57,12 @@ class DashboardProvider extends ChangeNotifier {
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Return last known location if available
-      return getLastKnownLocation();
+      // Ask the user to enable location services
+      bool enableService = await askUserToEnableLocationService();
+      if (!enableService) {
+        // Return last known location if the user chooses not to enable location services
+        return getLastKnownLocation();
+      }
     }
 
     // Check location permission
@@ -103,6 +108,38 @@ class DashboardProvider extends ChangeNotifier {
       print('Error getting last known location: $e');
       throw Exception('Error getting last known location');
     }
+  }
+  Future<bool> askUserToEnableLocationService() async {
+    // You can use your preferred method to prompt the user to enable location services
+    // For example, show a dialog or navigate to the device settings
+    // Return true if the user enables location services, false otherwise
+
+    // Example using a simple dialog (this is just for illustration purposes):
+    // You should implement a proper UI for your application
+    bool userEnabledService = await showDialog(
+      context: homePageContext!,
+      // Implement your dialog here
+      builder: (context) => AlertDialog(
+        title: const Text("Enable Location Services"),
+        content: const Text("Please enable location services for better experience."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, false); // User chose not to enable
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, true); // User chose to enable
+            },
+            child: const Text("Enable"),
+          ),
+        ],
+      ),
+    );
+
+    return userEnabledService;
   }
 
 

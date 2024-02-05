@@ -89,13 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Routes.notificationsRoute);
-                          },
-                          icon: const Icon(Icons.notifications_none_outlined),
-                        ),
+                        // IconButton(
+                        //   onPressed: () {
+                        //     Navigator.pushNamed(
+                        //         context, Routes.notificationsRoute);
+                        //   },
+                        //   icon: const Icon(Icons.notifications_none_outlined),
+                        // ),
                       ],
                     ),
                   ],
