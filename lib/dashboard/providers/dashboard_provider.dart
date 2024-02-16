@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -84,7 +83,7 @@ class DashboardProvider extends ChangeNotifier {
     // Get current position
     try {
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        desiredAccuracy: LocationAccuracy.medium,
       );
       return position;
     } catch (e) {
@@ -157,7 +156,7 @@ class DashboardProvider extends ChangeNotifier {
           latitude: 10.1632,
           longitude: 76.6413,
           timestamp: null,
-          accuracy: 100,
+          accuracy: 500,
           altitude: 0,
           heading: 0,
           speed: 0,

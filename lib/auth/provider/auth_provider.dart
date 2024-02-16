@@ -163,7 +163,7 @@ class AuthProvider extends ChangeNotifier {
     // Get current position
     try {
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        desiredAccuracy: LocationAccuracy.medium,
       );
       return position;
     } catch (e) {
@@ -316,7 +316,7 @@ class AuthProvider extends ChangeNotifier {
           latitude: 10.1632,
           longitude: 76.6413,
           timestamp: null,
-          accuracy: 100,
+          accuracy: 500,
           altitude: 0,
           heading: 0,
           speed: 0,
@@ -335,7 +335,7 @@ class AuthProvider extends ChangeNotifier {
           latitude: 10.1632,
           longitude: 76.6413,
           timestamp: null,
-          accuracy: 100,
+          accuracy: 500,
           altitude: 0,
           heading: 0,
           speed: 0,
@@ -442,11 +442,13 @@ class AuthProvider extends ChangeNotifier {
   }
 
   setEditProfile() async {
+    showLoaderDialog(profilePageContext!);
     editFirstNameController.text = prefModel.userData!.firstName!;
     editLastNameController.text = prefModel.userData!.lastName!;
     editEmailController.text = prefModel.userData!.emailId!;
     editStoreReferralCodeController.text = prefModel.userData!.storeReferralCode ?? '';
     selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+prefModel.userData!.profileImgArray![0].imageUrl!);
+    Navigator.pop(profilePageContext!);
     Navigator.pushNamed(profilePageContext!, Routes.editProfileRoute)
         .then((value) {
           notifyListeners();

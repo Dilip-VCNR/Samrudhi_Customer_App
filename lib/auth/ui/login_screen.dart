@@ -153,8 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   hintText: 'Phone Number',
                                   counterText: "",
                                   isCollapsed: true,
-                                  errorStyle: const TextStyle(
-                                      color: AppColors.secondaryColor),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: AppColors.secondaryColor,
@@ -237,6 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       InkWell(
                         onTap: () async {
+                          FocusScope.of(context).unfocus();
                           if (authProvider.loginFormKey.currentState!
                               .validate()) {
                             await authProvider.loginWithPhoneNumber();

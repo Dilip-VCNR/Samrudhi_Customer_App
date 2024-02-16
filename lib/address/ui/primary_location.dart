@@ -433,11 +433,15 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                    maxLength: 6,
                     keyboardType: TextInputType.number,
                     controller: authProvider.postalCodeController,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
                         return 'Please enter your postal code';
+                      }
+                      if (value.trim().length<6) {
+                        return 'Please enter valid postal code';
                       }
                       return null;
                     },

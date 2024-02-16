@@ -112,14 +112,19 @@ class _EditProfileState extends State<EditProfile> {
                           hintText: 'First Name',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -145,14 +150,19 @@ class _EditProfileState extends State<EditProfile> {
                           hintText: 'Last Name',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -176,14 +186,19 @@ class _EditProfileState extends State<EditProfile> {
                           hintText: 'Email',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),

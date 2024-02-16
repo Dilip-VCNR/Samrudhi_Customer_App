@@ -324,7 +324,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       //     ),
                       //   ),
                       // ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       const Padding(
@@ -339,13 +339,13 @@ class _WalletScreenState extends State<WalletScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       if (walletProvider.walletResponse!.result!
                           .earnedPointsDetails!.isNotEmpty)
                         ListView.separated(
                           shrinkWrap: true,
-                          padding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(0),
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: walletProvider.walletResponse!.result!
                               .earnedPointsDetails!.length,
@@ -406,7 +406,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 10,
                             );
                           },
@@ -436,7 +436,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       walletProvider.walletResponse!.result!
                               .redeemPointsDetails!.isNotEmpty
                           ? ListView.separated(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: walletProvider.walletResponse!.result!

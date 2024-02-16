@@ -11,4 +11,5 @@ class AppColors {
   static const Color walletFont = Color(0xFF1B8902);
   static const Color debitBg = Color(0x23B33636);
   static const Color creditBg = Color(0x2336B37E);
+  static const Color errorColor = Colors.red;
 }

@@ -138,13 +138,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400,
-                                              height: 1.48,
+                                          SizedBox(
+                                            width:screenSize.width/1.6,
+                                            child: Text(
+                                              '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.48,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(
@@ -305,13 +308,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.48,
+                                        SizedBox(
+                                          width:screenSize.width/1.6,
+                                          child: Text(
+                                            '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.48,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(

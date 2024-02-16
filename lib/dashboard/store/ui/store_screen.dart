@@ -66,7 +66,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: "₹" + dashboardProvider.getTotal(),
+                                  text: '₹${dashboardProvider.getTotal()}',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -167,7 +167,6 @@ class _StoreScreenState extends State<StoreScreen> {
                     ),
                   ),
                 ),
-
                 for (int i = 0;
                     i <
                         dashboardProvider
@@ -203,14 +202,14 @@ class _StoreScreenState extends State<StoreScreen> {
                               });
                             },
                             child: Container(
-                                margin: EdgeInsets.only(right: 20),
+                                margin: const EdgeInsets.only(right: 20),
                                 child: !dashboardProvider.storeData!.result!
                                         .productDetails![i].isExpanded!
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.keyboard_arrow_down_rounded,
                                         size: 30,
                                       )
-                                    : Icon(
+                                    : const Icon(
                                         Icons.keyboard_arrow_up,
                                         size: 30,
                                       )),
@@ -280,7 +279,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                       '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount}%\noff',
                                                       textAlign:
                                                           TextAlign.center,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 10),
                                                     )),
                                                   ))
@@ -370,14 +369,17 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
-                                                    Text(
-                                                      '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscountedValue!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
-                                                      style: const TextStyle(
-                                                        color: AppColors
-                                                            .walletFont,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                    SizedBox(
+                                                      width:screenSize.width/3.1,
+                                                      child: Text(
+                                                        '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscountedValue!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
+                                                        style: const TextStyle(
+                                                          color: AppColors
+                                                              .walletFont,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
                                                       ),
                                                     ),
                                                     !dashboardProvider
@@ -555,7 +557,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   ],
                                                 ),
                                                 const SizedBox(
-                                                  height: 5,
+                                                  height: 2,
                                                 ),
                                                 dashboardProvider
                                                             .storeData!
@@ -566,7 +568,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                             .productDiscount! >
                                                         0
                                                     ? Text(
-                                                        "You save ₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount!} on this order",
+                                                        dashboardProvider.storeData!.result!.productDetails![i].productList![index].saveMessage!,
                                                         style: const TextStyle(
                                                             color: AppColors
                                                                 .secondaryColor,
@@ -583,7 +585,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                 );
                               },
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                     ],
                   )
               ],

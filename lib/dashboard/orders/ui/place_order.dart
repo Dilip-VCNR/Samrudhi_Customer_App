@@ -339,12 +339,15 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              'Total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productGrandTotal!}',
-                                              style: const TextStyle(
-                                                color: AppColors.primaryColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
+                                            SizedBox(
+                                              width:screenSize.width/3,
+                                              child: Text(
+                                                'Total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productGrandTotal!}',
+                                                style: const TextStyle(
+                                                  color: AppColors.primaryColor,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                             if (dashboardProvider
@@ -408,7 +411,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                               context);
                                                       if (prefModel
                                                           .cartItems!.isEmpty) {
-                                                        Navigator.pop(context);
+                                                        if(context.mounted){
+                                                          Navigator.pop(context);
+                                                        }
                                                       } else {
                                                         setState(() {
                                                           dashboardProvider
@@ -689,7 +694,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   ),
                                   TextSpan(
                                     text:
-                                        '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) => calculation.name == 'orderGrandTotal').value}',
+                                        '₹${dashboardProvider.reviewCartResponse!.result!.
+                                        calculation?.firstWhere((calculation) {
+                                          return calculation.name == 'Order GrandTotal';
+                                        }).value
+                                        }',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,

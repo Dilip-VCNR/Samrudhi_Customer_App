@@ -23,7 +23,7 @@ class _StoreSearchState extends State<StoreSearch> {
         DashboardProvider dashboardProvider, Widget? child) {
       return Scaffold(
           appBar: AppBar(
-            title: Text("Search for products"),
+            title: const Text("Search for products"),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -63,273 +63,299 @@ class _StoreSearchState extends State<StoreSearch> {
                     textAlignVertical: TextAlignVertical.center,
                   ),
                 ),
-                ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Divider());
-                  },
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: filteredProducts.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
+                filteredProducts.isNotEmpty
+                    ? ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Divider());
+                        },
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: filteredProducts.length,
+                        itemBuilder: (context, index) {
+                          return Column(
                             children: [
                               Container(
-                                width: screenSize.width * .25,
-                                height: screenSize.width * .25,
-                                decoration: ShapeDecoration(
-                                  image: DecorationImage(
-                                    image: filteredProducts[index]
-                                            .productDetail!
-                                            .productImgArray!
-                                            .isEmpty
-                                        ? const NetworkImage(
-                                            "https://via.placeholder.com/115x111")
-                                        : NetworkImage(
-                                            '${UrlConstant.imageBaseUrl}${filteredProducts[index].productDetail!.productImgArray![0].imagePath!}'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(9),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              SizedBox(
-                                width: screenSize.width * .6,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                width: screenSize.width,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Text(
-                                      filteredProducts[index]
-                                          .productDetail!
-                                          .productName!,
-                                      style: const TextStyle(
-                                        color: AppColors.fontColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.60,
-                                      ),
-                                    ),
-                                    Text(
-                                      filteredProducts[index]
-                                          .productDetail!
-                                          .productSubCategory!
-                                          .productSubCategoryName!,
-                                      style: const TextStyle(
-                                        color: Color(0x8937474F),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      "UOM : ${filteredProducts[index].productDetail!.productUom!}",
-                                      style: const TextStyle(
-                                        color: Color(0x8937474F),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        // decoration:
-                                        //     TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                    filteredProducts[index]
-                                                .productDetail!
-                                                .productDiscount! >
-                                            0
-                                        ? Text(
-                                            '₹${filteredProducts[index].productDetail!.sellingPrice!}/${filteredProducts[index].productDetail!.productUom!}',
-                                            style: const TextStyle(
-                                                color: AppColors.primaryColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                decorationColor:
-                                                    AppColors.secondaryColor),
-                                          )
-                                        : const SizedBox.shrink(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          '₹${filteredProducts[index].productDetail!.productDiscountedValue!}/${filteredProducts[index].productDetail!.productUom!}',
-                                          style: const TextStyle(
-                                            color: AppColors.walletFont,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    Container(
+                                      width: screenSize.width * .25,
+                                      height: screenSize.width * .25,
+                                      decoration: ShapeDecoration(
+                                        image: DecorationImage(
+                                          image: filteredProducts[index]
+                                                  .productDetail!
+                                                  .productImgArray!
+                                                  .isEmpty
+                                              ? const NetworkImage(
+                                                  "https://via.placeholder.com/115x111")
+                                              : NetworkImage(
+                                                  '${UrlConstant.imageBaseUrl}${filteredProducts[index].productDetail!.productImgArray![0].imagePath!}'),
+                                          fit: BoxFit.fill,
                                         ),
-                                        !dashboardProvider.productExistInCart(
-                                                filteredProducts[index])
-                                            ? InkWell(
-                                                onTap: () async {
-                                                  await dashboardProvider
-                                                      .addUpdateProductToCart(
-                                                          filteredProducts[
-                                                                  index]
-                                                              .productDetail!,
-                                                          'add',
-                                                          context);
-                                                },
-                                                child: Container(
-                                                  width: screenSize.width / 4,
-                                                  height: 35,
-                                                  decoration: ShapeDecoration(
-                                                    color: AppColors
-                                                        .secondaryColor,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              7),
-                                                    ),
-                                                  ),
-                                                  child: const Center(
-                                                    child: Text(
-                                                      'Add',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            : Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      dashboardProvider
-                                                          .addUpdateProductToCart(
-                                                              filteredProducts[
-                                                                      index]
-                                                                  .productDetail!,
-                                                              'remove',
-                                                              context);
-                                                    },
-                                                    child: Container(
-                                                      height: 35,
-                                                      width: 35,
-                                                      decoration: const BoxDecoration(
-                                                          color: AppColors
-                                                              .primaryColor,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          5))),
-                                                      child: const Center(
-                                                          child: Text(
-                                                        "-",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 22,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 35,
-                                                    width: 35,
-                                                    child: Center(
-                                                        child: Text(
-                                                      dashboardProvider
-                                                          .getProductCountInCart(
-                                                              filteredProducts[
-                                                                  index])
-                                                          .toString(),
-                                                      // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
-                                                      style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    )),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      dashboardProvider
-                                                          .addUpdateProductToCart(
-                                                              filteredProducts[
-                                                                      index]
-                                                                  .productDetail!,
-                                                              'add',
-                                                              context);
-                                                    },
-                                                    child: Container(
-                                                      height: 35,
-                                                      width: 35,
-                                                      decoration: const BoxDecoration(
-                                                          color: AppColors
-                                                              .secondaryColor,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          5))),
-                                                      child: const Center(
-                                                          child: Text(
-                                                        "+",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 22,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                      ],
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9),
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(
-                                      height: 5,
+                                      width: 20,
                                     ),
-                                    filteredProducts[index]
+                                    SizedBox(
+                                      width: screenSize.width * .6,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            filteredProducts[index]
                                                 .productDetail!
-                                                .productDiscount! >
-                                            0
-                                        ? Text(
-                                            "You save ₹${filteredProducts[index].productDetail!.productDiscount!} on this order",
+                                                .productName!,
                                             style: const TextStyle(
-                                                color: AppColors.secondaryColor,
-                                                fontSize: 12),
-                                          )
-                                        : const SizedBox.shrink()
+                                              color: AppColors.fontColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              letterSpacing: 0.60,
+                                            ),
+                                          ),
+                                          Text(
+                                            filteredProducts[index]
+                                                .productDetail!
+                                                .productSubCategory!
+                                                .productSubCategoryName!,
+                                            style: const TextStyle(
+                                              color: Color(0x8937474F),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            "UOM : ${filteredProducts[index].productDetail!.productUom!}",
+                                            style: const TextStyle(
+                                              color: Color(0x8937474F),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              // decoration:
+                                              //     TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                          filteredProducts[index]
+                                                      .productDetail!
+                                                      .productDiscount! >
+                                                  0
+                                              ? Text(
+                                                  '₹${filteredProducts[index].productDetail!.sellingPrice!}/${filteredProducts[index].productDetail!.productUom!}',
+                                                  style: const TextStyle(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor: AppColors
+                                                          .secondaryColor),
+                                                )
+                                              : const SizedBox.shrink(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width / 3,
+                                                child: Text(
+                                                  '₹${filteredProducts[index].productDetail!.productDiscountedValue!}/${filteredProducts[index].productDetail!.productUom!}',
+                                                  style: const TextStyle(
+                                                    color: AppColors.walletFont,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              !dashboardProvider
+                                                      .productExistInCart(
+                                                          filteredProducts[
+                                                              index])
+                                                  ? InkWell(
+                                                      onTap: () async {
+                                                        await dashboardProvider
+                                                            .addUpdateProductToCart(
+                                                                filteredProducts[
+                                                                        index]
+                                                                    .productDetail!,
+                                                                'add',
+                                                                context);
+                                                      },
+                                                      child: Container(
+                                                        width:
+                                                            screenSize.width /
+                                                                4,
+                                                        height: 35,
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        7),
+                                                          ),
+                                                        ),
+                                                        child: const Center(
+                                                          child: Text(
+                                                            'Add',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            dashboardProvider
+                                                                .addUpdateProductToCart(
+                                                                    filteredProducts[
+                                                                            index]
+                                                                        .productDetail!,
+                                                                    'remove',
+                                                                    context);
+                                                          },
+                                                          child: Container(
+                                                            height: 35,
+                                                            width: 35,
+                                                            decoration: const BoxDecoration(
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5))),
+                                                            child: const Center(
+                                                                child: Text(
+                                                              "-",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            )),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 35,
+                                                          width: 35,
+                                                          child: Center(
+                                                              child: Text(
+                                                            dashboardProvider
+                                                                .getProductCountInCart(
+                                                                    filteredProducts[
+                                                                        index])
+                                                                .toString(),
+                                                            // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          )),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            dashboardProvider
+                                                                .addUpdateProductToCart(
+                                                                    filteredProducts[
+                                                                            index]
+                                                                        .productDetail!,
+                                                                    'add',
+                                                                    context);
+                                                          },
+                                                          child: Container(
+                                                            height: 35,
+                                                            width: 35,
+                                                            decoration: const BoxDecoration(
+                                                                color: AppColors
+                                                                    .secondaryColor,
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5))),
+                                                            child: const Center(
+                                                                child: Text(
+                                                              "+",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            )),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          filteredProducts[index]
+                                                      .productDetail!
+                                                      .productDiscount! >
+                                                  0
+                                              ? Text(
+                                                  "${filteredProducts[index].saveMessage}",
+                                                  style: const TextStyle(
+                                                      color: AppColors
+                                                          .secondaryColor,
+                                                      fontSize: 12),
+                                                )
+                                              : const SizedBox.shrink()
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                )
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text("No results to display"),
+                      )
               ],
             ),
           ));

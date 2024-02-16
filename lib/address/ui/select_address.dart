@@ -116,7 +116,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         textEditingController:
                             dashboardProvider.addressSearchController,
                         googleAPIKey: UrlConstant.googleApiKey,
-                        debounceTime: 400,
+                        debounceTime: 100,
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
@@ -140,7 +140,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  ListView.builder(
+                  prefModel.userData!.addressArray!.isNotEmpty?ListView.builder(
                     shrinkWrap: true,
                     itemCount: prefModel.userData!.addressArray!.length,
                     scrollDirection: Axis.vertical,
@@ -150,7 +150,8 @@ class _SelectAddressState extends State<SelectAddress> {
                         if (deliverableAddress != null) {
                           if (deliverableAddress.result!.contains(
                               prefModel.userData!.addressArray![index].id)) {
-                            dashboardProvider.setDeliveryAddress(prefModel.userData!.addressArray![index]);
+                            dashboardProvider.setDeliveryAddress(
+                                prefModel.userData!.addressArray![index]);
                           } else {
                             showErrorToast(context,
                                 "This address is not eligible for delivery for this store");
@@ -205,13 +206,73 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                               Row(
                                 children: [
-
                                   GestureDetector(
                                     onTap: () async {
-                                      await dashboardProvider.deleteUserAddress(
-                                          prefModel.userData!
-                                              .addressArray![index].id,
-                                          index);
+                                      prefModel.userData!.addressArray!.length!=1?showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Are you sure ?'),
+                                              content:
+                                                  Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children:[
+                                                      Text(
+                                                          'Are you sure you want to delete ${prefModel.userData!.addressArray![index].addressType} address?'),
+                                                      Text(
+                                                          '${prefModel.userData!.addressArray![index].completeAddress}'),
+                                                    ],
+                                                  ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('No'),
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text('Yes'),
+                                                  onPressed: () async {
+                                                    await dashboardProvider.deleteUserAddress(
+                                                        prefModel.userData!
+                                                            .addressArray![index].id,
+                                                        index);
+                                                    if(context.mounted){
+                                                      Navigator.of(context).pop();
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          }):showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Cannot delete !'),
+                                              content:
+                                              const Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children:[
+                                                  Text(
+                                                      'At least one address mandatory.'),
+                                                ],
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('OK'),
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          });
                                     },
                                     child: const CircleAvatar(
                                         backgroundColor: Colors.red,
@@ -234,7 +295,10 @@ class _SelectAddressState extends State<SelectAddress> {
                         ],
                       ),
                     ),
-                  ),
+                  ):const Center(child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("No saved address to display."),
+                  ),),
                 ],
               )),
         );

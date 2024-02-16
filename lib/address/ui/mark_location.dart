@@ -453,10 +453,14 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      maxLength: 6,
                       controller: authProvider.newPostalCodeController,
                       validator: (value) {
                         if (value!.trim().isEmpty) {
                           return 'Please enter your postal code';
+                        }
+                        if (value.trim().length<6) {
+                          return 'Please enter valid postal code';
                         }
                         return null;
                       },

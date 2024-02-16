@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
@@ -84,9 +86,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     children: [
                       CircleAvatar(
+                        key: ValueKey('${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}'),
                         radius: 50,
                         backgroundImage: NetworkImage(
-                            '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}'),
+                            '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}?v=${Random().nextInt(100)}'),
                       ),
                       const SizedBox(
                         width: 20,
@@ -95,12 +98,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '${prefModel.userData!.firstName} ${prefModel.userData!.lastName}',
-                            style: const TextStyle(
-                              color: Color(0xFF3E3E3E),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: screenSize.width/1.75,
+                            child: Text(
+                              '${prefModel.userData!.firstName}',
+                              style: const TextStyle(
+                                color: Color(0xFF3E3E3E),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           Text(

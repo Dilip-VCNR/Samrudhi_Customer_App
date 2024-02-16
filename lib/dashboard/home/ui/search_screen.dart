@@ -123,7 +123,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          width: 125,
+                                          width: screenSize.width/4,
                                           height: 130,
                                           decoration: ShapeDecoration(
                                             image: DecorationImage(
@@ -152,17 +152,20 @@ class _SearchScreenState extends State<SearchScreen> {
                                             const SizedBox(
                                               height: 5,
                                             ),
-                                            Text(
-                                              '${dashboardProvider.searchResponse!.result![index].displayName}',
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16.55,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1.25,
+                                            SizedBox(
+                                              width: screenSize.width/1.75,
+                                              child: Text(
+                                                '${dashboardProvider.searchResponse!.result![index].displayName}',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16.55,
+                                                  fontWeight: FontWeight.bold,
+                                                  height: 1.25,
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 212,
+                                              width: screenSize.width/1.75,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].storeCategoryName}',
                                                 style: const TextStyle(
@@ -176,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 3,
                                             ),
                                             SizedBox(
-                                              width: 212,
+                                              width: screenSize.width/1.75,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress}',
                                                 style: const TextStyle(
@@ -190,7 +193,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 5,
                                             ),
                                             SizedBox(
-                                              width: 212,
+                                              width: screenSize.width/1.75,
                                               child: Text(
                                                 dashboardProvider
                                                         .searchResponse!
@@ -253,7 +256,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ],
                     )
                   else
-                    Container(),
+                    const Center(child: Text("No results to display"),),
                   // ListView.builder(
                   //     shrinkWrap: true,
                   //     itemCount: suggestions.length,

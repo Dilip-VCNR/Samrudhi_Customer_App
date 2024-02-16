@@ -58,17 +58,17 @@ Future<bool?> showWarningDialog(BuildContext context, String message) async {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Warning"),
+        title: const Text("Warning"),
         content: Text(message),
         actions: [
           TextButton(
-            child: Text("Cancel"),
+            child: const Text("Cancel"),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
           ),
           TextButton(
-            child: Text("Proceed"),
+            child: const Text("Proceed"),
             onPressed: () {
               Navigator.of(context).pop(true);
             },

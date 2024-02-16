@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -204,23 +205,23 @@ class ApiCalls {
       ReviewCartResult result, int selectedValue, UserAddressArray? deliveryAddress) async {
     Map req = result.toJson();
     Calculation total = result.calculation!.firstWhere((element) {
-      return element.name == 'orderGrandTotal';
+      return element.name == 'Order GrandTotal';
     });
 
     Calculation discount = result.calculation!.firstWhere((element) {
-      return element.name == 'OverAlldiscountAmount';
+      return element.name == 'Overall Discount Amount';
     });
     Calculation? redeemPoints;
     Calculation? redeemPointsValue;
     try {
       redeemPoints = result.calculation!.firstWhere((element) {
-        return element.name == 'redeemPoints';
+        return element.name == 'Redeem Points';
       });
       redeemPointsValue = result.calculation!.firstWhere((element) {
-        return element.name == 'redeemPointValue';
+        return element.name == 'Redeem Point Value';
       });
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
 
     req['orderGrandTotal'] = total.value;

@@ -246,14 +246,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'First Name',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -279,14 +285,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Last Name',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -310,14 +322,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Email',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -333,10 +351,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 border:
-                                Border.all(color: Colors.black, width: 1)),
+                                Border.all(color: Colors.grey, width: 1)),
                             child: CountryCodePicker(
                               showFlag: true,
-                              enabled: true,
+                              enabled: false,
                               onChanged: (element) {
                                 authProvider.selectedCountryCode =
                                     element.dialCode;
@@ -372,8 +390,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hintText: 'Phone Number',
                                 counterText: "",
                                 isCollapsed: true,
-                                errorStyle: const TextStyle(
-                                    color: AppColors.secondaryColor),
+
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       color: AppColors.secondaryColor,
@@ -403,16 +420,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Store referral code (Optional)',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          // Set the fill color to grey
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            // Set the border radius
-                            borderSide: BorderSide.none,
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: AppColors.secondaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),

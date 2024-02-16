@@ -713,17 +713,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          Text(
-                                            '${store.displayName}',
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16.55,
-                                              fontWeight: FontWeight.bold,
-                                              height: 1.25,
+                                          SizedBox(
+                                            width: screenSize.width/1.75,
+                                            child: Text(
+                                              '${store.displayName}',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16.55,
+                                                fontWeight: FontWeight.bold,
+                                                height: 1.25,
+                                              ),
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 212,
+                                            width: screenSize.width/1.75,
                                             child: Text(
                                               '${store.storeCategoryName}',
                                               style: const TextStyle(
@@ -737,6 +740,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 3,
                                           ),
                                           SizedBox(
+                                            width: screenSize.width/1.75,
                                             child: Text(
                                               store.isHomeDelivery!
                                                   ? 'Home Delivery'
@@ -752,7 +756,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 3,
                                           ),
                                           SizedBox(
-                                            width: 212,
+                                            width: screenSize.width/1.75,
                                             child: Text(
                                               '${store.addressArray!.completeAddress}',
                                               style: const TextStyle(

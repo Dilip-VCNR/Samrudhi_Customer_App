@@ -130,14 +130,17 @@ class _OrderDetailsState extends State<OrderDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    order.productDetails![0].storeName!,
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      // fontWeight: FontWeight.w500,
-                      letterSpacing: 0.60,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/2,
+                    child: Text(
+                      order.productDetails![0].storeName!,
+                      style: const TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                        letterSpacing: 0.60,
+                      ),
                     ),
                   ),
                   Container(
@@ -163,7 +166,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
+      order.orderDeliveryType!='homeDelivery'?Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
@@ -195,10 +198,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(
+              ):const SizedBox.shrink(),
+              order.orderDeliveryType!='homeDelivery'?const SizedBox(
                 height: 10,
-              ),
+              ):const SizedBox.shrink(),
               const Divider(),
               const Text(
                 'Items',
@@ -217,21 +220,33 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
               Table(
                 border: TableBorder.all(color: Colors.black),
-                columnWidths: const {
-                  0: FlexColumnWidth(2),
-                  // Adjust the width of the first column
-                  1: FlexColumnWidth(2),
-                  // Adjust the width of the second column
-                  2: FlexColumnWidth(2),
-                  // Adjust the width of the third column
-                  3: FlexColumnWidth(2),
-                  // Adjust the width of the fourth column
-                },
+                defaultColumnWidth: const FlexColumnWidth(2), // Set a default column width
+
+                // columnWidths: const {
+                //   0: FlexColumnWidth(2),
+                //   // Adjust the width of the first column
+                //   1: FlexColumnWidth(2),
+                //   // Adjust the width of the second column
+                //   2: FlexColumnWidth(2),
+                //   // Adjust the width of the third column
+                //   3: FlexColumnWidth(2),
+                //   // Adjust the width of the fourth column
+                // },
                 children: [
                   const TableRow(
                     decoration: BoxDecoration(color: AppColors.secondaryColor),
                     // Optionally add background color for header
                     children: [
+                      TableCell(
+                        child: Text(
+                          'SL NO',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                       TableCell(
                         child: Text(
                           'Item',
@@ -279,6 +294,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                     (index) {
                       return TableRow(
                         children: [
+                          TableCell(
+                            child: Text(
+                              '${index+1}',
+                              style: const TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                           TableCell(
                             child: Text(
                               '${order.productDetails![index].productName}',
