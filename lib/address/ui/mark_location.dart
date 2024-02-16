@@ -372,7 +372,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newAddressController,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Please enter complete address';
                         }
                         return null;
@@ -400,7 +400,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newStateController,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Please enter your state';
                         }
                         return null;
@@ -428,7 +428,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newCityController,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Please enter your city';
                         }
                         return null;
@@ -455,7 +455,7 @@ class _MarkLocationState extends State<MarkLocation> {
                     TextFormField(
                       controller: authProvider.newPostalCodeController,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Please enter your postal code';
                         }
                         return null;

@@ -258,7 +258,7 @@ class ApiCalls {
   }
 
   updateUserDetails(String fName, String lName, String email,
-      String storeReferralCode, File? selectedImage) async {
+     File? selectedImage) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.updateUser));
     // Add form fields
@@ -266,7 +266,6 @@ class ApiCalls {
     request.fields['lastName'] = lName;
     request.fields['customerUuid'] = prefModel.userData!.customerUuid!;
     request.fields['emailId'] = email;
-    request.fields['storeReferralCode'] = storeReferralCode;
 
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());

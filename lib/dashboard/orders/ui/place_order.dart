@@ -298,30 +298,24 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                             // decoration: TextDecoration.lineThrough,
                                           ),
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
-                                              style: const TextStyle(
-                                                color: AppColors.fontColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
-                                              style: const TextStyle(
-                                                color: AppColors.primaryColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                // decoration: TextDecoration.lineThrough,
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
+                                          style: const TextStyle(
+                                            color: AppColors.fontColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
+                                          style: const TextStyle(
+                                            color: AppColors.primaryColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            // decoration: TextDecoration.lineThrough,
+                                          ),
                                         ),
                                         Text(
                                           'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productSubTotal}',
@@ -333,7 +327,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                           ),
                                         ),
                                         Text(
-                                          'UOM : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
+                                          'UOM : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
                                           style: const TextStyle(
                                             color: AppColors.secondaryColor,
                                             fontSize: 14,

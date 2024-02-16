@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return 'Please enter valid phone number';
                                   }
                                   if (authProvider.isNotValidPhone(value)) {
@@ -149,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 keyboardType: TextInputType.number,
                                 maxLength: 10,
                                 decoration: InputDecoration(
+                                  errorMaxLines: 3,
                                   hintText: 'Phone Number',
                                   counterText: "",
                                   isCollapsed: true,

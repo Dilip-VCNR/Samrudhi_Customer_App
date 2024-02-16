@@ -99,7 +99,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       const Text(
-                                        'Points earned',
+                                        'Points Earned',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xFF1B8902),
@@ -420,7 +420,7 @@ class _WalletScreenState extends State<WalletScreen> {
                         height: 10,
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(left: 20.0),
+                        padding: EdgeInsets.only(left: 10.0),
                         child: Text(
                           'Redeem History',
                           style: TextStyle(

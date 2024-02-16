@@ -422,7 +422,6 @@ class AuthProvider extends ChangeNotifier {
         editFirstNameController.text,
         editLastNameController.text,
         editEmailController.text,
-        editStoreReferralCodeController.text,
         selectedImage);
     selectedImage = null;
     if (updateResponse.statusCode == 200) {

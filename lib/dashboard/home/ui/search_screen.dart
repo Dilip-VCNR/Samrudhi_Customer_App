@@ -197,7 +197,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         .result![index]
                                                         .isHomeDelivery!
                                                     ? 'Home delivery'
-                                                    : 'Self pickup',
+                                                    : 'Self Pickup',
                                                 style: const TextStyle(
                                                   color: AppColors.fontColor,
                                                   fontSize: 10,
@@ -254,57 +254,57 @@ class _SearchScreenState extends State<SearchScreen> {
                     )
                   else
                     Container(),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: suggestions.length,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => InkWell(
-                            onTap: () {
-                              setState(() {
-                                dashboardProvider.searchController.text =
-                                    suggestions[index];
-                                dashboardProvider.searchKeyWord =
-                                    suggestions[index];
-                                dashboardProvider.searchType = 'productName';
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.search,
-                                      color: AppColors.fontColor,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      suggestions[index],
-                                      style: const TextStyle(
-                                        color: AppColors.fontColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Divider(
-                                  color: Colors.grey.shade300,
-                                  height: 1,
-                                ),
-                              ],
-                            ),
-                          ))
+                  // ListView.builder(
+                  //     shrinkWrap: true,
+                  //     itemCount: suggestions.length,
+                  //     scrollDirection: Axis.vertical,
+                  //     physics: const NeverScrollableScrollPhysics(),
+                  //     itemBuilder: (context, index) => InkWell(
+                  //           onTap: () {
+                  //             setState(() {
+                  //               dashboardProvider.searchController.text =
+                  //                   suggestions[index];
+                  //               dashboardProvider.searchKeyWord =
+                  //                   suggestions[index];
+                  //               dashboardProvider.searchType = 'productName';
+                  //             });
+                  //           },
+                  //           child: Column(
+                  //             mainAxisAlignment: MainAxisAlignment.start,
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             children: [
+                  //               const SizedBox(
+                  //                 height: 10,
+                  //               ),
+                  //               Row(
+                  //                 children: [
+                  //                   const Icon(
+                  //                     Icons.search,
+                  //                     color: AppColors.fontColor,
+                  //                   ),
+                  //                   const SizedBox(
+                  //                     width: 10,
+                  //                   ),
+                  //                   Text(
+                  //                     suggestions[index],
+                  //                     style: const TextStyle(
+                  //                       color: AppColors.fontColor,
+                  //                       fontSize: 14,
+                  //                       fontWeight: FontWeight.w500,
+                  //                     ),
+                  //                   )
+                  //                 ],
+                  //               ),
+                  //               const SizedBox(
+                  //                 height: 10,
+                  //               ),
+                  //               Divider(
+                  //                 color: Colors.grey.shade300,
+                  //                 height: 1,
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ))
                 ],
               ),
             ),

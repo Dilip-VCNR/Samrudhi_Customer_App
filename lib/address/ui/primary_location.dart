@@ -352,7 +352,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.addressController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value!.trim().isEmpty) {
                         return 'Please enter complete address';
                       }
                       return null;
@@ -380,7 +380,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.stateController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value!.trim().isEmpty) {
                         return 'Please enter your state';
                       }
                       return null;
@@ -408,7 +408,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.cityController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value!.trim().isEmpty) {
                         return 'Please enter your city';
                       }
                       return null;
@@ -436,7 +436,7 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     keyboardType: TextInputType.number,
                     controller: authProvider.postalCodeController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value!.trim().isEmpty) {
                         return 'Please enter your postal code';
                       }
                       return null;

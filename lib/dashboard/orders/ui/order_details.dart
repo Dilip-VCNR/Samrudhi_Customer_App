@@ -283,7 +283,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             child: Text(
                               '${order.productDetails![index].productName}',
                               style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.start,
                             ),
                           ),
                           TableCell(
@@ -302,9 +302,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                           TableCell(
                             child: Text(
-                              '${order.productDetails![index].productGrandTotal}',
+                              '₹${order.productDetails![index].productGrandTotal}',
                               style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.end,
                             ),
                           ),
                         ],
@@ -331,7 +331,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ),
                   Text(
-                    double.parse(order.orderGrandTotal!).toStringAsFixed(2),
+                    "₹${double.parse(order.orderGrandTotal!).toStringAsFixed(2)}",
                     style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 16,

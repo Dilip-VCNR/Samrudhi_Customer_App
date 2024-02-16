@@ -94,10 +94,11 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                        maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.editFirstNameController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return 'Please enter your first name';
                           }
                           if (authProvider.isNotValidName(value)) {
@@ -126,10 +127,11 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                        maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.editLastNameController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return 'Please enter your last name';
                           }
                           if (authProvider.isNotValidName(value)) {
@@ -160,7 +162,7 @@ class _EditProfileState extends State<EditProfile> {
                       TextFormField(
                         controller: authProvider.editEmailController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return 'Please enter your email';
                           }
                           if (authProvider.isNotValidEmail(value)) {
@@ -185,31 +187,31 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller:
-                            authProvider.editStoreReferralCodeController,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.store),
-                          labelText: 'Store referral code (Optional)',
-                          hintText: 'Store referral code (Optional)',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          // Set the fill color to grey
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            // Set the border radius
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 16.0),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // TextFormField(
+                      //   controller:
+                      //       authProvider.editStoreReferralCodeController,
+                      //   decoration: InputDecoration(
+                      //     prefixIcon: const Icon(Icons.store),
+                      //     labelText: 'Store referral code (Optional)',
+                      //     hintText: 'Store referral code (Optional)',
+                      //     counterText: "",
+                      //     isCollapsed: true,
+                      //     filled: true,
+                      //     fillColor: AppColors.inputFieldColor,
+                      //     // Set the fill color to grey
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10.0),
+                      //       // Set the border radius
+                      //       borderSide: BorderSide.none,
+                      //     ),
+                      //     contentPadding:
+                      //         const EdgeInsets.symmetric(vertical: 16.0),
+                      //   ),
+                      //   textAlignVertical: TextAlignVertical.center,
+                      // ),
                       const SizedBox(
                         height: 20,
                       ),

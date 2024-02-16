@@ -293,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       .myStore![0]
                                                       .isHomeDelivery!
                                                   ? 'Home Delivery'
-                                                  : 'Self pickup',
+                                                  : 'Self Pickup',
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 12,
@@ -522,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15.0),
                           child: Text(
-                            'Stores near you',
+                            'Stores Near You',
                             style: TextStyle(
                               color: AppColors.fontColor,
                               fontSize: 20,
@@ -610,7 +610,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       vertical: 10, horizontal: 20),
                                   child: const Center(
                                     child: Text(
-                                      "Self pickup",
+                                      "Self Pickup",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
@@ -740,7 +740,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Text(
                                               store.isHomeDelivery!
                                                   ? 'Home Delivery'
-                                                  : 'Self pickup',
+                                                  : 'Self Pickup',
                                               style: const TextStyle(
                                                 color: AppColors.fontColor,
                                                 fontSize: 12,

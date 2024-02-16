@@ -103,9 +103,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const Text(
-                            '+91 8660225160',
-                            style: TextStyle(
+                          Text(
+                            '+91 ${prefModel.userData!.mobile}',
+                            style: const TextStyle(
                               color: Color(0xFF545454),
                               fontSize: 15,
                               fontWeight: FontWeight.w500,

@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -227,10 +228,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                        maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.firstNameController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return 'Please enter your first name';
                           }
                           if (authProvider.isNotValidName(value)) {
@@ -259,10 +261,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                        maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.lastNameController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return 'Please enter your last name';
                           }
                           if (authProvider.isNotValidName(value)) {
@@ -293,7 +296,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: authProvider.emailController,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return 'Please enter your email';
                           }
                           if (authProvider.isNotValidEmail(value)) {
@@ -317,6 +320,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               const EdgeInsets.symmetric(vertical: 16.0),
                         ),
                         textAlignVertical: TextAlignVertical.center,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border:
+                                Border.all(color: Colors.black, width: 1)),
+                            child: CountryCodePicker(
+                              showFlag: true,
+                              enabled: true,
+                              onChanged: (element) {
+                                authProvider.selectedCountryCode =
+                                    element.dialCode;
+                              },
+                              initialSelection: 'IN',
+                              favorite: const ['+91', 'IN'],
+                              showCountryOnly: false,
+                              showOnlyCountryWhenClosed: false,
+                              alignLeft: false,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              enabled: false,
+                              autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Please enter valid phone number';
+                                }
+                                if (authProvider.isNotValidPhone(value)) {
+                                  return "Please enter valid phone number";
+                                }
+                                return null;
+                              },
+                              controller: authProvider.phoneNumberController,
+                              keyboardType: TextInputType.number,
+                              maxLength: 10,
+                              decoration: InputDecoration(
+                                hintText: 'Phone Number',
+                                counterText: "",
+                                isCollapsed: true,
+                                errorStyle: const TextStyle(
+                                    color: AppColors.secondaryColor),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: AppColors.secondaryColor,
+                                      width: 2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 20,
