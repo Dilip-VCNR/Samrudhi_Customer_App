@@ -94,6 +94,8 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.editFirstNameController,
@@ -101,7 +103,7 @@ class _EditProfileState extends State<EditProfile> {
                           if (value!.trim().isEmpty) {
                             return 'Please enter your first name';
                           }
-                          if (authProvider.isNotValidName(value)) {
+                          if (authProvider.isNotValidName(value.trim())) {
                             return "Please enter valid first name";
                           }
                           return null;
@@ -132,6 +134,8 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.editLastNameController,
@@ -139,7 +143,7 @@ class _EditProfileState extends State<EditProfile> {
                           if (value!.trim().isEmpty) {
                             return 'Please enter your last name';
                           }
-                          if (authProvider.isNotValidName(value)) {
+                          if (authProvider.isNotValidName(value.trim())) {
                             return "Please enter valid last name";
                           }
                           return null;
@@ -170,6 +174,8 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         controller: authProvider.editEmailController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -206,6 +212,8 @@ class _EditProfileState extends State<EditProfile> {
                       //   height: 20,
                       // ),
                       // TextFormField(
+                      //           autovalidateMode:
+                      //               AutovalidateMode.onUserInteraction,
                       //   controller:
                       //       authProvider.editStoreReferralCodeController,
                       //   decoration: InputDecoration(

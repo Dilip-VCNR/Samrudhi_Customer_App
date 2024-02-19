@@ -112,6 +112,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                       width: screenSize.width,
                       padding: const EdgeInsets.all(20),
                       child: GooglePlacesAutoCompleteTextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                           textAlignVertical: TextAlignVertical.center,
                           inputDecoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search),
@@ -349,6 +351,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                     textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.addressController,
                     validator: (value) {
@@ -377,6 +381,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                     textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.stateController,
                     validator: (value) {
@@ -405,6 +411,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                     textCapitalization: TextCapitalization.sentences,
                     controller: authProvider.cityController,
                     validator: (value) {
@@ -433,6 +441,8 @@ class _PrimaryLocationState extends State<PrimaryLocation> {
                     height: 20,
                   ),
                   TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                     maxLength: 6,
                     keyboardType: TextInputType.number,
                     controller: authProvider.postalCodeController,

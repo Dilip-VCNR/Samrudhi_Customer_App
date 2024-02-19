@@ -98,6 +98,8 @@ class _SelectAddressState extends State<SelectAddress> {
                     width: screenSize.width,
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: GooglePlacesAutoCompleteTextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         textAlignVertical: TextAlignVertical.center,
                         inputDecoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),

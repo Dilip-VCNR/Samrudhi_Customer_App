@@ -139,7 +139,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                            width:screenSize.width/1.6,
+                                            width:screenSize.width/1.75,
                                             child: Text(
                                               '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
                                               style: const TextStyle(
@@ -171,7 +171,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                               '${ordersProvider.ongoingOrders[index].orderStatus}',
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 10,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             )),
@@ -309,7 +309,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         SizedBox(
-                                          width:screenSize.width/1.6,
+                                          width:screenSize.width/1.75,
                                           child: Text(
                                             '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
                                             style: const TextStyle(
@@ -342,7 +342,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             '${ordersProvider.finishedOrders[index].orderStatus}',
                                             style: const TextStyle(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w700,
                                             ),
                                           )),

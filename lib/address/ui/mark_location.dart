@@ -107,6 +107,8 @@ class _MarkLocationState extends State<MarkLocation> {
                     width: screenSize.width,
                     padding: const EdgeInsets.all(20),
                     child: GooglePlacesAutoCompleteTextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         textAlignVertical: TextAlignVertical.center,
                         inputDecoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),
@@ -369,6 +371,8 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                       textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newAddressController,
                       validator: (value) {
@@ -397,6 +401,8 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                       textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newStateController,
                       validator: (value) {
@@ -425,6 +431,8 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                       textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.newCityController,
                       validator: (value) {
@@ -453,6 +461,8 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                       maxLength: 6,
                       controller: authProvider.newPostalCodeController,
                       validator: (value) {

@@ -39,7 +39,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
         dashboardProvider.reviewCartScreenContext = context;
-        if (firstTimeLoading != true) {
+        if (firstTimeLoading != true && prefModel.cartItems!.isNotEmpty) {
           dashboardProvider.reviewCartResponse = null;
           dashboardProvider.reviewMyCart();
           firstTimeLoading = true;
@@ -57,7 +57,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                 ),
               ),
             ),
-
             body: prefModel.cartItems!.isNotEmpty
                 ? SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -65,7 +64,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         const Text(
                           'Store Details',
                           style: TextStyle(
@@ -104,37 +102,51 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ),
                         ),
                         const Divider(),
-                        for (int i = 0; i < dashboardProvider.reviewCartResponse!.result!.calculation!.length;i++)
-                          dashboardProvider.reviewCartResponse!.result!.calculation![i].name != 'redeemPoints'?Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text(
-                                  dashboardProvider.capitalizeWords(dashboardProvider.reviewCartResponse!.result!.calculation![i].name!),
-                                  style: const TextStyle(
-                                    color: AppColors.fontColor,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 0.60,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text(
-                                  '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                    color: AppColors.fontColor,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 0.60,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ):const SizedBox.shrink(),
+                        for (int i = 0;
+                            i <
+                                dashboardProvider.reviewCartResponse!.result!
+                                    .calculation!.length;
+                            i++)
+                          dashboardProvider.reviewCartResponse!.result!
+                                      .calculation![i].name !=
+                                  'redeemPoints'
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Text(
+                                        dashboardProvider.capitalizeWords(
+                                            dashboardProvider
+                                                .reviewCartResponse!
+                                                .result!
+                                                .calculation![i]
+                                                .name!),
+                                        style: const TextStyle(
+                                          color: AppColors.fontColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.60,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Text(
+                                        '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
+                                        textAlign: TextAlign.right,
+                                        style: const TextStyle(
+                                          color: AppColors.fontColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.60,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              : const SizedBox.shrink(),
                         // const Text(
                         //   'Payment Methods',
                         //   style: TextStyle(
@@ -340,7 +352,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             SizedBox(
-                                              width:screenSize.width/3,
+                                              width: screenSize.width / 3,
                                               child: Text(
                                                 'Total : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productGrandTotal!}',
                                                 style: const TextStyle(
@@ -357,19 +369,21 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                     .addedCartQuantity ==
                                                 0)
                                               InkWell(
-                                                onTap: () {
+                                                onTap: () async {
                                                   dashboardProvider
                                                       .addUpdateProductToCart(
                                                           prefModel.cartItems![
                                                               index],
                                                           "add",
                                                           context);
-                                                  dashboardProvider
-                                                          .reviewCartResponse =
-                                                      null;
-                                                  setState(() {
-                                                    firstTimeLoading = false;
-                                                  });
+                                                  // dashboardProvider.reviewCartResponse = null;
+                                                  showLoaderDialog(context);
+                                                  await dashboardProvider
+                                                      .reviewMyCart();
+                                                  Navigator.pop(context);
+                                                  // setState(() {
+                                                  //   // firstTimeLoading = false;
+                                                  // });
                                                 },
                                                 child: Container(
                                                   width: screenSize.width / 4,
@@ -411,17 +425,22 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                               context);
                                                       if (prefModel
                                                           .cartItems!.isEmpty) {
-                                                        if(context.mounted){
-                                                          Navigator.pop(context);
+                                                        if (context.mounted) {
+                                                          Navigator.pop(
+                                                              context);
                                                         }
                                                       } else {
-                                                        setState(() {
-                                                          dashboardProvider
-                                                                  .reviewCartResponse =
-                                                              null;
-                                                          firstTimeLoading =
-                                                              false;
-                                                        });
+                                                        // dashboardProvider.reviewCartResponse = null;
+                                                        showLoaderDialog(
+                                                            context);
+                                                        await dashboardProvider
+                                                            .reviewMyCart();
+                                                        Navigator.pop(context);
+                                                        // setState(() {
+                                                        //
+                                                        //   // firstTimeLoading =
+                                                        //   //     false;
+                                                        // });
                                                       }
                                                     },
                                                     child: Container(
@@ -480,13 +499,15 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                                   index],
                                                               'add',
                                                               context);
-                                                      dashboardProvider
-                                                              .reviewCartResponse =
-                                                          null;
-                                                      setState(() {
-                                                        firstTimeLoading =
-                                                            false;
-                                                      });
+                                                      // dashboardProvider.reviewCartResponse = null;
+                                                      showLoaderDialog(context);
+                                                      await dashboardProvider
+                                                          .reviewMyCart();
+                                                      Navigator.pop(context);
+                                                      // setState(() {
+                                                      //   // firstTimeLoading =
+                                                      //   //     false;
+                                                      // });
                                                     },
                                                     child: Container(
                                                       width: 35,
@@ -669,7 +690,29 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               showErrorToast(
                                   context, "Please select delivery address");
                             } else {
-                              dashboardProvider.placeOrder(_selectedValue);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Confirm order?"),
+                                      content:
+                                          const Text("Confirm placing the order ? "),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("No")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              dashboardProvider
+                                                  .placeOrder(_selectedValue);
+                                            },
+                                            child: const Text("Yes"))
+                                      ],
+                                    );
+                                  });
                             }
                           },
                           child: Container(
@@ -694,11 +737,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   ),
                                   TextSpan(
                                     text:
-                                        '₹${dashboardProvider.reviewCartResponse!.result!.
-                                        calculation?.firstWhere((calculation) {
-                                          return calculation.name == 'Order GrandTotal';
-                                        }).value
-                                        }',
+                                        '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) {
+                                      return calculation.name ==
+                                          'Order GrandTotal';
+                                    }).value}',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,

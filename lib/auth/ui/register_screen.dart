@@ -228,6 +228,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.firstNameController,
@@ -235,7 +237,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value!.trim().isEmpty) {
                             return 'Please enter your first name';
                           }
-                          if (authProvider.isNotValidName(value)) {
+                          if (authProvider.isNotValidName(value.trim())) {
                             return "Please enter valid first name";
                           }
                           return null;
@@ -267,6 +269,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.lastNameController,
@@ -274,7 +278,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (value!.trim().isEmpty) {
                             return 'Please enter your last name';
                           }
-                          if (authProvider.isNotValidName(value)) {
+                          if (authProvider.isNotValidName(value.trim())) {
                             return "Please enter valid last name";
                           }
                           return null;
@@ -306,6 +310,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         controller: authProvider.emailController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -371,9 +377,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                               enabled: false,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter valid phone number';
@@ -413,6 +419,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                         controller: authProvider.storeReferralCodeController,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.store),
