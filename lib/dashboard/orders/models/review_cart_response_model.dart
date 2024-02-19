@@ -99,7 +99,7 @@ class Calculation {
 
   factory Calculation.fromJson(Map<String, dynamic> json) => Calculation(
         name: json["name"],
-        value: json["value"],
+        value: json["value"].toString(),
         message: json["message"],
       );
 

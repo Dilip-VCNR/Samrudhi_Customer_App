@@ -299,13 +299,14 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  reviewMyCart() async {
-    reviewCartResponse = await apiCalls.reviewCart();
+  reviewMyCart(int orderDeliveryType) async {
+    reviewCartResponse = await apiCalls.reviewCart(orderDeliveryType);
     walletData = await apiCalls.getWalletData();
     if (reviewCartResponse!.statusCode == 200) {
       notifyListeners();
     } else {
       showErrorToast(reviewCartScreenContext!, reviewCartResponse!.message!);
+      Navigator.pop(reviewCartScreenContext!);
       notifyListeners();
     }
   }

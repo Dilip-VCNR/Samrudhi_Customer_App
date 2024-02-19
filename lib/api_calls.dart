@@ -187,11 +187,12 @@ class ApiCalls {
     return SearchResponseModel.fromJson(json.decode(response.body));
   }
 
-  Future<ReviewCartResponseModel> reviewCart() async {
+  Future<ReviewCartResponseModel> reviewCart(int orderDeliveryType) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.reviewCart,
         jsonEncode({
+          "orderDeliveryType":orderDeliveryType==1?"homeDelivery":"selfPickup",
           "customerUuid": prefModel.userData!.customerUuid,
           "storeUuid": prefModel.cartItems!.isNotEmpty
               ? prefModel.cartItems![0].storeUuid

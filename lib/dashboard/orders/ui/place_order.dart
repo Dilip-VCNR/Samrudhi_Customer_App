@@ -41,7 +41,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
         dashboardProvider.reviewCartScreenContext = context;
         if (firstTimeLoading != true && prefModel.cartItems!.isNotEmpty) {
           dashboardProvider.reviewCartResponse = null;
-          dashboardProvider.reviewMyCart();
+          dashboardProvider.reviewMyCart(_selectedValue);
           firstTimeLoading = true;
         }
         if (dashboardProvider.reviewCartResponse != null) {
@@ -379,7 +379,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                   // dashboardProvider.reviewCartResponse = null;
                                                   showLoaderDialog(context);
                                                   await dashboardProvider
-                                                      .reviewMyCart();
+                                                      .reviewMyCart(_selectedValue);
                                                   Navigator.pop(context);
                                                   // setState(() {
                                                   //   // firstTimeLoading = false;
@@ -434,7 +434,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                         showLoaderDialog(
                                                             context);
                                                         await dashboardProvider
-                                                            .reviewMyCart();
+                                                            .reviewMyCart(_selectedValue);
                                                         Navigator.pop(context);
                                                         // setState(() {
                                                         //
@@ -502,7 +502,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                       // dashboardProvider.reviewCartResponse = null;
                                                       showLoaderDialog(context);
                                                       await dashboardProvider
-                                                          .reviewMyCart();
+                                                          .reviewMyCart(_selectedValue);
                                                       Navigator.pop(context);
                                                       // setState(() {
                                                       //   // firstTimeLoading =
@@ -599,9 +599,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 value: 1,
                                 groupValue: _selectedValue,
                                 onChanged: (value) {
-                                  setState(() {
-                                    _selectedValue = value!;
-                                  });
+                                  showLoaderDialog(context);
+                                  _selectedValue = value!;
+                                  dashboardProvider.reviewMyCart(_selectedValue);
+                                  Navigator.pop(context);
                                 },
                               )
                             : const SizedBox.shrink(),
@@ -612,9 +613,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           value: 2,
                           groupValue: _selectedValue,
                           onChanged: (value) {
-                            setState(() {
-                              _selectedValue = value!;
-                            });
+                            showLoaderDialog(context);
+                            _selectedValue = value!;
+                            dashboardProvider.reviewMyCart(_selectedValue);
+                            Navigator.pop(context);
                           },
                         ),
                         _selectedValue == 1
