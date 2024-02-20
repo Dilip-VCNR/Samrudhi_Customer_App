@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:samruddhi/dashboard/models/store_data_model.dart';
+import 'package:samruddhi/utils/url_constants.dart';
 import 'package:toastification/toastification.dart';
 
 import 'app_colors.dart';
@@ -77,4 +79,80 @@ Future<bool?> showWarningDialog(BuildContext context, String message) async {
       );
     },
   );
+}
+
+showProductDetailsModal(
+    ProductList product, BuildContext context, Size screenSize) {
+  return showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Product details",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.close))
+                ],
+              ),
+              const Divider(),
+              SizedBox(
+                height: screenSize.width / 2,
+                width: screenSize.width,
+                child: Image(
+                    fit: BoxFit.fitHeight,
+                    image: NetworkImage(UrlConstant.imageBaseUrl +
+                        product.productDetail!.productImgArray![0].imagePath!)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Product Name : ${product.productDetail!.productName!}",
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                  "Product Description : ${product.productDetail!.description!}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.normal)),
+              Text('Selling Price : ₹${product.productDetail!.sellingPrice!}',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.normal)),
+              Text(
+                  'Discount Percentage : ₹${product.productDetail!.productDiscount!}%',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.normal)),
+              Text(
+                  'Offer Price : ₹${product.productDetail!.productDiscountedValue!}',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.normal)),
+              Text("UOM : ${product.productDetail!.productUom!}"),
+              Text(
+                '${product.saveMessage}',
+                style: const TextStyle(
+                    color: Colors.green,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
+        );
+      });
 }

@@ -4,6 +4,7 @@ import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 
+import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 
@@ -231,357 +232,359 @@ class _StoreScreenState extends State<StoreScreen> {
                               itemCount: dashboardProvider.storeData!.result!
                                   .productDetails![i].productList!.length,
                               itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                      width: screenSize.width,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Stack(
-                                            children: [
-                                              Container(
-                                                width: screenSize.width * .25,
-                                                height: screenSize.width * .25,
-                                                decoration: ShapeDecoration(
-                                                  image: DecorationImage(
-                                                    image: dashboardProvider
-                                                            .storeData!
-                                                            .result!
-                                                            .productDetails![i]
-                                                            .productList![index]
-                                                            .productDetail!
-                                                            .productImgArray!
-                                                            .isEmpty
-                                                        ? const NetworkImage(
-                                                            "https://via.placeholder.com/115x111")
-                                                        : NetworkImage(
-                                                            '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productImgArray![0].imagePath!}'),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9),
-                                                  ),
+                                return GestureDetector(
+                                  onTap: (){
+                                    showProductDetailsModal(dashboardProvider.storeData!.result!
+                                        .productDetails![i].productList![index],context,screenSize);
+                                  },
+                                  child: Container(
+                                    width: screenSize.width,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              width: screenSize.width * .25,
+                                              height: screenSize.width * .25,
+                                              decoration: ShapeDecoration(
+                                                image: DecorationImage(
+                                                  image: dashboardProvider
+                                                          .storeData!
+                                                          .result!
+                                                          .productDetails![i]
+                                                          .productList![index]
+                                                          .productDetail!
+                                                          .productImgArray!
+                                                          .isEmpty
+                                                      ? const NetworkImage(
+                                                          "https://via.placeholder.com/115x111")
+                                                      : NetworkImage(
+                                                          '${UrlConstant.imageBaseUrl}${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productImgArray![0].imagePath!}'),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          9),
                                                 ),
                                               ),
-                                              Positioned(
-                                                  right: 5,
-                                                  child: CircleAvatar(
-                                                    radius: 20,
-                                                    backgroundColor:
-                                                        AppColors.primaryColor,
-                                                    child: Center(
-                                                        child: Text(
-                                                      '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount}%\noff',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                          fontSize: 10),
-                                                    )),
-                                                  ))
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          SizedBox(
-                                            width: screenSize.width * .6,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  dashboardProvider
-                                                      .storeData!
-                                                      .result!
-                                                      .productDetails![i]
-                                                      .productList![index]
-                                                      .productDetail!
-                                                      .productName!,
-                                                  style: const TextStyle(
-                                                    color: AppColors.fontColor,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                    letterSpacing: 0.60,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  dashboardProvider
-                                                      .storeData!
-                                                      .result!
-                                                      .productDetails![i]
-                                                      .productList![index]
-                                                      .productDetail!
-                                                      .productSubCategory!
-                                                      .productSubCategoryName!,
-                                                  style: const TextStyle(
-                                                    color: Color(0x8937474F),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    // decoration:
-                                                    //     TextDecoration.lineThrough,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "UOM : ${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}",
-                                                  style: const TextStyle(
-                                                    color: Color(0x8937474F),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    // decoration:
-                                                    //     TextDecoration.lineThrough,
-                                                  ),
-                                                ),
-                                                dashboardProvider
-                                                            .storeData!
-                                                            .result!
-                                                            .productDetails![i]
-                                                            .productList![index]
-                                                            .productDetail!
-                                                            .productDiscount! >
-                                                        0
-                                                    ? Text(
-                                                        '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.sellingPrice!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
-                                                        style: const TextStyle(
-                                                            color: AppColors
-                                                                .primaryColor,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            decorationColor:
-                                                                AppColors
-                                                                    .secondaryColor),
-                                                      )
-                                                    : const SizedBox.shrink(),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    SizedBox(
-                                                      width:screenSize.width/3.1,
+                                            ),
+                                            Positioned(
+                                                right: 5,
+                                                child: CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundColor:
+                                                      AppColors.primaryColor,
+                                                  child: Center(
                                                       child: Text(
-                                                        '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscountedValue!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
-                                                        style: const TextStyle(
+                                                    '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount}%\noff',
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style: const TextStyle(
+                                                        fontSize: 10),
+                                                  )),
+                                                ))
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        SizedBox(
+                                          width: screenSize.width * .6,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                dashboardProvider
+                                                    .storeData!
+                                                    .result!
+                                                    .productDetails![i]
+                                                    .productList![index]
+                                                    .productDetail!
+                                                    .productName!,
+                                                style: const TextStyle(
+                                                  color: AppColors.fontColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 0.60,
+                                                ),
+                                              ),
+                                              Text(
+                                                dashboardProvider
+                                                    .storeData!
+                                                    .result!
+                                                    .productDetails![i]
+                                                    .productList![index]
+                                                    .productDetail!
+                                                    .productSubCategory!
+                                                    .productSubCategoryName!,
+                                                style: const TextStyle(
+                                                  color: Color(0x8937474F),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  // decoration:
+                                                  //     TextDecoration.lineThrough,
+                                                ),
+                                              ),
+                                              Text(
+                                                "UOM : ${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}",
+                                                style: const TextStyle(
+                                                  color: Color(0x8937474F),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  // decoration:
+                                                  //     TextDecoration.lineThrough,
+                                                ),
+                                              ),
+                                              dashboardProvider
+                                                          .storeData!
+                                                          .result!
+                                                          .productDetails![i]
+                                                          .productList![index]
+                                                          .productDetail!
+                                                          .productDiscount! >
+                                                      0
+                                                  ? Text(
+                                                      '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.sellingPrice!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
+                                                      style: const TextStyle(
                                                           color: AppColors
-                                                              .walletFont,
-                                                          fontSize: 16,
+                                                              .primaryColor,
+                                                          fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.w600,
-                                                        ),
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          decorationColor:
+                                                              AppColors
+                                                                  .secondaryColor),
+                                                    )
+                                                  : const SizedBox.shrink(),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                mainAxisSize:
+                                                    MainAxisSize.max,
+                                                children: [
+                                                  SizedBox(
+                                                    width:screenSize.width/3.1,
+                                                    child: Text(
+                                                      '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscountedValue!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
+                                                      style: const TextStyle(
+                                                        color: AppColors
+                                                            .walletFont,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                       ),
                                                     ),
-                                                    !dashboardProvider
-                                                            .productExistInCart(
+                                                  ),
+                                                  !dashboardProvider
+                                                          .productExistInCart(
+                                                              dashboardProvider
+                                                                  .storeData!
+                                                                  .result!
+                                                                  .productDetails![
+                                                                      i]
+                                                                  .productList![index])
+                                                      ? InkWell(
+                                                          onTap: () async {
+                                                            await dashboardProvider.addUpdateProductToCart(
                                                                 dashboardProvider
                                                                     .storeData!
                                                                     .result!
                                                                     .productDetails![
                                                                         i]
-                                                                    .productList![index])
-                                                        ? InkWell(
-                                                            onTap: () async {
-                                                              await dashboardProvider.addUpdateProductToCart(
-                                                                  dashboardProvider
-                                                                      .storeData!
-                                                                      .result!
-                                                                      .productDetails![
-                                                                          i]
-                                                                      .productList![
-                                                                          index]
-                                                                      .productDetail!,
-                                                                  'add',
-                                                                  context);
-                                                            },
-                                                            child: Container(
-                                                              width: screenSize
-                                                                      .width /
-                                                                  4,
-                                                              height: 35,
-                                                              decoration:
-                                                                  ShapeDecoration(
-                                                                color: AppColors
-                                                                    .secondaryColor,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
+                                                                    .productList![
+                                                                        index]
+                                                                    .productDetail!,
+                                                                'add',
+                                                                context);
+                                                          },
+                                                          child: Container(
+                                                            width: screenSize
+                                                                    .width /
+                                                                4,
+                                                            height: 35,
+                                                            decoration:
+                                                                ShapeDecoration(
+                                                              color: AppColors
+                                                                  .secondaryColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7),
                                                               ),
-                                                              child:
-                                                                  const Center(
-                                                                child: Text(
-                                                                  'Add',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
+                                                            ),
+                                                            child:
+                                                                const Center(
+                                                              child: Text(
+                                                                'Add',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
                                                                 ),
                                                               ),
                                                             ),
-                                                          )
-                                                        : Row(
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  dashboardProvider.addUpdateProductToCart(
-                                                                      dashboardProvider
-                                                                          .storeData!
-                                                                          .result!
-                                                                          .productDetails![
-                                                                              i]
-                                                                          .productList![
-                                                                              index]
-                                                                          .productDetail!,
-                                                                      'remove',
-                                                                      context);
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: 35,
-                                                                  width: 35,
-                                                                  decoration: const BoxDecoration(
-                                                                      color: AppColors
-                                                                          .primaryColor,
-                                                                      borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(5))),
-                                                                  child:
-                                                                      const Center(
-                                                                          child:
-                                                                              Text(
-                                                                    "-",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            22,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  )),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
+                                                          ),
+                                                        )
+                                                      : Row(
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                dashboardProvider.addUpdateProductToCart(
+                                                                    dashboardProvider
+                                                                        .storeData!
+                                                                        .result!
+                                                                        .productDetails![
+                                                                            i]
+                                                                        .productList![
+                                                                            index]
+                                                                        .productDetail!,
+                                                                    'remove',
+                                                                    context);
+                                                              },
+                                                              child:
+                                                                  Container(
                                                                 height: 35,
-                                                                width: 40,
-                                                                child: Center(
-                                                                    child: Text(
-                                                                  dashboardProvider
-                                                                      .getProductCountInCart(dashboardProvider
-                                                                          .storeData!
-                                                                          .result!
-                                                                          .productDetails![
-                                                                              i]
-                                                                          .productList![index])
-                                                                      .toString(),
-                                                                  // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
-                                                                  style: const TextStyle(
+                                                                width: 35,
+                                                                decoration: const BoxDecoration(
+                                                                    color: AppColors
+                                                                        .primaryColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5))),
+                                                                child:
+                                                                    const Center(
+                                                                        child:
+                                                                            Text(
+                                                                  "-",
+                                                                  style: TextStyle(
                                                                       color: Colors
-                                                                          .black,
+                                                                          .white,
                                                                       fontSize:
-                                                                          16,
+                                                                          22,
                                                                       fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
+                                                                          FontWeight.bold),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
                                                                 )),
                                                               ),
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  dashboardProvider.addUpdateProductToCart(
-                                                                      dashboardProvider
-                                                                          .storeData!
-                                                                          .result!
-                                                                          .productDetails![
-                                                                              i]
-                                                                          .productList![
-                                                                              index]
-                                                                          .productDetail!,
-                                                                      'add',
-                                                                      context);
-                                                                },
+                                                            ),
+                                                            SizedBox(
+                                                              height: 35,
+                                                              width: 40,
+                                                              child: Center(
+                                                                  child: Text(
+                                                                dashboardProvider
+                                                                    .getProductCountInCart(dashboardProvider
+                                                                        .storeData!
+                                                                        .result!
+                                                                        .productDetails![
+                                                                            i]
+                                                                        .productList![index])
+                                                                    .toString(),
+                                                                // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              )),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                dashboardProvider.addUpdateProductToCart(
+                                                                    dashboardProvider
+                                                                        .storeData!
+                                                                        .result!
+                                                                        .productDetails![
+                                                                            i]
+                                                                        .productList![
+                                                                            index]
+                                                                        .productDetail!,
+                                                                    'add',
+                                                                    context);
+                                                              },
+                                                              child:
+                                                                  Container(
+                                                                height: 35,
+                                                                width: 35,
+                                                                decoration: const BoxDecoration(
+                                                                    color: AppColors
+                                                                        .secondaryColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5))),
                                                                 child:
-                                                                    Container(
-                                                                  height: 35,
-                                                                  width: 35,
-                                                                  decoration: const BoxDecoration(
-                                                                      color: AppColors
-                                                                          .secondaryColor,
-                                                                      borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(5))),
-                                                                  child:
-                                                                      const Center(
-                                                                          child:
-                                                                              Text(
-                                                                    "+",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            22,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  )),
-                                                                ),
+                                                                    const Center(
+                                                                        child:
+                                                                            Text(
+                                                                  "+",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          22,
+                                                                      fontWeight:
+                                                                          FontWeight.bold),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                )),
                                                               ),
-                                                            ],
-                                                          )
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 2,
-                                                ),
-                                                dashboardProvider
-                                                            .storeData!
-                                                            .result!
-                                                            .productDetails![i]
-                                                            .productList![index]
-                                                            .productDetail!
-                                                            .productDiscount! >
-                                                        0
-                                                    ? Text(
-                                                        dashboardProvider.storeData!.result!.productDetails![i].productList![index].saveMessage!,
-                                                        style: const TextStyle(
-                                                            color: AppColors
-                                                                .secondaryColor,
-                                                            fontSize: 12),
-                                                      )
-                                                    : const SizedBox.shrink()
-                                              ],
-                                            ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 2,
+                                              ),
+                                              dashboardProvider
+                                                          .storeData!
+                                                          .result!
+                                                          .productDetails![i]
+                                                          .productList![index]
+                                                          .productDetail!
+                                                          .productDiscount! >
+                                                      0
+                                                  ? Text(
+                                                      dashboardProvider.storeData!.result!.productDetails![i].productList![index].saveMessage!,
+                                                      style: const TextStyle(
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          fontSize: 12),
+                                                    )
+                                                  : const SizedBox.shrink()
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 );
                               },
                             )
