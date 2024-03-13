@@ -314,8 +314,7 @@ class DashboardProvider extends ChangeNotifier {
 
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);
-    orderResponse =
-        await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue,deliveryAddress);
+    orderResponse = await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue,deliveryAddress,reviewCartResponse!.orderGrandTotal,reviewCartResponse!.overAlldiscountAmount,reviewCartResponse!.totalRewardPoints,reviewCartResponse!.totalStoreCommission);
     if (orderResponse!.statusCode == 200) {
       prefModel.cartItems!.clear();
       deliveryAddress = null;

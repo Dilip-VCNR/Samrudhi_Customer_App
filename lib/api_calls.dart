@@ -200,19 +200,14 @@ class ApiCalls {
               : null,
           "productDetails": prefModel.cartItems,
         }));
+    log(response.body);
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 
   Future<OrderResponseModel> placeOrder(
-      ReviewCartResult result, int selectedValue, UserAddressArray? deliveryAddress) async {
+      ReviewCartResult result, int selectedValue, UserAddressArray? deliveryAddress, String? orderGrandTotal, double? overAlldiscountAmount, int? totalRewardPoints, String? totalStoreCommission) async {
     Map req = result.toJson();
-    Calculation total = result.calculation!.firstWhere((element) {
-      return element.name == 'Order GrandTotal';
-    });
 
-    Calculation discount = result.calculation!.firstWhere((element) {
-      return element.name == 'Overall Discount Amount';
-    });
     Calculation? redeemPoints;
     Calculation? redeemPointsValue;
     try {
@@ -226,8 +221,10 @@ class ApiCalls {
       debugPrint(e.toString());
     }
 
-    req['orderGrandTotal'] = total.value;
-    req['OverAlldiscountAmount'] = discount.value;
+    req['orderGrandTotal'] = orderGrandTotal;
+    req['OverAlldiscountAmount'] = overAlldiscountAmount;
+    req['TotalStoreCommission'] = totalStoreCommission;
+    req['totalRewardPoints'] = totalRewardPoints;
     if (redeemPoints != null) {
       req['redeemPoints'] = redeemPoints.value;
       req['redeemPointsValue'] = redeemPointsValue!.value;
@@ -239,6 +236,7 @@ class ApiCalls {
       req['deliveryAddress'] = deliveryAddress.toJson();
     }
     req['orderDeliveryType'] = selectedValue == 1 ? "homeDelivery" : "selfPickUp";
+    log(req.toString());
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
     return OrderResponseModel.fromJson(json.decode(response.body));
