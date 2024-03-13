@@ -176,9 +176,9 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getIntoStore(MyStore nearStoresdatum) async {
+  Future<void> getIntoStore(MyStore nearStoresdatum,String searchedString) async {
     showLoaderDialog(homePageContext!);
-    storeData = await apiCalls.getStoreData(nearStoresdatum);
+    storeData = await apiCalls.getStoreData(nearStoresdatum,searchedString);
     if (storeData!.statusCode == 200) {
       Navigator.pop(homePageContext!);
       Navigator.pushNamed(homePageContext!, Routes.storeInRoute);

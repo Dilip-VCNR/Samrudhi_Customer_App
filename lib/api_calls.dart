@@ -126,12 +126,13 @@ class ApiCalls {
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
-  Future<StoreDataModel> getStoreData(MyStore nearStoresdatum) async {
+  Future<StoreDataModel> getStoreData(MyStore nearStoresdatum, String searchedString) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.getStoreData,
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
+          "searchedString":searchedString
         }));
     return StoreDataModel.fromJson(json.decode(response.body));
   }

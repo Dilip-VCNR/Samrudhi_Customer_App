@@ -105,7 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   onTap: () {
                                     dashboardProvider.getIntoStore(
                                         dashboardProvider
-                                            .searchResponse!.result![index]);
+                                            .searchResponse!.result![index],dashboardProvider.searchKeyWord!);
                                     // Navigator.pushNamed(
                                     //     context, Routes.storeInRoute);
                                   },

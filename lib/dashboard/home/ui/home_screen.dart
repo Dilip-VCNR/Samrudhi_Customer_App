@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     dashboardProvider.getIntoStore(
                                         dashboardProvider
-                                            .homeData!.result!.myStore![0]);
+                                            .homeData!.result!.myStore![0],"");
                                     // Navigator.pushNamed(context, Routes.storeInRoute);
                                   },
                                   child: Container(
@@ -665,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                               return GestureDetector(
                                 onTap: () {
-                                  dashboardProvider.getIntoStore(store!);
+                                  dashboardProvider.getIntoStore(store!,"");
                                 },
                                 child: Container(
                                   // margin: const EdgeInsets.only(
