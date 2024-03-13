@@ -236,7 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     dashboardProvider.getIntoStore(
                                         dashboardProvider
-                                            .homeData!.result!.myStore![0],"");
+                                            .homeData!.result!.myStore![0],
+                                        "");
                                     // Navigator.pushNamed(context, Routes.storeInRoute);
                                   },
                                   child: Container(
@@ -395,130 +396,76 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        GridView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          itemCount: dashboardProvider
-                              .homeData!.result!.productCategories!.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () async {
-                                dashboardProvider.searchType =
-                                    'productCategory';
-                                dashboardProvider.searchKeyWord =
-                                    '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}';
-                                dashboardProvider.searchController.clear();
-                                Navigator.pushNamed(
-                                    context, Routes.searchScreenRoute);
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 70,
-                                      height: 70,
-                                      decoration: ShapeDecoration(
-                                        color: Colors.grey.shade400,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              '${UrlConstant.imageBaseUrl}${dashboardProvider.homeData!.result!.productCategories![index].productCategoryImgArray![0].imagePath}'),
-                                          fit: BoxFit.fill,
+                        SizedBox(
+                          height: 200,
+                          child: GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: dashboardProvider
+                                .homeData!.result!.productCategories!.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 4,
+                              mainAxisSpacing: 4,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  dashboardProvider.searchType =
+                                      'productCategory';
+                                  dashboardProvider.searchKeyWord =
+                                      '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}';
+                                  dashboardProvider.searchController.clear();
+                                  Navigator.pushNamed(
+                                      context, Routes.searchScreenRoute);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 70,
+                                        height: 70,
+                                        decoration: ShapeDecoration(
+                                          color: Colors.grey.shade400,
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                '${UrlConstant.imageBaseUrl}${dashboardProvider.homeData!.result!.productCategories![index].productCategoryImgArray![0].imagePath}'),
+                                            fit: BoxFit.fill,
+                                          ),
+                                          shape: const OvalBorder(),
                                         ),
-                                        shape: const OvalBorder(),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}',
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      // Set maximum number of lines
-                                      overflow: TextOverflow.ellipsis,
-                                      // Define overflow behavior
-                                      style: const TextStyle(
-                                        color: AppColors.fontColor,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
+                                      const SizedBox(
+                                        height: 5,
                                       ),
-                                    ),
-                                  ],
+                                      Text(
+                                        '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        // Set maximum number of lines
+                                        overflow: TextOverflow.ellipsis,
+                                        // Define overflow behavior
+                                        style: const TextStyle(
+                                          color: AppColors.fontColor,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
-
-                        // SizedBox(
-                        //   height: 230,
-                        //   child: GridView.builder(
-                        //     shrinkWrap: true,
-                        //     gridDelegate:
-                        //     const SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 2,
-                        //       // Number of columns
-                        //       mainAxisSpacing: 4.0,
-                        //       // Vertical spacing between rows
-                        //       crossAxisSpacing:
-                        //       4.0, // Horizontal spacing between columns
-                        //     ),
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: dashboardProvider.homeData!.result!.productCategories!.length,
-                        //     itemBuilder: (context, index) {
-                        //       return GestureDetector(
-                        //         onTap: () async {
-                        //           dashboardProvider.searchType = 'productCategory';
-                        //           dashboardProvider.searchKeyWord = '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}';
-                        //           dashboardProvider.searchController.clear();
-                        //           Navigator.pushNamed(context, Routes.searchScreenRoute);
-                        //         },
-                        //         child: Padding(
-                        //           padding:
-                        //           const EdgeInsets.symmetric(horizontal: 8.0),
-                        //           child: Column(
-                        //             mainAxisAlignment: MainAxisAlignment.center,
-                        //             crossAxisAlignment: CrossAxisAlignment.center,
-                        //             children: [
-                        //               Container(
-                        //                 width: 80,
-                        //                 height: 80,
-                        //                 decoration: ShapeDecoration(
-                        //                   image: DecorationImage(
-                        //                     image: NetworkImage(
-                        //                         '${UrlConstant.imageBaseUrl}${dashboardProvider.homeData!.result!.productCategories![index].productCategoryImgArray![0].imagePath}'),
-                        //                     fit: BoxFit.fill,
-                        //                   ),
-                        //                   shape: const OvalBorder(),
-                        //                 ),
-                        //               ),
-                        //               const SizedBox(height: 5),
-                        //               Text(
-                        //                 '${dashboardProvider.homeData!.result!.productCategories![index].productCategoryName}',
-                        //                 style: const TextStyle(
-                        //                   color: AppColors.fontColor,
-                        //                   fontSize: 10,
-                        //                   fontWeight: FontWeight.w600,
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -667,7 +614,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                               return GestureDetector(
                                 onTap: () {
-                                  dashboardProvider.getIntoStore(store!,"");
+                                  dashboardProvider.getIntoStore(store!, "");
                                 },
                                 child: Container(
                                   // margin: const EdgeInsets.only(
@@ -718,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 5,
                                           ),
                                           SizedBox(
-                                            width: screenSize.width/1.75,
+                                            width: screenSize.width / 1.75,
                                             child: Text(
                                               '${store.displayName}',
                                               style: const TextStyle(
@@ -730,7 +677,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: screenSize.width/1.75,
+                                            width: screenSize.width / 1.75,
                                             child: Text(
                                               '${store.storeCategoryName}',
                                               style: const TextStyle(
@@ -744,7 +691,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 3,
                                           ),
                                           SizedBox(
-                                            width: screenSize.width/1.75,
+                                            width: screenSize.width / 1.75,
                                             child: Text(
                                               store.isHomeDelivery!
                                                   ? 'Home Delivery'
@@ -760,7 +707,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 3,
                                           ),
                                           SizedBox(
-                                            width: screenSize.width/1.75,
+                                            width: screenSize.width / 1.75,
                                             child: Text(
                                               '${store.addressArray!.completeAddress}',
                                               style: const TextStyle(

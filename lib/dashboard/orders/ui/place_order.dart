@@ -40,7 +40,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
-        print(prefModel.cartItems!);
         dashboardProvider.reviewCartScreenContext = context;
         if (firstTimeLoading != true && prefModel.cartItems!.isNotEmpty) {
           dashboardProvider.reviewCartResponse = null;
@@ -260,6 +259,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 width: screenSize.width / 6,
                                 height: screenSize.width / 6,
                                 decoration: ShapeDecoration(
+                                  color: Colors.grey.shade400,
                                   image: DecorationImage(
                                     image: dashboardProvider
                                             .reviewCartResponse!

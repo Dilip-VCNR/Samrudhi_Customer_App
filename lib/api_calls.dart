@@ -237,9 +237,9 @@ class ApiCalls {
       req['deliveryAddress'] = deliveryAddress.toJson();
     }
     req['orderDeliveryType'] = selectedValue == 1 ? "homeDelivery" : "selfPickUp";
-    log(req.toString());
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
+    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
   }
 

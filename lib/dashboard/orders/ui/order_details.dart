@@ -1,5 +1,6 @@
 import 'package:another_stepper/another_stepper.dart';
 import 'package:flutter/material.dart';
+
 import '../../../utils/app_colors.dart';
 import '../models/order_response_model.dart';
 
@@ -87,7 +88,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ],
                     )
                   : const SizedBox.shrink(),
-              order.deliveryAddress!=null?const Divider():const SizedBox.shrink(),
+              order.deliveryAddress != null
+                  ? const Divider()
+                  : const SizedBox.shrink(),
               const SizedBox(
                 height: 10,
               ),
@@ -131,7 +134,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width/2,
+                    width: MediaQuery.of(context).size.width / 2,
                     child: Text(
                       order.productDetails![0].storeName!,
                       style: const TextStyle(
@@ -166,42 +169,46 @@ class _OrderDetailsState extends State<OrderDetails> {
               const SizedBox(
                 height: 10,
               ),
-      order.orderDeliveryType!='homeDelivery'?Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Your Pick up Code : ",
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      // fontWeight: FontWeight.w500,
-                      letterSpacing: 0.60,
-                    ),
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: AppColors.primaryColor,
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Text(
-                      order.orderPickupId!.toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        // fontWeight: FontWeight.w500,
-                        letterSpacing: 0.60,
-                      ),
-                    ),
-                  ),
-                ],
-              ):const SizedBox.shrink(),
-              order.orderDeliveryType!='homeDelivery'?const SizedBox(
-                height: 10,
-              ):const SizedBox.shrink(),
+              order.orderDeliveryType != 'homeDelivery'
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Your Pick up Code : ",
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.w500,
+                            letterSpacing: 0.60,
+                          ),
+                        ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: AppColors.primaryColor,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                          child: Text(
+                            order.orderPickupId!.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              // fontWeight: FontWeight.w500,
+                              letterSpacing: 0.60,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+              order.orderDeliveryType != 'homeDelivery'
+                  ? const SizedBox(
+                      height: 10,
+                    )
+                  : const SizedBox.shrink(),
               const Divider(),
               const Text(
                 'Items',
@@ -218,20 +225,27 @@ class _OrderDetailsState extends State<OrderDetails> {
               // const SizedBox(
               //   height: 10,
               // ),
-              for(int i=0;i<order.productDetails!.length;i++)
+              for (int i = 0; i < order.productDetails!.length; i++)
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.width*.60,
-                          child: Text('${i+1}.  ${order.productDetails![i].productName} ${order.productDetails![i].addedCartQuantity} ${order.productDetails![i].productUom} ',
-                          style: const TextStyle(fontSize: 15),)),
+                          width: MediaQuery.of(context).size.width * .60,
+                          child: Text(
+                            '${i + 1}.  ${order.productDetails![i].productName} ${order.productDetails![i].addedCartQuantity} ${order.productDetails![i].productUom} ',
+                            style: const TextStyle(fontSize: 15),
+                          )),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width*.25,
-                          child: Text('₹${order.productDetails![i].productGrandTotal}',textAlign: TextAlign.end,style: const TextStyle(fontSize: 15),))
+                          width: MediaQuery.of(context).size.width * .25,
+                          child: Text(
+                            '₹${order.productDetails![i].productGrandTotal}',
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(fontSize: 15),
+                          ))
                     ],
                   ),
                 ),
@@ -430,7 +444,6 @@ class _OrderDetailsState extends State<OrderDetails> {
     );
   }
 
-
   String capitalizeWords(String input) {
     List<String> words = input.split(RegExp(r'(?=[A-Z])'));
     for (int i = 0; i < words.length; i++) {
@@ -438,6 +451,4 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
     return words.join(' ');
   }
-
-
 }

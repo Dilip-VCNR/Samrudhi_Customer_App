@@ -168,7 +168,6 @@ class AuthProvider extends ChangeNotifier {
       return position;
     } catch (e) {
       // Handle any errors while getting current position
-      print('Error getting current position: $e');
       // Return last known location if there is an error
       return getLastKnownLocation();
     }
@@ -178,13 +177,11 @@ class AuthProvider extends ChangeNotifier {
     try {
       Position? position = await Geolocator.getLastKnownPosition();
       if (position != null) {
-        print('Using last known location');
         return position;
       } else {
         throw Exception('No last known location available');
       }
     } catch (e) {
-      print('Error getting last known location: $e');
       throw Exception('Error getting last known location');
     }
   }
@@ -471,11 +468,9 @@ class AuthProvider extends ChangeNotifier {
         // Return the path to the temporary file
         return tempFile;
       } else {
-        print('Failed to download image. Status code: ${response.statusCode}');
         return null;
       }
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }

@@ -88,7 +88,6 @@ class DashboardProvider extends ChangeNotifier {
       return position;
     } catch (e) {
       // Handle any errors while getting current position
-      print('Error getting current position: $e');
       // Return last known location if there is an error
       return getLastKnownLocation();
     }
@@ -98,13 +97,11 @@ class DashboardProvider extends ChangeNotifier {
     try {
       Position? position = await Geolocator.getLastKnownPosition();
       if (position != null) {
-        print('Using last known location');
         return position;
       } else {
         throw Exception('No last known location available');
       }
     } catch (e) {
-      print('Error getting last known location: $e');
       throw Exception('Error getting last known location');
     }
   }
@@ -319,8 +316,6 @@ class DashboardProvider extends ChangeNotifier {
       prefModel.cartItems!.clear();
       deliveryAddress = null;
       AppPref.setPref(prefModel);
-      print("dfgjkl");
-      print(prefModel.cartItems!.length);
       notifyListeners();
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);

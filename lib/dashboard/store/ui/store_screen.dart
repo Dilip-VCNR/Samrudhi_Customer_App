@@ -250,6 +250,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                               width: screenSize.width * .25,
                                               height: screenSize.width * .25,
                                               decoration: ShapeDecoration(
+                                                color: Colors.grey.shade400,
                                                 image: DecorationImage(
                                                   image: dashboardProvider
                                                           .storeData!

@@ -91,6 +91,7 @@ class _StoreSearchState extends State<StoreSearch> {
                                     width: screenSize.width * .25,
                                     height: screenSize.width * .25,
                                     decoration: ShapeDecoration(
+                                      color: Colors.grey.shade400,
                                       image: DecorationImage(
                                         image: filteredProducts[index]
                                                 .productDetail!
