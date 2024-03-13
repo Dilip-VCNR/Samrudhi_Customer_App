@@ -123,9 +123,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          width: screenSize.width/4,
-                                          height: 130,
+                                          width: 125,
+                                          height: 125,
                                           decoration: ShapeDecoration(
+                                            color: Colors.grey,
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                   '${UrlConstant.imageBaseUrl}${dashboardProvider.searchResponse!.result![index].storeImgArray![0].imageUrl}'),

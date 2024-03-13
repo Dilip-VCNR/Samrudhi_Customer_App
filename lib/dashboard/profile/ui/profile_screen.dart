@@ -189,7 +189,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               if (confirmed == true) {
                                 prefModel.userData=null;
                                 prefModel.selectedAddress=null;
-                                prefModel.selectedAddress=null;
                                 prefModel.cartItems=[];
                                 prefModel.cartItems!.clear();
                                 prefModel.cartStore=null;

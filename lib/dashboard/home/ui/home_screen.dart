@@ -254,6 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           width: 125,
                                           height: 130,
                                           decoration: ShapeDecoration(
+                                            color: Colors.grey.shade400,
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                 '${UrlConstant.imageBaseUrl}${dashboardProvider.homeData!.result!.myStore![0].storeImgArray![0].imageUrl}',
@@ -402,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
+                            crossAxisCount: 4,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
                           ),
@@ -428,6 +429,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: 70,
                                       height: 70,
                                       decoration: ShapeDecoration(
+                                        color: Colors.grey.shade400,
                                         image: DecorationImage(
                                           image: NetworkImage(
                                               '${UrlConstant.imageBaseUrl}${dashboardProvider.homeData!.result!.productCategories![index].productCategoryImgArray![0].imagePath}'),
@@ -684,6 +686,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 125,
                                         height: 130,
                                         decoration: ShapeDecoration(
+                                          color: Colors.grey.shade400,
                                           image: DecorationImage(
                                             image: store!
                                                     .storeImgArray!.isNotEmpty
