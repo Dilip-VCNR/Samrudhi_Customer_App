@@ -87,7 +87,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ],
                     )
                   : const SizedBox.shrink(),
-              const Divider(),
+              order.deliveryAddress!=null?const Divider():const SizedBox.shrink(),
               const SizedBox(
                 height: 10,
               ),
@@ -215,126 +215,143 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
               const Divider(),
 
-              const SizedBox(
-                height: 10,
-              ),
-              Table(
-                border: TableBorder.all(color: Colors.black),
-                defaultColumnWidth: const FlexColumnWidth(2), // Set a default column width
-
-                // columnWidths: const {
-                //   0: FlexColumnWidth(2),
-                //   // Adjust the width of the first column
-                //   1: FlexColumnWidth(2),
-                //   // Adjust the width of the second column
-                //   2: FlexColumnWidth(2),
-                //   // Adjust the width of the third column
-                //   3: FlexColumnWidth(2),
-                //   // Adjust the width of the fourth column
-                // },
-                children: [
-                  const TableRow(
-                    decoration: BoxDecoration(color: AppColors.secondaryColor),
-                    // Optionally add background color for header
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              for(int i=0;i<order.productDetails!.length;i++)
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TableCell(
-                        child: Text(
-                          'SL NO',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Item',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Quantity',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'UOM',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      TableCell(
-                        child: Text(
-                          'Total',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width*.60,
+                          child: Text('${i+1}.  ${order.productDetails![i].productName} ${order.productDetails![i].addedCartQuantity} ${order.productDetails![i].productUom} ',
+                          style: const TextStyle(fontSize: 15),)),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width*.25,
+                          child: Text('₹${order.productDetails![i].productGrandTotal}',textAlign: TextAlign.end,style: const TextStyle(fontSize: 15),))
                     ],
                   ),
-                  ...List<TableRow>.generate(
-                    order.productDetails!.length,
-                    (index) {
-                      return TableRow(
-                        children: [
-                          TableCell(
-                            child: Text(
-                              '${index+1}',
-                              style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          TableCell(
-                            child: Text(
-                              '${order.productDetails![index].productName}',
-                              style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          TableCell(
-                            child: Text(
-                              '${order.productDetails![index].addedCartQuantity}',
-                              style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          TableCell(
-                            child: Text(
-                              '${order.productDetails![index].productUom}',
-                              style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          TableCell(
-                            child: Text(
-                              '₹${order.productDetails![index].productGrandTotal}',
-                              style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.end,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              ),
+                ),
+              // Table(
+              //   border: TableBorder.all(color: Colors.black),
+              //   defaultColumnWidth: const FlexColumnWidth(2), // Set a default column width
+              //
+              //   // columnWidths: const {
+              //   //   0: FlexColumnWidth(2),
+              //   //   // Adjust the width of the first column
+              //   //   1: FlexColumnWidth(2),
+              //   //   // Adjust the width of the second column
+              //   //   2: FlexColumnWidth(2),
+              //   //   // Adjust the width of the third column
+              //   //   3: FlexColumnWidth(2),
+              //   //   // Adjust the width of the fourth column
+              //   // },
+              //   children: [
+              //     const TableRow(
+              //       decoration: BoxDecoration(color: AppColors.secondaryColor),
+              //       // Optionally add background color for header
+              //       children: [
+              //         TableCell(
+              //           child: Text(
+              //             'SL NO',
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.bold,
+              //                 color: Colors.white),
+              //             textAlign: TextAlign.center,
+              //           ),
+              //         ),
+              //         TableCell(
+              //           child: Text(
+              //             'Item',
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.bold,
+              //                 color: Colors.white),
+              //             textAlign: TextAlign.center,
+              //           ),
+              //         ),
+              //         TableCell(
+              //           child: Text(
+              //             'Quantity',
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.bold,
+              //                 color: Colors.white),
+              //             textAlign: TextAlign.center,
+              //           ),
+              //         ),
+              //         TableCell(
+              //           child: Text(
+              //             'UOM',
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.bold,
+              //                 color: Colors.white),
+              //             textAlign: TextAlign.center,
+              //           ),
+              //         ),
+              //         TableCell(
+              //           child: Text(
+              //             'Total',
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.bold,
+              //                 color: Colors.white),
+              //             textAlign: TextAlign.center,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //     ...List<TableRow>.generate(
+              //       order.productDetails!.length,
+              //       (index) {
+              //         return TableRow(
+              //           children: [
+              //             TableCell(
+              //               child: Text(
+              //                 '${index+1}',
+              //                 style: const TextStyle(fontSize: 16),
+              //                 textAlign: TextAlign.center,
+              //               ),
+              //             ),
+              //             TableCell(
+              //               child: Text(
+              //                 '${order.productDetails![index].productName}',
+              //                 style: const TextStyle(fontSize: 16),
+              //                 textAlign: TextAlign.start,
+              //               ),
+              //             ),
+              //             TableCell(
+              //               child: Text(
+              //                 '${order.productDetails![index].addedCartQuantity}',
+              //                 style: const TextStyle(fontSize: 16),
+              //                 textAlign: TextAlign.center,
+              //               ),
+              //             ),
+              //             TableCell(
+              //               child: Text(
+              //                 '${order.productDetails![index].productUom}',
+              //                 style: const TextStyle(fontSize: 16),
+              //                 textAlign: TextAlign.center,
+              //               ),
+              //             ),
+              //             TableCell(
+              //               child: Text(
+              //                 '₹${order.productDetails![index].productGrandTotal}',
+              //                 style: const TextStyle(fontSize: 16),
+              //                 textAlign: TextAlign.end,
+              //               ),
+              //             ),
+              //           ],
+              //         );
+              //       },
+              //     ),
+              //   ],
+              // ),
               const Divider(),
               const SizedBox(
                 height: 10,

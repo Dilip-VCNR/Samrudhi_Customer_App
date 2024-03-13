@@ -320,6 +320,8 @@ class DashboardProvider extends ChangeNotifier {
       prefModel.cartItems!.clear();
       deliveryAddress = null;
       AppPref.setPref(prefModel);
+      print("dfgjkl");
+      print(prefModel.cartItems!.length);
       notifyListeners();
       Navigator.pop(reviewCartScreenContext!);
       showSuccessToast(reviewCartScreenContext!, orderResponse!.message!);

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/provider/auth_provider.dart';
 import 'package:samruddhi/database/app_pref.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/app_colors.dart';
@@ -179,9 +180,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 });
                             break;
                           case 'logout':
-                            AppPref.clearPref();
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                Routes.loginRoute, (route) => false);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return LogoutConfirmationDialog();
+                              },
+                            ).then((confirmed) {
+                              if (confirmed == true) {
+                                prefModel.userData=null;
+                                prefModel.selectedAddress=null;
+                                prefModel.selectedAddress=null;
+                                prefModel.cartItems=[];
+                                prefModel.cartItems!.clear();
+                                prefModel.cartStore=null;
+                                AppPref.setPref(prefModel);
+                                showSuccessToast(context, "Logout successful");
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    Routes.loginRoute, (route) => false);
+                              }
+                            });
                             break;
                           default:
                         }
@@ -228,6 +245,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+
+class LogoutConfirmationDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Confirm Logout'),
+      content: const Text('Are you sure you want to logout?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(false); // Dismiss the dialog and return false
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(true); // Dismiss the dialog and return true
+          },
+          child: const Text('Logout'),
+        ),
+      ],
     );
   }
 }

@@ -123,27 +123,149 @@ showProductDetailsModal(
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                "Product Name : ${product.productDetail!.productName!}",
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "Product Name : ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold, // Set the fontWeight to bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: product.productDetail!.productName.toString(),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight
+                            .normal, // Keep the fontWeight normal for the description
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                  "Product Description : ${product.productDetail!.description!}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.normal)),
-              Text('Selling Price : ₹${product.productDetail!.sellingPrice!}',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.normal)),
-              Text(
-                  'Discount Percentage : ₹${product.productDetail!.productDiscount!}%',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.normal)),
-              Text(
-                  'Offer Price : ₹${product.productDetail!.productDiscountedValue!}',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.normal)),
-              Text("UOM : ${product.productDetail!.productUom!}"),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "Product Description : ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold, // Set the fontWeight to bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: product.productDetail!.description.toString(),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight
+                            .normal, // Keep the fontWeight normal for the description
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "Selling Price : ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold, // Set the fontWeight to bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: '₹${product.productDetail!.sellingPrice}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight
+                            .normal, // Keep the fontWeight normal for the description
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "Discount Percentage : ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold, // Set the fontWeight to bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: "${product.productDetail!.productDiscount}%",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight
+                            .normal, // Keep the fontWeight normal for the description
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "Offer Price : ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold, // Set the fontWeight to bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: "₹${product.productDetail!.productDiscountedValue}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal, // Keep the fontWeight normal for the description
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: "UOM : ",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold, // Set the fontWeight to bold
+                      ),
+                    ),
+                    TextSpan(
+                      text: "${product.productDetail!.productUom}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight
+                            .normal, // Keep the fontWeight normal for the description
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Text(
                 '${product.saveMessage}',
                 style: const TextStyle(

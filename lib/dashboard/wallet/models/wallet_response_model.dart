@@ -101,7 +101,7 @@ class Result {
 class PointsDetail {
   String? orderId;
   int? earnedpoint;
-  DateTime? date;
+  String? date;
   String? id;
   int? redeempoint;
 
@@ -116,7 +116,7 @@ class PointsDetail {
   factory PointsDetail.fromJson(Map<String, dynamic> json) => PointsDetail(
         orderId: json["orderId"],
         earnedpoint: json["earnedpoint"],
-        date: json["Date"] == null ? null : DateTime.parse(json["Date"]),
+        date: json["Date"],
         id: json["_id"],
         redeempoint: json["redeempoint"],
       );
@@ -124,7 +124,7 @@ class PointsDetail {
   Map<String, dynamic> toJson() => {
         "orderId": orderId,
         "earnedpoint": earnedpoint,
-        "Date": date?.toIso8601String(),
+        "Date": date,
         "_id": id,
         "redeempoint": redeempoint,
       };

@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             IconButton(
                               onPressed: () {
+                                dashboardProvider.reviewCartResponse = null;
                                 Navigator.pushNamed(
                                     context, Routes.placeOrderRoute);
                               },

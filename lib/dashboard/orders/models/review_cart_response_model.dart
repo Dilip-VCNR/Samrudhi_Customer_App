@@ -18,6 +18,8 @@ class ReviewCartResponseModel {
   double? overAlldiscountAmount;
   String? orderGrandTotal;
   String? customerUuid;
+  String? totalStoreCommission;
+  int? totalRewardPoints;
 
   ReviewCartResponseModel({
     this.status,
@@ -27,6 +29,8 @@ class ReviewCartResponseModel {
     this.overAlldiscountAmount,
     this.orderGrandTotal,
     this.customerUuid,
+    this.totalStoreCommission,
+    this.totalRewardPoints,
   });
 
   factory ReviewCartResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +46,8 @@ class ReviewCartResponseModel {
             : json["OverAlldiscountAmount"].toDouble(),
         orderGrandTotal: json["orderGrandTotal"],
         customerUuid: json["customerUuid"],
+        totalStoreCommission: json["TotalStoreCommission"],
+        totalRewardPoints: json["totalRewardPoints"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,6 +58,8 @@ class ReviewCartResponseModel {
         "OverAlldiscountAmount": overAlldiscountAmount,
         "orderGrandTotal": orderGrandTotal,
         "customerUuid": customerUuid,
+        "TotalStoreCommission": totalStoreCommission,
+        "totalRewardPoints": totalRewardPoints,
       };
 }
 
