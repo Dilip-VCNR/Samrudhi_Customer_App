@@ -15,6 +15,7 @@ import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart
 import 'package:samruddhi/dashboard/orders/models/order_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/review_cart_response_model.dart';
 import 'package:samruddhi/dashboard/wallet/models/wallet_response_model.dart';
+import 'package:samruddhi/utils/app_widgets.dart';
 import 'package:samruddhi/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -72,7 +73,7 @@ class ApiCalls {
       double latitude,
       double longitude,
       String postalCode,
-      File? selectedImage) async {
+      File? selectedImage, BuildContext buildContext) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.registerUser));
     // Add folds
@@ -107,11 +108,16 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    var response = await request.send();
-    var responseData = await response.stream.toBytes();
-    var responseJson = json.decode(utf8.decode(responseData));
 
-    return RegisterResponseModel.fromJson(responseJson);
+    var response = await request.send();
+    if(response.statusCode==201){
+      var responseData = await response.stream.toBytes();
+      var responseJson = json.decode(utf8.decode(responseData));
+      return RegisterResponseModel.fromJson(responseJson);
+    }else{
+      Navigator.pop(buildContext);
+      showErrorToast(buildContext, response.statusCode.toString());
+    }
   }
 
   Future<HomeDataModel> fetchHomeData(double latitude, double longitude) async {

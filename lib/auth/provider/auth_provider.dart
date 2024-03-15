@@ -372,7 +372,8 @@ class AuthProvider extends ChangeNotifier {
         selectedLocation!.latitude,
         selectedLocation!.longitude,
         postalCodeController.text,
-        selectedImage);
+        selectedImage,
+        fillAddressBottomSheetContext!);
     if (registerResponse.statusCode == 201) {
       prefModel.userData = registerResponse.result;
       await AppPref.setPref(prefModel);
