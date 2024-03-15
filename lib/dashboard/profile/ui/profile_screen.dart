@@ -86,12 +86,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        key: ValueKey('${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}'),
+                      prefModel.userData!.profileImgArray!.isNotEmpty?CircleAvatar(
                         radius: 50,
-                        backgroundImage: NetworkImage(
+                        backgroundColor: Colors.grey.shade400,
+                        backgroundImage:NetworkImage(
                             '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}?v=${Random().nextInt(100)}'),
-                      ),
+                      ):const SizedBox.shrink(),
                       const SizedBox(
                         width: 20,
                       ),

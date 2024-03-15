@@ -67,8 +67,6 @@ class _EditProfileState extends State<EditProfile> {
                                 : CircleAvatar(
                                     radius: 50,
                                     backgroundColor: Colors.grey,
-                                    backgroundImage: NetworkImage(
-                                        '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}'),
                                   ),
                             const SizedBox(
                               height: 10,

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
@@ -346,11 +347,36 @@ class AuthProvider extends ChangeNotifier {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      selectedImage = File(pickedFile.path);
+      CroppedFile croppedFile = await getCroppedImage(pickedFile.path);
+      selectedImage = File(croppedFile.path);
       notifyListeners();
     }
   }
 
+  getCroppedImage(String path) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    return croppedFile;
+  }
   registerNewUser() async {
     showLoaderDialog(fillAddressBottomSheetContext!);
     String? fcmToken = await FirebaseMessaging.instance.getToken();
@@ -445,7 +471,11 @@ class AuthProvider extends ChangeNotifier {
     editLastNameController.text = prefModel.userData!.lastName!;
     editEmailController.text = prefModel.userData!.emailId!;
     editStoreReferralCodeController.text = prefModel.userData!.storeReferralCode ?? '';
-    selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+prefModel.userData!.profileImgArray![0].imageUrl!);
+    if(prefModel.userData!.profileImgArray!.isNotEmpty){
+      selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+prefModel.userData!.profileImgArray![0].imageUrl!);
+    }else{
+      selectedImage=null;
+    }
     Navigator.pop(profilePageContext!);
     Navigator.pushNamed(profilePageContext!, Routes.editProfileRoute)
         .then((value) {
