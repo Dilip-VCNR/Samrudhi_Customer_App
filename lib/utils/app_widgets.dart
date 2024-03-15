@@ -12,7 +12,7 @@ showErrorToast(BuildContext context, String message) {
     type: ToastificationType.error,
     context: context,
     closeOnClick: true,
-    title: message,
+    title: Text(message),
     autoCloseDuration: const Duration(seconds: 5),
   );
 }
@@ -23,7 +23,7 @@ showSuccessToast(BuildContext context, String message) {
     type: ToastificationType.success,
     closeOnClick: true,
     context: context,
-    title: message,
+    title: Text(message),
     autoCloseDuration: const Duration(seconds: 5),
   );
 }

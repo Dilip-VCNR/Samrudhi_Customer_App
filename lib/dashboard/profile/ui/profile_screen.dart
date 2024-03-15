@@ -15,7 +15,7 @@ import '../../../utils/url_constants.dart';
 class ProfileScreen extends StatefulWidget {
   final Function(int) changeScreen;
 
-  const ProfileScreen({Key? key, required this.changeScreen}) : super(key: key);
+  const ProfileScreen({super.key, required this.changeScreen});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -183,16 +183,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return LogoutConfirmationDialog();
+                                return const LogoutConfirmationDialog();
                               },
-                            ).then((confirmed) {
+                            ).then((confirmed) async {
                               if (confirmed == true) {
                                 prefModel.userData=null;
                                 prefModel.selectedAddress=null;
-                                prefModel.cartItems=[];
-                                prefModel.cartItems!.clear();
+                                prefModel.cartItems=null;
                                 prefModel.cartStore=null;
-                                AppPref.setPref(prefModel);
+                                await AppPref.setPref(prefModel);
                                 showSuccessToast(context, "Logout successful");
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     Routes.loginRoute, (route) => false);
@@ -250,6 +249,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
 class LogoutConfirmationDialog extends StatelessWidget {
+  const LogoutConfirmationDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

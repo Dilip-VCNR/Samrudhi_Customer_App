@@ -33,7 +33,7 @@ class PrefModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "userData": userData!.toJson(),
+      "userData": userData?.toJson(),
       "selectedAddress": selectedAddress?.toJson(),
       "cartItems": cartItems == null
           ? []

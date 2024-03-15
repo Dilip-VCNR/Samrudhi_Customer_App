@@ -105,6 +105,7 @@ class DashboardProvider extends ChangeNotifier {
       throw Exception('Error getting last known location');
     }
   }
+
   Future<bool> askUserToEnableLocationService() async {
     // You can use your preferred method to prompt the user to enable location services
     // For example, show a dialog or navigate to the device settings
@@ -115,24 +116,26 @@ class DashboardProvider extends ChangeNotifier {
     bool userEnabledService = await showDialog(
       context: homePageContext!,
       // Implement your dialog here
-      builder: (context) => AlertDialog(
-        title: const Text("Enable Location Services"),
-        content: const Text("Please enable location services for better experience."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, false); // User chose not to enable
-            },
-            child: const Text("Cancel"),
+      builder: (context) =>
+          AlertDialog(
+            title: const Text("Enable Location Services"),
+            content: const Text(
+                "Please enable location services for better experience."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, false); // User chose not to enable
+                },
+                child: const Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, true); // User chose to enable
+                },
+                child: const Text("Enable"),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, true); // User chose to enable
-            },
-            child: const Text("Enable"),
-          ),
-        ],
-      ),
     );
 
     return userEnabledService;
@@ -149,33 +152,36 @@ class DashboardProvider extends ChangeNotifier {
       try {
         currentPosition = await getCurrentLocation();
       } catch (e) {
-        currentPosition = const Position(
-          latitude: 10.1632,
-          longitude: 76.6413,
-          timestamp: null,
-          accuracy: 500,
-          altitude: 0,
-          heading: 0,
-          speed: 0,
-          speedAccuracy: 0,
+        currentPosition = Position(
+            latitude: 10.1632,
+            longitude: 76.6413,
+            accuracy: 500,
+            altitude: 0,
+            heading: 0,
+            speed: 0,
+            speedAccuracy: 0,
+            timestamp: DateTime.now(),
+            altitudeAccuracy: 100,
+            headingAccuracy: 100
         );
-      }
-      Map defaultAddressJson = await locationController.getAddressFromLatLong(
-          LatLng(currentPosition!.latitude, currentPosition!.longitude));
-      address = defaultAddressJson['name'] +
-          " " +
-          defaultAddressJson['subAdministrativeArea'] +
-          " " +
-          defaultAddressJson['administrativeArea'];
-      homeData = await apiCalls.fetchHomeData(
-          currentPosition!.latitude, currentPosition!.longitude);
+    }
+    Map defaultAddressJson = await locationController.getAddressFromLatLong(
+    LatLng(currentPosition!.latitude, currentPosition!.longitude));
+    address = defaultAddressJson['name'] +
+    " " +
+    defaultAddressJson['subAdministrativeArea'] +
+    " " +
+    defaultAddressJson['administrativeArea'];
+    homeData = await apiCalls.fetchHomeData(
+    currentPosition!.latitude, currentPosition!.longitude);
     }
     notifyListeners();
-  }
+    }
 
-  Future<void> getIntoStore(MyStore nearStoresdatum,String searchedString) async {
+  Future<void> getIntoStore(MyStore nearStoresdatum,
+      String searchedString) async {
     showLoaderDialog(homePageContext!);
-    storeData = await apiCalls.getStoreData(nearStoresdatum,searchedString);
+    storeData = await apiCalls.getStoreData(nearStoresdatum, searchedString);
     if (storeData!.statusCode == 200) {
       Navigator.pop(homePageContext!);
       Navigator.pushNamed(homePageContext!, Routes.storeInRoute);
@@ -235,7 +241,8 @@ class DashboardProvider extends ChangeNotifier {
 
   bool productExistInCart(ProductList product) {
     var contain = prefModel.cartItems!.where(
-        (element) => element.productUuid == product.productDetail!.productUuid);
+            (element) =>
+        element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return false;
     } else {
@@ -246,12 +253,13 @@ class DashboardProvider extends ChangeNotifier {
 
   getProductCountInCart(ProductList product) {
     var contain = prefModel.cartItems!.where(
-        (element) => element.productUuid == product.productDetail!.productUuid);
+            (element) =>
+        element.productUuid == product.productDetail!.productUuid);
     if (contain.isEmpty) {
       return 0;
     } else {
       int index = prefModel.cartItems!.indexWhere((element) =>
-          element.productUuid == product.productDetail!.productUuid);
+      element.productUuid == product.productDetail!.productUuid);
       return prefModel.cartItems![index].addedCartQuantity!;
     }
   }
@@ -268,7 +276,7 @@ class DashboardProvider extends ChangeNotifier {
   deleteUserAddress(String? addressId, int index) async {
     showLoaderDialog(selectAddressPageContext!);
     DeleteAddressResponseModel deleteAddressResponse =
-        await apiCalls.deleteAddress(addressId);
+    await apiCalls.deleteAddress(addressId);
     if (deleteAddressResponse.statusCode == 200) {
       prefModel.userData!.addressArray!.removeAt(index);
       AppPref.setPref(prefModel);
@@ -311,7 +319,14 @@ class DashboardProvider extends ChangeNotifier {
 
   placeOrder(int selectedValue) async {
     showLoaderDialog(reviewCartScreenContext!);
-    orderResponse = await apiCalls.placeOrder(reviewCartResponse!.result!, selectedValue,deliveryAddress,reviewCartResponse!.orderGrandTotal,reviewCartResponse!.overAlldiscountAmount,reviewCartResponse!.totalRewardPoints,reviewCartResponse!.totalStoreCommission);
+    orderResponse = await apiCalls.placeOrder(
+        reviewCartResponse!.result!,
+        selectedValue,
+        deliveryAddress,
+        reviewCartResponse!.orderGrandTotal,
+        reviewCartResponse!.overAlldiscountAmount,
+        reviewCartResponse!.totalRewardPoints,
+        reviewCartResponse!.totalStoreCommission);
     if (orderResponse!.statusCode == 200) {
       prefModel.cartItems!.clear();
       deliveryAddress = null;
@@ -341,8 +356,8 @@ class DashboardProvider extends ChangeNotifier {
         .firstWhere((element) => element.name == 'orderGrandTotal');
     orderGrandTotalElement
         .value = (double.parse(orderGrandTotalElement.value!) -
-            double.parse(
-                walletData!.result!.totalAvailableRedeemPointsValue.toString()))
+        double.parse(
+            walletData!.result!.totalAvailableRedeemPointsValue.toString()))
         .toString();
     notifyListeners();
   }

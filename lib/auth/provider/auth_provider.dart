@@ -10,6 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
+import 'package:samruddhi/utils/app_colors.dart';
 import 'package:timer_count_down/timer_controller.dart';
 
 import '../../database/app_pref.dart';
@@ -310,15 +311,16 @@ class AuthProvider extends ChangeNotifier {
     try {
       currentPosition = await getCurrentLocation();
     } catch (e) {
-      currentPosition = const Position(
+      currentPosition = Position(
           latitude: 10.1632,
           longitude: 76.6413,
-          timestamp: null,
+          timestamp: DateTime.now(),
           accuracy: 500,
           altitude: 0,
           heading: 0,
           speed: 0,
-          speedAccuracy: 0);
+          speedAccuracy: 0, altitudeAccuracy: 100, headingAccuracy: 100
+      );
     }
     Navigator.pop(selectAddressPageContext!);
     Navigator.pushNamed(selectAddressPageContext!, Routes.markLocationRoute);
@@ -329,15 +331,16 @@ class AuthProvider extends ChangeNotifier {
     try {
       currentPosition = await getCurrentLocation();
     } catch (e) {
-      currentPosition = const Position(
+      currentPosition = Position(
           latitude: 10.1632,
           longitude: 76.6413,
-          timestamp: null,
+          timestamp: DateTime.now(),
           accuracy: 500,
           altitude: 0,
           heading: 0,
           speed: 0,
-          speedAccuracy: 0);
+          speedAccuracy: 0, altitudeAccuracy: 100, headingAccuracy: 100
+      );
     }
     Navigator.pop(registerPageContext!);
     Navigator.pushNamed(registerPageContext!, Routes.primaryLocationRoute);
@@ -366,7 +369,7 @@ class AuthProvider extends ChangeNotifier {
       uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
+            toolbarColor: AppColors.primaryColor,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),

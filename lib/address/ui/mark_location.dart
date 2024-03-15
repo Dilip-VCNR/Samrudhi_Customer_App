@@ -110,7 +110,7 @@ class _MarkLocationState extends State<MarkLocation> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                         textAlignVertical: TextAlignVertical.center,
-                        inputDecoration: InputDecoration(
+                        decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),
                           suffixIcon: InkWell(
                               onTap: () {

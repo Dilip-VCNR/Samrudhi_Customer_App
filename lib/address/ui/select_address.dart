@@ -100,7 +100,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: GooglePlacesAutoCompleteTextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         textAlignVertical: TextAlignVertical.center,
-                        inputDecoration: InputDecoration(
+                        decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),
                           hintText: 'Search a place',
                           counterText: "",
