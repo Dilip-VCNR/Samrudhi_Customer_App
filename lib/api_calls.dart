@@ -207,7 +207,6 @@ class ApiCalls {
               : null,
           "productDetails": prefModel.cartItems,
         }));
-    log(response.body);
     return ReviewCartResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -245,14 +244,12 @@ class ApiCalls {
     req['orderDeliveryType'] = selectedValue == 1 ? "homeDelivery" : "selfPickUp";
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
-    log(response.body);
     return OrderResponseModel.fromJson(json.decode(response.body));
   }
 
   Future<WalletResponseModel> getWalletData() async {
     http.Response response = await hitApi(true, UrlConstant.getWallet,
         jsonEncode({'customerUuid': prefModel.userData!.customerUuid}));
-    log(response.body.toString());
     return WalletResponseModel.fromJson(json.decode(response.body));
   }
 
