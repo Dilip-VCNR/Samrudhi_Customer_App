@@ -36,6 +36,9 @@ class UrlConstant {
   static const String getDeliverableAddress =
       "${apiBaseUrl}customer/changeCustomerDeliveryAddress";
 
+  static const String getNotifications =
+      "${apiBaseUrl}notification/getNotificationOfOrder";
+
   static const String getUserProfile = "${apiBaseUrl}get_user_profile";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
   static const String termsOfUse = "${websiteBaseUrl}p/t-c";

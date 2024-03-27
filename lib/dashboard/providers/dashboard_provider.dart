@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/api_calls.dart';
+import 'package:samruddhi/dashboard/models/notifications_response_model.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/models/store_data_model.dart';
 import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart';
@@ -385,6 +386,10 @@ class DashboardProvider extends ChangeNotifier {
       words[i] = words[i][0].toUpperCase() + words[i].substring(1);
     }
     return words.join(' ');
+  }
+
+  Future<NotificationsResponseModel>getNotifications() {
+    return apiCalls.getNotifications();
   }
 
 }

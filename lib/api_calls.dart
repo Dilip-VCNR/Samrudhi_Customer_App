@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:samruddhi/address/model/delete_address_response_model.dart';
 import 'package:samruddhi/auth/models/register_response_model.dart';
 import 'package:samruddhi/dashboard/models/home_data_model.dart';
+import 'package:samruddhi/dashboard/models/notifications_response_model.dart';
 import 'package:samruddhi/dashboard/models/search_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/all_orders_model.dart';
 import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart';
@@ -301,5 +301,15 @@ class ApiCalls {
           'storeUuid': storeUuid
         }));
     return DeliverableAddressModel.fromJson(json.decode(response.body));
+  }
+
+  Future<NotificationsResponseModel> getNotifications() async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getNotifications,
+        jsonEncode({
+          'customerUuid': prefModel.userData!.customerUuid,
+        }));
+    return NotificationsResponseModel.fromJson(json.decode(response.body));
   }
 }
