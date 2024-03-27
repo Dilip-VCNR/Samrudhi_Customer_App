@@ -84,6 +84,8 @@ class Docs {
   bool? isActive;
   List<ProductDetail>? productDetails;
   double? storeDeliverycharge;
+  double? storeCommissionAmount;
+  double? overallDiscount;
   List<dynamic>? additionalChargesArray;
   int? v;
 
@@ -108,6 +110,8 @@ class Docs {
     this.isActive,
     this.productDetails,
     this.storeDeliverycharge,
+    this.storeCommissionAmount,
+    this.overallDiscount,
     this.additionalChargesArray,
     this.v,
   });
@@ -147,6 +151,8 @@ class Docs {
             : List<ProductDetail>.from(
                 json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
         storeDeliverycharge: json["storeDeliverycharge"].toDouble(),
+    storeCommissionAmount: json["storeCommissionAmount"].toDouble(),
+    overallDiscount: json["overallDiscount"].toDouble(),
         additionalChargesArray: json["additionalChargesArray"] == null
             ? []
             : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
@@ -179,6 +185,8 @@ class Docs {
             ? []
             : List<dynamic>.from(productDetails!.map((x) => x.toJson())),
         "storeDeliverycharge": storeDeliverycharge,
+        "storeCommissionAmount": storeCommissionAmount,
+        "overallDiscount": overallDiscount,
         "additionalChargesArray": additionalChargesArray == null
             ? []
             : List<dynamic>.from(additionalChargesArray!.map((x) => x)),

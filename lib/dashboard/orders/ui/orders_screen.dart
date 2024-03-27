@@ -186,24 +186,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            for (int i = 0;
-                                i <
-                                    min(
-                                        3,
-                                        ordersProvider.ongoingOrders[index]
-                                            .productDetails!.length);
-                                i++)
+                            for (int i = 0; i < min(3, ordersProvider.ongoingOrders[index].productDetails!.length); i++)
                               Text(
-                                '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity} X ${ordersProvider.ongoingOrders[index].productDetails![i].productName}',
+                                '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity} ${ordersProvider.ongoingOrders[index].productDetails![i].productUom} - ${ordersProvider.ongoingOrders[index].productDetails![i].productName}',
                                 style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            ordersProvider.ongoingOrders[index].productDetails!
-                                        .length >
-                                    3
+                            ordersProvider.ongoingOrders[index].productDetails!.length > 3
                                 ? Text(
                                     'and ${ordersProvider.ongoingOrders[index].productDetails!.length - 3} more items')
                                 : const SizedBox.shrink(),
@@ -364,7 +356,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         .productDetails!.length);
                             i++)
                               Text(
-                                '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity} X ${ordersProvider.finishedOrders[index].productDetails![i].productName}',
+                                '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity} ${ordersProvider.finishedOrders[index].productDetails![i].productUom} - ${ordersProvider.finishedOrders[index].productDetails![i].productName}',
                                 style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 12,

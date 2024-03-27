@@ -55,6 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Row(
                       children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Routes.notificationsRoute);
+                          },
+                          icon: const Icon(Icons.notifications_none_outlined),
+                        ),
                         Stack(
                           children: [
                             IconButton(
@@ -90,13 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        // IconButton(
-                        //   onPressed: () {
-                        //     Navigator.pushNamed(
-                        //         context, Routes.notificationsRoute);
-                        //   },
-                        //   icon: const Icon(Icons.notifications_none_outlined),
-                        // ),
                       ],
                     ),
                   ],
@@ -403,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: dashboardProvider
                                 .homeData!.result!.productCategories!.length,
                             shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
+                            // physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,

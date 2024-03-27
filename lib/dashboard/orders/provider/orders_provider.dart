@@ -16,11 +16,8 @@ class OrdersProvider extends ChangeNotifier {
     allOrdersResponse = null;
     allOrdersResponse = await apiCalls.getAllOrders();
     if (allOrdersResponse!.statusCode == 200) {
-      for (int i = 0;
-          i < allOrdersResponse!.result![0].orderList!.length;
-          i++) {
-        if (allOrdersResponse!.result![0].orderList![i].orderStatus !=
-            'delivered') {
+      for (int i = 0; i < allOrdersResponse!.result![0].orderList!.length; i++) {
+        if (allOrdersResponse!.result![0].orderList![i].orderStatus != 'delivered' && allOrdersResponse!.result![0].orderList![i].orderStatus != 'rejected') {
           ongoingOrders.add(allOrdersResponse!.result![0].orderList![i]);
         } else {
           finishedOrders.add(allOrdersResponse!.result![0].orderList![i]);
