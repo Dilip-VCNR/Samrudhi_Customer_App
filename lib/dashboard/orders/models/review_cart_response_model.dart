@@ -136,7 +136,11 @@ class ProductDetail {
   double? productTax;
   double? productDiscount;
   double? productDiscountedValue;
-  int? productQuantity;
+  int? productPoint;
+  int? productRewardPoint;
+  double? customerDiscount;
+  double? maxDiscountAmount;
+  double? productQuantity;
   double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
@@ -169,6 +173,10 @@ class ProductDetail {
     this.productTax,
     this.productDiscount,
     this.productDiscountedValue,
+    this.productPoint,
+    this.productRewardPoint,
+    this.customerDiscount,
+    this.maxDiscountAmount,
     this.productQuantity,
     this.addedCartQuantity,
     this.isReturnable,
@@ -207,7 +215,11 @@ class ProductDetail {
         productTax: json["productTax"].toDouble(),
         productDiscount: json["productDiscount"].toDouble(),
         productDiscountedValue: json["productDiscountedValue"].toDouble(),
-        productQuantity: json["productQuantity"],
+    productPoint: json["productPoint"],
+    productRewardPoint: json["productRewardPoint"],
+    customerDiscount: json["customerDiscount"].toDouble(),
+    maxDiscountAmount: json["maxDiscountAmount"].toDouble(),
+        productQuantity: json["productQuantity"].toDouble(),
         addedCartQuantity: json["addedCartQuantity"].toDouble(),
         isReturnable: json["isReturnable"],
         isPerishable: json["isPerishable"],
@@ -244,6 +256,10 @@ class ProductDetail {
         "productTax": productTax,
         "productDiscount": productDiscount,
         "productDiscountedValue": productDiscountedValue,
+        "productPoint": productDiscountedValue,
+        "productRewardPoint": productRewardPoint,
+        "customerDiscount": customerDiscount,
+        "maxDiscountAmount": maxDiscountAmount,
         "productQuantity": productQuantity,
         "addedCartQuantity": addedCartQuantity,
         "isReturnable": isReturnable,

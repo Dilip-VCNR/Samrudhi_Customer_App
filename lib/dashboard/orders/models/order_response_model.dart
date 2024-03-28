@@ -320,7 +320,7 @@ class ProductDetail {
   double? productTax;
   double? productDiscount;
   double? productDiscountedValue;
-  int? productQuantity;
+  double? productQuantity;
   double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
@@ -391,7 +391,7 @@ class ProductDetail {
         productTax: json["productTax"].toDouble(),
         productDiscount: json["productDiscount"].toDouble(),
         productDiscountedValue: json["productDiscountedValue"]?.toDouble(),
-        productQuantity: json["productQuantity"],
+        productQuantity: json["productQuantity"].toDouble(),
         addedCartQuantity: json["addedCartQuantity"]?.toDouble(),
         isReturnable: json["isReturnable"],
         isPerishable: json["isPerishable"],

@@ -197,15 +197,12 @@ class DashboardProvider extends ChangeNotifier {
   addUpdateProductToCart(ProductListProductDetail product, String operation,
       BuildContext context) async {
     double incrementQty = 1;
-    var contain = prefModel.cartItems!
-        .where((element) => element.productUuid == product.productUuid);
-    int index = prefModel.cartItems!
-        .indexWhere((element) => element.productUuid == product.productUuid);
+    var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
+    int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
     if (product.productUom == "KG") {
       incrementQty = 0.5;
     }
-    bool shouldClearCart = prefModel.cartItems!.isNotEmpty &&
-        prefModel.cartItems![0].storeUuid != product.storeUuid;
+    bool shouldClearCart = prefModel.cartItems!.isNotEmpty && prefModel.cartItems![0].storeUuid != product.storeUuid;
 
     if (shouldClearCart) {
       bool? confirmed = await showWarningDialog(context,
@@ -214,17 +211,23 @@ class DashboardProvider extends ChangeNotifier {
         // User didn't confirm, exit the function
         return;
       }
-
       prefModel.cartItems!.clear();
     }
 
     if (operation == 'add') {
       if (contain.isEmpty) {
-        product.addedCartQuantity = incrementQty;
-        prefModel.cartItems!.add(product);
+        if(product.productQuantity!>=incrementQty){
+          product.addedCartQuantity = incrementQty;
+          prefModel.cartItems!.add(product);
+        }else{
+          showErrorToast(context, "Reached maximum available quantity");
+        }
       } else {
-        prefModel.cartItems![index].addedCartQuantity =
-            prefModel.cartItems![index].addedCartQuantity! + incrementQty;
+        if(product.productQuantity! >= prefModel.cartItems![index].addedCartQuantity!+incrementQty){
+          prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + incrementQty;
+        }else{
+          showErrorToast(context, "Reached maximum available quantity");
+        }
       }
     } else if (operation == 'remove') {
       if (prefModel.cartItems![index].addedCartQuantity! > incrementQty) {
@@ -354,12 +357,9 @@ class DashboardProvider extends ChangeNotifier {
         name: 'redeemPointValue',
         value: walletData!.result!.totalAvailableRedeemPointsValue.toString()));
     var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
-        .firstWhere((element) => element.name == 'orderGrandTotal');
-    orderGrandTotalElement
-        .value = (double.parse(orderGrandTotalElement.value!) -
-        double.parse(
-            walletData!.result!.totalAvailableRedeemPointsValue.toString()))
-        .toString();
+        .firstWhere((element) => element.name == 'Order GrandTotal');
+    orderGrandTotalElement.value = (double.parse(orderGrandTotalElement.value!) -
+        double.parse(walletData!.result!.totalAvailableRedeemPointsValue.toString())).toString();
     notifyListeners();
   }
 

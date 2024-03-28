@@ -218,10 +218,10 @@ class ApiCalls {
     Calculation? redeemPointsValue;
     try {
       redeemPoints = result.calculation!.firstWhere((element) {
-        return element.name == 'Redeem Points';
+        return element.name == 'redeemPoints';
       });
       redeemPointsValue = result.calculation!.firstWhere((element) {
-        return element.name == 'Redeem Point Value';
+        return element.name == 'redeemPointValue';
       });
     } catch (e) {
       debugPrint(e.toString());

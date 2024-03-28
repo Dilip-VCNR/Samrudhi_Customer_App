@@ -19,6 +19,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     Docs order = arguments['order'];
+    String? message = arguments['message'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldBackground,
@@ -38,6 +39,17 @@ class _OrderDetailsState extends State<OrderDetails> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              message != null
+                  ? Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: AppColors.creditBg),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Text(message.toString()))
+                  : const SizedBox.shrink(),
               if (order.overallDiscount != null && order.overallDiscount! > 0)
                 Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
@@ -51,8 +63,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       "You saved ₹${order.overallDiscount} on this order",
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.bold),
-                    )
-                )
+                    ))
               else
                 const SizedBox.shrink(),
               Text(

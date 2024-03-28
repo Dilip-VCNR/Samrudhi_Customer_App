@@ -138,7 +138,7 @@ class ProductListProductDetail {
   double? productTax;
   double? productDiscount;
   double? productDiscountedValue;
-  int? productQuantity;
+  double? productQuantity;
   double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
@@ -204,7 +204,7 @@ class ProductListProductDetail {
         productDiscountedValue: json["productDiscountedValue"] == null
             ? 0.0
             : double.parse(json["productDiscountedValue"].toString()),
-        productQuantity: json["productQuantity"],
+        productQuantity: json["productQuantity"].toDouble(),
         addedCartQuantity: json["addedCartQuantity"].toDouble(),
         isReturnable: json["isReturnable"],
         isPerishable: json["isPerishable"],

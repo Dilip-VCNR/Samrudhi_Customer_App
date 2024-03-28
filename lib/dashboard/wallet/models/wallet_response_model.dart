@@ -42,13 +42,13 @@ class WalletResponseModel {
 class Result {
   String? id;
   String? customerUuid;
-  int? totalEarnedPoints;
+  double? totalEarnedPoints;
   int? redeemPoints;
-  int? totalAvailableRedeemPoints;
+  double? totalAvailableRedeemPoints;
   List<PointsDetail>? earnedPointsDetails;
   List<PointsDetail>? redeemPointsDetails;
   int? v;
-  int? totalAvailableRedeemPointsValue;
+  double? totalAvailableRedeemPointsValue;
 
   Result({
     this.id,
@@ -65,9 +65,9 @@ class Result {
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["_id"],
         customerUuid: json["customerUuid"],
-        totalEarnedPoints: json["totalEarnedPoints"],
+        totalEarnedPoints: json["totalEarnedPoints"].toDouble(),
         redeemPoints: json["redeemPoints"],
-        totalAvailableRedeemPoints: json["totalAvailableRedeemPoints"],
+        totalAvailableRedeemPoints: json["totalAvailableRedeemPoints"].toDouble(),
         earnedPointsDetails: json["EarnedPointsDetails"] == null
             ? []
             : List<PointsDetail>.from(json["EarnedPointsDetails"]!
@@ -78,7 +78,7 @@ class Result {
                 .map((x) => PointsDetail.fromJson(x))),
         v: json["__v"],
         totalAvailableRedeemPointsValue:
-            json["totalAvailableRedeemPointsValue"],
+            json["totalAvailableRedeemPointsValue"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -100,10 +100,10 @@ class Result {
 
 class PointsDetail {
   String? orderId;
-  int? earnedpoint;
+  double? earnedpoint;
   String? date;
   String? id;
-  int? redeempoint;
+  double? redeempoint;
 
   PointsDetail({
     this.orderId,
@@ -115,10 +115,10 @@ class PointsDetail {
 
   factory PointsDetail.fromJson(Map<String, dynamic> json) => PointsDetail(
         orderId: json["orderId"],
-        earnedpoint: json["earnedpoint"],
+        earnedpoint: json["earnedpoint"]?.toDouble(),
         date: json["Date"],
         id: json["_id"],
-        redeempoint: json["redeempoint"],
+        redeempoint: json["redeempoint"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
