@@ -9,7 +9,7 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_widgets.dart';
 
 class PlaceOrder extends StatefulWidget {
-  const PlaceOrder({Key? key}) : super(key: key);
+  const PlaceOrder({super.key});
 
   @override
   State<PlaceOrder> createState() => _PlaceOrderState();
@@ -144,6 +144,40 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               ],
                             )
                           : const SizedBox.shrink(),
+                    const Divider(),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(3.0),
+                          child: Text(
+                            'Total Payable',
+                            style: TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.60,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Text(
+                            '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) {
+                              return calculation.name == 'Order GrandTotal';
+                            }).value}',
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.60,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                     // const Text(
                     //   'Payment Methods',
                     //   style: TextStyle(

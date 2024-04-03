@@ -256,7 +256,7 @@ class ProductDetail {
         "productTax": productTax,
         "productDiscount": productDiscount,
         "productDiscountedValue": productDiscountedValue,
-        "productPoint": productDiscountedValue,
+        "productPoint": productPoint,
         "productRewardPoint": productRewardPoint,
         "customerDiscount": customerDiscount,
         "maxDiscountAmount": maxDiscountAmount,

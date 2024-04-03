@@ -72,7 +72,7 @@ class Docs {
   String? orderId;
   String? orderStatus;
   String? storeUuid;
-  DateTime? orderDate;
+  String? orderDate;
   String? orderTime;
   String? customerUuid;
   String? orderDeliveryType;
@@ -131,9 +131,7 @@ class Docs {
         orderId: json["orderId"],
         orderStatus: json["orderStatus"],
         storeUuid: json["storeUuid"],
-        orderDate: json["orderDate"] == null
-            ? null
-            : DateTime.parse(json["orderDate"]),
+        orderDate: json["orderDate"],
         orderTime: json["orderTime"],
         customerUuid: json["customerUuid"],
         orderDeliveryType: json["orderDeliveryType"],
@@ -168,8 +166,7 @@ class Docs {
         "orderId": orderId,
         "orderStatus": orderStatus,
         "storeUuid": storeUuid,
-        "orderDate":
-            "${orderDate!.year.toString().padLeft(4, '0')}-${orderDate!.month.toString().padLeft(2, '0')}-${orderDate!.day.toString().padLeft(2, '0')}",
+        "orderDate":orderDate,
         "orderTime": orderTime,
         "customerUuid": customerUuid,
         "orderDeliveryType": orderDeliveryType,

@@ -377,7 +377,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${ordersProvider.finishedOrders[index].orderDate}',
+                                  '${ordersProvider.finishedOrders[index].orderDate} ${ordersProvider.finishedOrders[index].orderTime}',
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,

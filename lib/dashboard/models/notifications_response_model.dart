@@ -74,7 +74,7 @@ class Result {
 
 class Notification {
   String? notificationMessage;
-  DateTime? notificationDate;
+  String? notificationDate;
   String? notificationTime;
   String? id;
 
@@ -87,14 +87,14 @@ class Notification {
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
     notificationMessage: json["notificationMessage"],
-    notificationDate: json["notificationDate"] == null ? null : DateTime.parse(json["notificationDate"]),
+    notificationDate: json["notificationDate"],
     notificationTime: json["notificationTime"],
     id: json["_id"],
   );
 
   Map<String, dynamic> toJson() => {
     "notificationMessage": notificationMessage,
-    "notificationDate": "${notificationDate!.year.toString().padLeft(4, '0')}-${notificationDate!.month.toString().padLeft(2, '0')}-${notificationDate!.day.toString().padLeft(2, '0')}",
+    "notificationDate": notificationDate,
     "notificationTime": notificationTime,
     "_id": id,
   };
