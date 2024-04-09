@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/dashboard/orders/provider/orders_provider.dart';
 
@@ -139,7 +140,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                            width:screenSize.width/1.75,
+                                            width: screenSize.width / 1.75,
                                             child: Text(
                                               '${ordersProvider.ongoingOrders[index].productDetails![0].storeName}',
                                               style: const TextStyle(
@@ -168,7 +169,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             ),
                                             child: Center(
                                                 child: Text(
-                                              '${ordersProvider.ongoingOrders[index].orderStatus}',
+                                              capitalizeWords(ordersProvider.ongoingOrders[index].orderStatus!),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12,
@@ -186,7 +187,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             const SizedBox(
                               height: 5,
                             ),
-                            for (int i = 0; i < min(3, ordersProvider.ongoingOrders[index].productDetails!.length); i++)
+                            for (int i = 0;
+                                i <
+                                    min(
+                                        3,
+                                        ordersProvider.ongoingOrders[index]
+                                            .productDetails!.length);
+                                i++)
                               Text(
                                 '${ordersProvider.ongoingOrders[index].productDetails![i].addedCartQuantity} ${ordersProvider.ongoingOrders[index].productDetails![i].productUom} - ${ordersProvider.ongoingOrders[index].productDetails![i].productName}',
                                 style: const TextStyle(
@@ -195,7 +202,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            ordersProvider.ongoingOrders[index].productDetails!.length > 3
+                            ordersProvider.ongoingOrders[index].productDetails!
+                                        .length >
+                                    3
                                 ? Text(
                                     'and ${ordersProvider.ongoingOrders[index].productDetails!.length - 3} more items')
                                 : const SizedBox.shrink(),
@@ -223,7 +232,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate} ${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderTime}',
+                                  parseDate(
+                                      '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate} ${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderTime}'),
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,
@@ -301,7 +311,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         SizedBox(
-                                          width:screenSize.width/1.75,
+                                          width: screenSize.width / 1.75,
                                           child: Text(
                                             '${ordersProvider.finishedOrders[index].productDetails![0].storeName}',
                                             style: const TextStyle(
@@ -319,19 +329,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 3, horizontal: 10),
                                           decoration: ShapeDecoration(
-                                            color: AppColors.secondaryColor,
+                                            color: ordersProvider.finishedOrders[index].orderStatus=='rejected'?
+                                            Colors.red:AppColors.secondaryColor,
                                             shape: RoundedRectangleBorder(
-                                              side: const BorderSide(
+                                              side: BorderSide(
                                                   width: 0.50,
-                                                  color:
-                                                      AppColors.secondaryColor),
+                                                  color:ordersProvider.finishedOrders[index].orderStatus=='rejected'?
+                                                      Colors.red:AppColors.secondaryColor),
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                             ),
                                           ),
                                           child: Center(
                                               child: Text(
-                                            '${ordersProvider.finishedOrders[index].orderStatus}',
+                                            capitalizeWords(ordersProvider.finishedOrders[index].orderStatus!),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12,
@@ -349,12 +360,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               height: 5,
                             ),
                             for (int i = 0;
-                            i <
-                                min(
-                                    3,
-                                    ordersProvider.finishedOrders[index]
-                                        .productDetails!.length);
-                            i++)
+                                i <
+                                    min(
+                                        3,
+                                        ordersProvider.finishedOrders[index]
+                                            .productDetails!.length);
+                                i++)
                               Text(
                                 '${ordersProvider.finishedOrders[index].productDetails![i].addedCartQuantity} ${ordersProvider.finishedOrders[index].productDetails![i].productUom} - ${ordersProvider.finishedOrders[index].productDetails![i].productName}',
                                 style: const TextStyle(
@@ -377,7 +388,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${ordersProvider.finishedOrders[index].orderDate} ${ordersProvider.finishedOrders[index].orderTime}',
+                                  parseDate(
+                                      '${ordersProvider.finishedOrders[index].orderDate} ${ordersProvider.finishedOrders[index].orderTime}'),
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,
@@ -404,5 +416,21 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   child: Text("No Orders Yet !"),
                 ),
               ));
+  }
+
+  parseDate(String dateString) {
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    DateTime dateTime = inputFormat.parse(dateString);
+    DateFormat outputFormat = DateFormat('dd-MM-yyyy hh:mm aa');
+    String formattedDate = outputFormat.format(dateTime);
+    return formattedDate;
+  }
+
+  String capitalizeWords(String input) {
+    List<String> words = input.split(RegExp(r'(?=[A-Z])'));
+    for (int i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    }
+    return words.join(' ');
   }
 }

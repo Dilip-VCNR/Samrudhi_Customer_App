@@ -217,6 +217,9 @@ class ApiCalls {
 
     Calculation? redeemPoints;
     Calculation? redeemPointsValue;
+    for(Calculation calc in result.calculation!){
+      print(calc.toJson());
+    }
     try {
       redeemPoints = result.calculation!.firstWhere((element) {
         return element.name == 'redeemPoints';
@@ -227,8 +230,6 @@ class ApiCalls {
     } catch (e) {
       debugPrint(e.toString());
     }
-    print(redeemPoints?.toJson());
-    print(redeemPointsValue?.toJson());
 
     req['orderGrandTotal'] = orderGrandTotal;
     req['OverAlldiscountAmount'] = overAlldiscountAmount;
@@ -236,7 +237,7 @@ class ApiCalls {
     req['totalRewardPoints'] = totalRewardPoints;
     if (redeemPoints != null) {
       req['redeemPoints'] = redeemPoints.value;
-      req['redeemPointsValue'] = redeemPointsValue!.value;
+      req['redeemPointValue'] = redeemPointsValue!.value;
     }
 
     req['storeUuid'] = result.productDetails![0].storeUuid;

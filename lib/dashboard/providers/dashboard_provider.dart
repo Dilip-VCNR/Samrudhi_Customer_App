@@ -220,13 +220,17 @@ class DashboardProvider extends ChangeNotifier {
           product.addedCartQuantity = incrementQty;
           prefModel.cartItems!.add(product);
         }else{
-          showErrorToast(context, "Reached maximum available quantity");
+          if(product.productQuantity!=0){
+            showErrorToast(context, "Reached maximum available quantity");
+          }
         }
       } else {
         if(product.productQuantity! >= prefModel.cartItems![index].addedCartQuantity!+incrementQty){
           prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + incrementQty;
         }else{
-          showErrorToast(context, "Reached maximum available quantity");
+          if(product.productQuantity!=0){
+            showErrorToast(context, "Reached maximum available quantity");
+          }
         }
       }
     } else if (operation == 'remove') {
@@ -321,16 +325,16 @@ class DashboardProvider extends ChangeNotifier {
   }
 
 
-  placeOrder(int selectedValue) async {
+  placeOrder(int selectedValue, ReviewCartResponseModel? reviewCartResponseChanged) async {
     showLoaderDialog(reviewCartScreenContext!);
     orderResponse = await apiCalls.placeOrder(
-        reviewCartResponse!.result!,
+        reviewCartResponseChanged!.result!,
         selectedValue,
         deliveryAddress,
-        reviewCartResponse!.orderGrandTotal,
-        reviewCartResponse!.overAlldiscountAmount,
-        reviewCartResponse!.totalRewardPoints,
-        reviewCartResponse!.totalStoreCommission);
+        reviewCartResponseChanged.orderGrandTotal,
+        reviewCartResponseChanged.overAlldiscountAmount,
+        reviewCartResponseChanged.totalRewardPoints,
+        reviewCartResponseChanged.totalStoreCommission);
     if (orderResponse!.statusCode == 200) {
       prefModel.cartItems!.clear();
       deliveryAddress = null;
@@ -359,7 +363,7 @@ class DashboardProvider extends ChangeNotifier {
     var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
         .firstWhere((element) => element.name == 'Order GrandTotal');
     orderGrandTotalElement.value = (double.parse(orderGrandTotalElement.value!) -
-        double.parse(walletData!.result!.totalAvailableRedeemPointsValue.toString())).toString();
+        double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toStringAsFixed(2))).toStringAsFixed(2).toString();
     notifyListeners();
   }
 

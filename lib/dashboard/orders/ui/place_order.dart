@@ -71,7 +71,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         color: AppColors.fontColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 0.60,
                       ),
                     ),
                     Text(
@@ -80,7 +79,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         color: AppColors.fontColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        letterSpacing: 0.60,
                       ),
                     ),
                     Text(
@@ -89,7 +87,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         color: AppColors.fontColor,
                         fontSize: 16,
                         // fontWeight: FontWeight.bold,
-                        letterSpacing: 0.60,
                       ),
                     ),
                     const Divider(),
@@ -99,7 +96,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         color: AppColors.fontColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 0.60,
                       ),
                     ),
                     const Divider(),
@@ -110,7 +106,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         i++)
                       dashboardProvider.reviewCartResponse!.result!
                                   .calculation![i].name !=
-                              'redeemPoints'
+                              'redeemPoints' && dashboardProvider.reviewCartResponse!.result!
+                          .calculation![i].name !='Order GrandTotal' && double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!)>0
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -124,7 +121,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       color: AppColors.fontColor,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.60,
                                     ),
                                   ),
                                 ),
@@ -137,7 +133,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       color: AppColors.fontColor,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.60,
                                     ),
                                   ),
                                 )
@@ -157,7 +152,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               color: AppColors.fontColor,
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              letterSpacing: 0.60,
                             ),
                           ),
                         ),
@@ -172,7 +166,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               color: AppColors.fontColor,
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
-                              letterSpacing: 0.60,
                             ),
                           ),
                         )
@@ -184,7 +177,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     //     color: AppColors.fontColor,
                     //     fontSize: 16,
                     //     fontWeight: FontWeight.w500,
-                    //     letterSpacing: 0.60,
                     //   ),
                     // ),
                     // const SizedBox(
@@ -218,15 +210,19 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 color: AppColors.fontColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                letterSpacing: 0.60,
                               ),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             GestureDetector(
-                              onTap: () {
-                                dashboardProvider.applyWalletPoints();
+                              onTap: () async {
+                                bool? confirmed = await showWarningDialog(context,
+                                    "Are you sure to apply ${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue}?");
+                                if (confirmed!) {
+                                  dashboardProvider.applyWalletPoints();
+                                  return;
+                                }
                               },
                               child: Container(
                                 decoration: const BoxDecoration(
@@ -263,7 +259,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           color: AppColors.fontColor,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 0.60,
                         ),
                       ),
                     ),
@@ -273,7 +268,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         color: AppColors.fontColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 0.60,
                       ),
                     ),
                     ListView.builder(
@@ -327,7 +321,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         color: AppColors.fontColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.60,
                                       ),
                                     ),
                                     Text(
@@ -339,16 +332,16 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         // decoration: TextDecoration.lineThrough,
                                       ),
                                     ),
-                                    Text(
+                                    dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount!>0?Text(
                                       'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: AppColors.fontColor,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        decoration: TextDecoration.lineThrough,
+                                        decoration: dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount! > 0?TextDecoration.lineThrough:TextDecoration.none,
                                       ),
-                                    ),
-                                    Text(
+                                    ):SizedBox.shrink(),
+                                    dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount!>0?Text(
                                       'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
                                       style: const TextStyle(
                                         color: AppColors.primaryColor,
@@ -356,9 +349,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         fontWeight: FontWeight.w600,
                                         // decoration: TextDecoration.lineThrough,
                                       ),
-                                    ),
+                                    ):SizedBox.shrink(),
                                     Text(
-                                      'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productSubTotal}',
+                                      dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount!>0?
+                                      'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}':
+                                      'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}',
                                       style: const TextStyle(
                                         color: AppColors.secondaryColor,
                                         fontSize: 14,
@@ -602,7 +597,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         color: AppColors.fontColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        // letterSpacing: 0.60,
                       ),
                     ),
                     const SizedBox(
@@ -652,7 +646,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       color: AppColors.fontColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      // letterSpacing: 0.60,
                                     ),
                                   ),
                                   GestureDetector(
@@ -666,7 +659,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         color: AppColors.secondaryColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.60,
                                       ),
                                     ),
                                   ),
@@ -725,7 +717,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         onPressed: () {
                                           Navigator.pop(context);
                                           dashboardProvider
-                                              .placeOrder(_selectedValue);
+                                              .placeOrder(_selectedValue,dashboardProvider.reviewCartResponse);
                                         },
                                         child: const Text("Yes"))
                                   ],
@@ -798,10 +790,42 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   ),
                 ),
               ),
-              body: const Center(
-                child: Text(
-                  "Cart is empty !",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Cart is empty !",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: ShapeDecoration(
+                          color: AppColors.walletBg,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        width: screenSize.width/2,
+                        padding: const EdgeInsets.all(20),
+                        child: const Text(
+                          'Browse Products',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.walletFont,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );

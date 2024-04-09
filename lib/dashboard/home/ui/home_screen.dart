@@ -397,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 10,
                         ),
                         SizedBox(
-                          height: 200,
+                          height: 210,
                           child: GridView.builder(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             itemCount: dashboardProvider

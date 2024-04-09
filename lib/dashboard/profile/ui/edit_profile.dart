@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:samruddhi/api_calls.dart';
+
 import '../../../auth/provider/auth_provider.dart';
 import '../../../utils/app_colors.dart';
-import '../../../utils/url_constants.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -92,8 +90,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.editFirstNameController,
@@ -114,13 +111,12 @@ class _EditProfileState extends State<EditProfile> {
                           isCollapsed: true,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -132,8 +128,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.editLastNameController,
@@ -154,13 +149,12 @@ class _EditProfileState extends State<EditProfile> {
                           isCollapsed: true,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -172,8 +166,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: authProvider.editEmailController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -192,13 +185,12 @@ class _EditProfileState extends State<EditProfile> {
                           isCollapsed: true,
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -278,5 +270,4 @@ class _EditProfileState extends State<EditProfile> {
       },
     );
   }
-
 }

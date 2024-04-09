@@ -1,5 +1,7 @@
 import 'package:another_stepper/another_stepper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../utils/app_colors.dart';
 import '../models/order_response_model.dart';
@@ -226,15 +228,49 @@ class _OrderDetailsState extends State<OrderDetails> {
                     )
                   : const SizedBox.shrink(),
               const Divider(),
-              const Text(
-                'Items',
-                style: TextStyle(
-                  color: AppColors.fontColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  // fontWeight: FontWeight.w500,
-                  letterSpacing: 0.60,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .5,
+                    child: const Text(
+                      'Items',
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .15,
+                    child: const Text(
+                      'Unit Price',
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .15,
+                    child: const Text(
+                      'Total',
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        color: AppColors.fontColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const Divider(),
 
@@ -250,18 +286,24 @@ class _OrderDetailsState extends State<OrderDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * .60,
+                          width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            '${i + 1}.  ${order.productDetails![i].productName} ${order.productDetails![i].addedCartQuantity} ${order.productDetails![i].productUom} ',
+                            '${i + 1}.  ${order.productDetails![i].productName} X ${order.productDetails![i].addedCartQuantity} ${order.productDetails![i].productUom} ',
                             style: const TextStyle(fontSize: 15),
                           )),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * .25,
+                          width: MediaQuery.of(context).size.width * .15,
                           child: Text(
+                            '₹${order.productDetails![i].sellingPrice}',
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(fontSize: 15),
+                          )), SizedBox(
+                          width: MediaQuery.of(context).size.width * .15,
+                          child:  Text(
                             '₹${order.productDetails![i].productGrandTotal}',
                             textAlign: TextAlign.end,
                             style: const TextStyle(fontSize: 15),
-                          ))
+                          ),)
                     ],
                   ),
                 ),
@@ -382,10 +424,55 @@ class _OrderDetailsState extends State<OrderDetails> {
               //     ),
               //   ],
               // ),
+              order.storeDeliverycharge!>0?const Divider():SizedBox.shrink(),
+              order.storeDeliverycharge!>0?Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Delivery charge",
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      // fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    "₹${double.parse(order.storeDeliverycharge.toString()).toStringAsFixed(2)}",
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      // fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ):SizedBox.shrink(),
+              order.redeemPointValue!>0?const Divider():SizedBox.shrink(),
+              order.redeemPointValue!>0?Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Redeem points value",
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      // fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    "₹${order.redeemPointValue}",
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      // fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ):SizedBox.shrink(),
               const Divider(),
-              const SizedBox(
-                height: 10,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -435,9 +522,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                   for (int i = 0; i < order.orderStatusTrackArray!.length; i++)
                     StepperData(
                         title: StepperText(
-                            '${order.orderStatusTrackArray![i].action}'),
+                            '${capitalizeWords(order.orderStatusTrackArray![i].action!)}'),
                         subtitle: StepperText(
-                            '${order.orderStatusTrackArray![i].remarks}\n${order.orderStatusTrackArray![i].date}'),
+                            '${order.orderStatusTrackArray![i].remarks}\n${parseDate(order.orderStatusTrackArray![i].date!)}'),
                         iconWidget: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: const BoxDecoration(
@@ -466,5 +553,12 @@ class _OrderDetailsState extends State<OrderDetails> {
       words[i] = words[i][0].toUpperCase() + words[i].substring(1);
     }
     return words.join(' ');
+  }
+  parseDate(String dateString){
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd::HH:mm:ss');
+    DateTime dateTime = inputFormat.parse(dateString);
+    DateFormat outputFormat = DateFormat('dd-MM-yyyy hh:mm aa');
+    String formattedDate = outputFormat.format(dateTime);
+    return formattedDate;
   }
 }

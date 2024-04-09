@@ -416,8 +416,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                             height: 35,
                                                             decoration:
                                                                 ShapeDecoration(
-                                                              color: AppColors
-                                                                  .secondaryColor,
+                                                              color: dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productQuantity!>0?AppColors
+                                                                  .secondaryColor:Colors.grey,
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:
@@ -427,9 +427,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                               ),
                                                             ),
                                                             child:
-                                                                const Center(
+                                                                Center(
                                                               child: Text(
-                                                                'Add',
+                                                                dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productQuantity!>0?'Add':'Out Of Stock',
                                                                 style:
                                                                     TextStyle(
                                                                   color: Colors

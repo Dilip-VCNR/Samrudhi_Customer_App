@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/dashboard/models/notifications_response_model.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
@@ -95,8 +96,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                                   const SizedBox(height: 5,),
                                                   SizedBox(
                                                     width: screenSize.width*.7,
-                                                    child: Text(
-                                                      '${snapshot.data!.result![i].notifications![index].notificationDate} ${snapshot.data!.result![i].notifications![index].notificationTime}',
+                                                    child: Text(parseDate(
+                                                      '${snapshot.data!.result![i].notifications![index].notificationDate} ${snapshot.data!.result![i].notifications![index].notificationTime}'),
                                                       style: const TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: 12,
@@ -130,5 +131,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         },
       ),
     );
+  }
+  parseDate(String dateString) {
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    DateTime dateTime = inputFormat.parse(dateString);
+    DateFormat outputFormat = DateFormat('dd-MM-yyyy hh:mm aa');
+    String formattedDate = outputFormat.format(dateTime);
+    return formattedDate;
   }
 }

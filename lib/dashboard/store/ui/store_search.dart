@@ -207,8 +207,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                       height: 35,
                                                       decoration:
                                                           ShapeDecoration(
-                                                        color: AppColors
-                                                            .secondaryColor,
+                                                            color: filteredProducts[index].productDetail!.productQuantity!>0?AppColors
+                                                                .secondaryColor:Colors.grey,
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           borderRadius:
@@ -217,9 +217,9 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                       7),
                                                         ),
                                                       ),
-                                                      child: const Center(
+                                                      child: Center(
                                                         child: Text(
-                                                          'Add',
+                                                          filteredProducts[index].productDetail!.productQuantity!>0?'Add':'Out Of Stock',
                                                           style: TextStyle(
                                                             color:
                                                                 Colors.white,
