@@ -33,8 +33,8 @@ showLoaderDialog(BuildContext context) {
       barrierDismissible: false,
       context: context,
       builder: (_) => PopScope(
-        canPop: false,
-        child: AlertDialog(
+            canPop: false,
+            child: AlertDialog(
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               backgroundColor: Colors.white,
@@ -55,7 +55,7 @@ showLoaderDialog(BuildContext context) {
                 ],
               ),
             ),
-      ));
+          ));
 }
 
 Future<bool?> showWarningDialog(BuildContext context, String message) async {
@@ -239,7 +239,8 @@ showProductDetailsModal(
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.normal, // Keep the fontWeight normal for the description
+                        fontWeight: FontWeight
+                            .normal, // Keep the fontWeight normal for the description
                       ),
                     ),
                   ],

@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi/api_calls.dart';
@@ -188,6 +188,7 @@ class AuthProvider extends ChangeNotifier {
       throw Exception('Error getting last known location');
     }
   }
+
   Future<bool> askUserToEnableLocationService() async {
     // You can use your preferred method to prompt the user to enable location services
     // For example, show a dialog or navigate to the device settings
@@ -200,7 +201,8 @@ class AuthProvider extends ChangeNotifier {
       // Implement your dialog here
       builder: (context) => AlertDialog(
         title: const Text("Enable Location Services"),
-        content: const Text("Please enable location services for better experience."),
+        content: const Text(
+            "Please enable location services for better experience."),
         actions: [
           TextButton(
             onPressed: () {
@@ -218,7 +220,7 @@ class AuthProvider extends ChangeNotifier {
       ),
     );
 
-    return userEnabledService ;
+    return userEnabledService;
   }
 
   Future<void> loginWithPhoneNumber() async {
@@ -320,8 +322,9 @@ class AuthProvider extends ChangeNotifier {
           altitude: 0,
           heading: 0,
           speed: 0,
-          speedAccuracy: 0, altitudeAccuracy: 100, headingAccuracy: 100
-      );
+          speedAccuracy: 0,
+          altitudeAccuracy: 100,
+          headingAccuracy: 100);
     }
     Navigator.pop(selectAddressPageContext!);
     Navigator.pushNamed(selectAddressPageContext!, Routes.markLocationRoute);
@@ -340,8 +343,9 @@ class AuthProvider extends ChangeNotifier {
           altitude: 0,
           heading: 0,
           speed: 0,
-          speedAccuracy: 0, altitudeAccuracy: 100, headingAccuracy: 100
-      );
+          speedAccuracy: 0,
+          altitudeAccuracy: 100,
+          headingAccuracy: 100);
     }
     Navigator.pop(registerPageContext!);
     Navigator.pushNamed(registerPageContext!, Routes.primaryLocationRoute);
@@ -381,6 +385,7 @@ class AuthProvider extends ChangeNotifier {
     );
     return croppedFile;
   }
+
   registerNewUser() async {
     showLoaderDialog(fillAddressBottomSheetContext!);
     String? fcmToken = await FirebaseMessaging.instance.getToken();
@@ -475,16 +480,19 @@ class AuthProvider extends ChangeNotifier {
     editFirstNameController.text = prefModel.userData!.firstName!;
     editLastNameController.text = prefModel.userData!.lastName!;
     editEmailController.text = prefModel.userData!.emailId!;
-    editStoreReferralCodeController.text = prefModel.userData!.storeReferralCode ?? '';
-    if(prefModel.userData!.profileImgArray!.isNotEmpty){
-      selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+prefModel.userData!.profileImgArray![0].imageUrl!);
-    }else{
-      selectedImage=null;
+    editStoreReferralCodeController.text =
+        prefModel.userData!.storeReferralCode ?? '';
+    if (prefModel.userData!.profileImgArray!.isNotEmpty) {
+      selectedImage = await downloadImageAndReturnFilePath(
+          UrlConstant.imageBaseUrl +
+              prefModel.userData!.profileImgArray![0].imageUrl!);
+    } else {
+      selectedImage = null;
     }
     Navigator.pop(profilePageContext!);
     Navigator.pushNamed(profilePageContext!, Routes.editProfileRoute)
         .then((value) {
-          notifyListeners();
+      notifyListeners();
       return null;
     });
   }
@@ -496,7 +504,8 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         // Create a temporary file
-        File tempFile = File('${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+        File tempFile = File(
+            '${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
         // Write the image data to the temporary file
         await tempFile.writeAsBytes(response.bodyBytes);

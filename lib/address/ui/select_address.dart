@@ -128,7 +128,8 @@ class _SelectAddressState extends State<SelectAddress> {
                           AppPref.setPref(prefModel);
                           dashboardProvider.getHomeData();
                           dashboardProvider.addressSearchController.clear();
-                          showSuccessToast(context, "Location changed successfully");
+                          showSuccessToast(
+                              context, "Location changed successfully");
                         },
                         itmClick: (prediction) async {
                           FocusScope.of(context).unfocus();
@@ -150,196 +151,208 @@ class _SelectAddressState extends State<SelectAddress> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return !prefModel
-                                .userData!.addressArray![index].isDeleted!?InkWell(
-                              onTap: () {
-                                if (deliverableAddress != null) {
-                                  if (deliverableAddress.result!.contains(
-                                      prefModel
-                                          .userData!.addressArray![index].id)) {
-                                    dashboardProvider.setDeliveryAddress(
-                                        prefModel
-                                            .userData!.addressArray![index]);
-                                  } else {
-                                    showErrorToast(context,
-                                        "This address is not eligible for delivery for this store");
-                                  }
-                                } else {
-                                  prefModel.selectedAddress =
-                                      prefModel.userData!.addressArray![index];
-                                  AppPref.setPref(prefModel);
-                                  showSuccessToast(
-                                      context, "Address selected successfully");
-                                  dashboardProvider.getHomeData();
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            prefModel
-                                                .userData!
-                                                .addressArray![index]
-                                                .addressType!,
-                                            style: const TextStyle(
-                                              color: AppColors.fontColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.60,
+                                    .userData!.addressArray![index].isDeleted!
+                                ? InkWell(
+                                    onTap: () {
+                                      if (deliverableAddress != null) {
+                                        if (deliverableAddress.result!.contains(
+                                            prefModel.userData!
+                                                .addressArray![index].id)) {
+                                          dashboardProvider.setDeliveryAddress(
+                                              prefModel.userData!
+                                                  .addressArray![index]);
+                                        } else {
+                                          showErrorToast(context,
+                                              "This address is not eligible for delivery for this store");
+                                        }
+                                      } else {
+                                        prefModel.selectedAddress = prefModel
+                                            .userData!.addressArray![index];
+                                        AppPref.setPref(prefModel);
+                                        showSuccessToast(context,
+                                            "Address selected successfully");
+                                        dashboardProvider.getHomeData();
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  prefModel
+                                                      .userData!
+                                                      .addressArray![index]
+                                                      .addressType!,
+                                                  style: const TextStyle(
+                                                    color: AppColors.fontColor,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 0.60,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: screenSize.width / 1.5,
+                                                  child: Text(
+                                                    '${prefModel.userData!.addressArray![index].completeAddress}',
+                                                    style: const TextStyle(
+                                                      color:
+                                                          AppColors.fontColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: screenSize.width / 1.5,
-                                            child: Text(
-                                              '${prefModel.userData!.addressArray![index].completeAddress}',
-                                              style: const TextStyle(
-                                                color: AppColors.fontColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
+                                            Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    prefModel
+                                                                .userData!
+                                                                .addressArray!
+                                                                .length !=
+                                                            1
+                                                        ? showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Are you sure ?'),
+                                                                content: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        'Are you sure you want to delete ${prefModel.userData!.addressArray![index].addressType} address?'),
+                                                                    Text(
+                                                                        '${prefModel.userData!.addressArray![index].completeAddress}'),
+                                                                  ],
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
+                                                                        const Text(
+                                                                            'No'),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                  ),
+                                                                  TextButton(
+                                                                    child: const Text(
+                                                                        'Yes'),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await dashboardProvider.deleteUserAddress(
+                                                                          prefModel
+                                                                              .userData!
+                                                                              .addressArray![index]
+                                                                              .id,
+                                                                          index);
+                                                                      if (context
+                                                                          .mounted) {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            })
+                                                        : showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Cannot delete !'),
+                                                                content:
+                                                                    const Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                        'At least one address mandatory.'),
+                                                                  ],
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
+                                                                        const Text(
+                                                                            'OK'),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            });
+                                                  },
+                                                  child: const CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      child: Icon(
+                                                        Icons.delete,
+                                                        color: Colors.white,
+                                                      )),
+                                                )
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () async {
-                                              prefModel.userData!.addressArray!
-                                                          .length !=
-                                                      1
-                                                  ? showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          title: const Text(
-                                                              'Are you sure ?'),
-                                                          content: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                  'Are you sure you want to delete ${prefModel.userData!.addressArray![index].addressType} address?'),
-                                                              Text(
-                                                                  '${prefModel.userData!.addressArray![index].completeAddress}'),
-                                                            ],
-                                                          ),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'No'),
-                                                              onPressed:
-                                                                  () async {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ),
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'Yes'),
-                                                              onPressed:
-                                                                  () async {
-                                                                await dashboardProvider.deleteUserAddress(
-                                                                    prefModel
-                                                                        .userData!
-                                                                        .addressArray![
-                                                                            index]
-                                                                        .id,
-                                                                    index);
-                                                                if (context
-                                                                    .mounted) {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                }
-                                                              },
-                                                            ),
-                                                          ],
-                                                        );
-                                                      })
-                                                  : showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          title: const Text(
-                                                              'Cannot delete !'),
-                                                          content: const Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                  'At least one address mandatory.'),
-                                                            ],
-                                                          ),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'OK'),
-                                                              onPressed:
-                                                                  () async {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ),
-                                                          ],
-                                                        );
-                                                      });
-                                            },
-                                            child: const CircleAvatar(
-                                                backgroundColor: Colors.red,
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Divider(
-                                    color: Colors.grey.shade300,
-                                    height: 1,
-                                  ),
-                                ],
-                              ),
-                            ):const SizedBox.shrink();
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Divider(
+                                          color: Colors.grey.shade300,
+                                          height: 1,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink();
                           },
                         )
                       : const Center(

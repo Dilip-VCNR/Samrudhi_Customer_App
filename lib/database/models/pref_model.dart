@@ -8,10 +8,7 @@ class PrefModel {
   StoreDetails? cartStore;
 
   PrefModel(
-      {this.userData,
-      this.selectedAddress,
-      this.cartItems,
-      this.cartStore});
+      {this.userData, this.selectedAddress, this.cartItems, this.cartStore});
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
     return PrefModel(
@@ -25,10 +22,9 @@ class PrefModel {
             ? []
             : List<ProductListProductDetail>.from(parsedJson["cartItems"]
                 .map((x) => ProductListProductDetail.fromJson(x))),
-        cartStore: parsedJson["cartStore"]==null
+        cartStore: parsedJson["cartStore"] == null
             ? null
-            :StoreDetails.fromJson(parsedJson["cartStore"])
-    );
+            : StoreDetails.fromJson(parsedJson["cartStore"]));
   }
 
   Map<String, dynamic> toJson() {

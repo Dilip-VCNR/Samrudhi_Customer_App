@@ -1,5 +1,4 @@
 import 'package:another_stepper/another_stepper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -297,13 +296,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                             '₹${order.productDetails![i].sellingPrice}',
                             textAlign: TextAlign.end,
                             style: const TextStyle(fontSize: 15),
-                          )), SizedBox(
-                          width: MediaQuery.of(context).size.width * .15,
-                          child:  Text(
-                            '₹${order.productDetails![i].productGrandTotal}',
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(fontSize: 15),
-                          ),)
+                          )),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .15,
+                        child: Text(
+                          '₹${order.productDetails![i].productGrandTotal}',
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -424,54 +425,60 @@ class _OrderDetailsState extends State<OrderDetails> {
               //     ),
               //   ],
               // ),
-              order.storeDeliverycharge!>0?const Divider():SizedBox.shrink(),
-              order.storeDeliverycharge!>0?Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Delivery charge",
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      // fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    "₹${double.parse(order.storeDeliverycharge.toString()).toStringAsFixed(2)}",
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      // fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ):SizedBox.shrink(),
-              order.redeemPointValue!>0?const Divider():SizedBox.shrink(),
-              order.redeemPointValue!>0?Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Redeem points value",
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      // fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    "₹${order.redeemPointValue}",
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      // fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ):SizedBox.shrink(),
+              order.storeDeliverycharge! > 0
+                  ? const Divider()
+                  : SizedBox.shrink(),
+              order.storeDeliverycharge! > 0
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Delivery charge",
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            // fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          "₹${double.parse(order.storeDeliverycharge.toString()).toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            // fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox.shrink(),
+              order.redeemPointValue! > 0 ? const Divider() : SizedBox.shrink(),
+              order.redeemPointValue! > 0
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Redeem points value",
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            // fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          "₹${order.redeemPointValue}",
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            // fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox.shrink(),
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -554,7 +561,8 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
     return words.join(' ');
   }
-  parseDate(String dateString){
+
+  parseDate(String dateString) {
     DateFormat inputFormat = DateFormat('yyyy-MM-dd::HH:mm:ss');
     DateTime dateTime = inputFormat.parse(dateString);
     DateFormat outputFormat = DateFormat('dd-MM-yyyy hh:mm aa');

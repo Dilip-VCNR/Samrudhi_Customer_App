@@ -105,7 +105,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   onTap: () {
                                     dashboardProvider.getIntoStore(
                                         dashboardProvider
-                                            .searchResponse!.result![index],dashboardProvider.searchKeyWord!);
+                                            .searchResponse!.result![index],
+                                        dashboardProvider.searchKeyWord!);
                                     // Navigator.pushNamed(
                                     //     context, Routes.storeInRoute);
                                   },
@@ -154,7 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 5,
                                             ),
                                             SizedBox(
-                                              width: screenSize.width/1.75,
+                                              width: screenSize.width / 1.75,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].displayName}',
                                                 style: const TextStyle(
@@ -166,7 +167,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: screenSize.width/1.75,
+                                              width: screenSize.width / 1.75,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].storeCategoryName}',
                                                 style: const TextStyle(
@@ -180,7 +181,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 3,
                                             ),
                                             SizedBox(
-                                              width: screenSize.width/1.75,
+                                              width: screenSize.width / 1.75,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress}',
                                                 style: const TextStyle(
@@ -194,7 +195,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 5,
                                             ),
                                             SizedBox(
-                                              width: screenSize.width/1.75,
+                                              width: screenSize.width / 1.75,
                                               child: Text(
                                                 dashboardProvider
                                                         .searchResponse!
@@ -257,7 +258,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       ],
                     )
                   else
-                    const Center(child: Text("No results to display"),),
+                    const Center(
+                      child: Text("No results to display"),
+                    ),
                   // ListView.builder(
                   //     shrinkWrap: true,
                   //     itemCount: suggestions.length,

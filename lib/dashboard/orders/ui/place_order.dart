@@ -99,31 +99,75 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       ),
                     ),
                     const Divider(),
-                    for (int i = 0; i < dashboardProvider.reviewCartResponse!.result!.calculation!.length; i++)
-                      if(dashboardProvider.reviewCartResponse!.result!.calculation![i].name != 'redeemPoints' && dashboardProvider.reviewCartResponse!.result!.calculation![i].name != 'Order GrandTotal' && double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!) > 0)
-                           Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Text(
-                                    dashboardProvider.capitalizeWords(
-                                        dashboardProvider.reviewCartResponse!
-                                            .result!.calculation![i].name!),
-                                    style: const TextStyle(
-                                      color: AppColors.fontColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                    for (int i = 0;
+                        i <
+                            dashboardProvider.reviewCartResponse!.result!
+                                .calculation!.length;
+                        i++)
+                      if (dashboardProvider.reviewCartResponse!.result!
+                                  .calculation![i].name !=
+                              'redeemPoints' &&
+                          dashboardProvider.reviewCartResponse!.result!
+                                  .calculation![i].name !=
+                              'Order GrandTotal' &&
+                          double.parse(dashboardProvider.reviewCartResponse!
+                                  .result!.calculation![i].value!) >
+                              0)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                dashboardProvider.capitalizeWords(
+                                    dashboardProvider.reviewCartResponse!
+                                        .result!.calculation![i].name!),
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: dashboardProvider.reviewCartResponse!
-                                              .result!.calculation![i].name !=
-                                          "redeemPointValue"
-                                      ? Text(
-                                          '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: dashboardProvider.reviewCartResponse!
+                                          .result!.calculation![i].name !=
+                                      "redeemPointValue"
+                                  ? Text(
+                                      '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
+                                      textAlign: TextAlign.right,
+                                      style: const TextStyle(
+                                        color: AppColors.fontColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            dashboardProvider
+                                                .unApplyWalletPoints();
+                                          },
+                                          child: const Text(
+                                            "Remove",
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: AppColors.fontColor,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          '₹${double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!).toStringAsFixed(2)}',
                                           textAlign: TextAlign.right,
                                           style: const TextStyle(
                                             color: AppColors.fontColor,
@@ -131,44 +175,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                         )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                dashboardProvider
-                                                    .unApplyWalletPoints();
-                                              },
-                                              child: const Text(
-                                                "Remove",
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  color: AppColors.fontColor,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 10,),
-                                            Text(
-                                              '₹${double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!).toStringAsFixed(2)}',
-                                              textAlign: TextAlign.right,
-                                              style: const TextStyle(
-                                                color: AppColors.fontColor,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                )
-                              ],
+                                      ],
+                                    ),
                             )
-                          else
-                            const SizedBox.shrink(),
+                          ],
+                        )
+                      else
+                        const SizedBox.shrink(),
                     const Divider(),
 
                     Row(
@@ -456,7 +469,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                       prefModel
                                                           .cartItems![index],
                                                       "add",
-                                                      context,null);
+                                                      context,
+                                                      null);
                                               // dashboardProvider.reviewCartResponse = null;
                                               showLoaderDialog(context);
                                               await dashboardProvider
@@ -498,7 +512,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                           prefModel.cartItems![
                                                               index],
                                                           'remove',
-                                                          context,null);
+                                                          context,
+                                                          null);
                                                   if (prefModel
                                                       .cartItems!.isEmpty) {
                                                     if (context.mounted) {
@@ -568,7 +583,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                           prefModel.cartItems![
                                                               index],
                                                           'add',
-                                                          context,null);
+                                                          context,
+                                                          null);
                                                   // dashboardProvider.reviewCartResponse = null;
                                                   showLoaderDialog(context);
                                                   await dashboardProvider

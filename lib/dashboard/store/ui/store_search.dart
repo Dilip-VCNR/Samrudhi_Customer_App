@@ -78,8 +78,9 @@ class _StoreSearchState extends State<StoreSearch> {
                         itemCount: filteredProducts.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: (){
-                              showProductDetailsModal(filteredProducts[index],context,screenSize);
+                            onTap: () {
+                              showProductDetailsModal(
+                                  filteredProducts[index], context, screenSize);
                             },
                             child: Container(
                               width: screenSize.width,
@@ -105,8 +106,7 @@ class _StoreSearchState extends State<StoreSearch> {
                                         fit: BoxFit.fill,
                                       ),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9),
+                                        borderRadius: BorderRadius.circular(9),
                                       ),
                                     ),
                                   ),
@@ -160,11 +160,10 @@ class _StoreSearchState extends State<StoreSearch> {
                                             ? Text(
                                                 '₹${filteredProducts[index].productDetail!.sellingPrice!}/${filteredProducts[index].productDetail!.productUom!}',
                                                 style: const TextStyle(
-                                                    color: AppColors
-                                                        .primaryColor,
+                                                    color:
+                                                        AppColors.primaryColor,
                                                     fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w600,
+                                                    fontWeight: FontWeight.w600,
                                                     decoration: TextDecoration
                                                         .lineThrough,
                                                     decorationColor: AppColors
@@ -189,8 +188,7 @@ class _StoreSearchState extends State<StoreSearch> {
                                             ),
                                             !dashboardProvider
                                                     .productExistInCart(
-                                                        filteredProducts[
-                                                            index])
+                                                        filteredProducts[index])
                                                 ? InkWell(
                                                     onTap: () async {
                                                       await dashboardProvider
@@ -199,35 +197,44 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                       index]
                                                                   .productDetail!,
                                                               'add',
-                                                              context,null);
+                                                              context,
+                                                              null);
                                                     },
                                                     child: Container(
                                                       width:
-                                                          screenSize.width /
-                                                              4,
+                                                          screenSize.width / 4,
                                                       height: 35,
                                                       decoration:
                                                           ShapeDecoration(
-                                                            color: filteredProducts[index].productDetail!.productQuantity!>0?AppColors
-                                                                .secondaryColor:Colors.grey,
+                                                        color: filteredProducts[
+                                                                        index]
+                                                                    .productDetail!
+                                                                    .productQuantity! >
+                                                                0
+                                                            ? AppColors
+                                                                .secondaryColor
+                                                            : Colors.grey,
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(
-                                                                      7),
+                                                                  .circular(7),
                                                         ),
                                                       ),
                                                       child: Center(
                                                         child: Text(
-                                                          filteredProducts[index].productDetail!.productQuantity!>0?'Add':'Out Of Stock',
+                                                          filteredProducts[
+                                                                          index]
+                                                                      .productDetail!
+                                                                      .productQuantity! >
+                                                                  0
+                                                              ? 'Add'
+                                                              : 'Out Of Stock',
                                                           style: TextStyle(
-                                                            color:
-                                                                Colors.white,
+                                                            color: Colors.white,
                                                             fontSize: 12,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w500,
+                                                                FontWeight.w500,
                                                           ),
                                                         ),
                                                       ),
@@ -238,109 +245,129 @@ class _StoreSearchState extends State<StoreSearch> {
                                                       GestureDetector(
                                                         onLongPress: () {
                                                           showDialog(
-                                                            context:
-                                                            context,
+                                                            context: context,
                                                             builder: (_) =>
                                                                 AlertDialog(
-                                                                  shape: const RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(Radius.circular(10.0))),
-                                                                  backgroundColor:
-                                                                  Colors
-                                                                      .white,
-                                                                  content:
-                                                                  Column(
-                                                                    mainAxisSize:
+                                                              shape: const RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10.0))),
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              content: Column(
+                                                                mainAxisSize:
                                                                     MainAxisSize
                                                                         .min,
-                                                                    mainAxisAlignment:
+                                                                mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .start,
-                                                                    crossAxisAlignment:
+                                                                crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        "Enter Quantity",
-                                                                        textAlign:
-                                                                        TextAlign.start,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                        10,
-                                                                      ),
-                                                                      TextFormField(
-                                                                        controller: directQtyController,
-                                                                        autovalidateMode:
-                                                                        AutovalidateMode.onUserInteraction,
-                                                                        validator:
-                                                                            (value) {
-                                                                          if (value!.trim().isEmpty) {
-                                                                            return 'Please enter valid quantity';
-                                                                          }
-                                                                          if (double.parse(value) >
-                                                                              filteredProducts[
-                                                                              index].productDetail!.productQuantity!) {
-                                                                            return 'Entered quantity is out of range, please reduce it and try again !';
-                                                                          }
-                                                                          return null;
-                                                                        },
-
-                                                                        keyboardType:
-                                                                        TextInputType.number,
-                                                                        decoration:
-                                                                        InputDecoration(
-                                                                          errorMaxLines:
-                                                                          3,
-                                                                          hintText:
-                                                                          'Enter quantity',
-                                                                          counterText:
-                                                                          "",
-                                                                          isCollapsed:
-                                                                          true,
-                                                                          focusedBorder:
-                                                                          OutlineInputBorder(
-                                                                            borderSide: const BorderSide(color: AppColors.secondaryColor, width: 2),
-                                                                            borderRadius: BorderRadius.circular(8),
-                                                                          ),
-                                                                          border:
-                                                                          OutlineInputBorder(
-                                                                            borderSide: const BorderSide(color: Colors.black, width: 2),
-                                                                            borderRadius: BorderRadius.circular(8),
-                                                                          ),
-                                                                          contentPadding:
-                                                                          const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                                                        ),
-                                                                      ),
-                                                                    ],
+                                                                children: [
+                                                                  Text(
+                                                                    "Enter Quantity",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
                                                                   ),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        child:
-                                                                        const Text("Close")),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          dashboardProvider.addUpdateProductToCart(
-                                                                              filteredProducts[
-                                                                              index]
-                                                                                  .productDetail!,
-                                                                              'add',
-                                                                              context,double.parse(directQtyController.text));
-                                                                          Navigator.pop(context);
-                                                                          directQtyController.clear();
-                                                                            },
-                                                                        child:
-                                                                        const Text("Confirm"))
-                                                                  ],
-                                                                ),
+                                                                  SizedBox(
+                                                                    height: 10,
+                                                                  ),
+                                                                  TextFormField(
+                                                                    controller:
+                                                                        directQtyController,
+                                                                    autovalidateMode:
+                                                                        AutovalidateMode
+                                                                            .onUserInteraction,
+                                                                    validator:
+                                                                        (value) {
+                                                                      if (value!
+                                                                          .trim()
+                                                                          .isEmpty) {
+                                                                        return 'Please enter valid quantity';
+                                                                      }
+                                                                      if (double.parse(
+                                                                              value) >
+                                                                          filteredProducts[index]
+                                                                              .productDetail!
+                                                                              .productQuantity!) {
+                                                                        return 'Entered quantity is out of range, please reduce it and try again !';
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .number,
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      errorMaxLines:
+                                                                          3,
+                                                                      hintText:
+                                                                          'Enter quantity',
+                                                                      counterText:
+                                                                          "",
+                                                                      isCollapsed:
+                                                                          true,
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide: const BorderSide(
+                                                                            color:
+                                                                                AppColors.secondaryColor,
+                                                                            width: 2),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
+                                                                      ),
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderSide: const BorderSide(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            width: 2),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
+                                                                      ),
+                                                                      contentPadding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              15,
+                                                                          horizontal:
+                                                                              10),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Close")),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      dashboardProvider.addUpdateProductToCart(
+                                                                          filteredProducts[index]
+                                                                              .productDetail!,
+                                                                          'add',
+                                                                          context,
+                                                                          double.parse(
+                                                                              directQtyController.text));
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      directQtyController
+                                                                          .clear();
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Confirm"))
+                                                              ],
+                                                            ),
                                                           );
                                                         },
-
                                                         onTap: () {
                                                           dashboardProvider
                                                               .addUpdateProductToCart(
@@ -348,7 +375,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                           index]
                                                                       .productDetail!,
                                                                   'remove',
-                                                                  context,null);
+                                                                  context,
+                                                                  null);
                                                         },
                                                         child: Container(
                                                           height: 35,
@@ -370,9 +398,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold),
-                                                            textAlign:
-                                                                TextAlign
-                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                           )),
                                                         ),
                                                       ),
@@ -388,119 +415,140 @@ class _StoreSearchState extends State<StoreSearch> {
                                                               .toString(),
                                                           // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
                                                           style: const TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
-                                                          textAlign: TextAlign
-                                                              .center,
+                                                          textAlign:
+                                                              TextAlign.center,
                                                         )),
                                                       ),
                                                       GestureDetector(
                                                         onLongPress: () {
                                                           showDialog(
-                                                            context:
-                                                            context,
+                                                            context: context,
                                                             builder: (_) =>
                                                                 AlertDialog(
-                                                                  shape: const RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius.all(Radius.circular(10.0))),
-                                                                  backgroundColor:
-                                                                  Colors
-                                                                      .white,
-                                                                  content:
-                                                                  Column(
-                                                                    mainAxisSize:
+                                                              shape: const RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10.0))),
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              content: Column(
+                                                                mainAxisSize:
                                                                     MainAxisSize
                                                                         .min,
-                                                                    mainAxisAlignment:
+                                                                mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .start,
-                                                                    crossAxisAlignment:
+                                                                crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        "Enter Quantity",
-                                                                        textAlign:
-                                                                        TextAlign.start,
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                        10,
-                                                                      ),
-                                                                      TextFormField(
-                                                                        controller: directQtyController,
-                                                                        autovalidateMode:
-                                                                        AutovalidateMode.onUserInteraction,
-                                                                        validator:
-                                                                            (value) {
-                                                                          if (value!.trim().isEmpty) {
-                                                                            return 'Please enter valid quantity';
-                                                                          }
-                                                                          if (double.parse(value) >
-                                                                              filteredProducts[
-                                                                              index].productDetail!.productQuantity!) {
-                                                                            return 'Entered quantity is out of range, please reduce it and try again !';
-                                                                          }
-                                                                          return null;
-                                                                        },
-
-                                                                        keyboardType:
-                                                                        TextInputType.number,
-                                                                        decoration:
-                                                                        InputDecoration(
-                                                                          errorMaxLines:
-                                                                          3,
-                                                                          hintText:
-                                                                          'Enter quantity',
-                                                                          counterText:
-                                                                          "",
-                                                                          isCollapsed:
-                                                                          true,
-                                                                          focusedBorder:
-                                                                          OutlineInputBorder(
-                                                                            borderSide: const BorderSide(color: AppColors.secondaryColor, width: 2),
-                                                                            borderRadius: BorderRadius.circular(8),
-                                                                          ),
-                                                                          border:
-                                                                          OutlineInputBorder(
-                                                                            borderSide: const BorderSide(color: Colors.black, width: 2),
-                                                                            borderRadius: BorderRadius.circular(8),
-                                                                          ),
-                                                                          contentPadding:
-                                                                          const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                                                        ),
-                                                                      ),
-                                                                    ],
+                                                                children: [
+                                                                  Text(
+                                                                    "Enter Quantity",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
                                                                   ),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        child:
-                                                                        const Text("Close")),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          dashboardProvider.addUpdateProductToCart(
-                                                                              filteredProducts[
-                                                                              index]
-                                                                                  .productDetail!,
-                                                                              'add',
-                                                                              context,double.parse(directQtyController.text));
-                                                                          Navigator.pop(context);
-                                                                          directQtyController.clear();
-                                                                            },
-                                                                        child:
-                                                                        const Text("Confirm"))
-                                                                  ],
-                                                                ),
+                                                                  SizedBox(
+                                                                    height: 10,
+                                                                  ),
+                                                                  TextFormField(
+                                                                    controller:
+                                                                        directQtyController,
+                                                                    autovalidateMode:
+                                                                        AutovalidateMode
+                                                                            .onUserInteraction,
+                                                                    validator:
+                                                                        (value) {
+                                                                      if (value!
+                                                                          .trim()
+                                                                          .isEmpty) {
+                                                                        return 'Please enter valid quantity';
+                                                                      }
+                                                                      if (double.parse(
+                                                                              value) >
+                                                                          filteredProducts[index]
+                                                                              .productDetail!
+                                                                              .productQuantity!) {
+                                                                        return 'Entered quantity is out of range, please reduce it and try again !';
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .number,
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      errorMaxLines:
+                                                                          3,
+                                                                      hintText:
+                                                                          'Enter quantity',
+                                                                      counterText:
+                                                                          "",
+                                                                      isCollapsed:
+                                                                          true,
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide: const BorderSide(
+                                                                            color:
+                                                                                AppColors.secondaryColor,
+                                                                            width: 2),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
+                                                                      ),
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderSide: const BorderSide(
+                                                                            color:
+                                                                                Colors.black,
+                                                                            width: 2),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
+                                                                      ),
+                                                                      contentPadding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          vertical:
+                                                                              15,
+                                                                          horizontal:
+                                                                              10),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              actions: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Close")),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      dashboardProvider.addUpdateProductToCart(
+                                                                          filteredProducts[index]
+                                                                              .productDetail!,
+                                                                          'add',
+                                                                          context,
+                                                                          double.parse(
+                                                                              directQtyController.text));
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      directQtyController
+                                                                          .clear();
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Confirm"))
+                                                              ],
+                                                            ),
                                                           );
                                                         },
                                                         onTap: () {
@@ -510,7 +558,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                           index]
                                                                       .productDetail!,
                                                                   'add',
-                                                                  context,null);
+                                                                  context,
+                                                                  null);
                                                         },
                                                         child: Container(
                                                           height: 35,
@@ -532,9 +581,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold),
-                                                            textAlign:
-                                                                TextAlign
-                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                           )),
                                                         ),
                                                       ),

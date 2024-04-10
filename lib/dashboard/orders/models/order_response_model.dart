@@ -153,10 +153,10 @@ class Docs {
             : List<ProductDetail>.from(
                 json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
         storeDeliverycharge: json["storeDeliverycharge"].toDouble(),
-    redeemPoints: json["redeemPoints"]??0,
-    redeemPointValue: json["redeemPointValue"].toDouble()??0.0,
-    storeCommissionAmount: json["storeCommissionAmount"].toDouble(),
-    overallDiscount: json["overallDiscount"].toDouble(),
+        redeemPoints: json["redeemPoints"] ?? 0,
+        redeemPointValue: json["redeemPointValue"].toDouble() ?? 0.0,
+        storeCommissionAmount: json["storeCommissionAmount"].toDouble(),
+        overallDiscount: json["overallDiscount"].toDouble(),
         additionalChargesArray: json["additionalChargesArray"] == null
             ? []
             : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
@@ -172,7 +172,7 @@ class Docs {
         "orderId": orderId,
         "orderStatus": orderStatus,
         "storeUuid": storeUuid,
-        "orderDate":orderDate,
+        "orderDate": orderDate,
         "orderTime": orderTime,
         "customerUuid": customerUuid,
         "orderDeliveryType": orderDeliveryType,

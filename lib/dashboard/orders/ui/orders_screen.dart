@@ -169,7 +169,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             ),
                                             child: Center(
                                                 child: Text(
-                                              capitalizeWords(ordersProvider.ongoingOrders[index].orderStatus!),
+                                              capitalizeWords(ordersProvider
+                                                  .ongoingOrders[index]
+                                                  .orderStatus!),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12,
@@ -329,20 +331,32 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 3, horizontal: 10),
                                           decoration: ShapeDecoration(
-                                            color: ordersProvider.finishedOrders[index].orderStatus=='rejected'?
-                                            Colors.red:AppColors.secondaryColor,
+                                            color: ordersProvider
+                                                        .finishedOrders[index]
+                                                        .orderStatus ==
+                                                    'rejected'
+                                                ? Colors.red
+                                                : AppColors.secondaryColor,
                                             shape: RoundedRectangleBorder(
                                               side: BorderSide(
                                                   width: 0.50,
-                                                  color:ordersProvider.finishedOrders[index].orderStatus=='rejected'?
-                                                      Colors.red:AppColors.secondaryColor),
+                                                  color: ordersProvider
+                                                              .finishedOrders[
+                                                                  index]
+                                                              .orderStatus ==
+                                                          'rejected'
+                                                      ? Colors.red
+                                                      : AppColors
+                                                          .secondaryColor),
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                             ),
                                           ),
                                           child: Center(
                                               child: Text(
-                                            capitalizeWords(ordersProvider.finishedOrders[index].orderStatus!),
+                                            capitalizeWords(ordersProvider
+                                                .finishedOrders[index]
+                                                .orderStatus!),
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12,

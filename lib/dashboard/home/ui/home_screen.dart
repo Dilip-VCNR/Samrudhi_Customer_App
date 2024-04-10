@@ -208,7 +208,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-
                         dashboardProvider.homeData!.result!.myStore!.isNotEmpty
                             ? const SizedBox(
                                 height: 10,

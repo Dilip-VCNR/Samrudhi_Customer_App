@@ -48,10 +48,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          for (int i = 0; i < snapshot.data!.result!.length; i++)
+                          for (int i = 0;
+                              i < snapshot.data!.result!.length;
+                              i++)
                             ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: snapshot.data!.result![i].notifications!.length,
+                                itemCount: snapshot
+                                    .data!.result![i].notifications!.length,
                                 scrollDirection: Axis.vertical,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) => Column(
@@ -83,25 +86,33 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: screenSize.width*.8,
+                                                    width:
+                                                        screenSize.width * .8,
                                                     child: Text(
                                                       '${snapshot.data!.result![i].notifications![index].notificationMessage}',
                                                       style: const TextStyle(
-                                                        color: AppColors.fontColor,
+                                                        color:
+                                                            AppColors.fontColor,
                                                         fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 5,),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
                                                   SizedBox(
-                                                    width: screenSize.width*.7,
-                                                    child: Text(parseDate(
-                                                      '${snapshot.data!.result![i].notifications![index].notificationDate} ${snapshot.data!.result![i].notifications![index].notificationTime}'),
+                                                    width:
+                                                        screenSize.width * .7,
+                                                    child: Text(
+                                                      parseDate(
+                                                          '${snapshot.data!.result![i].notifications![index].notificationDate} ${snapshot.data!.result![i].notifications![index].notificationTime}'),
                                                       style: const TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
                                                     ),
                                                   )
@@ -132,6 +143,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       ),
     );
   }
+
   parseDate(String dateString) {
     DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
     DateTime dateTime = inputFormat.parse(dateString);

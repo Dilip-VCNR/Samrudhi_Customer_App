@@ -74,7 +74,8 @@ class ApiCalls {
       double latitude,
       double longitude,
       String postalCode,
-      File? selectedImage, BuildContext buildContext) async {
+      File? selectedImage,
+      BuildContext buildContext) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.registerUser));
     // Add folds
@@ -111,11 +112,11 @@ class ApiCalls {
     }
 
     var response = await request.send();
-    if(response.statusCode==201){
+    if (response.statusCode == 201) {
       var responseData = await response.stream.toBytes();
       var responseJson = json.decode(utf8.decode(responseData));
       return RegisterResponseModel.fromJson(responseJson);
-    }else{
+    } else {
       Navigator.pop(buildContext);
       showErrorToast(buildContext, response.statusCode.toString());
     }
@@ -133,13 +134,14 @@ class ApiCalls {
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
-  Future<StoreDataModel> getStoreData(MyStore nearStoresdatum, String searchedString) async {
+  Future<StoreDataModel> getStoreData(
+      MyStore nearStoresdatum, String searchedString) async {
     http.Response response = await hitApi(
         true,
         UrlConstant.getStoreData,
         jsonEncode({
           "storeUuid": nearStoresdatum.storeUuid,
-          "searchedString":searchedString
+          "searchedString": searchedString
         }));
     return StoreDataModel.fromJson(json.decode(response.body));
   }
@@ -201,7 +203,8 @@ class ApiCalls {
         true,
         UrlConstant.reviewCart,
         jsonEncode({
-          "orderDeliveryType":orderDeliveryType==1?"homeDelivery":"selfPickup",
+          "orderDeliveryType":
+              orderDeliveryType == 1 ? "homeDelivery" : "selfPickup",
           "customerUuid": prefModel.userData!.customerUuid,
           "storeUuid": prefModel.cartItems!.isNotEmpty
               ? prefModel.cartItems![0].storeUuid
@@ -212,12 +215,18 @@ class ApiCalls {
   }
 
   Future<OrderResponseModel> placeOrder(
-      ReviewCartResult result, int selectedValue, UserAddressArray? deliveryAddress, String? orderGrandTotal, double? overAlldiscountAmount, int? totalRewardPoints, String? totalStoreCommission) async {
+      ReviewCartResult result,
+      int selectedValue,
+      UserAddressArray? deliveryAddress,
+      String? orderGrandTotal,
+      double? overAlldiscountAmount,
+      int? totalRewardPoints,
+      String? totalStoreCommission) async {
     Map req = result.toJson();
 
     Calculation? redeemPoints;
     Calculation? redeemPointsValue;
-    for(Calculation calc in result.calculation!){
+    for (Calculation calc in result.calculation!) {
       print(calc.toJson());
     }
     try {
@@ -245,7 +254,8 @@ class ApiCalls {
     if (deliveryAddress != null) {
       req['deliveryAddress'] = deliveryAddress.toJson();
     }
-    req['orderDeliveryType'] = selectedValue == 1 ? "homeDelivery" : "selfPickUp";
+    req['orderDeliveryType'] =
+        selectedValue == 1 ? "homeDelivery" : "selfPickUp";
     print(req.toString());
     log(req.toString());
     http.Response response =
@@ -269,8 +279,8 @@ class ApiCalls {
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 
-  updateUserDetails(String fName, String lName, String email,
-     File? selectedImage) async {
+  updateUserDetails(
+      String fName, String lName, String email, File? selectedImage) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.updateUser));
     // Add form fields

@@ -147,7 +147,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           //   return;
                           // }
                           await authProvider.getApproxLocation();
-
                         }
                       },
                       child: Container(
@@ -228,8 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.firstNameController,
@@ -248,16 +246,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'First Name',
                           counterText: "",
                           isCollapsed: true,
-
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -269,8 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         maxLength: 75,
                         textCapitalization: TextCapitalization.sentences,
                         controller: authProvider.lastNameController,
@@ -289,16 +284,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Last Name',
                           counterText: "",
                           isCollapsed: true,
-
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -310,8 +303,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: authProvider.emailController,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
@@ -328,16 +320,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Email',
                           counterText: "",
                           isCollapsed: true,
-
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
@@ -357,7 +347,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 border:
-                                Border.all(color: Colors.grey, width: 1)),
+                                    Border.all(color: Colors.grey, width: 1)),
                             child: CountryCodePicker(
                               showFlag: true,
                               enabled: false,
@@ -377,8 +367,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               enabled: false,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
@@ -396,7 +386,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 hintText: 'Phone Number',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
                                       color: AppColors.secondaryColor,
@@ -419,8 +408,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 20,
                       ),
                       TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: authProvider.storeReferralCodeController,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.store),
@@ -428,16 +416,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           hintText: 'Store referral code (Optional)',
                           counterText: "",
                           isCollapsed: true,
-
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                                color: AppColors.secondaryColor,
-                                width: 2),
+                                color: AppColors.secondaryColor, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.black, width: 2),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           contentPadding: const EdgeInsets.symmetric(

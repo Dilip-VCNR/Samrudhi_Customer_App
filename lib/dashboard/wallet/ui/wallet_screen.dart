@@ -388,7 +388,11 @@ class _WalletScreenState extends State<WalletScreen> {
                                         ),
                                       ),
                                       Text(
-                                        parseDate(walletProvider.walletResponse!.result!.earnedPointsDetails![index].date!),
+                                        parseDate(walletProvider
+                                            .walletResponse!
+                                            .result!
+                                            .earnedPointsDetails![index]
+                                            .date!),
                                         style: const TextStyle(
                                           color: AppColors.fontColor,
                                           fontSize: 12,
@@ -481,7 +485,11 @@ class _WalletScreenState extends State<WalletScreen> {
                                             ),
                                           ),
                                           Text(
-                                            parseDate(walletProvider.walletResponse!.result!.redeemPointsDetails![index].date!),
+                                            parseDate(walletProvider
+                                                .walletResponse!
+                                                .result!
+                                                .redeemPointsDetails![index]
+                                                .date!),
                                             style: const TextStyle(
                                               color: AppColors.fontColor,
                                               fontSize: 12,
@@ -520,12 +528,11 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  parseDate(String dateString){
+  parseDate(String dateString) {
     DateFormat inputFormat = DateFormat('yyyy-MM-dd::HH:mm:ss');
     DateTime dateTime = inputFormat.parse(dateString);
     DateFormat outputFormat = DateFormat('dd-MM-yyyy hh:mm aa');
     String formattedDate = outputFormat.format(dateTime);
     return formattedDate;
   }
-
 }

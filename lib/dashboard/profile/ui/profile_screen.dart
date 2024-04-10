@@ -62,9 +62,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.profilePageContext = context;
-        return  Scaffold(
+        return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             automaticallyImplyLeading: false,
@@ -86,12 +87,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      prefModel.userData!.profileImgArray!.isNotEmpty?CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey.shade400,
-                        backgroundImage:NetworkImage(
-                            '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}?v=${Random().nextInt(100)}'),
-                      ):const SizedBox.shrink(),
+                      prefModel.userData!.profileImgArray!.isNotEmpty
+                          ? CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey.shade400,
+                              backgroundImage: NetworkImage(
+                                  '${UrlConstant.imageBaseUrl}${prefModel.userData!.profileImgArray![0].imageUrl}?v=${Random().nextInt(100)}'),
+                            )
+                          : const SizedBox.shrink(),
                       const SizedBox(
                         width: 20,
                       ),
@@ -100,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: screenSize.width/1.75,
+                            width: screenSize.width / 1.75,
                             child: Text(
                               '${prefModel.userData!.firstName}',
                               style: const TextStyle(
@@ -138,7 +141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             authProvider.setEditProfile();
                             break;
                           case 'my_address':
-                            Navigator.pushNamed(context, Routes.selectAddressRoute);
+                            Navigator.pushNamed(
+                                context, Routes.selectAddressRoute);
                             break;
                           case 'my_orders':
                             widget.changeScreen(1); // Change to the second item
@@ -187,10 +191,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ).then((confirmed) async {
                               if (confirmed == true) {
-                                prefModel.userData=null;
-                                prefModel.selectedAddress=null;
-                                prefModel.cartItems=null;
-                                prefModel.cartStore=null;
+                                prefModel.userData = null;
+                                prefModel.selectedAddress = null;
+                                prefModel.cartItems = null;
+                                prefModel.cartStore = null;
                                 await AppPref.setPref(prefModel);
                                 showSuccessToast(context, "Logout successful");
                                 Navigator.of(context).pushNamedAndRemoveUntil(
@@ -247,7 +251,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-
 class LogoutConfirmationDialog extends StatelessWidget {
   const LogoutConfirmationDialog({super.key});
 
@@ -259,13 +262,15 @@ class LogoutConfirmationDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(false); // Dismiss the dialog and return false
+            Navigator.of(context)
+                .pop(false); // Dismiss the dialog and return false
           },
           child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(true); // Dismiss the dialog and return true
+            Navigator.of(context)
+                .pop(true); // Dismiss the dialog and return true
           },
           child: const Text('Logout'),
         ),
