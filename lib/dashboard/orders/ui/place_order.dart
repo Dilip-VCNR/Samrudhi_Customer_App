@@ -99,16 +99,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       ),
                     ),
                     const Divider(),
-                    for (int i = 0;
-                        i <
-                            dashboardProvider.reviewCartResponse!.result!
-                                .calculation!.length;
-                        i++)
-                      dashboardProvider.reviewCartResponse!.result!
-                                  .calculation![i].name !=
-                              'redeemPoints' && dashboardProvider.reviewCartResponse!.result!
-                          .calculation![i].name !='Order GrandTotal' && double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!)>0
-                          ? Row(
+                    for (int i = 0; i < dashboardProvider.reviewCartResponse!.result!.calculation!.length; i++)
+                      if(dashboardProvider.reviewCartResponse!.result!.calculation![i].name != 'redeemPoints' && dashboardProvider.reviewCartResponse!.result!.calculation![i].name != 'Order GrandTotal' && double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!) > 0)
+                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
@@ -126,19 +119,56 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(3.0),
-                                  child: Text(
-                                    '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
-                                    textAlign: TextAlign.right,
-                                    style: const TextStyle(
-                                      color: AppColors.fontColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                  child: dashboardProvider.reviewCartResponse!
+                                              .result!.calculation![i].name !=
+                                          "redeemPointValue"
+                                      ? Text(
+                                          '₹${dashboardProvider.reviewCartResponse!.result!.calculation![i].value}',
+                                          textAlign: TextAlign.right,
+                                          style: const TextStyle(
+                                            color: AppColors.fontColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                dashboardProvider
+                                                    .unApplyWalletPoints();
+                                              },
+                                              child: const Text(
+                                                "Remove",
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  color: AppColors.fontColor,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Text(
+                                              '₹${double.parse(dashboardProvider.reviewCartResponse!.result!.calculation![i].value!).toStringAsFixed(2)}',
+                                              textAlign: TextAlign.right,
+                                              style: const TextStyle(
+                                                color: AppColors.fontColor,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                 )
                               ],
                             )
-                          : const SizedBox.shrink(),
+                          else
+                            const SizedBox.shrink(),
                     const Divider(),
 
                     Row(
@@ -217,7 +247,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                bool? confirmed = await showWarningDialog(context,
+                                bool? confirmed = await showWarningDialog(
+                                    context,
                                     "Are you sure to apply ${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue}?");
                                 if (confirmed!) {
                                   dashboardProvider.applyWalletPoints();
@@ -332,28 +363,55 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         // decoration: TextDecoration.lineThrough,
                                       ),
                                     ),
-                                    dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount!>0?Text(
-                                      'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
-                                      style: TextStyle(
-                                        color: AppColors.fontColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        decoration: dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount! > 0?TextDecoration.lineThrough:TextDecoration.none,
-                                      ),
-                                    ):SizedBox.shrink(),
-                                    dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount!>0?Text(
-                                      'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
-                                      style: const TextStyle(
-                                        color: AppColors.primaryColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        // decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ):SizedBox.shrink(),
+                                    dashboardProvider
+                                                .reviewCartResponse!
+                                                .result!
+                                                .productDetails![index]
+                                                .productDiscount! >
+                                            0
+                                        ? Text(
+                                            'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
+                                            style: TextStyle(
+                                              color: AppColors.fontColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              decoration: dashboardProvider
+                                                          .reviewCartResponse!
+                                                          .result!
+                                                          .productDetails![
+                                                              index]
+                                                          .productDiscount! >
+                                                      0
+                                                  ? TextDecoration.lineThrough
+                                                  : TextDecoration.none,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                    dashboardProvider
+                                                .reviewCartResponse!
+                                                .result!
+                                                .productDetails![index]
+                                                .productDiscount! >
+                                            0
+                                        ? Text(
+                                            'Discount : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount}%',
+                                            style: const TextStyle(
+                                              color: AppColors.primaryColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              // decoration: TextDecoration.lineThrough,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                     Text(
-                                      dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount!>0?
-                                      'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}':
-                                      'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}',
+                                      dashboardProvider
+                                                  .reviewCartResponse!
+                                                  .result!
+                                                  .productDetails![index]
+                                                  .productDiscount! >
+                                              0
+                                          ? 'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}'
+                                          : 'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}',
                                       style: const TextStyle(
                                         color: AppColors.secondaryColor,
                                         fontSize: 14,
@@ -398,7 +456,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                       prefModel
                                                           .cartItems![index],
                                                       "add",
-                                                      context);
+                                                      context,null);
                                               // dashboardProvider.reviewCartResponse = null;
                                               showLoaderDialog(context);
                                               await dashboardProvider
@@ -440,7 +498,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                           prefModel.cartItems![
                                                               index],
                                                           'remove',
-                                                          context);
+                                                          context,null);
                                                   if (prefModel
                                                       .cartItems!.isEmpty) {
                                                     if (context.mounted) {
@@ -510,7 +568,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                           prefModel.cartItems![
                                                               index],
                                                           'add',
-                                                          context);
+                                                          context,null);
                                                   // dashboardProvider.reviewCartResponse = null;
                                                   showLoaderDialog(context);
                                                   await dashboardProvider
@@ -716,8 +774,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                     TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          dashboardProvider
-                                              .placeOrder(_selectedValue,dashboardProvider.reviewCartResponse);
+                                          dashboardProvider.placeOrder(
+                                              _selectedValue,
+                                              dashboardProvider
+                                                  .reviewCartResponse);
                                         },
                                         child: const Text("Yes"))
                                   ],
@@ -795,9 +855,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Cart is empty !",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
                       height: 20,
@@ -812,7 +873,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),
-                        width: screenSize.width/2,
+                        width: screenSize.width / 2,
                         padding: const EdgeInsets.all(20),
                         child: const Text(
                           'Browse Products',

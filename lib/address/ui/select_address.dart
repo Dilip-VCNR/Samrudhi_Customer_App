@@ -127,7 +127,8 @@ class _SelectAddressState extends State<SelectAddress> {
                               completeAddress: prediction.description);
                           AppPref.setPref(prefModel);
                           dashboardProvider.getHomeData();
-                          Navigator.pop(context);
+                          dashboardProvider.addressSearchController.clear();
+                          showSuccessToast(context, "Location changed successfully");
                         },
                         itmClick: (prediction) async {
                           FocusScope.of(context).unfocus();

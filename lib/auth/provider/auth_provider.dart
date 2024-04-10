@@ -88,6 +88,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController newCityController = TextEditingController();
   TextEditingController newPostalCodeController = TextEditingController();
   BuildContext? markLocationContext;
+  BuildContext? markLocationContext1;
 
   bool isNotValidEmail(String email) {
     const emailRegex =
@@ -430,6 +431,7 @@ class AuthProvider extends ChangeNotifier {
       AppPref.setPref(prefModel);
       Navigator.pop(markLocationContext!);
       Navigator.pop(markLocationContext!);
+      Navigator.pop(markLocationContext1!);
       selectedAddressType = '';
       newAddressController.clear();
       newCityController.clear();

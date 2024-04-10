@@ -34,7 +34,6 @@ class _MarkLocationState extends State<MarkLocation> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-
     return Consumer(
       builder:
           (BuildContext context, AuthProvider authProvider, Widget? child) {
@@ -42,6 +41,7 @@ class _MarkLocationState extends State<MarkLocation> {
             target: LatLng(authProvider.currentPosition!.latitude,
                 authProvider.currentPosition!.longitude),
             zoom: 17.0));
+        authProvider.markLocationContext1 = context;
         return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -499,7 +499,7 @@ class _MarkLocationState extends State<MarkLocation> {
                         if (authProvider.newAddressFormKey.currentState!
                             .validate()) {
                           if(authProvider.selectedAddressType==''){
-                            showErrorToast(context, "Please select address tyep");
+                            showErrorToast(context, "Please select address type");
                             return;
                           }
                           await authProvider.addNewAddress();

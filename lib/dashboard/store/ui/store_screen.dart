@@ -16,6 +16,8 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _StoreScreenState extends State<StoreScreen> {
+  TextEditingController directQtyController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -233,9 +235,15 @@ class _StoreScreenState extends State<StoreScreen> {
                                   .productDetails![i].productList!.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
-                                  onTap: (){
-                                    showProductDetailsModal(dashboardProvider.storeData!.result!
-                                        .productDetails![i].productList![index],context,screenSize);
+                                  onTap: () {
+                                    showProductDetailsModal(
+                                        dashboardProvider
+                                            .storeData!
+                                            .result!
+                                            .productDetails![i]
+                                            .productList![index],
+                                        context,
+                                        screenSize);
                                   },
                                   child: Container(
                                     width: screenSize.width,
@@ -268,8 +276,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 ),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          9),
+                                                      BorderRadius.circular(9),
                                                 ),
                                               ),
                                             ),
@@ -282,8 +289,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   child: Center(
                                                       child: Text(
                                                     '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount}%\noff',
-                                                    textAlign:
-                                                        TextAlign.center,
+                                                    textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         fontSize: 10),
                                                   )),
@@ -371,11 +377,11 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
-                                                mainAxisSize:
-                                                    MainAxisSize.max,
+                                                mainAxisSize: MainAxisSize.max,
                                                 children: [
                                                   SizedBox(
-                                                    width:screenSize.width/3.1,
+                                                    width:
+                                                        screenSize.width / 3.1,
                                                     child: Text(
                                                       '₹${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscountedValue!}/${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productUom!}',
                                                       style: const TextStyle(
@@ -407,7 +413,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                         index]
                                                                     .productDetail!,
                                                                 'add',
-                                                                context);
+                                                                context,null);
                                                           },
                                                           child: Container(
                                                             width: screenSize
@@ -416,8 +422,19 @@ class _StoreScreenState extends State<StoreScreen> {
                                                             height: 35,
                                                             decoration:
                                                                 ShapeDecoration(
-                                                              color: dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productQuantity!>0?AppColors
-                                                                  .secondaryColor:Colors.grey,
+                                                              color: dashboardProvider
+                                                                          .storeData!
+                                                                          .result!
+                                                                          .productDetails![
+                                                                              i]
+                                                                          .productList![
+                                                                              index]
+                                                                          .productDetail!
+                                                                          .productQuantity! >
+                                                                      0
+                                                                  ? AppColors
+                                                                      .secondaryColor
+                                                                  : Colors.grey,
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:
@@ -426,16 +443,23 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                             7),
                                                               ),
                                                             ),
-                                                            child:
-                                                                Center(
+                                                            child: Center(
                                                               child: Text(
-                                                                dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productQuantity!>0?'Add':'Out Of Stock',
+                                                                dashboardProvider
+                                                                            .storeData!
+                                                                            .result!
+                                                                            .productDetails![i]
+                                                                            .productList![index]
+                                                                            .productDetail!
+                                                                            .productQuantity! >
+                                                                        0
+                                                                    ? 'Add'
+                                                                    : 'Out Of Stock',
                                                                 style:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize:
-                                                                      12,
+                                                                  fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
@@ -447,6 +471,114 @@ class _StoreScreenState extends State<StoreScreen> {
                                                       : Row(
                                                           children: [
                                                             GestureDetector(
+                                                              onLongPress: () {
+                                                                showDialog(
+                                                                  context:
+                                                                  context,
+                                                                  builder: (_) =>
+                                                                      AlertDialog(
+                                                                        shape: const RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                            BorderRadius.all(Radius.circular(10.0))),
+                                                                        backgroundColor:
+                                                                        Colors
+                                                                            .white,
+                                                                        content:
+                                                                        Column(
+                                                                          mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                          mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                          children: [
+                                                                            Text(
+                                                                              "Enter Quantity",
+                                                                              textAlign:
+                                                                              TextAlign.start,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height:
+                                                                              10,
+                                                                            ),
+                                                                            TextFormField(
+                                                                              controller: directQtyController,
+                                                                              autovalidateMode:
+                                                                              AutovalidateMode.onUserInteraction,
+                                                                              validator:
+                                                                                  (value) {
+                                                                                if (value!.trim().isEmpty) {
+                                                                                  return 'Please enter valid quantity';
+                                                                                }
+                                                                                if (double.parse(value) >
+                                                                                    dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productQuantity!) {
+                                                                                  return 'Entered quantity is out of range, please reduce it and try again !';
+                                                                                }
+                                                                                return null;
+                                                                              },
+
+                                                                              keyboardType:
+                                                                              TextInputType.number,
+                                                                              decoration:
+                                                                              InputDecoration(
+                                                                                errorMaxLines:
+                                                                                3,
+                                                                                hintText:
+                                                                                'Enter quantity',
+                                                                                counterText:
+                                                                                "",
+                                                                                isCollapsed:
+                                                                                true,
+                                                                                focusedBorder:
+                                                                                OutlineInputBorder(
+                                                                                  borderSide: const BorderSide(color: AppColors.secondaryColor, width: 2),
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                ),
+                                                                                border:
+                                                                                OutlineInputBorder(
+                                                                                  borderSide: const BorderSide(color: Colors.black, width: 2),
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                ),
+                                                                                contentPadding:
+                                                                                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                              onPressed:
+                                                                                  () {
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child:
+                                                                              const Text("Close")),
+                                                                          TextButton(
+                                                                              onPressed:
+                                                                                  () {
+                                                                                dashboardProvider.addUpdateProductToCart(
+                                                                                    dashboardProvider
+                                                                                        .storeData!
+                                                                                        .result!
+                                                                                        .productDetails![
+                                                                                    i]
+                                                                                        .productList![
+                                                                                    index]
+                                                                                        .productDetail!,
+                                                                                    'add',
+                                                                                    context,double.parse(directQtyController.text));
+                                                                                Navigator.pop(context);
+                                                                                directQtyController.clear();
+                                                                              },
+                                                                              child:
+                                                                              const Text("Confirm"))
+                                                                        ],
+                                                                      ),
+                                                                );
+                                                              },
                                                               onTap: () {
                                                                 dashboardProvider.addUpdateProductToCart(
                                                                     dashboardProvider
@@ -458,10 +590,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                             index]
                                                                         .productDetail!,
                                                                     'remove',
-                                                                    context);
+                                                                    context,null);
                                                               },
-                                                              child:
-                                                                  Container(
+                                                              child: Container(
                                                                 height: 35,
                                                                 width: 35,
                                                                 decoration: const BoxDecoration(
@@ -481,7 +612,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                       fontSize:
                                                                           22,
                                                                       fontWeight:
-                                                                          FontWeight.bold),
+                                                                          FontWeight
+                                                                              .bold),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -516,6 +648,114 @@ class _StoreScreenState extends State<StoreScreen> {
                                                               )),
                                                             ),
                                                             GestureDetector(
+                                                              onLongPress: () {
+                                                                showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (_) =>
+                                                                      AlertDialog(
+                                                                    shape: const RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(10.0))),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    content:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          "Enter Quantity",
+                                                                          textAlign:
+                                                                              TextAlign.start,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              10,
+                                                                        ),
+                                                                        TextFormField(
+                                                                          controller: directQtyController,
+                                                                          autovalidateMode:
+                                                                              AutovalidateMode.onUserInteraction,
+                                                                          validator:
+                                                                              (value) {
+                                                                            if (value!.trim().isEmpty) {
+                                                                              return 'Please enter valid quantity';
+                                                                            }
+                                                                            if (double.parse(value) >
+                                                                                dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productQuantity!) {
+                                                                              return 'Entered quantity is out of range, please reduce it and try again !';
+                                                                            }
+                                                                            return null;
+                                                                          },
+
+                                                                          keyboardType:
+                                                                              TextInputType.number,
+                                                                          decoration:
+                                                                              InputDecoration(
+                                                                            errorMaxLines:
+                                                                                3,
+                                                                            hintText:
+                                                                                'Enter quantity',
+                                                                            counterText:
+                                                                                "",
+                                                                            isCollapsed:
+                                                                                true,
+                                                                            focusedBorder:
+                                                                                OutlineInputBorder(
+                                                                              borderSide: const BorderSide(color: AppColors.secondaryColor, width: 2),
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                            border:
+                                                                                OutlineInputBorder(
+                                                                              borderSide: const BorderSide(color: Colors.black, width: 2),
+                                                                              borderRadius: BorderRadius.circular(8),
+                                                                            ),
+                                                                            contentPadding:
+                                                                                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              const Text("Close")),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                                dashboardProvider.addUpdateProductToCart(
+                                                                                    dashboardProvider
+                                                                                        .storeData!
+                                                                                        .result!
+                                                                                        .productDetails![
+                                                                                    i]
+                                                                                        .productList![
+                                                                                    index]
+                                                                                        .productDetail!,
+                                                                                    'add',
+                                                                                    context,double.parse(directQtyController.text));
+                                                                            Navigator.pop(context);
+                                                                                directQtyController.clear();
+                                                                              },
+                                                                          child:
+                                                                              const Text("Confirm"))
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              },
                                                               onTap: () {
                                                                 dashboardProvider.addUpdateProductToCart(
                                                                     dashboardProvider
@@ -527,10 +767,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                             index]
                                                                         .productDetail!,
                                                                     'add',
-                                                                    context);
+                                                                    context,null);
                                                               },
-                                                              child:
-                                                                  Container(
+                                                              child: Container(
                                                                 height: 35,
                                                                 width: 35,
                                                                 decoration: const BoxDecoration(
@@ -550,7 +789,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                       fontSize:
                                                                           22,
                                                                       fontWeight:
-                                                                          FontWeight.bold),
+                                                                          FontWeight
+                                                                              .bold),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -573,7 +813,12 @@ class _StoreScreenState extends State<StoreScreen> {
                                                           .productDiscount! >
                                                       0
                                                   ? Text(
-                                                      dashboardProvider.storeData!.result!.productDetails![i].productList![index].saveMessage!,
+                                                      dashboardProvider
+                                                          .storeData!
+                                                          .result!
+                                                          .productDetails![i]
+                                                          .productList![index]
+                                                          .saveMessage!,
                                                       style: const TextStyle(
                                                           color: AppColors
                                                               .secondaryColor,

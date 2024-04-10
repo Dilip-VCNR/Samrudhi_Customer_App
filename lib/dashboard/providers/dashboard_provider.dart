@@ -195,56 +195,61 @@ class DashboardProvider extends ChangeNotifier {
   double payable = 0.0;
 
   addUpdateProductToCart(ProductListProductDetail product, String operation,
-      BuildContext context) async {
-    double incrementQty = 1;
+      BuildContext context,double? directIncrementQty) async {
     var contain = prefModel.cartItems!.where((element) => element.productUuid == product.productUuid);
     int index = prefModel.cartItems!.indexWhere((element) => element.productUuid == product.productUuid);
-    if (product.productUom == "KG") {
-      incrementQty = 0.5;
-    }
-    bool shouldClearCart = prefModel.cartItems!.isNotEmpty && prefModel.cartItems![0].storeUuid != product.storeUuid;
-
-    if (shouldClearCart) {
-      bool? confirmed = await showWarningDialog(context,
-          "You already have items in your cart from other store,\nCart will be cleared if you wish to proceed !");
-      if (!confirmed!) {
-        // User didn't confirm, exit the function
-        return;
+    if(directIncrementQty==null){
+      double incrementQty = 1;
+      if (product.productUom == "KG") {
+        incrementQty = 0.5;
       }
-      prefModel.cartItems!.clear();
-    }
+      bool shouldClearCart = prefModel.cartItems!.isNotEmpty && prefModel.cartItems![0].storeUuid != product.storeUuid;
 
-    if (operation == 'add') {
-      if (contain.isEmpty) {
-        if(product.productQuantity!>=incrementQty){
-          product.addedCartQuantity = incrementQty;
-          prefModel.cartItems!.add(product);
-        }else{
-          if(product.productQuantity!=0){
-            showErrorToast(context, "Reached maximum available quantity");
+      if (shouldClearCart) {
+        bool? confirmed = await showWarningDialog(context,
+            "You already have items in your cart from other store,\nCart will be cleared if you wish to proceed !");
+        if (!confirmed!) {
+          // User didn't confirm, exit the function
+          return;
+        }
+        prefModel.cartItems!.clear();
+      }
+
+      if (operation == 'add') {
+        if (contain.isEmpty) {
+          if(product.productQuantity!>=incrementQty){
+            product.addedCartQuantity = incrementQty;
+            prefModel.cartItems!.add(product);
+          }else{
+            if(product.productQuantity!=0){
+              showErrorToast(context, "Reached maximum available quantity");
+            }
+          }
+        } else {
+          if(product.productQuantity! >= prefModel.cartItems![index].addedCartQuantity!+incrementQty){
+            prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + incrementQty;
+          }else{
+            if(product.productQuantity!=0){
+              showErrorToast(context, "Reached maximum available quantity");
+            }
           }
         }
-      } else {
-        if(product.productQuantity! >= prefModel.cartItems![index].addedCartQuantity!+incrementQty){
-          prefModel.cartItems![index].addedCartQuantity = prefModel.cartItems![index].addedCartQuantity! + incrementQty;
-        }else{
-          if(product.productQuantity!=0){
-            showErrorToast(context, "Reached maximum available quantity");
-          }
+      } else if (operation == 'remove') {
+        if (prefModel.cartItems![index].addedCartQuantity! > incrementQty) {
+          prefModel.cartItems![index].addedCartQuantity =
+              prefModel.cartItems![index].addedCartQuantity! - incrementQty;
+        } else if (prefModel.cartItems![index].addedCartQuantity ==
+            incrementQty) {
+          prefModel.cartItems!.removeAt(index);
         }
       }
-    } else if (operation == 'remove') {
-      if (prefModel.cartItems![index].addedCartQuantity! > incrementQty) {
-        prefModel.cartItems![index].addedCartQuantity =
-            prefModel.cartItems![index].addedCartQuantity! - incrementQty;
-      } else if (prefModel.cartItems![index].addedCartQuantity ==
-          incrementQty) {
-        prefModel.cartItems!.removeAt(index);
-      }
+      prefModel.cartStore = storeData!.result!.storeDetails!;
+      AppPref.setPref(prefModel);
+      notifyListeners();
+    }else{
+      prefModel.cartItems![index].addedCartQuantity = directIncrementQty;
+      notifyListeners();
     }
-    prefModel.cartStore = storeData!.result!.storeDetails!;
-    AppPref.setPref(prefModel);
-    notifyListeners();
   }
 
   bool productExistInCart(ProductList product) {
@@ -366,6 +371,17 @@ class DashboardProvider extends ChangeNotifier {
         double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toStringAsFixed(2))).toStringAsFixed(2).toString();
     notifyListeners();
   }
+
+
+  unApplyWalletPoints() async {
+    reviewCartResponse!.result!.calculation!.removeWhere((element) => element.name == 'redeemPoints');
+    reviewCartResponse!.result!.calculation!.removeWhere((element) => element.name == 'redeemPointValue');
+    var orderGrandTotalElement = reviewCartResponse!.result!.calculation!.firstWhere((element) => element.name == 'Order GrandTotal');
+    orderGrandTotalElement.value = (double.parse(orderGrandTotalElement.value!) +
+        double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toStringAsFixed(2))).toStringAsFixed(2).toString();
+    notifyListeners();
+  }
+
 
   getDeliverableAddress() async {
     showLoaderDialog(reviewCartScreenContext!);
