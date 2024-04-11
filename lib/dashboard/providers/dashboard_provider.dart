@@ -392,10 +392,10 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getDeliverableAddress() async {
+  getDeliverableAddress(storeUid) async {
     showLoaderDialog(reviewCartScreenContext!);
     DeliverableAddressModel deliverableAddressResponse = await apiCalls
-        .getDeliverableAddress(storeData!.result!.storeDetails!.storeUuid);
+        .getDeliverableAddress(storeUid);
     Navigator.pop(reviewCartScreenContext!);
     Navigator.pushNamed(reviewCartScreenContext!, Routes.selectAddressRoute,
         arguments: {'deliverableAddress': deliverableAddressResponse});

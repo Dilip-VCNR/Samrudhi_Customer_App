@@ -6,7 +6,7 @@ import '../../../utils/app_colors.dart';
 import '../models/order_response_model.dart';
 
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({Key? key}) : super(key: key);
+  const OrderDetails({super.key});
 
   @override
   State<OrderDetails> createState() => _OrderDetailsState();
@@ -427,7 +427,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               // ),
               order.storeDeliverycharge! > 0
                   ? const Divider()
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               order.storeDeliverycharge! > 0
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -452,8 +452,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                       ],
                     )
-                  : SizedBox.shrink(),
-              order.redeemPointValue! > 0 ? const Divider() : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
+              order.redeemPointValue! > 0 ? const Divider() : const SizedBox.shrink(),
               order.redeemPointValue! > 0
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -478,7 +478,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                       ],
                     )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -528,8 +528,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                 stepperList: [
                   for (int i = 0; i < order.orderStatusTrackArray!.length; i++)
                     StepperData(
-                        title: StepperText(
-                            '${capitalizeWords(order.orderStatusTrackArray![i].action!)}'),
+                        title: StepperText(capitalizeWords(
+                            order.orderStatusTrackArray![i].action!)),
                         subtitle: StepperText(
                             '${order.orderStatusTrackArray![i].remarks}\n${parseDate(order.orderStatusTrackArray![i].date!)}'),
                         iconWidget: Container(

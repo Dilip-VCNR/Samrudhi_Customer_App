@@ -25,8 +25,7 @@ class _SelectAddressState extends State<SelectAddress> {
     var screenSize = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    DeliverableAddressModel? deliverableAddress =
-        arguments['deliverableAddress'];
+    DeliverableAddressModel? deliverableAddress = arguments['deliverableAddress'];
 
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
@@ -36,7 +35,7 @@ class _SelectAddressState extends State<SelectAddress> {
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
             title: const Text(
-              'My Address',
+              'Select Address',
               style: TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 20,

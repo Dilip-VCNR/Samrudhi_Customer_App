@@ -4,11 +4,12 @@ import 'package:samruddhi/dashboard/profile/ui/profile_screen.dart';
 import 'package:samruddhi/dashboard/wallet/ui/wallet_screen.dart';
 import 'package:samruddhi/utils/app_colors.dart';
 
+import '../utils/routes.dart';
 import 'home/ui/home_screen.dart';
 import 'orders/ui/orders_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -33,11 +34,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
       WalletScreen(changeScreen: changeScreen),
       ProfileScreen(changeScreen: changeScreen),
     ];
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Navigator.pushNamed(context, Routes.selectAddressRoute);
+      // showDialog(
+      //     context: context,
+      //     builder: (BuildContext context) => PopScope(canPop: false, child: AlertDialog(
+      //       shape: const RoundedRectangleBorder(
+      //           borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      //       backgroundColor: Colors.white,
+      //       title: const Text("Select address"),
+      //       content: ListView.separated(
+      //           shrinkWrap: true,
+      //           itemCount: prefModel.userData!.addressArray!.length,
+      //           scrollDirection: Axis.vertical,
+      //           itemBuilder:  (context, index){
+      //             return Text(prefModel.userData!.addressArray![index].completeAddress!);
+      //           }, separatorBuilder:  (context, index){
+      //         return const Divider();
+      //       }),
+      //     )));
+    });
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
