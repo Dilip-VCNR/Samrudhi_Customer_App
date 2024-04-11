@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -257,7 +256,6 @@ class ApiCalls {
     req['orderDeliveryType'] =
         selectedValue == 1 ? "homeDelivery" : "selfPickUp";
     print(req.toString());
-    log(req.toString());
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
     return OrderResponseModel.fromJson(json.decode(response.body));

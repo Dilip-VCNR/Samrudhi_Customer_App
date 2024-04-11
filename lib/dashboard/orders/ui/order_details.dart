@@ -509,6 +509,18 @@ class _OrderDetailsState extends State<OrderDetails> {
               const SizedBox(
                 height: 10,
               ),
+              order.reason!=""?
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: AppColors.debitBg
+                ),
+                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                  child: Text("Reject reason : "+order.reason!,style: const TextStyle(fontWeight: FontWeight.bold),)):const SizedBox.shrink(),
+              order.reason!=""?const SizedBox(
+                height: 10,
+              ):const SizedBox.shrink(),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

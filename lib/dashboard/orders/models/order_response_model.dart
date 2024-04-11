@@ -90,6 +90,7 @@ class Docs {
   double? overallDiscount;
   List<dynamic>? additionalChargesArray;
   int? v;
+  String? reason;
 
   Docs({
     this.deliveryAddress,
@@ -118,6 +119,7 @@ class Docs {
     this.overallDiscount,
     this.additionalChargesArray,
     this.v,
+    this.reason,
   });
 
   factory Docs.fromJson(Map<String, dynamic> json) => Docs(
@@ -161,6 +163,7 @@ class Docs {
             ? []
             : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
         v: json["__v"],
+    reason: json["reason"]??"",
       );
 
   Map<String, dynamic> toJson() => {
@@ -196,6 +199,7 @@ class Docs {
             ? []
             : List<dynamic>.from(additionalChargesArray!.map((x) => x)),
         "__v": v,
+        "reason": reason??"",
       };
 }
 

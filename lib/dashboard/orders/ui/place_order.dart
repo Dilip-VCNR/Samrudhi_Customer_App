@@ -201,10 +201,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Text(
-                            '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) {
-                              return calculation.name == 'Order GrandTotal';
-                            }).value}',
+                          child: Text(dashboardProvider.reviewCartResponse!.orderGrandTotal!,
+                          // child: Text(
+                          //   '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) {
+                          //     return calculation.name == 'Order GrandTotal';
+                          //   }).value}',
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: AppColors.fontColor,
@@ -823,9 +824,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               ),
                               TextSpan(
                                 text:
-                                    '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) {
-                                  return calculation.name == 'Order GrandTotal';
-                                }).value}',
+                                    '₹${dashboardProvider.reviewCartResponse!.orderGrandTotal}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,

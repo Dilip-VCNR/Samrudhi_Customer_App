@@ -363,15 +363,17 @@ class DashboardProvider extends ChangeNotifier {
     reviewCartResponse!.result!.calculation!.add(Calculation(
         name: 'redeemPointValue',
         value: walletData!.result!.totalAvailableRedeemPointsValue.toString()));
-    var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
-        .firstWhere((element) => element.name == 'Order GrandTotal');
-    orderGrandTotalElement.value =
-        (double.parse(orderGrandTotalElement.value!) -
-                double.parse(walletData!
-                    .result!.totalAvailableRedeemPointsValue!
-                    .toStringAsFixed(2)))
-            .toStringAsFixed(2)
-            .toString();
+
+    reviewCartResponse!.orderGrandTotal = (double.parse(reviewCartResponse!.orderGrandTotal!) - double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toString())).toString();
+    // var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
+    //     .firstWhere((element) => element.name == 'Order GrandTotal');
+    // orderGrandTotalElement.value =
+    //     (double.parse(orderGrandTotalElement.value!) -
+    //             double.parse(walletData!
+    //                 .result!.totalAvailableRedeemPointsValue!
+    //                 .toStringAsFixed(2)))
+    //         .toStringAsFixed(2)
+    //         .toString();
     notifyListeners();
   }
 
@@ -380,15 +382,17 @@ class DashboardProvider extends ChangeNotifier {
         .removeWhere((element) => element.name == 'redeemPoints');
     reviewCartResponse!.result!.calculation!
         .removeWhere((element) => element.name == 'redeemPointValue');
-    var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
-        .firstWhere((element) => element.name == 'Order GrandTotal');
-    orderGrandTotalElement.value =
-        (double.parse(orderGrandTotalElement.value!) +
-                double.parse(walletData!
-                    .result!.totalAvailableRedeemPointsValue!
-                    .toStringAsFixed(2)))
-            .toStringAsFixed(2)
-            .toString();
+    // var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
+    //     .firstWhere((element) => element.name == 'Order GrandTotal');
+    reviewCartResponse!.orderGrandTotal = (double.parse(reviewCartResponse!.orderGrandTotal!) + double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toString())).toString();
+    //
+    // orderGrandTotalElement.value =
+    //     (double.parse(orderGrandTotalElement.value!) +
+    //             double.parse(walletData!
+    //                 .result!.totalAvailableRedeemPointsValue!
+    //                 .toStringAsFixed(2)))
+    //         .toStringAsFixed(2)
+    //         .toString();
     notifyListeners();
   }
 
