@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
@@ -664,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 5,
                                           ),
                                           SizedBox(
-                                            width: screenSize.width / 1.75,
+                                            width: screenSize.width * .55,
                                             child: Text(
                                               '${store.displayName}',
                                               style: const TextStyle(

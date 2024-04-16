@@ -240,7 +240,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Center(
+                    child: Text("v1.1.0"),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),

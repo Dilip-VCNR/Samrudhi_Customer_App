@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -264,6 +265,7 @@ class ApiCalls {
   Future<WalletResponseModel> getWalletData() async {
     http.Response response = await hitApi(true, UrlConstant.getWallet,
         jsonEncode({'customerUuid': prefModel.userData!.customerUuid}));
+    log(response.body);
     return WalletResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -274,6 +276,7 @@ class ApiCalls {
         jsonEncode({
           'customerUuid': prefModel.userData!.customerUuid,
         }));
+    log(response.body);
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 

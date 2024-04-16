@@ -326,6 +326,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                 "",
                                                                 isCollapsed:
                                                                 true,
+                                                                errorStyle: const TextStyle(
+                                                                    color: AppColors.secondaryColor),
                                                                 focusedBorder:
                                                                 OutlineInputBorder(
                                                                   borderSide: const BorderSide(
@@ -526,6 +528,8 @@ class _StoreSearchState extends State<StoreSearch> {
                                                                 "",
                                                                 isCollapsed:
                                                                 true,
+                                                                errorStyle: const TextStyle(
+                                                                    color: AppColors.secondaryColor),
                                                                 focusedBorder:
                                                                 OutlineInputBorder(
                                                                   borderSide: const BorderSide(

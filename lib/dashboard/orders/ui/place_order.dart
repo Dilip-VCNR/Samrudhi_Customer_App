@@ -164,7 +164,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 10,
                                         ),
                                         Text(
@@ -201,7 +201,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Text(dashboardProvider.reviewCartResponse!.orderGrandTotal!,
+                          child: Text("₹"+dashboardProvider.reviewCartResponse!.orderGrandTotal!,
                           // child: Text(
                           //   '₹${dashboardProvider.reviewCartResponse!.result!.calculation?.firstWhere((calculation) {
                           //     return calculation.name == 'Order GrandTotal';
@@ -250,7 +250,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'You have ${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue} You can apply to get discount on this order',
+                              'You have ${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth upto ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue} You can apply to get discount on this order',
                               style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 16,
@@ -266,6 +266,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                     context,
                                     "Are you sure to apply ${dashboardProvider.walletData!.result!.totalAvailableRedeemPoints} Points worth ₹${dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue}?");
                                 if (confirmed!) {
+                                  if(dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue!>double.parse(dashboardProvider.reviewCartResponse!.orderGrandTotal!)){
+                                    double pointPerValue =  dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue!/dashboardProvider.walletData!.result!.totalAvailableRedeemPoints!;
+                                    dashboardProvider.walletData!.result!.totalAvailableRedeemPointsValue = double.parse(dashboardProvider.reviewCartResponse!.orderGrandTotal!).toInt();
+                                    dashboardProvider.walletData!.result!.totalAvailableRedeemPoints =  pointPerValue.toInt()*double.parse(dashboardProvider.reviewCartResponse!.orderGrandTotal!).toInt();
+                                  }
                                   dashboardProvider.applyWalletPoints();
                                   return;
                                 }
@@ -291,7 +296,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ],
                         ),
                       ),
-                    Container(
+                    dashboardProvider.reviewCartResponse!.overAlldiscountAmount!>0?Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       width: screenSize.width,
                       padding: const EdgeInsets.symmetric(
@@ -307,7 +312,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ):const SizedBox.shrink(),
                     const Text(
                       'Products',
                       style: TextStyle(
@@ -425,8 +430,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                   .productDetails![index]
                                                   .productDiscount! >
                                               0
-                                          ? 'Offer price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}'
-                                          : 'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}',
+                                          ? 'Offer price : ₹${getOfferPrice(dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice,dashboardProvider.reviewCartResponse!.result!.productDetails![index].productDiscount)}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}'
+                                          : 'Price : ₹${dashboardProvider.reviewCartResponse!.result!.productDetails![index].sellingPrice}/${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
                                       style: const TextStyle(
                                         color: AppColors.secondaryColor,
                                         fontSize: 14,
@@ -434,15 +439,15 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                         // decoration: TextDecoration.lineThrough,
                                       ),
                                     ),
-                                    Text(
-                                      'UOM : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
-                                      style: const TextStyle(
-                                        color: AppColors.secondaryColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        // decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   'UOM : ${dashboardProvider.reviewCartResponse!.result!.productDetails![index].productUom}',
+                                    //   style: const TextStyle(
+                                    //     color: AppColors.secondaryColor,
+                                    //     fontSize: 14,
+                                    //     fontWeight: FontWeight.w600,
+                                    //     // decoration: TextDecoration.lineThrough,
+                                    //   ),
+                                    // ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -929,4 +934,17 @@ class _PlaceOrderState extends State<PlaceOrder> {
       },
     );
   }
+
+  double? getOfferPrice(double? sellingPrice, double? productDiscountPercentage) {
+    if (sellingPrice == null || productDiscountPercentage == null) {
+      // If either selling price or discount percentage is not provided, return null
+      return null;
+    }
+
+    // Calculate the discounted price
+    double discountedPrice = sellingPrice - (sellingPrice * (productDiscountPercentage / 100));
+
+    return discountedPrice;
+  }
+
 }

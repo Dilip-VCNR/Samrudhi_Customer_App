@@ -357,7 +357,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               width: screenSize.width,
                               padding: const EdgeInsets.all(20),
                               decoration: ShapeDecoration(
-                                color: AppColors.debitBg,
+                                color: AppColors.creditBg,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -453,7 +453,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                   width: screenSize.width,
                                   padding: const EdgeInsets.all(20),
                                   decoration: ShapeDecoration(
-                                    color: AppColors.creditBg,
+                                    color: AppColors.debitBg,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),

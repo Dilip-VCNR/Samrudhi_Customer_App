@@ -155,7 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               height: 5,
                                             ),
                                             SizedBox(
-                                              width: screenSize.width / 1.75,
+                                              width: screenSize.width * .55,
                                               child: Text(
                                                 '${dashboardProvider.searchResponse!.result![index].displayName}',
                                                 style: const TextStyle(

@@ -364,7 +364,7 @@ class DashboardProvider extends ChangeNotifier {
         name: 'redeemPointValue',
         value: walletData!.result!.totalAvailableRedeemPointsValue.toString()));
 
-    reviewCartResponse!.orderGrandTotal = (double.parse(reviewCartResponse!.orderGrandTotal!) - double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toString())).toString();
+    reviewCartResponse!.orderGrandTotal = (double.parse(reviewCartResponse!.orderGrandTotal!) - double.parse(walletData!.result!.totalAvailableRedeemPointsValue!.toString())).toStringAsFixed(2);
     // var orderGrandTotalElement = reviewCartResponse!.result!.calculation!
     //     .firstWhere((element) => element.name == 'Order GrandTotal');
     // orderGrandTotalElement.value =

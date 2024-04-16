@@ -543,8 +543,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                               'Enter quantity',
                                                                           counterText:
                                                                               "",
-                                                                          isCollapsed:
-                                                                              true,
+                                                                              errorStyle: const TextStyle(
+                                                                                  color: AppColors.secondaryColor),
                                                                           focusedBorder:
                                                                               OutlineInputBorder(
                                                                             borderSide:
@@ -734,6 +734,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                               "",
                                                                           isCollapsed:
                                                                               true,
+                                                                              errorStyle: const TextStyle(
+                                                                                  color: AppColors.secondaryColor),
                                                                           focusedBorder:
                                                                               OutlineInputBorder(
                                                                             borderSide:

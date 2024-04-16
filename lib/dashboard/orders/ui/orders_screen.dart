@@ -139,6 +139,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
+
                                           SizedBox(
                                             width: screenSize.width / 1.75,
                                             child: Text(
@@ -234,8 +235,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  parseDate(
-                                      '${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderDate} ${ordersProvider.allOrdersResponse!.result![0].orderList![index].orderTime}'),
+
+                                      parseDate('${ordersProvider.ongoingOrders[index].orderDate} ${ordersProvider.ongoingOrders[index].orderTime}'),
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,
@@ -302,6 +303,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             Row(
                               children: [
                                 Column(
@@ -334,7 +336,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             color: ordersProvider
                                                         .finishedOrders[index]
                                                         .orderStatus ==
-                                                    'rejected'
+                                                    'cancelled'
                                                 ? Colors.red
                                                 : AppColors.secondaryColor,
                                             shape: RoundedRectangleBorder(
@@ -344,7 +346,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                                               .finishedOrders[
                                                                   index]
                                                               .orderStatus ==
-                                                          'rejected'
+                                                          'cancelled'
                                                       ? Colors.red
                                                       : AppColors
                                                           .secondaryColor),
@@ -402,8 +404,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  parseDate(
-                                      '${ordersProvider.finishedOrders[index].orderDate} ${ordersProvider.finishedOrders[index].orderTime}'),
+
+                                      parseDate('${ordersProvider.finishedOrders[index].orderDate} ${ordersProvider.finishedOrders[index].orderTime}'),
                                   style: const TextStyle(
                                     color: AppColors.fontColor,
                                     fontSize: 10,

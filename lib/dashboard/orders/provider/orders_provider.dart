@@ -22,7 +22,7 @@ class OrdersProvider extends ChangeNotifier {
         if (allOrdersResponse!.result![0].orderList![i].orderStatus !=
                 'delivered' &&
             allOrdersResponse!.result![0].orderList![i].orderStatus !=
-                'rejected') {
+                'cancelled') {
           ongoingOrders.add(allOrdersResponse!.result![0].orderList![i]);
         } else {
           finishedOrders.add(allOrdersResponse!.result![0].orderList![i]);
