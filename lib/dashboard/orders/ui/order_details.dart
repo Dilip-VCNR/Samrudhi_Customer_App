@@ -517,7 +517,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   color: AppColors.debitBg
                 ),
                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                  child: Text("Rejected Reason : ${order.reason!}",style: const TextStyle(fontWeight: FontWeight.bold),)):const SizedBox.shrink(),
+                  child: Text("Cancelled Reason : ${order.reason!}",style: const TextStyle(fontWeight: FontWeight.bold),)):const SizedBox.shrink(),
               order.reason!=""?const SizedBox(
                 height: 10,
               ):const SizedBox.shrink(),

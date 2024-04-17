@@ -363,6 +363,8 @@ class AuthProvider extends ChangeNotifier {
 
   getCroppedImage(String path) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
+      compressFormat: ImageCompressFormat.png,
+      compressQuality: 60,
       sourcePath: path,
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
