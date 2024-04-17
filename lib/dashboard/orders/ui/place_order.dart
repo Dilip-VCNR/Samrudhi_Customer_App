@@ -569,17 +569,22 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                                 ),
                                               ),
                                               Container(
-                                                width: 30,
-                                                margin:
+                                                height: 35,
+                                                width: 40,
+                                                padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  '${dashboardProvider.reviewCartResponse!.result!.productDetails![index].addedCartQuantity}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: AppColors.fontColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                                        horizontal: 3),
+                                                child: Center(
+                                                  child: FittedBox(
+                                                    child: Text(
+                                                      '${dashboardProvider.reviewCartResponse!.result!.productDetails![index].addedCartQuantity}',
+                                                      textAlign: TextAlign.center,
+                                                      style: const TextStyle(
+                                                        color: AppColors.fontColor,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -751,7 +756,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   ? SizedBox(
                                       width: screenSize.width - 100,
                                       child: Text(
-                                        '${dashboardProvider.deliveryAddress!.addressType!} - ${dashboardProvider.deliveryAddress!.completeAddress!}',
+                                        '${dashboardProvider.deliveryAddress!.addressType} - ${dashboardProvider.deliveryAddress!.completeAddress}',
                                         style: const TextStyle(
                                           color: AppColors.fontColor,
                                           fontSize: 14,

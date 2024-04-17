@@ -405,10 +405,12 @@ class DashboardProvider extends ChangeNotifier {
         arguments: {'deliverableAddress': deliverableAddressResponse});
   }
 
-  void setDeliveryAddress(UserAddressArray userAddressArray) {
+  void setDeliveryAddress(UserAddressArray? userAddressArray) {
     deliveryAddress = userAddressArray;
-    showSuccessToast(
-        selectAddressPageContext!, "Delivery address selected successfully");
+    if(userAddressArray!=null){
+      showSuccessToast(
+          selectAddressPageContext!, "Delivery address selected successfully");
+    }
     Navigator.pop(selectAddressPageContext!);
     notifyListeners();
   }

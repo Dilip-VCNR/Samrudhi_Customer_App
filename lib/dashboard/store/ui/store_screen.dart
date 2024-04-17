@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
@@ -640,31 +641,35 @@ class _StoreScreenState extends State<StoreScreen> {
                                                             )),
                                                           ),
                                                         ),
-                                                        SizedBox(
+                                                        Container(
                                                           height: 35,
                                                           width: 40,
+                                                          padding:
+                                                          const EdgeInsets.symmetric(
+                                                              horizontal: 3),
                                                           child: Center(
-                                                              child: Text(
-                                                            dashboardProvider
-                                                                .getProductCountInCart(
-                                                                    dashboardProvider
-                                                                        .storeData!
-                                                                        .result!
-                                                                        .productDetails![
-                                                                            i]
-                                                                        .productList![index])
-                                                                .toString(),
-                                                            // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
-                                                            style: const TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          )),
+                                                              child: FittedBox(
+                                                                child: Text(
+                                                                  dashboardProvider.getProductCountInCart(
+                                                                      dashboardProvider
+                                                                          .storeData!
+                                                                          .result!
+                                                                          .productDetails![
+                                                                              i]
+                                                                          .productList![index])
+                                                                  .toString(),
+                                                                                                                            // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
+                                                                                                                            style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                                                                                            textAlign: TextAlign
+                                                                  .center,
+                                                                                                                          ),
+                                                              )),
                                                         ),
                                                         GestureDetector(
                                                           onLongPress: () {

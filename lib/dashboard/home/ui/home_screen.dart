@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             : const SizedBox.shrink(),
                         dashboardProvider.homeData!.result!.myStore!.isNotEmpty
                             ? const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                padding: EdgeInsets.symmetric(horizontal: 15.0,vertical: 10),
                                 child: Text(
                                   'My Store',
                                   style: TextStyle(

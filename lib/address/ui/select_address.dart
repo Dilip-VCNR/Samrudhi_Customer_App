@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
+import 'package:google_places_autocomplete_text_field/model/prediction.dart';
 import 'package:provider/provider.dart';
+import 'package:samruddhi/address/controller/location_controller.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/auth/models/login_response_model.dart';
 import 'package:samruddhi/dashboard/orders/models/deliverable_address_model.dart';
@@ -119,16 +122,23 @@ class _SelectAddressState extends State<SelectAddress> {
                         debounceTime: 100,
                         countries: const ["In"],
                         isLatLngRequired: true,
-                        getPlaceDetailWithLatLng: (prediction) async {
+                        getPlaceDetailWithLatLng: (Prediction prediction) async {
+                          showLoaderDialog(context);
+                          Map a = await LocationController().getAddressFromLatLong(LatLng(double.parse(prediction.lat!), double.parse(prediction.lng!)));
                           prefModel.selectedAddress = UserAddressArray(
+                            addressType: 'Address',
                               lat: double.parse(prediction.lat!),
                               lng: double.parse(prediction.lng!),
-                              completeAddress: prediction.description);
+                              completeAddress: prediction.description,
+                            zipCode: int.parse(a['postalCode']),
+                            city:a['administrativeArea'],
+                            state: a['subAdministrativeArea']
+                          );
                           AppPref.setPref(prefModel);
                           dashboardProvider.getHomeData();
                           dashboardProvider.addressSearchController.clear();
-                          showSuccessToast(context, "Location changed successfully");
                           Navigator.pop(context);
+                          dashboardProvider.setDeliveryAddress(prefModel.selectedAddress!);
                         },
                         itmClick: (prediction) async {
                           FocusScope.of(context).unfocus();

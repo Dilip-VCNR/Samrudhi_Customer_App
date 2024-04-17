@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -226,9 +225,9 @@ class ApiCalls {
 
     Calculation? redeemPoints;
     Calculation? redeemPointsValue;
-    for (Calculation calc in result.calculation!) {
-      print(calc.toJson());
-    }
+    // for (Calculation calc in result.calculation!) {
+    //   print(calc.toJson());
+    // }
     try {
       redeemPoints = result.calculation!.firstWhere((element) {
         return element.name == 'redeemPoints';
@@ -256,7 +255,6 @@ class ApiCalls {
     }
     req['orderDeliveryType'] =
         selectedValue == 1 ? "homeDelivery" : "selfPickUp";
-    print(req.toString());
     http.Response response =
         await hitApi(true, UrlConstant.placeOrder, jsonEncode(req));
     return OrderResponseModel.fromJson(json.decode(response.body));
@@ -265,7 +263,6 @@ class ApiCalls {
   Future<WalletResponseModel> getWalletData() async {
     http.Response response = await hitApi(true, UrlConstant.getWallet,
         jsonEncode({'customerUuid': prefModel.userData!.customerUuid}));
-    log(response.body);
     return WalletResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -276,7 +273,6 @@ class ApiCalls {
         jsonEncode({
           'customerUuid': prefModel.userData!.customerUuid,
         }));
-    log(response.body);
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 

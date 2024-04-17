@@ -439,22 +439,24 @@ class _StoreSearchState extends State<StoreSearch> {
                                             height: 35,
                                             width: 35,
                                             child: Center(
-                                                child: Text(
-                                                  dashboardProvider
-                                                      .getProductCountInCart(
-                                                      filteredProducts[
-                                                      index])
-                                                      .toString(),
-                                                  // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
-                                                  style: const TextStyle(
-                                                      color:
-                                                      Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .bold),
-                                                  textAlign:
-                                                  TextAlign.center,
+                                                child: FittedBox(
+                                                  child: Text(
+                                                    dashboardProvider
+                                                        .getProductCountInCart(
+                                                        filteredProducts[
+                                                        index])
+                                                        .toString(),
+                                                    // '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].addedCartQuantity}',
+                                                    style: const TextStyle(
+                                                        color:
+                                                        Colors.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .bold),
+                                                    textAlign:
+                                                    TextAlign.center,
+                                                  ),
                                                 )),
                                           ),
                                           GestureDetector(
