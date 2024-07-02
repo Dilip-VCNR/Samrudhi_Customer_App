@@ -297,7 +297,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                     '${dashboardProvider.storeData!.result!.productDetails![i].productList![index].productDetail!.productDiscount}%\noff',
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
-                                                        fontSize: 10),
+                                                        fontSize: 10,
+                                                      color: Colors.white
+                                                    ),
                                                   )),
                                                 ))
                                           ],
