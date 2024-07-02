@@ -6,7 +6,7 @@ import 'package:samruddhi/utils/url_constants.dart';
 import '../../../utils/app_colors.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -16,11 +16,17 @@ class _SearchScreenState extends State<SearchScreen> {
   List suggestions = ["Rice", "Bread", "Biscuits", "Apple", "green peas"];
   bool firstTimeLoading = false;
 
+  final Map<String, String> searchTypes = {
+    'productCategory': 'Product Category',
+    'productName': 'Product Name',
+    'store': 'Store'
+  };
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
 
-    return Consumer(
+    return Consumer<DashboardProvider>(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
         if (firstTimeLoading != true &&
@@ -46,11 +52,14 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             body: SingleChildScrollView(
-              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: const Text('Search Keyword',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),)),
                   TextField(
                     onChanged: (query) {
                       setState(() {
@@ -58,12 +67,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         dashboardProvider.searchKeyWord = query;
                       });
                     },
-                    autofocus:
-                        dashboardProvider.searchKeyWord == null ? true : false,
+                    autofocus: dashboardProvider.searchKeyWord == null ? true : false,
                     controller: dashboardProvider.searchController,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.search),
-                      hintText: 'Search products',
+                      hintText: 'Search',
                       counterText: "",
                       isCollapsed: true,
                       filled: true,
@@ -72,10 +80,37 @@ class _SearchScreenState extends State<SearchScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
                       ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                     ),
                     textAlignVertical: TextAlignVertical.center,
+                  ),
+                  Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: const Text('Search Type',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),)),
+                  DropdownButtonFormField<String>(
+                    value: dashboardProvider.searchType,
+                    style: const TextStyle(color: AppColors.fontColor),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        firstTimeLoading = false;
+                        dashboardProvider.searchType = newValue!;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.inputFieldColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
+                    ),
+                    items: searchTypes.entries.map<DropdownMenuItem<String>>((entry) {
+                      return DropdownMenuItem<String>(
+                        value: entry.key,
+                        child: Text(entry.value),
+                      );
+                    }).toList(),
                   ),
                   const SizedBox(
                     height: 20,
@@ -88,230 +123,142 @@ class _SearchScreenState extends State<SearchScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Stores with ${dashboardProvider.searchKeyWord}',
+                          dashboardProvider.searchType=='store'?'Search results for ${dashboardProvider.searchKeyWord}':'Stores with ${dashboardProvider.searchKeyWord}',
                           style: const TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        ListView.builder(
+                        dashboardProvider
+                            .searchResponse!.result!.isNotEmpty?ListView.builder(
                             shrinkWrap: true,
                             itemCount: dashboardProvider
                                 .searchResponse!.result!.length,
                             scrollDirection: Axis.vertical,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => GestureDetector(
-                                  onTap: () {
-                                    dashboardProvider.getIntoStore(
-                                        dashboardProvider
-                                            .searchResponse!.result![index],
-                                        dashboardProvider.searchKeyWord!);
-                                    // Navigator.pushNamed(
-                                    //     context, Routes.storeInRoute);
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    width: screenSize.width,
-                                    decoration: ShapeDecoration(
-                                      color: AppColors.storeBackground,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.52),
+                              onTap: () {
+                                dashboardProvider.getIntoStore(
+                                    dashboardProvider
+                                        .searchResponse!.result![index],
+                                    dashboardProvider.searchKeyWord!);
+                                // Navigator.pushNamed(
+                                //     context, Routes.storeInRoute);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10),
+                                decoration: ShapeDecoration(
+                                  color: AppColors.storeBackground,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(15.52),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: screenSize.width*.25,
+                                      height: 125,
+                                      decoration: ShapeDecoration(
+                                        color: Colors.grey,
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              '${UrlConstant.imageBaseUrl}${dashboardProvider.searchResponse!.result![index].storeImgArray![0].imageUrl}'),
+                                          fit: BoxFit.fill,
+                                        ),
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15.50),
+                                            bottomLeft:
+                                            Radius.circular(15.50),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    child: Row(
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          width: 125,
-                                          height: 125,
-                                          decoration: ShapeDecoration(
-                                            color: Colors.grey,
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  '${UrlConstant.imageBaseUrl}${dashboardProvider.searchResponse!.result![index].storeImgArray![0].imageUrl}'),
-                                              fit: BoxFit.fill,
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        SizedBox(
+                                          width: screenSize.width * .55,
+                                          child: Text(
+                                            '${dashboardProvider.searchResponse!.result![index].displayName}',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.55,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.25,
                                             ),
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(15.50),
-                                                bottomLeft:
-                                                    Radius.circular(15.50),
-                                              ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: screenSize.width / 1.75,
+                                          child: Text(
+                                            '${dashboardProvider.searchResponse!.result![index].storeCategoryName}',
+                                            style: const TextStyle(
+                                              color: AppColors.fontColor,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
                                         const SizedBox(
-                                          width: 10,
+                                          height: 3,
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(
-                                              height: 5,
+                                        SizedBox(
+                                          width: screenSize.width / 1.75,
+                                          child: Text(
+                                            '${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress} ${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress}',
+                                            style: const TextStyle(
+                                              color: AppColors.fontColor,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            SizedBox(
-                                              width: screenSize.width * .55,
-                                              child: Text(
-                                                '${dashboardProvider.searchResponse!.result![index].displayName}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16.55,
-                                                  fontWeight: FontWeight.bold,
-                                                  height: 1.25,
-                                                ),
-                                              ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        SizedBox(
+                                          width: screenSize.width / 1.75,
+                                          child: Text(
+                                            dashboardProvider
+                                                .searchResponse!
+                                                .result![index]
+                                                .isHomeDelivery!
+                                                ? 'Home delivery'
+                                                : 'Self Pickup',
+                                            style: const TextStyle(
+                                              color: AppColors.fontColor,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            SizedBox(
-                                              width: screenSize.width / 1.75,
-                                              child: Text(
-                                                '${dashboardProvider.searchResponse!.result![index].storeCategoryName}',
-                                                style: const TextStyle(
-                                                  color: AppColors.fontColor,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            SizedBox(
-                                              width: screenSize.width / 1.75,
-                                              child: Text(
-                                                '${dashboardProvider.searchResponse!.result![index].addressArray!.completeAddress}',
-                                                style: const TextStyle(
-                                                  color: AppColors.fontColor,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            SizedBox(
-                                              width: screenSize.width / 1.75,
-                                              child: Text(
-                                                dashboardProvider
-                                                        .searchResponse!
-                                                        .result![index]
-                                                        .isHomeDelivery!
-                                                    ? 'Home delivery'
-                                                    : 'Self Pickup',
-                                                style: const TextStyle(
-                                                  color: AppColors.fontColor,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            // Container(
-                                            //   padding:
-                                            //       const EdgeInsets.symmetric(
-                                            //           horizontal: 16,
-                                            //           vertical: 4),
-                                            //   decoration: ShapeDecoration(
-                                            //     color: Colors.white,
-                                            //     shape: RoundedRectangleBorder(
-                                            //       borderRadius:
-                                            //           BorderRadius.circular(
-                                            //               31.03),
-                                            //     ),
-                                            //   ),
-                                            //   child: const Row(
-                                            //     mainAxisSize: MainAxisSize.min,
-                                            //     mainAxisAlignment:
-                                            //         MainAxisAlignment.center,
-                                            //     crossAxisAlignment:
-                                            //         CrossAxisAlignment.center,
-                                            //     children: [
-                                            //       Text(
-                                            //         'Browse ',
-                                            //         style: TextStyle(
-                                            //           color: Colors.black,
-                                            //           fontSize: 12.41,
-                                            //           fontWeight:
-                                            //               FontWeight.w400,
-                                            //           height: 1.33,
-                                            //         ),
-                                            //       ),
-                                            //       SizedBox(width: 4.14),
-                                            //       Icon(
-                                            //           Icons.navigate_next_sharp)
-                                            //     ],
-                                            //   ),
-                                            // ),
-                                            // const SizedBox(
-                                            //   height: 5,
-                                            // ),
-                                          ],
-                                        )
+                                          ),
+                                        ),
                                       ],
-                                    ),
-                                  ),
-                                ))
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )):Container(
+                            margin: const EdgeInsets.symmetric(vertical: 20),
+                            child: const Center(child: Text("No results to display")))
                       ],
                     )
                   else
                     const Center(
                       child: Text("No results to display"),
                     ),
-                  // ListView.builder(
-                  //     shrinkWrap: true,
-                  //     itemCount: suggestions.length,
-                  //     scrollDirection: Axis.vertical,
-                  //     physics: const NeverScrollableScrollPhysics(),
-                  //     itemBuilder: (context, index) => InkWell(
-                  //           onTap: () {
-                  //             setState(() {
-                  //               dashboardProvider.searchController.text =
-                  //                   suggestions[index];
-                  //               dashboardProvider.searchKeyWord =
-                  //                   suggestions[index];
-                  //               dashboardProvider.searchType = 'productName';
-                  //             });
-                  //           },
-                  //           child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.start,
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               const SizedBox(
-                  //                 height: 10,
-                  //               ),
-                  //               Row(
-                  //                 children: [
-                  //                   const Icon(
-                  //                     Icons.search,
-                  //                     color: AppColors.fontColor,
-                  //                   ),
-                  //                   const SizedBox(
-                  //                     width: 10,
-                  //                   ),
-                  //                   Text(
-                  //                     suggestions[index],
-                  //                     style: const TextStyle(
-                  //                       color: AppColors.fontColor,
-                  //                       fontSize: 14,
-                  //                       fontWeight: FontWeight.w500,
-                  //                     ),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //               const SizedBox(
-                  //                 height: 10,
-                  //               ),
-                  //               Divider(
-                  //                 color: Colors.grey.shade300,
-                  //                 height: 1,
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ))
                 ],
               ),
             ),
