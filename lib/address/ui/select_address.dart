@@ -16,7 +16,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/url_constants.dart';
 
 class SelectAddress extends StatefulWidget {
-  const SelectAddress({Key? key}) : super(key: key);
+  const SelectAddress({super.key});
 
   @override
   State<SelectAddress> createState() => _SelectAddressState();
@@ -46,7 +46,7 @@ class _SelectAddressState extends State<SelectAddress> {
               ),
             ),
           ),
-          bottomNavigationBar: Consumer(
+          bottomNavigationBar: deliverableAddress==null?Consumer(
             builder: (BuildContext context, AuthProvider authProvider,
                 Widget? child) {
               authProvider.selectAddressPageContext = context;
@@ -81,22 +81,22 @@ class _SelectAddressState extends State<SelectAddress> {
                 ),
               );
             },
-          ),
+          ):const SizedBox.shrink(),
           body: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  deliverableAddress==null?const Text(
                     'Search address',
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
-                  ),
-                  Container(
+                  ):const SizedBox.shrink(),
+                  deliverableAddress==null?Container(
                     width: screenSize.width,
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: GooglePlacesAutoCompleteTextFormField(
@@ -126,6 +126,7 @@ class _SelectAddressState extends State<SelectAddress> {
                           showLoaderDialog(context);
                           Map a = await LocationController().getAddressFromLatLong(LatLng(double.parse(prediction.lat!), double.parse(prediction.lng!)));
                           prefModel.selectedAddress = UserAddressArray(
+                            id: null,
                             addressType: 'Address',
                               lat: double.parse(prediction.lat!),
                               lng: double.parse(prediction.lng!),
@@ -143,7 +144,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         itmClick: (prediction) async {
                           FocusScope.of(context).unfocus();
                         }),
-                  ),
+                  ):const SizedBox.shrink(),
                   const Text(
                     'Saved address',
                     style: TextStyle(

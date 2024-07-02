@@ -232,7 +232,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * .5,
+                    width: MediaQuery.of(context).size.width * .4,
                     child: const Text(
                       'Items',
                       style: TextStyle(
@@ -244,7 +244,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * .15,
+                    width: MediaQuery.of(context).size.width * .2,
                     child: const Text(
                       'Unit Price',
                       textAlign: TextAlign.end,
@@ -257,7 +257,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * .15,
+                    width: MediaQuery.of(context).size.width * .2,
                     child: const Text(
                       'Total',
                       textAlign: TextAlign.end,
@@ -285,20 +285,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * .5,
+                          width: MediaQuery.of(context).size.width * .4,
                           child: Text(
                             '${i + 1}.  ${order.productDetails![i].productName} X ${order.productDetails![i].addedCartQuantity} ${order.productDetails![i].productUom} ',
                             style: const TextStyle(fontSize: 15),
                           )),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width * .15,
+                          width: MediaQuery.of(context).size.width * .2,
                           child: Text(
                             '₹${order.productDetails![i].sellingPrice}',
                             textAlign: TextAlign.end,
                             style: const TextStyle(fontSize: 15),
                           )),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * .15,
+                        width: MediaQuery.of(context).size.width * .2,
                         child: Text(
                           '₹${order.productDetails![i].productGrandTotal}',
                           textAlign: TextAlign.end,

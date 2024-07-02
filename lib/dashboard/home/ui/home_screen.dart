@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi/api_calls.dart';
 import 'package:samruddhi/dashboard/providers/dashboard_provider.dart';
@@ -230,8 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             : const SizedBox.shrink(),
                         dashboardProvider.homeData!.result!.myStore!.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15.0, bottom: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 15),
                                 child: GestureDetector(
                                   onTap: () {
                                     dashboardProvider.getIntoStore(
@@ -280,30 +281,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '${dashboardProvider.homeData!.result!.myStore![0].displayName}',
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                height: 1.48,
+                                            Container(
+                                              width: screenSize.width * .55,
+                                              child: Text(
+                                                '${dashboardProvider.homeData!.result!.myStore![0].displayName}',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1.48,
+                                                ),
                                               ),
                                             ),
-                                            Text(
-                                              dashboardProvider
-                                                      .homeData!
-                                                      .result!
-                                                      .myStore![0]
-                                                      .isHomeDelivery!
-                                                  ? 'Home Delivery'
-                                                  : 'Self Pickup',
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.48,
-                                              ),
-                                            ),
+
                                             Text(
                                               dashboardProvider
                                                   .homeData!
@@ -317,7 +307,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 height: 1.48,
                                               ),
                                             ),
-
+                                            Text(
+                                              dashboardProvider
+                                                  .homeData!
+                                                  .result!
+                                                  .myStore![0]
+                                                  .isHomeDelivery!
+                                                  ? 'Home Delivery'
+                                                  : 'Self Pickup',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                height: 1.48,
+                                              ),
+                                            ),
                                             SizedBox(
                                               width: screenSize.width / 2,
                                               child: Text(

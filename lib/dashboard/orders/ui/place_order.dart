@@ -44,7 +44,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
         if (firstTimeLoading != true && prefModel.cartItems!.isNotEmpty) {
           dashboardProvider.reviewCartResponse = null;
           dashboardProvider.reviewMyCart(_selectedValue);
-          dashboardProvider.deliveryAddress = prefModel.selectedAddress;
           firstTimeLoading = true;
         }
         if (dashboardProvider.reviewCartResponse != null) {

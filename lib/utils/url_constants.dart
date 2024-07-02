@@ -10,11 +10,11 @@ class UrlConstant {
   // static const String imageBaseUrl = "http://192.168.1.153:8018/";
   // static const String apiBaseUrl = "http://192.168.1.153:8018/api/";
 
-  // static const String imageBaseUrl = "http://103.208.228.42:8018/";
-  // static const String apiBaseUrl = "http://103.208.228.42:8018/api/";
-  //
-  static const String imageBaseUrl = "https://app.winkatbuy.com/";
-  static const String apiBaseUrl = "https://app.winkatbuy.com/api/";
+  static const String imageBaseUrl = "http://103.208.228.42:8018/";
+  static const String apiBaseUrl = "http://103.208.228.42:8018/api/";
+
+  // static const String imageBaseUrl = "https://app.winkatbuy.com/";
+  // static const String apiBaseUrl = "https://app.winkatbuy.com/api/";
 
   // static const String imageBaseUrl = "http://103.120.63.7:8020/";
   // static const String apiBaseUrl = "http://103.120.63.7:8020/api/";
@@ -23,24 +23,16 @@ class UrlConstant {
   static const String registerUser = "${apiBaseUrl}customer/registerCustomer";
   static const String updateUser = "${apiBaseUrl}customer/updateCustomer";
   static const String userHomePage = "${apiBaseUrl}customer/customerHomepage";
-  static const String getStoreData =
-      "${apiBaseUrl}store/getCategoryAndProductOnStore";
-  static const String addNewAddress =
-      "${apiBaseUrl}customer/addCustomerAddress";
-  static const String deleteAddress =
-      "${apiBaseUrl}customer/deleteCustomerAddress";
+  static const String getStoreData = "${apiBaseUrl}store/getCategoryAndProductOnStore";
+  static const String addNewAddress = "${apiBaseUrl}customer/addCustomerAddress";
+  static const String deleteAddress = "${apiBaseUrl}customer/deleteCustomerAddress";
   static const String searchApiUrl = "${apiBaseUrl}store/searchApi";
   static const String reviewCart = "${apiBaseUrl}order/reviewCart";
   static const String placeOrder = "${apiBaseUrl}order/placeOrder";
-  static const String getWallet =
-      "${apiBaseUrl}customerPoint/getCustomerPoints";
+  static const String getWallet = "${apiBaseUrl}customerPoint/getCustomerPoints";
   static const String getOrders = "${apiBaseUrl}order/customerOrderList";
-  static const String getDeliverableAddress =
-      "${apiBaseUrl}customer/changeCustomerDeliveryAddress";
-
-  static const String getNotifications =
-      "${apiBaseUrl}notification/getNotificationOfOrder";
-
+  static const String getDeliverableAddress = "${apiBaseUrl}customer/changeCustomerDeliveryAddress";
+  static const String getNotifications = "${apiBaseUrl}notification/getNotificationOfOrder";
   static const String getUserProfile = "${apiBaseUrl}get_user_profile";
   static const String privacyPolicy = "${websiteBaseUrl}p/privacy-policy";
   static const String termsOfUse = "${websiteBaseUrl}p/t-c";

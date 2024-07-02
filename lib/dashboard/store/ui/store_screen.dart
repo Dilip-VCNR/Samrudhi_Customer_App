@@ -28,7 +28,7 @@ class _StoreScreenState extends State<StoreScreen> {
           Widget? child) {
         prefModel.cartItems ??= [];
         return Scaffold(
-          bottomNavigationBar: prefModel.cartItems!.isNotEmpty
+          bottomNavigationBar: prefModel.cartItems!.isNotEmpty && prefModel.cartItems![0].storeUuid==dashboardProvider.storeData!.result!.storeDetails!.storeUuid
               ? Container(
                   width: screenSize.width,
                   padding: const EdgeInsets.all(20),
@@ -129,12 +129,16 @@ class _StoreScreenState extends State<StoreScreen> {
                                 Navigator.pop(context);
                               },
                             ),
-                            Text(
-                              '${dashboardProvider.storeData!.result!.storeDetails!.displayName}',
-                              style: const TextStyle(
-                                color: AppColors.fontColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                            SizedBox(
+                              width: screenSize.width*.6,
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                '${dashboardProvider.storeData!.result!.storeDetails!.displayName}',
+                                style: const TextStyle(
+                                  color: AppColors.fontColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                             IconButton(

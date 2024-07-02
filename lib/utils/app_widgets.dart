@@ -33,7 +33,7 @@ showLoaderDialog(BuildContext context) {
       barrierDismissible: false,
       context: context,
       builder: (_) => PopScope(
-            canPop: false,
+            canPop: true,
             child: AlertDialog(
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),

@@ -219,6 +219,7 @@ class DashboardProvider extends ChangeNotifier {
           if (product.productQuantity! >= incrementQty) {
             product.addedCartQuantity = incrementQty;
             prefModel.cartItems!.add(product);
+            prefModel.cartStore = storeData!.result!.storeDetails!;
           } else {
             if (product.productQuantity != 0) {
               showErrorToast(context, "Reached maximum available quantity");
@@ -244,7 +245,6 @@ class DashboardProvider extends ChangeNotifier {
           prefModel.cartItems!.removeAt(index);
         }
       }
-      prefModel.cartStore = storeData!.result!.storeDetails!;
       AppPref.setPref(prefModel);
       notifyListeners();
     } else {
@@ -316,9 +316,30 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   reviewMyCart(int orderDeliveryType) async {
+    bool a = false;
     reviewCartResponse = await apiCalls.reviewCart(orderDeliveryType);
     walletData = await apiCalls.getWalletData();
+    DeliverableAddressModel deliverableAddress = await apiCalls.getDeliverableAddress(reviewCartResponse!.result!.productDetails![0].storeUuid);
     if (reviewCartResponse!.statusCode == 200) {
+      if(prefModel.selectedAddress!=null){
+        if(prefModel.selectedAddress!.id!=null){
+          for(int i =0;i<deliverableAddress.result!.length;i++){
+            a = deliverableAddress.result!.contains(prefModel.selectedAddress!.id!);
+          }
+        }else{
+          prefModel.selectedAddress=null;
+          AppPref.setPref(prefModel);
+        }
+        if(!a){
+          prefModel.selectedAddress=null;
+          AppPref.setPref(prefModel);
+        }
+      }
+      else{
+        prefModel.selectedAddress=null;
+        AppPref.setPref(prefModel);
+      }
+      deliveryAddress = prefModel.selectedAddress;
       notifyListeners();
     } else {
       showErrorToast(reviewCartScreenContext!, reviewCartResponse!.message!);

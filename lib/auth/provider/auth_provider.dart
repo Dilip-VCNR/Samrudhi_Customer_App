@@ -458,7 +458,8 @@ class AuthProvider extends ChangeNotifier {
         editFirstNameController.text,
         editLastNameController.text,
         editEmailController.text,
-        selectedImage);
+        selectedImage,
+        editProfilePageContext);
     selectedImage = null;
     if (updateResponse.statusCode == 200) {
       otpCode = "";
