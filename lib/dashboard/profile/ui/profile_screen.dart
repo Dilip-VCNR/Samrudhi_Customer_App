@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: screenSize.width / 1.75,
+                            width: screenSize.width / 1.80,
                             child: Text(
                               '${prefModel.userData!.firstName}',
                               style: const TextStyle(

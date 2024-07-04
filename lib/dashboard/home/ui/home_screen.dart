@@ -634,8 +634,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Row(
                                     children: [
                                       Container(
-                                        width: 125,
-                                        height: 130,
+                                        width: 110,
+                                        height: 140,
                                         decoration: ShapeDecoration(
                                           color: Colors.grey.shade400,
                                           image: DecorationImage(
@@ -711,7 +711,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 3,
                                           ),
                                           SizedBox(
-                                            width: screenSize.width / 1.75,
+                                            width: screenSize.width / 1.85,
                                             child: Text(
                                               '${store.addressArray!.completeAddress}',
                                               style: const TextStyle(
