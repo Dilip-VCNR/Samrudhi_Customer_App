@@ -276,8 +276,8 @@ class ApiCalls {
     return AllOrdersResponseModel.fromJson(json.decode(response.body));
   }
 
-  updateUserDetails(
-      String fName, String lName, String email, File? selectedImage, BuildContext? editProfilePageContext) async {
+  updateUserDetails(String fName, String lName, String email,
+      File? selectedImage, BuildContext? editProfilePageContext) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.updateUser));
     // Add form fields
@@ -302,9 +302,9 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
-    if(response.statusCode==201){
+    if (response.statusCode == 201) {
       return LoginResponseModel.fromJson(responseJson);
-    }else {
+    } else {
       Navigator.pop(editProfilePageContext!);
       showErrorToast(editProfilePageContext, response.statusCode.toString());
     }
